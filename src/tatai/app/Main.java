@@ -12,6 +12,8 @@ import java.net.URL;
 public class Main extends Application {
 
     static URL mainMenuLayout;
+    static URL questionLayout;
+    final static int transitionDuration = 300;
 
     static { // Static initializer
         // Load fonts
@@ -22,6 +24,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         // Load the FXMLs for our various layouts
+        questionLayout = getClass().getResource("resources/questionscreen.fxml");
         mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
 
         Parent root = FXMLLoader.load(mainMenuLayout);
