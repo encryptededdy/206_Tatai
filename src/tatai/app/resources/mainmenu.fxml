@@ -10,7 +10,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="818.0" layoutX="-8.0">
+      <ImageView fitHeight="500.0" fitWidth="818.0" layoutX="-8.0" opacity="0.5">
          <image>
             <Image url="@mathtexture.jpg" />
          </image>
