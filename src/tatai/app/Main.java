@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -11,6 +12,12 @@ import java.net.URL;
 public class Main extends Application {
 
     static URL mainMenuLayout;
+
+    static { // Static initializer
+        // Load fonts
+        Font.loadFont(Main.class.getResource("resources/Roboto-Regular.ttf").toExternalForm(), 10);
+        Font.loadFont(Main.class.getResource("resources/Roboto-Bold.ttf").toExternalForm(), 10);
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
