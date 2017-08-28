@@ -10,6 +10,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import tatai.app.questions.Question;
+import tatai.app.questions.generators.NumberGenerator;
+import tatai.app.questions.generators.QuestionGenerator;
 
 import java.io.IOException;
 
@@ -17,6 +20,10 @@ public class QuestionController {
 
     public void initialize() {
         // TODO: add fade in
+
+        // Not final, just used to randomise number
+        Question question = new Question(new NumberGenerator());
+        questionLabel.setText(question.getQuestion());
     }
 
     @FXML

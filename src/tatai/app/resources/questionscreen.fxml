@@ -49,7 +49,7 @@
             </Label>
             <Pane prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
                <children>
-                  <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="12.0" prefHeight="29.0" prefWidth="142.0" text="Question 1" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question 1" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Roboto Regular" size="24.0" />
                      </font>

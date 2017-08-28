@@ -43,5 +43,4 @@ public class MainMenuController {
         ft.play();
         ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
     }
-
 }
