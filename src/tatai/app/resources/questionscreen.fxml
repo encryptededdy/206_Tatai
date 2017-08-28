@@ -20,7 +20,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <JFXButton fx:id="recordBtn" buttonType="RAISED" layoutX="298.0" layoutY="18.0" onAction="#recordBtnPressed" prefHeight="28.0" prefWidth="142.0" style="-fx-background-color: #3F51B5;" text="Record" textFill="WHITE">
+            <JFXButton fx:id="recordBtn" buttonType="RAISED" layoutX="298.0" layoutY="16.0" onAction="#recordBtnPressed" prefHeight="28.0" prefWidth="142.0" style="-fx-background-color: #3F51B5;" text="Record" textFill="WHITE">
                <font>
                   <Font name="Roboto Regular" size="18.0" />
                </font>

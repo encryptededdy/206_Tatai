@@ -18,12 +18,10 @@ import java.io.IOException;
 
 public class QuestionController {
 
+    private QuestionGenerator _generator;
+
     public void initialize() {
         // TODO: add fade in
-
-        // Not final, just used to randomise number
-        Question question = new Question(new NumberGenerator());
-        questionLabel.setText(question.getQuestion());
     }
 
     @FXML
@@ -47,6 +45,22 @@ public class QuestionController {
     @FXML
     private Pane controlsPane;
 
+    public void setQuestionSet(String questionSet) {
+        switch (questionSet) {
+            case "Numbers":
+                _generator = new NumberGenerator();
+                break;
+            default:
+                throw new RuntimeException("Unrecognised Question Generator - "+questionSet);
+        }
+        generateQuestion();
+    }
+
+    private void generateQuestion() {
+        // Not final
+        Question question = new Question(_generator);
+        questionLabel.setText(question.getQuestion());
+    }
 
     @FXML
     void menuBtnPressed(ActionEvent event) throws IOException {

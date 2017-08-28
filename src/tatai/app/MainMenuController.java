@@ -1,6 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,11 +17,17 @@ import java.io.IOException;
 
 public class MainMenuController {
 
-    @FXML
-    private JFXButton practiceNumbersBtn;
+    public void initialize() {
+        questionDropDown.getItems().addAll(
+                "Numbers",
+                "Sums",
+                "Something else",
+                "Lorem Ipsum");
+        questionDropDown.setValue("Numbers");
+    }
 
     @FXML
-    private JFXButton practiceSumsBtn;
+    private JFXButton practiceBtn;
 
     @FXML
     private JFXButton settingsBtn;
@@ -29,14 +36,18 @@ public class MainMenuController {
     private JFXButton micTestBtn;
 
     @FXML
+    private JFXComboBox<String> questionDropDown;
+
+    @FXML
     private Pane mainPane;
 
     @FXML
-    void practiceNumbersBtnPressed(ActionEvent event) throws IOException {
+    void practiceBtnPressed(ActionEvent event) throws IOException {
         // Load the new scene
-        Scene scene = practiceNumbersBtn.getScene();
+        Scene scene = practiceBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
+        loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue());
         // Fade out
         FadeTransition ft = new FadeTransition(Duration.millis(Main.transitionDuration), mainPane);
         ft.setToValue(0);
