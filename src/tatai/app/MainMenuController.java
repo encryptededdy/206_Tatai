@@ -20,9 +20,7 @@ public class MainMenuController {
     public void initialize() {
         questionDropDown.getItems().addAll(
                 "Numbers",
-                "Sums",
-                "Something else",
-                "Lorem Ipsum");
+                "Tens Numbers");
         questionDropDown.setValue("Numbers");
     }
 

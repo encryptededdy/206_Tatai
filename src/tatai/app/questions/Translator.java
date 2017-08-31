@@ -3,7 +3,9 @@ package tatai.app.questions;
 import java.util.HashMap;
 
 public class Translator {
+    // Translates integers into Maori
     private static final HashMap<Integer, String> _maoriDict;
+    private static final String _tensJoiner = "mā";
     static {
         _maoriDict = new HashMap<>();
         _maoriDict.put(0, "kore");
@@ -24,8 +26,24 @@ public class Translator {
             throw new UnsupportedOperationException("Negative numbers unsupported");
         } else if (number <= 10) {
             return _maoriDict.get(number);
+        } else if (number < 100) {
+            int tens = number/10;
+            int ones = number%10;
+            String tensOp;
+            if (tens == 1) {
+                tensOp = _maoriDict.get(10);
+            } else {
+                tensOp = _maoriDict.get(tens) + " " + _maoriDict.get(10);
+            }
+
+            if (ones == 0) {
+                return tensOp;
+            } else {
+                return tensOp + " " + _tensJoiner + " " + _maoriDict.get(ones);
+            }
+
         } else {
-            throw new UnsupportedOperationException("Numbers over 10 not implemented yet");
+            throw new UnsupportedOperationException("Numbers over 100 unsupported");
         }
     }
 }

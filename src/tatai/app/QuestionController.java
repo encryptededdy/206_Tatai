@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import tatai.app.questions.Question;
 import tatai.app.questions.generators.NumberGenerator;
+import tatai.app.questions.generators.NumberGenerator99;
 import tatai.app.questions.generators.QuestionGenerator;
 
 import java.io.IOException;
@@ -50,6 +51,9 @@ public class QuestionController {
         switch (questionSet) {
             case "Numbers":
                 _generator = new NumberGenerator();
+                break;
+            case "Tens Numbers":
+                _generator = new NumberGenerator99();
                 break;
             default:
                 throw new RuntimeException("Unrecognised Question Generator - "+questionSet);
