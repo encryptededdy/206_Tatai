@@ -46,6 +46,7 @@ public class QuestionController {
     private Pane controlsPane;
 
     public void setQuestionSet(String questionSet) {
+        // TODO: This is ugly
         switch (questionSet) {
             case "Numbers":
                 _generator = new NumberGenerator();
@@ -59,7 +60,11 @@ public class QuestionController {
     private void generateQuestion() {
         // Not final
         Question question = new Question(_generator);
-        questionLabel.setText(question.getQuestion());
+        questionLabel.setText(question.toString());
+
+        // DEBUG (or is it DeFailure ~ewan) Code
+        System.out.println("Asking: " + question);
+        System.out.println("Answer: " + question.getAnswer());
     }
 
     @FXML

@@ -19,12 +19,16 @@ public class Question {
         _answer = _generator.getAnswer();
     }
 
-    public String getQuestion() {
+    public String toString() {
         return _question;
     }
 
     public boolean checkAnswer(String answer) {
         // TODO: record statistics
         return _answer.equals(answer);
+    }
+
+    public String getAnswer() {
+        return _answer;
     }
 }

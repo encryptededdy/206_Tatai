@@ -47,7 +47,7 @@ public class MainMenuController {
         Scene scene = practiceBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue());
+        loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
         // Fade out
         FadeTransition ft = new FadeTransition(Duration.millis(Main.transitionDuration), mainPane);
         ft.setToValue(0);
