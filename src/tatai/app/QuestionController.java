@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -20,6 +21,8 @@ import java.io.IOException;
 public class QuestionController {
 
     private QuestionGenerator _generator;
+
+    private Question _currentQuestion;
 
     public void initialize() {
         // TODO: add fade in
@@ -63,12 +66,12 @@ public class QuestionController {
 
     private void generateQuestion() {
         // Not final
-        Question question = new Question(_generator);
-        questionLabel.setText(question.toString());
+        _currentQuestion = new Question(_generator);
+        questionLabel.setText(_currentQuestion.toString());
 
         // DEBUG (or is it DeFailure ~ewan) Code
-        System.out.println("Asking: " + question);
-        System.out.println("Answer: " + question.getAnswer());
+        System.out.println("Asking: " + _currentQuestion);
+        System.out.println("Answer: " + _currentQuestion.getAnswer());
     }
 
     @FXML
@@ -81,7 +84,18 @@ public class QuestionController {
 
     @FXML
     void recordBtnPressed(ActionEvent event) {
+        // TODO: Actually implement the recording logic
+        checkBtn.setDisable(false);
+    }
 
+    @FXML
+    void checkBtnPressed(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information Dialog");
+        alert.setHeaderText("Wow this is informational");
+        alert.setContentText("The correct answer was: " + _currentQuestion.getAnswer());
+        alert.showAndWait();
+        generateQuestion();
     }
 
 }
