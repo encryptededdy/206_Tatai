@@ -8,5 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="jfoenix" level="project" />
+    <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
   </component>
 </module>
