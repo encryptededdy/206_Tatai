@@ -34,13 +34,16 @@ public class MainMenuController {
     private JFXButton micTestBtn;
 
     @FXML
+    private JFXButton closeBtn;
+
+    @FXML
     private JFXComboBox<String> questionDropDown;
 
     @FXML
     private Pane mainPane;
 
     @FXML
-    void practiceBtnPressed(ActionEvent event) throws IOException {
+    private void practiceBtnPressed(ActionEvent event) throws IOException {
         // Load the new scene
         Scene scene = practiceBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
@@ -51,5 +54,11 @@ public class MainMenuController {
         ft.setToValue(0);
         ft.play();
         ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
+    }
+
+    @FXML
+    private void closeApplication() {
+        Stage mainStage = (Stage) closeBtn.getScene().getWindow();
+        mainStage.close();
     }
 }
