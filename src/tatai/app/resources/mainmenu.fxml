@@ -38,6 +38,11 @@
                   <Font name="Roboto" size="14.0" />
                </font>
             </JFXButton>
+            <JFXButton fx:id="settingsBtn" buttonType="RAISED" defaultButton="true" layoutX="114.0" layoutY="439.0" prefHeight="28.0" prefWidth="173.0" style="-fx-background-color: #455864;" text="Settings" textFill="WHITE">
+               <font>
+                  <Font name="Roboto" size="14.0" />
+               </font>
+            </JFXButton>
             <ImageView fitHeight="195.0" fitWidth="400.0">
                <image>
                   <Image url="@banner.png" />
@@ -55,14 +60,9 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton fx:id="closeBtn" layoutX="760.0" layoutY="460.0" onAction="#closeApplication" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+      <JFXButton fx:id="closeBtn" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
          <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="TIMES" />
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="settingsBtn" layoutX="720.0" layoutY="460.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
-         <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="SLIDERS" />
+            <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="20.0" />
          </graphic>
       </JFXButton>
    </children>
