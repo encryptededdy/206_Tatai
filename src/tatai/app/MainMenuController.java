@@ -18,10 +18,8 @@ import java.io.IOException;
 public class MainMenuController {
 
     public void initialize() {
-        questionDropDown.getItems().addAll(
-                "Numbers",
-                "Tens Numbers");
-        questionDropDown.setValue("Numbers");
+        questionDropDown.getItems().addAll(Main.questionGenerators.keySet());
+        questionDropDown.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
     }
 
     @FXML

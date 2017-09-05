@@ -20,6 +20,6 @@ public class NumberGenerator99 implements QuestionGenerator {
     }
 
     public String getGeneratorName() {
-        return "Numbers";
+        return "Tens Numbers";
     }
 }

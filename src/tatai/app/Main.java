@@ -6,14 +6,19 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import tatai.app.questions.generators.NumberGenerator;
+import tatai.app.questions.generators.NumberGenerator99;
+import tatai.app.questions.generators.QuestionGenerator;
 
 import java.net.URL;
+import java.util.LinkedHashMap;
 
 public class Main extends Application {
 
     static URL mainMenuLayout;
     static URL questionLayout;
     final static int transitionDuration = 300;
+    final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>();
 
     static { // Static initializer
         // Load fonts
@@ -37,6 +42,13 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+        populateGenerators();
         launch(args);
+    }
+
+    private static void populateGenerators() {
+        // define generators to be used
+        questionGenerators.put("Numbers", new NumberGenerator());
+        questionGenerators.put("Tens Numbers", new NumberGenerator99());
     }
 }

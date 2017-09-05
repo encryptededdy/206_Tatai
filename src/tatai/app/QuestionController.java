@@ -69,16 +69,7 @@ public class QuestionController {
     public void setQuestionSet(String questionSet) {
         // TODO: This is ugly
         QuestionGenerator generator;
-        switch (questionSet) {
-            case "Numbers":
-                generator = new NumberGenerator();
-                break;
-            case "Tens Numbers":
-                generator = new NumberGenerator99();
-                break;
-            default:
-                throw new RuntimeException("Unrecognised Question Generator - "+questionSet);
-        }
+        generator = Main.questionGenerators.get(questionSet);
         _currentRound = new Round(generator, 10); // TODO: numQuestions shouldn't be hardcoded
         generateQuestion();
     }
