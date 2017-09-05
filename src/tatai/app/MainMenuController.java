@@ -53,7 +53,7 @@ public class MainMenuController {
         FadeTransition ft = new FadeTransition(Duration.millis(Main.transitionDuration), mainPane);
         ft.setToValue(0);
         ft.play();
-        ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
+        ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
     }
 
     @FXML

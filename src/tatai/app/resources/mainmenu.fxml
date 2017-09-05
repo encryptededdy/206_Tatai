@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
    <children>
       <ImageView fitHeight="500.0" fitWidth="800.0">
          <image>
@@ -60,7 +60,7 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton fx:id="closeBtn" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+      <JFXButton fx:id="closeBtn" cancelButton="true" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="20.0" />
          </graphic>

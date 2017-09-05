@@ -54,14 +54,14 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
          <children>
-            <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="79.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="7" textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="79.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="..." textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Roboto Bold" size="120.0" />
                </font>
             </Label>
             <Pane prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
                <children>
-                  <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question 1" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question x" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Roboto Regular" size="24.0" />
                      </font>
