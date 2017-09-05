@@ -98,4 +98,9 @@ public class QuestionController {
         generateQuestion();
     }
 
+    @FXML
+    void playBtnPressed(ActionEvent event) {
+        // TODO
+    }
+
 }
