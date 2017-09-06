@@ -25,24 +25,31 @@ public class Round {
      */
     public boolean checkAnswer(String answer) {
         // Records statistics
-        return _questions.get(_currentQuestion).checkAnswer(answer);
+        return currentQuestion().checkAnswer(answer);
     }
 
     public String currentAnswer() {
-        return _questions.get(_currentQuestion).getAnswer();
+        return currentQuestion().getAnswer();
     }
 
-    public Question next() {
+    public String next() {
         if (hasNext()) {
             _currentQuestion++;
-            return _questions.get(_currentQuestion);
+            return _questions.get(_currentQuestion).toString();
         } else {
             throw new RuntimeException("No more Questions");
         }
+    }
+
+    public boolean isLastAttempt() {
+        return currentQuestion().isLastAttempt();
     }
 
     public int questionNumber() {
         return _currentQuestion+1;
     }
 
+    private Question currentQuestion() {
+        return _questions.get(_currentQuestion);
+    }
 }

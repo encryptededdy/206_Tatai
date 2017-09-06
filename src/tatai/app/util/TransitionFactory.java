@@ -14,7 +14,6 @@ public class TransitionFactory {
     */
     public static FadeTransition fadeIn(Node target) {
         FadeTransition fadeIn = new FadeTransition(Duration.millis(Main.transitionDuration), target);
-        fadeIn.setFromValue(0);
         fadeIn.setToValue(1);
         return fadeIn;
     }
@@ -24,7 +23,6 @@ public class TransitionFactory {
     */
     public static FadeTransition fadeOut(Node target) {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(Main.transitionDuration), target);
-        fadeOut.setFromValue(1);
         fadeOut.setToValue(0);
         return fadeOut;
     }
