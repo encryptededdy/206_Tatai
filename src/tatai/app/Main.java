@@ -24,6 +24,7 @@ public class Main extends Application {
         // Load fonts
         Font.loadFont(Main.class.getResource("resources/Roboto-Regular.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Bold.ttf").toExternalForm(), 10);
+        Font.loadFont(Main.class.getResource("resources/Roboto-Medium.ttf").toExternalForm(), 10);
     }
 
     @Override
@@ -31,7 +32,6 @@ public class Main extends Application {
         // Load the FXMLs for our various layouts
         questionLayout = getClass().getResource("resources/questionscreen.fxml");
         mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
-
         Parent root = FXMLLoader.load(mainMenuLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize
