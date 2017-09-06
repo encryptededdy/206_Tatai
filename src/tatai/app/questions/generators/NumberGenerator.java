@@ -8,10 +8,9 @@ public class NumberGenerator implements QuestionGenerator {
     String _answer;
 
     public String generateQuestion() {
-        Translator translator = new Translator();
         Random rng = new Random();
         Integer number = rng.nextInt(9);
-        _answer = translator.toMaori(number);
+        _answer = Translator.toMaori(number);
         return number.toString();
     }
 
