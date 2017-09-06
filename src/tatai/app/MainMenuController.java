@@ -66,10 +66,9 @@ public class MainMenuController {
         mainStage.close();
     }
 
-    @FXML
+    @FXML // Easter egg
     private void closeApplicationRight() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
-        System.out.println("Hi");
         Media sound = new Media(getClass().getResource("resources/shutdown.mp3").toString());
         MediaPlayer player = new MediaPlayer(sound);
         FadeTransition ft = new FadeTransition(Duration.millis(3200), fadeBox);
@@ -77,8 +76,6 @@ public class MainMenuController {
         ft.play();
         fadeBox.setVisible(true);
         player.play();
-        player.setOnEndOfMedia(() -> {
-            mainStage.close();
-        });
+        player.setOnEndOfMedia(mainStage::close);
     }
 }
