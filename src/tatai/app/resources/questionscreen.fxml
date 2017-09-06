@@ -31,12 +31,12 @@
             </JFXButton>
             <JFXButton fx:id="checkBtn" buttonType="RAISED" disable="true" layoutX="642.0" layoutY="21.0" onAction="#checkBtnPressed" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #3F51B5;" text="Check" textFill="WHITE">
                <font>
-                  <Font name="Roboto Regular" size="14.0" />
+                  <Font name="Roboto Medium" size="14.0" />
                </font>
             </JFXButton>
             <JFXButton fx:id="menuBtn" buttonType="RAISED" cancelButton="true" layoutX="26.0" layoutY="20.0" onAction="#menuBtnPressed" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #3F51B5;" text="Menu" textFill="WHITE">
                <font>
-                  <Font name="Roboto Regular" size="14.0" />
+                  <Font name="Roboto Medium" size="14.0" />
                </font>
             </JFXButton>
             <JFXButton fx:id="playBtn" buttonType="RAISED" disable="true" ellipsisString="" layoutX="399.0" layoutY="16.0" onAction="#playBtnPressed" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
@@ -47,6 +47,11 @@
                   <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="24" />
                </graphic>
             </JFXButton>
+            <JFXButton fx:id="nextQuestionBtn" buttonType="RAISED" cancelButton="true" layoutX="263.0" layoutY="11.0" onAction="#nextBtnPressed" prefHeight="46.0" prefWidth="212.0" style="-fx-background-color: #3F51B5;" text="Next Question" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
@@ -54,7 +59,7 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
          <children>
-            <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="79.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="..." textAlignment="CENTER" textFill="WHITE">
+            <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="63.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="999" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Roboto Bold" size="120.0" />
                </font>
@@ -63,9 +68,20 @@
                <children>
                   <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question x" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Roboto Regular" size="24.0" />
+                        <Font name="Roboto Medium" size="24.0" />
                      </font>
                   </Label>
+               </children>
+            </Pane>
+            <Pane fx:id="resultsPane" layoutY="220.0" prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;" visible="false">
+               <children>
+                  <Label fx:id="resultsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="9.0" prefHeight="35.0" prefWidth="342.0" text="Correct!" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="20.0" />
+                     </font>
+                  </Label>
+                  <MaterialDesignIconView fx:id="correctIcon" fill="#0cdd24" glyphName="CHECK" layoutX="14.0" layoutY="37.0" size="30" text="" visible="false" />
+                  <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="14.0" layoutY="38.0" size="30" visible="false" />
                </children>
             </Pane>
          </children>

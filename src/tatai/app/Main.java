@@ -17,7 +17,7 @@ public class Main extends Application {
 
     static URL mainMenuLayout;
     static URL questionLayout;
-    final static int transitionDuration = 300;
+    final public static int transitionDuration = 300;
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>();
 
     static { // Static initializer

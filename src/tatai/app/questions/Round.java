@@ -18,8 +18,18 @@ public class Round {
         return _questions.size() > _currentQuestion+1;
     }
 
+    /**
+     * checkAnswer is used instead of simply matching currentAnswer in order to allow statistics
+     * about whether the answer was correct or incorrect to be recorded.
+     * @param answer The answer to be checked
+     */
     public boolean checkAnswer(String answer) {
+        // Records statistics
         return _questions.get(_currentQuestion).checkAnswer(answer);
+    }
+
+    public String currentAnswer() {
+        return _questions.get(_currentQuestion).getAnswer();
     }
 
     public Question next() {

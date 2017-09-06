@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
 
@@ -48,10 +49,9 @@ public class MainMenuController {
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
         // Fade out
-        FadeTransition ft = new FadeTransition(Duration.millis(Main.transitionDuration), mainPane);
-        ft.setToValue(0);
-        ft.play();
+        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
+        ft.play();
     }
 
     @FXML
