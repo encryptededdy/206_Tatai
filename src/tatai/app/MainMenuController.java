@@ -10,6 +10,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
@@ -42,6 +45,9 @@ public class MainMenuController {
     private Pane mainPane;
 
     @FXML
+    private Rectangle fadeBox;
+
+    @FXML
     private void practiceBtnPressed(ActionEvent event) throws IOException {
         // Load the new scene
         Scene scene = practiceBtn.getScene();
@@ -55,8 +61,24 @@ public class MainMenuController {
     }
 
     @FXML
-    private void closeApplication() {
+    private void closeApplication(ActionEvent event) {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         mainStage.close();
+    }
+
+    @FXML
+    private void closeApplicationRight() {
+        Stage mainStage = (Stage) closeBtn.getScene().getWindow();
+        System.out.println("Hi");
+        Media sound = new Media(getClass().getResource("resources/shutdown.mp3").toString());
+        MediaPlayer player = new MediaPlayer(sound);
+        FadeTransition ft = new FadeTransition(Duration.millis(3200), fadeBox);
+        ft.setToValue(1);
+        ft.play();
+        fadeBox.setVisible(true);
+        player.play();
+        player.setOnEndOfMedia(() -> {
+            mainStage.close();
+        });
     }
 }

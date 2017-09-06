@@ -9,6 +9,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
@@ -60,10 +61,11 @@
             </Label>
          </children>
       </Pane>
-      <JFXButton fx:id="closeBtn" cancelButton="true" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+      <JFXButton fx:id="closeBtn" cancelButton="true" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="20.0" />
          </graphic>
       </JFXButton>
+      <Rectangle fx:id="fadeBox" arcHeight="5.0" arcWidth="5.0" height="500.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="800.0" />
    </children>
 </Pane>
