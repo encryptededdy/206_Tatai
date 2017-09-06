@@ -69,7 +69,7 @@ public class MainMenuController {
     @FXML // Easter egg
     private void closeApplicationRight() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
-        Media sound = new Media(getClass().getResource("resources/shutdown.mp3").toString());
+        Media sound = new Media(getClass().getResource("resources/shutdown.wav").toString());
         MediaPlayer player = new MediaPlayer(sound);
         FadeTransition ft = new FadeTransition(Duration.millis(3200), fadeBox);
         ft.setToValue(1);
