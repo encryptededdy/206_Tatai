@@ -1,5 +1,6 @@
 package tatai.app.questions;
 
+import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class Round {
         for (int i = 0; i < numQuestions; i++) {
             _questions.add(new Question(generator));
         }
+        System.out.println(Main.database.getNextID("roundID", "rounds"));
     }
 
     /**
@@ -56,7 +58,8 @@ public class Round {
     public String next() {
         if (hasNext()) {
             _currentQuestion++;
-            return _questions.get(_currentQuestion).toString();
+            currentQuestion().startClock(); // start the clock!
+            return currentQuestion().toString();
         } else {
             throw new RuntimeException("No more Questions");
         }

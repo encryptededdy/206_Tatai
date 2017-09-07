@@ -2,6 +2,7 @@ package tatai.app.util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,11 +14,19 @@ import java.util.ArrayList;
 public class Database {
     private static Database instance = null;
     private Connection connection;
+
+    /**
+     * Configures the database state
+     */
     private Database() {
         openConnection();
         createTables();
     }
 
+    /**
+     * Singleton method for getting the current instance of Database
+     * @return The current Database instance
+     */
     public static Database getInstance() {
         if (instance == null) {
             instance = new Database();
@@ -35,6 +44,52 @@ public class Database {
         }
     }
 
+    /**
+     * Closes the internal connection to the SQLite database
+     */
+    public void close() {
+        try {
+            connection.close();
+        } catch ( Exception e ) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Perform a query (INSERT) where you don't need the return
+     * @param query SQL query as string
+     */
+    public void insertOp(String query) {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+            statement.close();
+        } catch ( Exception e ) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+    }
+
+    /**
+     * Get the next ID for a particular column in a table. Essentially finding the current max in that col, plus one.
+     * @param column The column to use
+     * @param table The table to use
+     * @return The next max value in said column/table
+     */
+    public int getNextID(String column, String table) {
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT max("+column+") FROM "+table);
+            if (rs.next()) {
+                return rs.getInt(1) + 1;
+            } else {
+                return 1;
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return 1;
+    }
+
     private void createTables() {
         ArrayList<String> queries = new ArrayList<>();
         // Create the users table
@@ -44,7 +99,7 @@ public class Database {
                 " playtime        INTEGER)");
         // Create the questions table
         queries.add("CREATE TABLE IF NOT EXISTS questions " +
-                "(questionID INT PRIMARY KEY    NOT NULL," +
+                "(questionID INTEGER PRIMARY KEY AUTOINCREMENT    NOT NULL," +
                 " username      TEXT    NOT NULL, " +
                 " date          INTEGER NOT NULL, " +
                 " sessionID     INTEGER," +
@@ -54,10 +109,10 @@ public class Database {
                 " timeToAnswer  INTEGER," +
                 " answer        TEXT    NOT NULL," +
                 " correct       INTEGER NOT NULL," +
-                " attempts      INTEGER)");
+                " attempts      INTEGER NOT NULL)");
         // Create the rounds table
         queries.add("CREATE TABLE IF NOT EXISTS rounds " +
-                "(roundID INT PRIMARY KEY    NOT NULL," +
+                "(roundID INTEGER PRIMARY KEY    NOT NULL," +
                 " username      TEXT    NOT NULL, " +
                 " date          INTEGER NOT NULL, " +
                 " sessionID     INTEGER," +
@@ -67,7 +122,7 @@ public class Database {
                 " nocorrect     INTEGER NOT NULL)");
         // Create the sessions table
         queries.add("CREATE TABLE IF NOT EXISTS session " +
-                "(sessionID INT PRIMARY KEY    NOT NULL," +
+                "(sessionID INTEGER PRIMARY KEY    NOT NULL," +
                 " username      TEXT    NOT NULL, " +
                 " date          INTEGER NOT NULL, " +
                 " sessionlength INTEGER)");

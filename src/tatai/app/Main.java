@@ -25,7 +25,8 @@ import java.util.LinkedHashMap;
 
 public class Main extends Application {
 
-    static Database database;
+    public static Database database;
+    public static String currentUser = "default"; // TODO: Change this when multiuser support is implemented
     static URL mainMenuLayout;
     static URL questionLayout;
     final public static int transitionDuration = 300;
@@ -53,7 +54,14 @@ public class Main extends Application {
         primaryStage.setResizable(false); // please don't resize
         primaryStage.sizeToScene(); // for some reason setresizable expands the window???
         primaryStage.setScene(new Scene(root));
+        primaryStage.setOnCloseRequest(event -> onClose());
         primaryStage.show();
+    }
+
+    static void onClose() {
+        //TODO: Add cleanup code here to cleanup
+        database.close();
+        System.out.println("Application closing!");
     }
 
     private static void startupCheck() {

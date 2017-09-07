@@ -78,6 +78,7 @@ public class MainMenuController {
     @FXML
     private void closeApplication() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
+        Main.onClose();
         mainStage.close();
     }
 
@@ -86,6 +87,7 @@ public class MainMenuController {
      */
     @FXML
     private void closeApplicationRight() {
+        Main.onClose();
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         Media sound = new Media(getClass().getResource("resources/shutdown.wav").toString());
         MediaPlayer player = new MediaPlayer(sound);
