@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 import tatai.app.questions.generators.NumberGenerator;
 import tatai.app.questions.generators.NumberGenerator99;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Database;
 
+import javax.xml.crypto.Data;
 import java.net.URL;
 import java.util.LinkedHashMap;
 
@@ -22,6 +24,7 @@ import java.util.LinkedHashMap;
 
 public class Main extends Application {
 
+    static Database database;
     static URL mainMenuLayout;
     static URL questionLayout;
     final public static int transitionDuration = 300;
@@ -32,6 +35,7 @@ public class Main extends Application {
         Font.loadFont(Main.class.getResource("resources/Roboto-Regular.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Bold.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Medium.ttf").toExternalForm(), 10);
+        database = Database.getInstance();
     }
 
     /**
