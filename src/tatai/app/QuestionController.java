@@ -130,7 +130,6 @@ public class QuestionController {
         // If not, call answerIncorrect();
         String userAnswer = answerRecording.speechToText();
         System.out.println(userAnswer);
-        System.out.println(_currentRound.checkAnswer(userAnswer));
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
         } else {

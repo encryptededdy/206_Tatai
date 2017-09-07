@@ -12,6 +12,7 @@ import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Database;
 
 import javax.xml.crypto.Data;
+import java.io.File;
 import java.net.URL;
 import java.util.LinkedHashMap;
 
@@ -55,9 +56,21 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+    private static void startupCheck() {
+        //TODO: Have a nicer error dialog or whatever
+        if (!new File("HTK/MaoriNumbers").exists()) {
+            throw new RuntimeException("HTK files missing!");
+        };
+        File tempDir = new File(".tmp");
+        if (!tempDir.exists()) {
+            tempDir.mkdir();
+        }
+    }
+
 
     public static void main(String[] args) {
         populateGenerators();
+        startupCheck();
         launch(args);
     }
 

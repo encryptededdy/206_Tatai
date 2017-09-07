@@ -9,14 +9,14 @@ import java.util.HashMap;
  */
 public class Translator {
     private static final HashMap<Integer, String> _maoriDict;
-    private static final String _tensJoiner = "mā";
+    private static final String _tensJoiner = "maa";
     static {
         _maoriDict = new HashMap<>(); // data for the translator
         _maoriDict.put(0, "kore");
         _maoriDict.put(1, "tahi");
         _maoriDict.put(2, "rua");
         _maoriDict.put(3, "toru");
-        _maoriDict.put(4, "whā");
+        _maoriDict.put(4, "whaa");
         _maoriDict.put(5, "rima");
         _maoriDict.put(6, "ono");
         _maoriDict.put(7, "whitu");

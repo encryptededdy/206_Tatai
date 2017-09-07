@@ -118,11 +118,15 @@ public class Record {
         }
     }
 
+    /**
+     * Uses HTK speech recognition to convert the audio recording to text
+     * @return String represented the detected speech
+     */
     public String speechToText() {
         String maoriText = null;
     ProcessBuilder translateSpeechToMaoriPB = new ProcessBuilder(
-            "HVite", "-H", "HMMs/hmm15/macros", "-H", "HMMs/hmm15/hmmdefs", "-C", "user/configLR", "-w", "user/wordNetworkNum", "-o", "SWT", "-l", "*", "-i", "../../../../../.tmp/recout.mlf", "-p", "0.0", "-s", "5.0", "user/dictionaryD", "user/tiedList", "../../../../../.tmp/foo.wav");
-    File htkMaoriNumbersDirectory = new File("src/tatai/app/HTK/MaoriNumbers");
+            "HVite", "-H", "HMMs/hmm15/macros", "-H", "HMMs/hmm15/hmmdefs", "-C", "user/configLR", "-w", "user/wordNetworkNum", "-o", "SWT", "-l", "*", "-i", Paths.get(".tmp/recout.mlf").toAbsolutePath().toString(), "-p", "0.0", "-s", "5.0", "user/dictionaryD", "user/tiedList", Paths.get(".tmp/foo.wav").toAbsolutePath().toString());
+    File htkMaoriNumbersDirectory = new File("HTK/MaoriNumbers");
     translateSpeechToMaoriPB.directory(htkMaoriNumbersDirectory);
 
     try {
@@ -141,15 +145,10 @@ public class Record {
         }
 
         maoriText = maoriTextBuilder.toString();
-    } catch (FileNotFoundException fnfe) {
-
-    } catch (IOException ioe) {
-
-    } catch (InterruptedException ie) {
-
+    } catch (IOException | InterruptedException ioe) {
+        throw new RuntimeException("HTK Execution error!");
     }
-
-    return maoriText;
+        return maoriText;
     }
 
     /**
