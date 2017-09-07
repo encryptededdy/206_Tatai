@@ -2,12 +2,16 @@ package tatai.app.util;
 
 import java.util.HashMap;
 
+/**
+ * Translates integers into Maori strings, supports 0 through 99
+ *
+ * @author Edward
+ */
 public class Translator {
-    // Translates integers into Maori
     private static final HashMap<Integer, String> _maoriDict;
     private static final String _tensJoiner = "mā";
     static {
-        _maoriDict = new HashMap<>();
+        _maoriDict = new HashMap<>(); // data for the translator
         _maoriDict.put(0, "kore");
         _maoriDict.put(1, "tahi");
         _maoriDict.put(2, "rua");
@@ -21,6 +25,11 @@ public class Translator {
         _maoriDict.put(10, "tekau");
     }
 
+    /**
+     * Performs the translation from int to String (Maori)
+     * @param number    the integer to be translated, must be between 0 and 99
+     * @return The number, translated to maori
+     */
     public static String toMaori(int number){
         if (number < 0) {
             throw new UnsupportedOperationException("Negative numbers unsupported");

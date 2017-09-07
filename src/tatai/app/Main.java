@@ -13,12 +13,19 @@ import tatai.app.questions.generators.QuestionGenerator;
 import java.net.URL;
 import java.util.LinkedHashMap;
 
+/**
+ * Entry point to the application. Loads resources (fonts, fxml) into fields
+ * Has fields for constants too (transition lengths, question generators)
+ *
+ * @author Edward
+ */
+
 public class Main extends Application {
 
     static URL mainMenuLayout;
     static URL questionLayout;
     final public static int transitionDuration = 300;
-    final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>();
+    final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
 
     static { // Static initializer
         // Load fonts
@@ -27,6 +34,10 @@ public class Main extends Application {
         Font.loadFont(Main.class.getResource("resources/Roboto-Medium.ttf").toExternalForm(), 10);
     }
 
+    /**
+     * JavaFX start method
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         // Load the FXMLs for our various layouts

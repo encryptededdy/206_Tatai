@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,9 +15,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
-
 import java.io.IOException;
 
+/**
+ * Controller for the Main Menu screen. Handles all button presses etc.
+ * Layout is from mainmenu.fxml
+ *
+ * @author Edward
+ * @author Zach
+ */
 public class MainMenuController {
 
     public void initialize() {

@@ -12,6 +12,13 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+/**
+ * Handles recording audio and storing it in a wav, along with playback.
+ * Recording logic is handled in a seperate thread
+ *
+ * @author Zach
+ * @author Edward
+ */
 public class Record {
     private File recordingWav = new File("foo.wav");
     private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
@@ -19,6 +26,9 @@ public class Record {
     private ArrayList<Node> nodeListeners = new ArrayList<Node>();
     private ArrayList<EventHandler<ActionEvent>> eventHandlers = new ArrayList<>();
 
+    /**
+     * Define the Audio recording format (currently setup to match HTK input specifications)
+     */
     private AudioFormat getAudioFormat() {
         float sampleRate = 22050;
         int sampleSize = 16;
@@ -64,6 +74,10 @@ public class Record {
         completeEvent();
     }
 
+    /**
+     * Begin the audio recording
+     * @param duration  Duration of audio recording in ms
+     */
     public void record(long duration) {
         System.out.println("record called");
         Thread stopRecording = new Thread(new Runnable() {
@@ -85,12 +99,19 @@ public class Record {
         startRecording.start();
     }
 
+    /**
+     * Play back the audio recording using a JFX Media object. Record must be called first.
+     */
     public void play() {
         Media recording = new Media(Paths.get("foo.wav").toUri().toString());
         MediaPlayer recordingPlayer = new MediaPlayer(recording);
         recordingPlayer.play();
     }
 
+    /**
+     * Add an event handler to be called at the completion of an audio recording
+     * @param handler   the EventHandler to be called
+     */
     public void setOnFinished(EventHandler<ActionEvent> handler) {
         eventHandlers.add(handler);
     }
@@ -101,6 +122,9 @@ public class Record {
         }
     }
 
+    /**
+     * Constructor has no parameters
+     */
     public Record() {
     }
 }
