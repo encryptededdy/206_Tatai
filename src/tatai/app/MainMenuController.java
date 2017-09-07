@@ -26,6 +26,9 @@ import java.io.IOException;
  */
 public class MainMenuController {
 
+    /**
+     * Populates the questionDropDown with the questionGenerators stored in Main. Preselects the first option
+     */
     public void initialize() {
         questionDropDown.getItems().addAll(Main.questionGenerators.keySet());
         questionDropDown.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
@@ -52,8 +55,12 @@ public class MainMenuController {
     @FXML
     private Rectangle fadeBox;
 
+    /**
+     * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
+     * set to be used (from questionDropDown)
+     */
     @FXML
-    private void practiceBtnPressed(ActionEvent event) throws IOException {
+    private void practiceBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = practiceBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
@@ -65,13 +72,19 @@ public class MainMenuController {
         ft.play();
     }
 
+    /**
+     * Closes the application when the close button is pressed.
+     */
     @FXML
-    private void closeApplication(ActionEvent event) {
+    private void closeApplication() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         mainStage.close();
     }
 
-    @FXML // Easter egg
+    /**
+     * Easter egg when you right click the close button... shhh!
+     */
+    @FXML
     private void closeApplicationRight() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         Media sound = new Media(getClass().getResource("resources/shutdown.wav").toString());
