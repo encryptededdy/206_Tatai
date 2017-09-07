@@ -1,6 +1,5 @@
 package tatai.app.questions;
 
-import tatai.app.questions.generators.NumberGenerator;
 import tatai.app.questions.generators.QuestionGenerator;
 
 public class Question {
@@ -12,6 +11,7 @@ public class Question {
     QuestionGenerator _generator;
     String _question;
     String _answer;
+    int _attempts = 0;
 
     public Question(QuestionGenerator generator) {
         _generator = generator;
@@ -23,12 +23,27 @@ public class Question {
         return _question;
     }
 
-    public boolean checkAnswer(String answer) {
+    boolean checkAnswer(String answer) {
         // TODO: record statistics
-        return _answer.equals(answer);
+        if (_answer.contains(answer)) {
+            return true;
+        } else {
+            _attempts++;
+            return false;
+        }
     }
 
-    public String getAnswer() {
+    boolean isLastAttempt() {
+        if (_attempts == 2) {
+            return true;
+        } else if (_attempts < 2) {
+            return false;
+        } else {
+            throw new RuntimeException("User has made too many attempts");
+        }
+    }
+
+    String getAnswer() {
         return _answer;
     }
 }

@@ -85,7 +85,7 @@ public class QuestionController {
         FadeTransition fade = TransitionFactory.fadeOut(questionLabel);
         fade.setOnFinished(event -> {
             if (_currentRound.hasNext()) {
-                questionLabel.setText(_currentRound.next().toString());
+                questionLabel.setText(_currentRound.next());
                 questionNumberLabel.setText("Question "+_currentRound.questionNumber());
                 playBtn.setDisable(true);
                 // Hide the question feedback / results
@@ -128,6 +128,7 @@ public class QuestionController {
 
         // TESTING ONLY
         if (Math.random() < 0.5) {
+            _currentRound.checkAnswer("incorrecttest");
             answerIncorrect();
         } else {
             answerCorrect();
@@ -157,10 +158,15 @@ public class QuestionController {
     }
 
     private void answerIncorrect() {
-        nextQuestionBtn.setVisible(true); // show next question btn
         incorrectIcon.setVisible(true);
         correctIcon.setVisible(false); // show the cross
-        resultsLabel.setText("Correct answer: "+_currentRound.currentAnswer());
+        playBtn.setDisable(true); // avoid the user accidentally playing back existing recording
+        if (_currentRound.isLastAttempt()) { // Last attempt, so show the answer and allow to proceed to the next question
+            nextQuestionBtn.setVisible(true); // show next question btn
+            resultsLabel.setText("Correct answer: " + _currentRound.currentAnswer());
+        } else { // First attempt, prompt user to try again.
+            resultsLabel.setText("Please try again.");
+        }
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
         TransitionFactory.fadeIn(resultsPane).play();

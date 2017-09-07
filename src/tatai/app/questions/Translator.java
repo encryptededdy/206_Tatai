@@ -21,7 +21,7 @@ public class Translator {
         _maoriDict.put(10, "tekau");
     }
 
-    public String toMaori(int number){
+    public static String toMaori(int number){
         if (number < 0) {
             throw new UnsupportedOperationException("Negative numbers unsupported");
         } else if (number <= 10) {
