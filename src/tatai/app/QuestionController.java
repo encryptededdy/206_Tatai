@@ -13,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Record;
 import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class QuestionController {
 
     private Round _currentRound;
+    private Record answerRecording;
 
     @FXML
     private JFXButton recordBtn;
@@ -111,8 +113,10 @@ public class QuestionController {
     @FXML
     void recordBtnPressed(ActionEvent event) {
         // TODO: Actually implement the recording logic
-        checkBtn.setDisable(false);
-        playBtn.setDisable(false);
+        answerRecording = new Record();
+        answerRecording.addNodeListener(playBtn);
+        answerRecording.addNodeListener(checkBtn);
+        answerRecording.record(2000);
     }
 
     @FXML
@@ -133,6 +137,7 @@ public class QuestionController {
     @FXML
     void playBtnPressed(ActionEvent event) {
         // TODO
+        answerRecording.play();
     }
 
     @FXML
