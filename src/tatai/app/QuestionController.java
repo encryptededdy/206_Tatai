@@ -128,13 +128,13 @@ public class QuestionController {
         // TODO: Do HTK, Check the answer
         // If the answer is correct, call answerCorrect();
         // If not, call answerIncorrect();
-
-        // TESTING ONLY
-        if (Math.random() < 0.5) {
-            _currentRound.checkAnswer("incorrecttest");
-            answerIncorrect();
-        } else {
+        String userAnswer = answerRecording.speechToText();
+        System.out.println(userAnswer);
+        System.out.println(_currentRound.checkAnswer(userAnswer));
+        if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
+        } else {
+            answerIncorrect();
         }
     }
 

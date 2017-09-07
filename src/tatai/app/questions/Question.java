@@ -25,7 +25,7 @@ public class Question {
 
     boolean checkAnswer(String answer) {
         // TODO: record statistics
-        if (_answer.contains(answer)) {
+        if (answer.contains(_answer)) {
             return true;
         } else {
             _attempts++;

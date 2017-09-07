@@ -7,8 +7,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
 import javax.sound.sampled.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ import java.util.ArrayList;
  * @author Edward
  */
 public class Record {
-    private File recordingWav = new File("foo.wav");
+    private File recordingWav = new File(".tmp/foo.wav");
     private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
     private TargetDataLine line;
     private ArrayList<Node> nodeListeners = new ArrayList<Node>();
@@ -43,7 +42,6 @@ public class Record {
     }
 
     private void start() {
-        System.out.println("start called");
         try {
             AudioFormat format = getAudioFormat();
             DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -79,7 +77,6 @@ public class Record {
      * @param duration  Duration of audio recording in ms
      */
     public void record(long duration) {
-        System.out.println("record called");
         Thread stopRecording = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -88,7 +85,6 @@ public class Record {
                 } catch (InterruptedException e) {
 
                 }
-                System.out.println("record finished");
                 finishRecording();
             }
         });
@@ -103,7 +99,7 @@ public class Record {
      * Play back the audio recording using a JFX Media object. Record must be called first.
      */
     public void play() {
-        Media recording = new Media(Paths.get("foo.wav").toUri().toString());
+        Media recording = new Media(Paths.get(".tmp/foo.wav").toUri().toString());
         MediaPlayer recordingPlayer = new MediaPlayer(recording);
         recordingPlayer.play();
     }
@@ -120,6 +116,40 @@ public class Record {
         for (EventHandler<ActionEvent> handler : eventHandlers) {
             handler.handle(new ActionEvent());
         }
+    }
+
+    public String speechToText() {
+        String maoriText = null;
+    ProcessBuilder translateSpeechToMaoriPB = new ProcessBuilder(
+            "HVite", "-H", "HMMs/hmm15/macros", "-H", "HMMs/hmm15/hmmdefs", "-C", "user/configLR", "-w", "user/wordNetworkNum", "-o", "SWT", "-l", "*", "-i", "../../../../../.tmp/recout.mlf", "-p", "0.0", "-s", "5.0", "user/dictionaryD", "user/tiedList", "../../../../../.tmp/foo.wav");
+    File htkMaoriNumbersDirectory = new File("src/tatai/app/HTK/MaoriNumbers");
+    translateSpeechToMaoriPB.directory(htkMaoriNumbersDirectory);
+
+    try {
+        Process translateSpeechToMaoriProcess = translateSpeechToMaoriPB.start();
+        translateSpeechToMaoriProcess.waitFor();
+        FileReader translationFileReader = new FileReader(".tmp/recout.mlf");
+        BufferedReader translationBufferedReader = new BufferedReader(translationFileReader);
+        StringBuilder maoriTextBuilder = new StringBuilder();
+        String line = null;
+
+        while ((line = translationBufferedReader.readLine()) != null) {
+            if (!line.equals("#!MLF!#") && !line.equals("\"*/foo.rec\"") && !line.equals("sil") && !line.equals(".")) {
+                maoriTextBuilder.append(line);
+                maoriTextBuilder.append(" ");
+            }
+        }
+
+        maoriText = maoriTextBuilder.toString();
+    } catch (FileNotFoundException fnfe) {
+
+    } catch (IOException ioe) {
+
+    } catch (InterruptedException ie) {
+
+    }
+
+    return maoriText;
     }
 
     /**
