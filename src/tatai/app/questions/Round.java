@@ -4,6 +4,9 @@ import tatai.app.questions.generators.QuestionGenerator;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ */
 public class Round {
     private ArrayList<Question> _questions = new ArrayList<>();
     private int _currentQuestion = -1;

@@ -4,6 +4,10 @@ import tatai.app.util.Translator;
 
 import java.util.Random;
 
+/**
+ * A QuestionGenerator that generates random numbers between 0 and 9
+ * @author Edward
+ */
 public class NumberGenerator implements QuestionGenerator {
     String _answer;
 
