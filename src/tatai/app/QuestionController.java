@@ -10,7 +10,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Record;
@@ -114,8 +113,12 @@ public class QuestionController {
     void recordBtnPressed(ActionEvent event) {
         // TODO: Actually implement the recording logic
         answerRecording = new Record();
-        answerRecording.addNodeListener(playBtn);
-        answerRecording.addNodeListener(checkBtn);
+        playBtn.setDisable(true);
+        checkBtn.setDisable(true);
+        answerRecording.setOnFinished(event1 -> { // set what to do when we finish recording
+            playBtn.setDisable(false);
+            checkBtn.setDisable(false);
+        });
         answerRecording.record(2000);
     }
 

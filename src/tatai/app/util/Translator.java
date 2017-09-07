@@ -1,4 +1,4 @@
-package tatai.app.questions;
+package tatai.app.util;
 
 import java.util.HashMap;
 

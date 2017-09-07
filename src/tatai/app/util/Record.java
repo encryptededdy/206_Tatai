@@ -1,5 +1,7 @@
 package tatai.app.util;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -15,6 +17,7 @@ public class Record {
     private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
     private TargetDataLine line;
     private ArrayList<Node> nodeListeners = new ArrayList<Node>();
+    private ArrayList<EventHandler<ActionEvent>> eventHandlers = new ArrayList<>();
 
     private AudioFormat getAudioFormat() {
         float sampleRate = 22050;
@@ -58,12 +61,11 @@ public class Record {
     private void finishRecording() {
         line.stop();
         line.close();
-        enableNodes();
+        completeEvent();
     }
 
     public void record(long duration) {
         System.out.println("record called");
-        disableNodes();
         Thread stopRecording = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -77,12 +79,7 @@ public class Record {
             }
         });
 
-        Thread startRecording = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                start();
-            }
-        });
+        Thread startRecording = new Thread(() -> start());
 
         stopRecording.start();
         startRecording.start();
@@ -94,19 +91,13 @@ public class Record {
         recordingPlayer.play();
     }
 
-    public void addNodeListener(Node node) {
-        nodeListeners.add(node);
+    public void setOnFinished(EventHandler<ActionEvent> handler) {
+        eventHandlers.add(handler);
     }
 
-    private void disableNodes() {
-        for (Node node : nodeListeners) {
-            node.setDisable(true);
-        }
-    }
-
-    private void enableNodes() {
-        for (Node node : nodeListeners) {
-            node.setDisable(false);
+    private void completeEvent() {
+        for (EventHandler<ActionEvent> handler : eventHandlers) {
+            handler.handle(new ActionEvent());
         }
     }
 

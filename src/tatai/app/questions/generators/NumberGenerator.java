@@ -1,6 +1,6 @@
 package tatai.app.questions.generators;
 
-import tatai.app.questions.Translator;
+import tatai.app.util.Translator;
 
 import java.util.Random;
 
