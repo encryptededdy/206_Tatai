@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StatisticsController">
    <children>
@@ -13,10 +23,53 @@
             <Image url="@bkgnd.png" />
          </image>
       </ImageView>
-      <JFXButton fx:id="backBtn" cancelButton="true" layoutX="22.0" layoutY="442.0" onAction="#backBtnPressed" prefHeight="37.0" prefWidth="52.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
-         <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="20.0" />
-         </graphic>
-      </JFXButton>
+      <Pane prefHeight="500.0" prefWidth="246.0" style="-fx-background-color: #FAFAFA;">
+         <children>
+            <JFXButton fx:id="backBtn" cancelButton="true" layoutX="16.0" layoutY="447.0" onAction="#backBtnPressed" prefHeight="37.0" prefWidth="43.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="20.0" />
+               </graphic>
+            </JFXButton>
+            <Label layoutX="74.0" layoutY="14.0" text="Statistics">
+               <font>
+                  <Font name="Roboto Medium" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="20.0" layoutY="174.0" text="Questions Since" textFill="#4e4e4e">
+               <font>
+                  <Font name="Roboto Medium" size="12.0" />
+               </font>
+            </Label>
+            <JFXDatePicker fx:id="datePicker" defaultColor="#3f51b5" layoutX="20.0" layoutY="195.0" prefHeight="25.0" prefWidth="130.0" />
+            <JFXCheckBox fx:id="allDateCheckbox" layoutX="150.0" layoutY="199.0" selected="true" text="All Time" />
+            <Label layoutX="20.0" layoutY="233.0" text="Show Question Set" textFill="#4e4e4e">
+               <font>
+                  <Font name="Roboto Medium" size="12.0" />
+               </font>
+            </Label>
+            <JFXComboBox fx:id="questionSetCombo" layoutX="20.0" layoutY="256.0" prefHeight="25.0" prefWidth="156.0" />
+            <VBox layoutX="14.0" layoutY="56.0" prefHeight="90.0" prefWidth="212.0">
+               <children>
+                  <JFXRadioButton fx:id="questionLogToggle" prefHeight="30.0" prefWidth="184.0" selected="true" text="Question Log">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="showType" />
+                     </toggleGroup>
+                  </JFXRadioButton>
+                  <JFXRadioButton fx:id="numbersToggle" prefHeight="30.0" prefWidth="156.0" text="Numbers Pronounced" toggleGroup="$showType" />
+                  <JFXRadioButton fx:id="roundsToggle" prefHeight="30.0" prefWidth="78.0" text="Rounds" toggleGroup="$showType" />
+               </children>
+            </VBox>
+            <JFXButton fx:id="loadBtn" buttonType="RAISED" layoutX="45.0" layoutY="302.0" onAction="#loadBtnPressed" prefHeight="37.0" prefWidth="156.0" style="-fx-background-color: #3F51B5;" text="Load" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXCheckBox fx:id="allQuestionSets" layoutX="176.0" layoutY="260.0" selected="true" text="All" />
+         </children>
+         <effect>
+            <DropShadow />
+         </effect>
+      </Pane>
+      <TextArea fx:id="tempTextField" layoutX="272.0" layoutY="28.0" prefHeight="424.0" prefWidth="458.0" />
    </children>
 </Pane>

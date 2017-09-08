@@ -72,6 +72,21 @@ public class Database {
     }
 
     /**
+     * Performs a SQL query where you are expecting a return
+     * @param query SQL query as string
+     * @return returned ResultSet from the query
+     */
+    public ResultSet returnOp(String query) {
+        try {
+            Statement statement = connection.createStatement();
+            return statement.executeQuery(query);
+        } catch ( Exception e ) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * Get the next ID for a particular column in a table. Essentially finding the current max in that col, plus one.
      * @param column The column to use
      * @param table The table to use
