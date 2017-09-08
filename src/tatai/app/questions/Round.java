@@ -2,7 +2,9 @@ package tatai.app.questions;
 
 import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Database;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
 /**
@@ -11,6 +13,8 @@ import java.util.ArrayList;
 public class Round {
     private ArrayList<Question> _questions = new ArrayList<>();
     private int _currentQuestion = -1;
+    private int _roundID;
+    private long _startTime;
 
     /**
      * Constructs a Round
@@ -18,10 +22,20 @@ public class Round {
      * @param numQuestions Number of questions in the round
      */
     public Round(QuestionGenerator generator, int numQuestions) {
+        System.out.println("Starting round: "+Main.database.getNextID("roundID", "rounds"));
+        _roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
+
+        // Write the initial entry in the database for this round
+        String query = "INSERT INTO rounds (roundid, username, date, questionSet, noquestions, nocorrect, isComplete) VALUES ("+_roundID+", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+generator.getGeneratorName()+"', "+numQuestions+", 0, 0)";
+        Main.database.insertOp(query);
+
+        // Generates the questions
         for (int i = 0; i < numQuestions; i++) {
-            _questions.add(new Question(generator));
+            _questions.add(new Question(generator, _roundID));
         }
-        System.out.println(Main.database.getNextID("roundID", "rounds"));
+
+        // Start the clock
+        _startTime = Instant.now().getEpochSecond();
     }
 
     /**
@@ -29,7 +43,21 @@ public class Round {
      * @return boolean representing if there are any questions left
      */
     public boolean hasNext() {
-        return _questions.size() > _currentQuestion+1;
+        if (_questions.size() > _currentQuestion+1) {
+            return true;
+        } else {
+            finish();
+            return false;
+        }
+    }
+
+    /**
+     * Called when the round is over to finish writing data to the db
+     */
+    public void finish() {
+        // Round is complete. Write data.
+        Main.database.insertOp("UPDATE rounds SET isComplete = 1 WHERE roundid = "+_roundID);
+        Main.database.insertOp("UPDATE rounds SET roundlength = "+(Instant.now().getEpochSecond() - _startTime)+" WHERE roundid = "+_roundID);
     }
 
     /**

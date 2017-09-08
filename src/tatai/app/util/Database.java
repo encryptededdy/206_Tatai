@@ -119,9 +119,10 @@ public class Database {
                 " questionSet   TEXT    NOT NULL," +
                 " roundlength   INTEGER," +
                 " noquestions   INTEGER    NOT NULL," +
-                " nocorrect     INTEGER NOT NULL)");
+                " nocorrect     INTEGER NOT NULL," +
+                " isComplete    INTEGER NOT NULL)");
         // Create the sessions table
-        queries.add("CREATE TABLE IF NOT EXISTS session " +
+        queries.add("CREATE TABLE IF NOT EXISTS sessions " +
                 "(sessionID INTEGER PRIMARY KEY    NOT NULL," +
                 " username      TEXT    NOT NULL, " +
                 " date          INTEGER NOT NULL, " +

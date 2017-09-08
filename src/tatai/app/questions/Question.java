@@ -17,15 +17,17 @@ public class Question {
     private QuestionGenerator _generator;
     private long _startTime;
     private int _runTime;
+    private int _roundID;
 
     /**
      * Constructs a Question using a specific QuestionGenerator
      * @param generator The QuestionGenerator to be used to generate this Question
      */
-    public Question(QuestionGenerator generator) {
+    public Question(QuestionGenerator generator, int roundID) {
         _generator = generator;
         _question = _generator.generateQuestion();
         _answer = _generator.getAnswer();
+        _roundID = roundID;
     }
 
     /**
@@ -71,6 +73,10 @@ public class Question {
         Database db = Main.database;
         String query = "INSERT INTO questions (username, date, questionSet, question, answer, correct, attempts, timeToAnswer) VALUES ('"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+_generator.getGeneratorName()+"', '"+_question+"', '"+_answer+"', "+(_correct? 1 : 0)+", "+(_attempts+1)+", "+_runTime+")";
         db.insertOp(query);
+        if (_correct) {
+            String rndquery = "UPDATE rounds SET nocorrect = nocorrect + 1 WHERE roundid = "+_roundID;
+            db.insertOp(rndquery);
+        }
     }
 
     /**
