@@ -27,6 +27,7 @@ public class Main extends Application {
 
     public static Database database;
     public static String currentUser = "default"; // TODO: Change this when multiuser support is implemented
+    public static int currentSession;
     static URL mainMenuLayout;
     static URL questionLayout;
     final public static int transitionDuration = 300;
@@ -56,10 +57,13 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setOnCloseRequest(event -> onClose());
         primaryStage.show();
+        // Start the session
+        currentSession = database.startSession();
     }
 
     static void onClose() {
         //TODO: Add cleanup code here to cleanup
+        database.stopSession();
         database.close();
         System.out.println("Application closing!");
     }

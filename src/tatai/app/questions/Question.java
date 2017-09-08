@@ -71,7 +71,7 @@ public class Question {
     private void recordData() {
         _runTime = (int)(Instant.now().getEpochSecond() - _startTime); // Record the running time for the application
         Database db = Main.database;
-        String query = "INSERT INTO questions (username, date, questionSet, question, answer, correct, attempts, timeToAnswer) VALUES ('"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+_generator.getGeneratorName()+"', '"+_question+"', '"+_answer+"', "+(_correct? 1 : 0)+", "+(_attempts+1)+", "+_runTime+")";
+        String query = "INSERT INTO questions (username, date, questionSet, question, answer, correct, attempts, timeToAnswer, sessionID, roundID) VALUES ('"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+_generator.getGeneratorName()+"', '"+_question+"', '"+_answer+"', "+(_correct? 1 : 0)+", "+(_attempts+1)+", "+_runTime+", "+Main.currentSession+", "+_roundID+")";
         db.insertOp(query);
         if (_correct) {
             String rndquery = "UPDATE rounds SET nocorrect = nocorrect + 1 WHERE roundid = "+_roundID;

@@ -26,7 +26,7 @@ public class Round {
         _roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
 
         // Write the initial entry in the database for this round
-        String query = "INSERT INTO rounds (roundid, username, date, questionSet, noquestions, nocorrect, isComplete) VALUES ("+_roundID+", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+generator.getGeneratorName()+"', "+numQuestions+", 0, 0)";
+        String query = "INSERT INTO rounds (roundid, username, date, questionSet, noquestions, nocorrect, isComplete, sessionID) VALUES ("+_roundID+", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+generator.getGeneratorName()+"', "+numQuestions+", 0, 0, "+Main.currentSession+")";
         Main.database.insertOp(query);
 
         // Generates the questions

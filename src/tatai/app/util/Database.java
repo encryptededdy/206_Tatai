@@ -1,5 +1,7 @@
 package tatai.app.util;
 
+import tatai.app.Main;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -88,6 +90,20 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         return 1;
+    }
+
+    /**
+     * Starts the Session and writes initial data to the database
+     * @return The ID of the current session
+     */
+    public int startSession() {
+        int ID = getNextID("sessionID", "sessions");
+        insertOp("INSERT INTO sessions (sessionID, username, date) VALUES ("+ID+", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+")");
+        return ID;
+    }
+
+    public void stopSession() {
+        insertOp("UPDATE sessions SET sessionlength = "+Instant.now().getEpochSecond()+" - date WHERE sessionID = "+Main.currentSession);
     }
 
     private void createTables() {
