@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StatisticsController">
+   <children>
+      <ImageView fitHeight="500.0" fitWidth="800.0">
+         <image>
+            <Image url="@bkgnd.png" />
+         </image>
+      </ImageView>
+      <JFXButton fx:id="backBtn" cancelButton="true" layoutX="22.0" layoutY="442.0" onAction="#backBtnPressed" prefHeight="37.0" prefWidth="52.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="20.0" />
+         </graphic>
+      </JFXButton>
+   </children>
+</Pane>
