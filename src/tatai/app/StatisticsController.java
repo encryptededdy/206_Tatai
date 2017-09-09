@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import java.io.IOException;
 import java.time.ZoneId;
 
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import tatai.app.util.queries.QuestionLogQuery;
@@ -62,7 +63,7 @@ public class StatisticsController {
     private JFXButton loadBtn;
 
     @FXML
-    private TextArea tempTextField;
+    private TableView dataTable;
 
     @FXML
     void backBtnPressed(ActionEvent event) throws IOException {
@@ -89,9 +90,8 @@ public class StatisticsController {
     void loadBtnPressed(ActionEvent event) {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":
-                QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue());
+                QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable);
                 query.execute();
-                tempTextField.setText(query.tempOutput);
                 //do something
                 break;
             case "numbersPronounced":
