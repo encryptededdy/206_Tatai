@@ -5,12 +5,15 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import tatai.app.Main;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -19,28 +22,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class QuestionLogQuery {
-    private String SQLQuery;
-    private TableView tableView;
-
-    // Names of the output columns
-    ArrayList<String> columnNames = new ArrayList<>(Arrays.asList("Date", "Question Set", "Question", "Answer", "Time (s)", "Correct", "Attempts"));
-
-    // Date and time format for output
-    DateTimeFormatter dformat =
-            DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
-                    .withLocale( Locale.ENGLISH )
-                    .withZone( ZoneId.systemDefault() );
-
-    public QuestionLogQuery(long timeBound, boolean limitSet, String questionSet, TableView table) {
+/**
+ * A Query that gets a question log of all question attempts since a specified date and outputs to a TableView
+ *
+ * @author Edward
+ */
+public class QuestionLogQuery extends Query {
+    /**
+     * Constructs a QuestionLogQuery object with constraints
+     * @param timeBound The oldest time (UNIX Time) to read
+     * @param limitSet Whether we limit questionSets
+     * @param questionSet If limitSet is true, which QuestionSet
+     * @param table Which TableView to write the output to
+     * @param round What round to read (if null then all rounds are read)
+     */
+    public QuestionLogQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, Integer round) {
+        // Names of the output columns
+        columnNames = new ArrayList<>(Arrays.asList("Date", "Question Set", "Question", "Answer", "Time (s)", "Correct", "Attempts"));
         tableView = table;
-        if (!limitSet) {
-            SQLQuery = "SELECT date, questionSet, question, answer, timeToAnswer, correct, attempts FROM questions WHERE date > " + timeBound;
-        } else {
-            SQLQuery = "SELECT date, questionSet, question, answer, timeToAnswer, correct, attempts FROM questions WHERE date > " + timeBound + " AND questionSet = '" + questionSet + "'";
+        SQLQuery = "SELECT date, questionSet, question, answer, timeToAnswer, correct, attempts FROM questions WHERE date > " + timeBound;
+        if (limitSet) {
+            SQLQuery = SQLQuery + " AND questionSet = '" + questionSet + "'";
+        }
+        if (round != null) {
+            SQLQuery = SQLQuery + " AND roundID = " + round;
         }
     }
 
+    /**
+     * Executes the Query in a background thread. setOnFinished listeners will be informed when this is complete.
+     */
     public void execute() {
         Task<Void> task = new Task<Void>() {
             @Override
@@ -54,16 +65,9 @@ public class QuestionLogQuery {
                     while(rs.next()){
                         ObservableList<String> row = FXCollections.observableArrayList();
 
-                        // Process each column
-                        row.add(dformat.format(Instant.ofEpochSecond(rs.getLong(1)))); // Date
-                        row.add(rs.getString(2)); // QuestionSet
-                        row.add(rs.getString(3)); // Question
-                        row.add(rs.getString(4)); // Answer
-                        row.add(rs.getString(5)); // AnswerTime
-                        row.add((rs.getInt(6) == 1) ? "Yes" : "No"); // Correct
-                        row.add(rs.getString(7)); // Attempts
+                        columnProcess(row, rs);
 
-                        System.out.println("Row [1] added "+row );
+                        //System.out.println("Row [1] added "+row );
                         data.add(row);
                     }
                     tableView.setItems(data);
@@ -73,24 +77,20 @@ public class QuestionLogQuery {
                 return null;
             }
         };
+        task.setOnSucceeded(event -> completeQuery()); // Allow Query's listeners to be triggered once we're done
         task.run();
     }
 
-    private void columnGenerator() {
-
-            /*
-             * Based on code by Source: http://blog.ngopal.com.np/2011/10/19/dyanmic-tableview-data-from-database/
-             *                  Author: Narayan G. Maharjan
-             */
-
-        // Populate output columns
-        for(String colName : columnNames){
-            final int i = columnNames.indexOf(colName);
-            //We are using non property style for making dynamic table
-            TableColumn col = new TableColumn(colName);
-            col.setCellValueFactory((Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>) param -> new SimpleStringProperty(param.getValue().get(i).toString()));
-            tableView.getColumns().addAll(col);
-            System.out.println("Column ["+i+"]: "+colName);
-        }
+    private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
+        // Process each column
+        row.add(dformat.format(Instant.ofEpochSecond(rs.getLong(1)))); // Date
+        row.add(rs.getString(2)); // QuestionSet
+        row.add(rs.getString(3)); // Question
+        row.add(rs.getString(4)); // Answer
+        row.add(rs.getString(5)); // AnswerTime
+        row.add((rs.getInt(6) == 1) ? "Yes" : "No"); // Correct
+        row.add(rs.getString(7)); // Attempts
     }
+
+
 }

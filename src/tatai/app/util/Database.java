@@ -1,12 +1,5 @@
 package tatai.app.util;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.util.Callback;
 import tatai.app.Main;
 
 import java.sql.Connection;
@@ -91,14 +84,6 @@ public class Database {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         return null;
-    }
-
-    /**
-     * Populates a JavaFX TableView with the output of an SQL query
-     * @param query SQL query as string
-     * @param tableview the TableView to populate
-     */
-    public void PopulateTableOp(String query, TableView<ObservableList> tableview) {
     }
 
     /**

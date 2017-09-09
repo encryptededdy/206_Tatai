@@ -1,7 +1,9 @@
 package tatai.app;
 
 import com.jfoenix.controls.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +12,6 @@ import java.io.IOException;
 import java.time.ZoneId;
 
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import tatai.app.util.queries.QuestionLogQuery;
 
@@ -63,7 +64,10 @@ public class StatisticsController {
     private JFXButton loadBtn;
 
     @FXML
-    private TableView dataTable;
+    private TableView<ObservableList> dataTable;
+
+    @FXML
+    private JFXProgressBar progressBar;
 
     @FXML
     void backBtnPressed(ActionEvent event) throws IOException {
@@ -90,7 +94,9 @@ public class StatisticsController {
     void loadBtnPressed(ActionEvent event) {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":
-                QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable);
+                progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
+                QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null);
+                query.setOnFinished(event1 -> progressBar.setProgress(0));
                 query.execute();
                 //do something
                 break;
