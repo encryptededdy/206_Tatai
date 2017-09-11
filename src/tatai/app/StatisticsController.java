@@ -13,6 +13,7 @@ import java.time.ZoneId;
 
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
 
 public class StatisticsController {
@@ -101,7 +102,11 @@ public class StatisticsController {
                 //do something
                 break;
             case "numbersPronounced":
-                throw new UnsupportedOperationException("unimplemented");
+                progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
+                NumberQuery nquery = new NumberQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null);
+                nquery.setOnFinished(event1 -> progressBar.setProgress(0));
+                nquery.execute();
+                break;
             case "rounds":
                 throw new UnsupportedOperationException("unimplemented");
         }
