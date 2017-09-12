@@ -30,6 +30,7 @@ public class Main extends Application {
     public static int currentSession;
     static URL mainMenuLayout;
     static URL questionLayout;
+    static URL statisticsLayout;
     static URL completeLayout;
     final public static int transitionDuration = 300;
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
@@ -50,6 +51,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         // Load the FXMLs for our various layouts
         questionLayout = getClass().getResource("resources/questionscreen.fxml");
+        statisticsLayout = getClass().getResource("resources/statisticsscreen.fxml");
         mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
         completeLayout = getClass().getResource("resources/completescreen.fxml");
         Parent root = FXMLLoader.load(mainMenuLayout);

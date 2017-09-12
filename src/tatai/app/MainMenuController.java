@@ -53,6 +53,9 @@ public class MainMenuController {
     private Pane mainPane;
 
     @FXML
+    private JFXButton statisticsBtn;
+
+    @FXML
     private Rectangle fadeBox;
 
     /**
@@ -69,6 +72,18 @@ public class MainMenuController {
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
+        ft.play();
+    }
+
+    @FXML
+    private void statisticsBtnPressed() throws IOException {
+        // Load the new scene
+        Scene scene = statisticsBtn.getScene();
+        FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
+        Parent root = loader.load();
+        // Fade out
+        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
+        ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
         ft.play();
     }
 
