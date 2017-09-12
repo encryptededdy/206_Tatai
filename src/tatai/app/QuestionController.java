@@ -3,6 +3,9 @@ package tatai.app;
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,9 +13,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Record;
@@ -63,6 +69,9 @@ public class QuestionController {
 
     @FXML
     private JFXButton nextQuestionBtn;
+
+    @FXML
+    private ImageView backgroundImage;
 
     public void initialize() {
         // Setup for the transition
@@ -129,6 +138,22 @@ public class QuestionController {
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
         scene.setRoot(root);
+    }
+
+    // When questionpane is rightclicked - easter egg
+    @FXML
+    void questionRightClick() {
+        System.out.println("activated");
+        ColorAdjust colorAdjust = new ColorAdjust();
+        colorAdjust.setHue(-1);
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.setAutoReverse(true);
+        KeyValue kv = new KeyValue(colorAdjust.hueProperty(), 1.0);
+        KeyFrame kf = new KeyFrame(Duration.seconds(3), kv);
+        timeline.getKeyFrames().add(kf);
+        timeline.play();
+        backgroundImage.setEffect(colorAdjust);
     }
 
     @FXML

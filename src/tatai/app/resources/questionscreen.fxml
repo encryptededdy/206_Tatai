@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.QuestionController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.QuestionController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="800.0">
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
          <image>
             <Image url="@bkgnd.png" />
          </image>
@@ -54,7 +54,7 @@
             </JFXButton>
          </children>
       </Pane>
-      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
+      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
