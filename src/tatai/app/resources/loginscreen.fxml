@@ -49,6 +49,26 @@
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </JFXButton>
+                  <Label layoutX="83.0" layoutY="89.0" text="Playtime (mins)" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="205.0" layoutY="89.0" text="Questions Answered" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="playtimeCounter" alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="questionsCounter" alignment="CENTER" layoutX="225.0" layoutY="118.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="36.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>

@@ -115,6 +115,7 @@ public class Database {
     }
 
     public void stopSession() {
+        // Record the length of the current session
         insertOp("UPDATE sessions SET sessionlength = "+Instant.now().getEpochSecond()+" - date WHERE sessionID = "+Main.currentSession);
     }
 
@@ -122,7 +123,7 @@ public class Database {
         ArrayList<String> output = new ArrayList<>();
         ResultSet rs = returnOp("SELECT username FROM users");
         try {
-            if (rs.next()) {
+            while (rs.next()) {
                 output.add(rs.getString(1));
             }
         } catch (Exception e) {
@@ -136,8 +137,7 @@ public class Database {
         // Create the users table
         queries.add("CREATE TABLE IF NOT EXISTS users " +
                 "(username TEXT PRIMARY KEY     NOT NULL," +
-                " creationdate       INTEGER     NOT NULL, " +
-                " playtime        INTEGER)");
+                " creationdate       INTEGER     NOT NULL)");
         // Create the questions table
         queries.add("CREATE TABLE IF NOT EXISTS questions " +
                 "(questionID INTEGER PRIMARY KEY AUTOINCREMENT    NOT NULL," +
