@@ -139,7 +139,9 @@ public class QuestionController {
         answerRecording.setOnFinished(event1 -> { // set what to do when we finish recording
             playBtn.setDisable(false);
             checkBtn.setDisable(false);
+            recordBtn.setStyle("-fx-background-color: #3F51B5;");
         });
+        recordBtn.setStyle("-fx-background-color: #F44336;");
         answerRecording.record(2000);
         recordBtn.setDefaultButton(false);
         checkBtn.setDefaultButton(true);
