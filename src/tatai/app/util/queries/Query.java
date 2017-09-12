@@ -77,6 +77,7 @@ public abstract class Query {
             //We are using non property style for making dynamic table
             TableColumn<ObservableList, String> col = new TableColumn<>(colName);
             col.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().get(i).toString()));
+            col.setSortable(false);
             tableView.getColumns().addAll(col);
             //System.out.println("Column ["+i+"]: "+colName);
         }
