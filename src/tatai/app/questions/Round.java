@@ -46,7 +46,6 @@ public class Round {
         if (_questions.size() > _currentQuestion+1) {
             return true;
         } else {
-            finish();
             return false;
         }
     }
@@ -107,5 +106,9 @@ public class Round {
 
     private Question currentQuestion() {
         return _questions.get(_currentQuestion);
+    }
+
+    public int getRoundID() {
+        return _roundID;
     }
 }

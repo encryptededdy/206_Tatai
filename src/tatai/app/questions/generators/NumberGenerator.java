@@ -13,7 +13,7 @@ public class NumberGenerator implements QuestionGenerator {
 
     public String generateQuestion() {
         Random rng = new Random();
-        Integer number = rng.nextInt(8)+1;
+        Integer number = rng.nextInt(9)+1;
         _answer = Translator.toMaori(number);
         return number.toString();
     }

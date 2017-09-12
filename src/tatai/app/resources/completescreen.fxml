@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -22,7 +23,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <JFXButton fx:id="roundStatsBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="301.75" layoutY="16.0" onAction="#roundStatsBtnPressed" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" text="Round Stats" textFill="WHITE" textOverrun="CLIP">
+            <JFXButton fx:id="roundStatsBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="308.0" layoutY="16.0" maxWidth="121.32" minWidth="121.32" onAction="#roundStatsBtnPressed" prefWidth="121.32" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" text="Round Stats" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font name="Roboto Regular" size="18.0" />
                </font>
@@ -85,6 +86,22 @@
                   <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="14.0" layoutY="38.0" size="30" visible="false" />
                </children>
             </Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="roundStatsPane" layoutX="75.0" layoutY="15.0" prefHeight="399.0" prefWidth="650.0" style="-fx-background-color: #212121;">
+         <effect>
+            <DropShadow radius="9.75" width="20.0" />
+         </effect>
+         <children>
+            <TableView fx:id="resultsTable" layoutX="9.0" layoutY="28.0" prefHeight="272.0" prefWidth="630.0" />
+            <JFXButton fx:id="statsChangeGraphBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="302.5" layoutY="345.0" maxWidth="45.0" minWidth="45.0" onAction="#statsChangeGraphBtnPressed" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="Roboto Regular" size="18.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="BAR_CHART" size="20.0" />
+               </graphic>
+            </JFXButton>
          </children>
       </Pane>
    </children>

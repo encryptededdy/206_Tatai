@@ -96,6 +96,7 @@ public class QuestionController {
                 // Fade in
                 TransitionFactory.fadeIn(questionLabel).play();
             } else {
+                _currentRound.finish();
                 // no more questions! Show completion screen
                 // Load the new scene
                 Scene scene = playBtn.getScene();
@@ -136,9 +137,11 @@ public class QuestionController {
         answerRecording = new Record();
         playBtn.setDisable(true);
         checkBtn.setDisable(true);
+        recordBtn.setDisable(true);
         answerRecording.setOnFinished(event1 -> { // set what to do when we finish recording
             playBtn.setDisable(false);
             checkBtn.setDisable(false);
+            recordBtn.setDisable(false);
             recordBtn.setStyle("-fx-background-color: #3F51B5;");
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
@@ -159,6 +162,9 @@ public class QuestionController {
             answerCorrect();
         } else {
             answerIncorrect();
+        }
+        if (!_currentRound.hasNext()) {
+            nextQuestionBtn.setText("End Round");
         }
     }
 

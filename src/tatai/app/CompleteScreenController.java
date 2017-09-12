@@ -1,7 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.animation.FadeTransition;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,16 +9,22 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CompleteScreenController {
-    Round mostRecentRound;
+    Round _mostRecentRound;
 
     @FXML
     private JFXButton menuBtn;
@@ -50,6 +56,15 @@ public class CompleteScreenController {
     @FXML
     private Pane controlsPane;
 
+    @FXML
+    private Pane roundStatsPane;
+
+    @FXML
+    private TableView resultsTable;
+
+    @FXML
+    private JFXButton statsChangeGraphBtn;
+
     public void initialize() {
         scoreMessageLabel.setOpacity(0);
         yourScoreLabel.setOpacity(0);
@@ -57,6 +72,7 @@ public class CompleteScreenController {
         roundStatsBtn.setOpacity(0);
         replayBtn.setOpacity(0);
         nextRoundBtn.setOpacity(0);
+        roundStatsPane.setLayoutY(500);
     }
 
     void fadeIn() {
@@ -79,6 +95,23 @@ public class CompleteScreenController {
     @FXML
     void roundStatsBtnPressed() {
         // TODO Implement this
+        if (roundStatsBtn.getText().equals("Round Stats")) {
+            TranslateTransition tt = new TranslateTransition();
+            tt.setByY(-485);
+            tt.setDuration(Duration.millis(1000));
+            tt.setNode(roundStatsPane);
+            tt.setInterpolator(Interpolator.EASE_BOTH);
+            tt.play();
+            roundStatsBtn.setText("Back");
+        } else {
+            TranslateTransition tt = new TranslateTransition();
+            tt.setByY(485);
+            tt.setDuration(Duration.millis(1000));
+            tt.setNode(roundStatsPane);
+            tt.setInterpolator(Interpolator.EASE_BOTH);
+            tt.play();
+            roundStatsBtn.setText("Round Stats");
+        }
     }
 
     @FXML
@@ -108,6 +141,10 @@ public class CompleteScreenController {
     }
 
     public void setMostRecentRound(Round round) {
+        _mostRecentRound = round;
+    }
+
+    public void statsChangeGraphBtnPressed() {
 
     }
 }
