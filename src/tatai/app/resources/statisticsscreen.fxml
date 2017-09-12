@@ -63,6 +63,7 @@
                   </JFXButton>
                   <JFXCheckBox fx:id="allQuestionSets" layoutX="18.0" layoutY="340.0" selected="true" text="All Question Sets" />
                   <JFXProgressBar fx:id="progressBar" layoutY="425.0" prefHeight="6.0" prefWidth="200.0" progress="0.0" />
+                  <JFXCheckBox fx:id="unfinishedRounds" layoutX="18.0" layoutY="367.0" selected="true" text="Show unfinished rounds" />
                </children>
                <effect>
                   <DropShadow />

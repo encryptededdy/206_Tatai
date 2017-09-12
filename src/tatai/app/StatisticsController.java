@@ -15,6 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
+import tatai.app.util.queries.RoundsQuery;
 
 public class StatisticsController {
 
@@ -28,6 +29,9 @@ public class StatisticsController {
         // Bind the "All" options to disable the pickers
         datePicker.disableProperty().bind(allDateCheckbox.selectedProperty());
         questionSetCombo.disableProperty().bind(allQuestionSets.selectedProperty());
+
+        // unfinished rounds toggle is irrelevant when roundsToggle isn't selected
+        unfinishedRounds.disableProperty().bind(roundsToggle.selectedProperty().not());
 
         // Populate question set picker
         questionSetCombo.getItems().addAll(Main.questionGenerators.keySet());
@@ -65,6 +69,9 @@ public class StatisticsController {
     private JFXButton loadBtn;
 
     @FXML
+    private JFXCheckBox unfinishedRounds;
+
+    @FXML
     private TableView<ObservableList> dataTable;
 
     @FXML
@@ -99,7 +106,6 @@ public class StatisticsController {
                 QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null);
                 query.setOnFinished(event1 -> progressBar.setProgress(0));
                 query.execute();
-                //do something
                 break;
             case "numbersPronounced":
                 progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
@@ -108,7 +114,11 @@ public class StatisticsController {
                 nquery.execute();
                 break;
             case "rounds":
-                throw new UnsupportedOperationException("unimplemented");
+                progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
+                RoundsQuery rquery = new RoundsQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, unfinishedRounds.isSelected());
+                rquery.setOnFinished(event1 -> progressBar.setProgress(0));
+                rquery.execute();
+                break;
         }
 
     }
