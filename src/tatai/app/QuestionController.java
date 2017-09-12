@@ -94,8 +94,26 @@ public class QuestionController {
                 TransitionFactory.fadeIn(questionLabel).play();
             } else {
                 // no more questions! Show completion screen
-                // TODO: Completion screen.
-                System.out.println("this is the part where you show the completion screen");
+                // Load the new scene
+                Scene scene = playBtn.getScene();
+                FXMLLoader loader = new FXMLLoader(Main.completeLayout);
+                try {
+                    Parent root = loader.load();
+                    // Fade out
+                    FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
+                    FadeTransition ft2 = TransitionFactory.fadeOut(recordBtn);
+                    FadeTransition ft3 = TransitionFactory.fadeOut(playBtn);
+                    FadeTransition ft4 = TransitionFactory.fadeOut(checkBtn);
+                    ft4.setOnFinished(event1 -> {scene.setRoot(root); loader.<CompleteScreenController>getController().fadeIn();}); // switch scenes when fade complete
+                    ft0.play();
+                    ft2.play();
+                    ft3.play();
+                    ft4.play();
+                } catch (IOException iox) {
+                    // completescreen.fxml missing
+                    iox.printStackTrace();
+                }
+
             }
         });
         fade.play();

@@ -130,6 +130,7 @@ public class Record {
     translateSpeechToMaoriPB.directory(htkMaoriNumbersDirectory);
 
     try {
+
         Process translateSpeechToMaoriProcess = translateSpeechToMaoriPB.start();
         translateSpeechToMaoriProcess.waitFor();
         FileReader translationFileReader = new FileReader(".tmp/recout.mlf");
@@ -146,6 +147,7 @@ public class Record {
 
         maoriText = maoriTextBuilder.toString();
     } catch (IOException | InterruptedException ioe) {
+        ioe.printStackTrace();
         throw new RuntimeException("HTK Execution error!");
     }
         return maoriText;
