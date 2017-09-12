@@ -26,12 +26,13 @@ import java.util.LinkedHashMap;
 public class Main extends Application {
 
     public static Database database;
-    public static String currentUser = "default"; // TODO: Change this when multiuser support is implemented
+    public static String currentUser;
     public static int currentSession;
     static URL mainMenuLayout;
     static URL questionLayout;
     static URL statisticsLayout;
     static URL completeLayout;
+    static URL loginLayout;
     final public static int transitionDuration = 300;
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
 
@@ -45,16 +46,17 @@ public class Main extends Application {
 
     /**
      * JavaFX start method
-     * @param primaryStage
+     * @param primaryStage Provided by JFX start method
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
         // Load the FXMLs for our various layouts
+        loginLayout = getClass().getResource("resources/loginscreen.fxml");
         questionLayout = getClass().getResource("resources/questionscreen.fxml");
         statisticsLayout = getClass().getResource("resources/statisticsscreen.fxml");
         mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
         completeLayout = getClass().getResource("resources/completescreen.fxml");
-        Parent root = FXMLLoader.load(mainMenuLayout);
+        Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize
         primaryStage.sizeToScene(); // for some reason setresizable expands the window???
@@ -62,7 +64,6 @@ public class Main extends Application {
         primaryStage.setOnCloseRequest(event -> onClose());
         primaryStage.show();
         // Start the session
-        currentSession = database.startSession();
     }
 
     static void onClose() {

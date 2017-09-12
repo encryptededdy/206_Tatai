@@ -2,10 +2,7 @@ package tatai.app.util;
 
 import tatai.app.Main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -119,6 +116,19 @@ public class Database {
 
     public void stopSession() {
         insertOp("UPDATE sessions SET sessionlength = "+Instant.now().getEpochSecond()+" - date WHERE sessionID = "+Main.currentSession);
+    }
+
+    public ArrayList<String> getUsers() {
+        ArrayList<String> output = new ArrayList<>();
+        ResultSet rs = returnOp("SELECT username FROM users");
+        try {
+            if (rs.next()) {
+                output.add(rs.getString(1));
+            }
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        return output;
     }
 
     private void createTables() {
