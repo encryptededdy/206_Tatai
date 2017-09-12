@@ -4,11 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
@@ -128,7 +131,7 @@ public class QuestionController {
     }
 
     @FXML
-    void recordBtnPressed(ActionEvent event) {
+    void recordBtnPressed() {
         // TODO: Actually implement the recording logic
         answerRecording = new Record();
         playBtn.setDisable(true);
@@ -138,16 +141,18 @@ public class QuestionController {
             checkBtn.setDisable(false);
         });
         answerRecording.record(2000);
+        recordBtn.setDefaultButton(false);
+        checkBtn.setDefaultButton(true);
     }
 
     @FXML
-    void checkBtnPressed(ActionEvent event) {
+    void checkBtnPressed() {
         checkBtn.setDisable(true);
-        // TODO: Do HTK, Check the answer
         // If the answer is correct, call answerCorrect();
         // If not, call answerIncorrect();
         String userAnswer = answerRecording.speechToText();
         System.out.println(userAnswer);
+        checkBtn.setDefaultButton(false);
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
         } else {
@@ -156,14 +161,15 @@ public class QuestionController {
     }
 
     @FXML
-    void playBtnPressed(ActionEvent event) {
-        // TODO
+    void playBtnPressed() {
         answerRecording.play();
     }
 
     @FXML
-    void nextBtnPressed(ActionEvent event) {
+    void nextBtnPressed() {
         // Ok, move on to the next question.
+        nextQuestionBtn.setDefaultButton(false);
+        recordBtn.setDefaultButton(true);
         generateQuestion();
     }
 
@@ -174,6 +180,7 @@ public class QuestionController {
         resultsLabel.setText("Correct!");
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
+        nextQuestionBtn.setDefaultButton(true);
         TransitionFactory.fadeIn(resultsPane).play();
     }
 
@@ -183,9 +190,11 @@ public class QuestionController {
         playBtn.setDisable(true); // avoid the user accidentally playing back existing recording
         if (_currentRound.isLastAttempt()) { // Last attempt, so show the answer and allow to proceed to the next question
             nextQuestionBtn.setVisible(true); // show next question btn
+            nextQuestionBtn.setDefaultButton(true);
             resultsLabel.setText("Correct answer: " + _currentRound.currentAnswer());
         } else { // First attempt, prompt user to try again.
             resultsLabel.setText("Please try again.");
+            recordBtn.setDefaultButton(true);
         }
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
