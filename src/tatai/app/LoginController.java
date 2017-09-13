@@ -15,6 +15,8 @@ import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
 import java.sql.ResultSet;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 import static tatai.app.Main.database;
 
@@ -44,6 +46,9 @@ public class LoginController {
     @FXML
     private Label playtimeCounter;
 
+    @FXML
+    private Label lastLog;
+
     /**
      * Get the users and fill in usernameSelector with users in the database
      */
@@ -56,19 +61,30 @@ public class LoginController {
     }
 
     /**
-     * Gets the playtime and questions statistics from the database, and writes them to the appropriate labels
+     * Gets the playtime and questions statistics from the database, and writes them to the appropriate labels.
+     * Also gets the last login time
      */
     private void getStatistics() {
         String newValue = usernameSelector.getValue();
         ResultSet ptrs = Main.database.returnOp("SELECT sum(sessionlength) FROM sessions WHERE username = '"+newValue+"'");
+        ResultSet lastrs = Main.database.returnOp("SELECT max(date) FROM sessions WHERE username = '"+newValue+"'");
         ResultSet questionrs = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+newValue+"'");
+        long lastLogin = 0;
         try {
             ptrs.next();
             playtimeCounter.setText(Integer.toString(ptrs.getInt(1)/60)); // get the playtime in minutes
             questionrs.next();
             questionsCounter.setText(questionrs.getString(1)); // get the number of questions returned
+            lastrs.next();
+            lastLogin = Instant.now().getEpochSecond() - lastrs.getLong(1);
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+        // Convert the login time
+        if (TimeUnit.SECONDS.toMinutes(lastLogin) < 60) {
+            lastLog.setText(TimeUnit.SECONDS.toMinutes(lastLogin)+" minutes ago");
+        } else {
+            lastLog.setText(TimeUnit.SECONDS.toHours(lastLogin)+" hours ago");
         }
     }
 

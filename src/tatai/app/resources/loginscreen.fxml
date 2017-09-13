@@ -59,14 +59,24 @@
                         <Font name="Roboto" size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="playtimeCounter" alignment="CENTER" layoutX="87.0" layoutY="118.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
+                  <Label fx:id="playtimeCounter" alignment="CENTER" layoutX="87.0" layoutY="108.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="36.0" />
                      </font>
                   </Label>
-                  <Label fx:id="questionsCounter" alignment="CENTER" layoutX="225.0" layoutY="118.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
+                  <Label fx:id="questionsCounter" alignment="CENTER" layoutX="225.0" layoutY="108.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="168.0" layoutY="166.0" text="Last Login" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lastLog" alignment="CENTER" layoutX="42.0" layoutY="190.0" prefHeight="35.0" prefWidth="317.0" text="0000 Hours Ago" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="24.0" />
                      </font>
                   </Label>
                </children>
