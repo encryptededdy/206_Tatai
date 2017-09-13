@@ -23,6 +23,7 @@ public class MostRecentRoundQuery extends Query {
     private Label _roundScoreLabel;
     private Label _scoreMessageLabel;
     private int _score;
+    private ObservableList<ObservableList> data;
     /**
      * Constructs a MostRecentRoundQuery object with constraints
      * @param roundScore Which Label to write the score to
@@ -44,13 +45,13 @@ public class MostRecentRoundQuery extends Query {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                ObservableList<ObservableList> data = FXCollections.observableArrayList();
+                data = FXCollections.observableArrayList();
                 try{
                     ResultSet rs = Main.database.returnOp(SQLQuery);
                     columnGenerator();
 
                     // Process data for each row
-                    while(rs.next()){
+                    while(rs.next()) {
                         ObservableList<String> row = FXCollections.observableArrayList();
 
                         columnProcess(row, rs);
@@ -58,14 +59,27 @@ public class MostRecentRoundQuery extends Query {
                         //System.out.println("Row [1] added "+row );
                         data.add(row);
                     }
-                    tableView.setItems(data);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+
+                System.out.println(_score);
+
                 return null;
             }
         };
-        task.setOnSucceeded(event -> completeQuery()); // Allow Query's listeners to be triggered once we're done
+        task.setOnSucceeded(event -> {
+            if (_score < 8) {
+                _scoreMessageLabel.setText("Better Luck Next Time");
+            } else {
+                _scoreMessageLabel.setText("Congratulations");
+            }
+
+            _roundScoreLabel.setText(_score + "/10");
+
+            tableView.setItems(data);
+            completeQuery();
+        }); // Allow Query's listeners to be triggered once we're done
         task.run();
     }
 
@@ -74,8 +88,8 @@ public class MostRecentRoundQuery extends Query {
         row.add(rs.getString(1)); // Question
         row.add(rs.getString(2)); // Answer
         row.add(rs.getString(3)); // AnswerTime
-        row.add((rs.getInt(4) == 1) ? "Yes" : "No"); // Correct
-        if (rs.getInt(4) == 1) {
+        row.add((rs.getBoolean(4)) ? "Yes" : "No"); // Correct
+        if (rs.getBoolean(4)) {
             _score++;
         }
         row.add(rs.getString(5)); // Attempts

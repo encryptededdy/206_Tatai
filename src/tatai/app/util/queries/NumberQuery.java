@@ -21,6 +21,7 @@ import java.util.LinkedHashMap;
  * @author Edward
  */
 public class NumberQuery extends Query {
+    private ObservableList<ObservableList> data;
     /**
      * Constructs a QuestionLogQuery object with constraints
      * @param timeBound The oldest time (UNIX Time) to read
@@ -49,7 +50,7 @@ public class NumberQuery extends Query {
         Task<Void> task = new Task<Void>() {
             @Override
             public Void call() throws Exception {
-                ObservableList<ObservableList> data = FXCollections.observableArrayList();
+                data = FXCollections.observableArrayList();
                 try{
                     ResultSet rs = Main.database.returnOp(SQLQuery);
                     columnGenerator();
@@ -95,15 +96,16 @@ public class NumberQuery extends Query {
 
                         data.add(list);
                     });
-
-                    tableView.setItems(data);
                 }catch(Exception e){
                     e.printStackTrace();
                 }
                 return null;
             }
         };
-        task.setOnSucceeded(event -> completeQuery()); // Allow Query's listeners to be triggered once we're done
+        task.setOnSucceeded(event -> {
+            tableView.setItems(data);
+            completeQuery();
+        }); // Allow Query's listeners to be triggered once we're done
         task.run();
     }
 }

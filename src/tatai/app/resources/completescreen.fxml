@@ -93,7 +93,10 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <TableView fx:id="resultsTable" layoutX="9.0" layoutY="28.0" prefHeight="272.0" prefWidth="630.0" />
+            <TableView fx:id="resultsTable" layoutX="9.0" layoutY="28.0" prefHeight="272.0" prefWidth="630.0">
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy></TableView>
             <JFXButton fx:id="statsChangeGraphBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="302.5" layoutY="345.0" maxWidth="45.0" minWidth="45.0" onAction="#statsChangeGraphBtnPressed" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font name="Roboto Regular" size="18.0" />
