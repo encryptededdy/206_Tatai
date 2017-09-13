@@ -70,6 +70,7 @@ public abstract class Query {
              *                  Author: Narayan G. Maharjan
              */
 
+        tableView.getItems().clear();
         tableView.getColumns().clear(); // Clear existing cols first
         // Populate output columns
         for(String colName : columnNames){

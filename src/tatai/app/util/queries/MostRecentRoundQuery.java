@@ -48,7 +48,6 @@ public class MostRecentRoundQuery extends Query {
                 data = FXCollections.observableArrayList();
                 try{
                     ResultSet rs = Main.database.returnOp(SQLQuery);
-                    columnGenerator();
 
                     // Process data for each row
                     while(rs.next()) {
@@ -76,7 +75,7 @@ public class MostRecentRoundQuery extends Query {
             }
 
             _roundScoreLabel.setText(_score + "/10");
-
+            columnGenerator();
             tableView.setItems(data);
             completeQuery();
         }); // Allow Query's listeners to be triggered once we're done

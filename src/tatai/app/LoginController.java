@@ -18,6 +18,9 @@ import java.sql.ResultSet;
 
 import static tatai.app.Main.database;
 
+/**
+ * Controller for the login screen.
+ */
 public class LoginController {
 
     @FXML
@@ -47,10 +50,14 @@ public class LoginController {
     public void initialize() {
         usernameSelector.getItems().addAll(database.getUsers());
         usernameSelector.setValue(database.getUsers().iterator().next()); // Automatically selects the first object.
+        // Display the statistics, and make sure it updates everytime usernameSelector changes
         getStatistics();
         usernameSelector.valueProperty().addListener((observable, oldValue, newValue) -> getStatistics());
     }
 
+    /**
+     * Gets the playtime and questions statistics from the database, and writes them to the appropriate labels
+     */
     private void getStatistics() {
         String newValue = usernameSelector.getValue();
         ResultSet ptrs = Main.database.returnOp("SELECT sum(sessionlength) FROM sessions WHERE username = '"+newValue+"'");
@@ -65,6 +72,10 @@ public class LoginController {
         }
     }
 
+    /**
+     * Handles login process. Writes in the current user and begins the session. Then fades out and switches to the main menu
+     * @throws IOException
+     */
     @FXML
     void loginBtnPressed() throws IOException {
         Main.currentUser = usernameSelector.getValue(); // write the username
@@ -78,6 +89,10 @@ public class LoginController {
         ft.play();
     }
 
+    /**
+     * Handles creation of a new user
+     * TODO: Actually implement this
+     */
     @FXML
     void newBtnPressed() {
 

@@ -35,9 +35,7 @@ public class Record {
         boolean signed = true;
         boolean bigEndian = false;
 
-        AudioFormat format = new AudioFormat(sampleRate, sampleSize, channels, signed, bigEndian);
-
-        return format;
+        return new AudioFormat(sampleRate, sampleSize, channels, signed, bigEndian);
 
     }
 
@@ -58,11 +56,8 @@ public class Record {
             AudioSystem.write(audioInputStream, fileType, recordingWav);
 
 
-        } catch (LineUnavailableException e) {
-            System.out.println("LineUnavailableException thrown");
-        } catch (IOException ioe) {
-            System.out.println("IOException thrown");
-
+        } catch (LineUnavailableException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -83,13 +78,13 @@ public class Record {
                 try {
                     Thread.sleep(duration);
                 } catch (InterruptedException e) {
-
+                    e.printStackTrace();
                 }
                 finishRecording();
             }
         });
 
-        Thread startRecording = new Thread(() -> start());
+        Thread startRecording = new Thread(this::start);
 
         stopRecording.start();
         startRecording.start();
