@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -152,9 +153,10 @@ public class QuestionController {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.setAutoReverse(true);
         KeyValue kv = new KeyValue(colorAdjust.hueProperty(), 1.0);
-        KeyFrame kf = new KeyFrame(Duration.seconds(1), kv);
+        KeyFrame kf = new KeyFrame(Duration.seconds(2), kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
+        backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));
         backgroundImage.setEffect(colorAdjust);
     }
 
