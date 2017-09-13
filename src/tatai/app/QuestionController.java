@@ -20,8 +20,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.PopoverFactory;
 import tatai.app.util.Record;
 import tatai.app.util.TransitionFactory;
 
@@ -74,6 +76,11 @@ public class QuestionController {
     @FXML
     private ImageView backgroundImage;
 
+    // Help Popups
+    PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will turn red while recording");
+    PopOver playHelp = PopoverFactory.helpPopOver("Click the play button to listen\nto your recording");
+    PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question");
+
     public void initialize() {
         // Setup for the transition
         questionPane.setOpacity(0);
@@ -83,6 +90,9 @@ public class QuestionController {
     void fadeIn() {
         TransitionFactory.fadeIn(questionPane).play();
         TransitionFactory.fadeIn(controlsPane).play();
+        if (Main.showTutorial) {
+            recordHelp.show(recordBtn, -10);
+        }
     }
 
     void setQuestionSet(String questionSet) {
@@ -135,8 +145,15 @@ public class QuestionController {
         fade.play();
     }
 
+    private void hideHelpTexts() {
+        recordHelp.hide();
+        playHelp.hide();
+        checkHelp.hide();
+    }
+
     @FXML
     void menuBtnPressed(ActionEvent event) throws IOException {
+        hideHelpTexts();
         Scene scene = menuBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
@@ -163,6 +180,7 @@ public class QuestionController {
     @FXML
     void recordBtnPressed() {
         // TODO: Actually implement the recording logic
+        recordHelp.hide();
         answerRecording = new Record();
         playBtn.setDisable(true);
         checkBtn.setDisable(true);
@@ -172,6 +190,10 @@ public class QuestionController {
             checkBtn.setDisable(false);
             recordBtn.setDisable(false);
             recordBtn.setStyle("-fx-background-color: #3F51B5;");
+            if (Main.showTutorial) {
+                checkHelp.show(playBtn, -10);
+                playHelp.show(checkBtn, -10);
+            }
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
         answerRecording.record(2000);

@@ -106,6 +106,6 @@ public class NumberQuery extends Query {
             tableView.setItems(data);
             completeQuery();
         }); // Allow Query's listeners to be triggered once we're done
-        task.run();
+        new Thread(task).start();
     }
 }

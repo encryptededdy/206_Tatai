@@ -1,5 +1,6 @@
 package tatai.app.util;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -72,22 +73,24 @@ public class Record {
      * @param duration  Duration of audio recording in ms
      */
     public void record(long duration) {
-        Thread stopRecording = new Thread(new Runnable() {
+        Task<Void> stopRecording = new Task<Void>() {
             @Override
-            public void run() {
+            protected Void call() throws Exception {
                 try {
                     Thread.sleep(duration);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                finishRecording();
+                return null;
             }
-        });
+        };
 
         Thread startRecording = new Thread(this::start);
 
-        stopRecording.start();
+        stopRecording.setOnSucceeded(event -> finishRecording());
         startRecording.start();
+        System.out.println("running stoprecording");
+        new Thread(stopRecording).start();
     }
 
     /**

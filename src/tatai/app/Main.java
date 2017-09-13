@@ -33,6 +33,7 @@ public class Main extends Application {
     static URL statisticsLayout;
     static URL completeLayout;
     static URL loginLayout;
+    public static boolean showTutorial = true; //TODO: Change this to be optional
     final public static int transitionDuration = 300;
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
 

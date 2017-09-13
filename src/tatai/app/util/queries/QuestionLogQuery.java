@@ -81,7 +81,7 @@ public class QuestionLogQuery extends Query {
             tableView.setItems(data);
             completeQuery();
         }); // Allow Query's listeners to be triggered once we're done
-        task.run();
+        new Thread(task).start();
     }
 
     private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
