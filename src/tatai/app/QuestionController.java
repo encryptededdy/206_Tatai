@@ -80,6 +80,7 @@ public class QuestionController {
     PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will turn red while recording");
     PopOver playHelp = PopoverFactory.helpPopOver("Click the play button to listen\nto your recording");
     PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question");
+    PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question");
 
     public void initialize() {
         // Setup for the transition
@@ -91,7 +92,7 @@ public class QuestionController {
         TransitionFactory.fadeIn(questionPane).play();
         TransitionFactory.fadeIn(controlsPane).play();
         if (Main.showTutorial) {
-            recordHelp.show(recordBtn, -10);
+            recordHelp.show(recordBtn, -5);
         }
     }
 
@@ -149,6 +150,7 @@ public class QuestionController {
         recordHelp.hide();
         playHelp.hide();
         checkHelp.hide();
+        nextHelp.hide();
     }
 
     @FXML
@@ -191,8 +193,8 @@ public class QuestionController {
             recordBtn.setDisable(false);
             recordBtn.setStyle("-fx-background-color: #3F51B5;");
             if (Main.showTutorial) {
-                checkHelp.show(playBtn, -10);
-                playHelp.show(checkBtn, -10);
+                checkHelp.show(playBtn, -5);
+                playHelp.show(checkBtn, -5);
             }
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
@@ -209,6 +211,8 @@ public class QuestionController {
         String userAnswer = answerRecording.speechToText();
         System.out.println(userAnswer);
         checkBtn.setDefaultButton(false);
+        playHelp.hide();
+        checkHelp.hide();
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
         } else {
@@ -226,6 +230,8 @@ public class QuestionController {
 
     @FXML
     void nextBtnPressed() {
+        nextHelp.hide();
+        Main.showTutorial = false;
         // Ok, move on to the next question.
         nextQuestionBtn.setDefaultButton(false);
         recordBtn.setDefaultButton(true);
@@ -240,6 +246,9 @@ public class QuestionController {
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
         nextQuestionBtn.setDefaultButton(true);
+        if (Main.showTutorial) {
+            nextHelp.show(nextQuestionBtn, -5);
+        }
         TransitionFactory.fadeIn(resultsPane).play();
     }
 
@@ -250,6 +259,9 @@ public class QuestionController {
         if (_currentRound.isLastAttempt()) { // Last attempt, so show the answer and allow to proceed to the next question
             nextQuestionBtn.setVisible(true); // show next question btn
             nextQuestionBtn.setDefaultButton(true);
+            if (Main.showTutorial) {
+                nextHelp.show(nextQuestionBtn, -5);
+            }
             resultsLabel.setText("Correct answer: " + _currentRound.currentAnswer());
         } else { // First attempt, prompt user to try again.
             resultsLabel.setText("Please try again.");

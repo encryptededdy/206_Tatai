@@ -89,7 +89,6 @@ public class Record {
 
         stopRecording.setOnSucceeded(event -> finishRecording());
         startRecording.start();
-        System.out.println("running stoprecording");
         new Thread(stopRecording).start();
     }
 

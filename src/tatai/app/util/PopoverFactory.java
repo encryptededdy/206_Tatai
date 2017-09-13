@@ -1,6 +1,7 @@
 package tatai.app.util;
 
 import javafx.scene.control.Label;
+import javafx.scene.text.TextAlignment;
 import org.controlsfx.control.PopOver;
 
 /**
@@ -15,6 +16,7 @@ public class PopoverFactory {
     public static PopOver helpPopOver(String text) {
         Label inside = new Label(text);
         inside.setStyle("-fx-padding: 20 20 20 20");
+        inside.setTextAlignment(TextAlignment.CENTER);
         PopOver popover = new PopOver(inside);
         popover.setArrowLocation(PopOver.ArrowLocation.BOTTOM_LEFT);
         popover.setDetachable(false);
