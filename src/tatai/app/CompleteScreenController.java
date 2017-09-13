@@ -17,6 +17,7 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.util.TransitionFactory;
+import tatai.app.util.queries.MostRecentRoundQuery;
 
 import java.io.IOException;
 import java.net.URL;
@@ -95,20 +96,23 @@ public class CompleteScreenController {
     @FXML
     void roundStatsBtnPressed() {
         // TODO Implement this
+        roundStatsBtn.setDisable(true);
         if (roundStatsBtn.getText().equals("Round Stats")) {
             TranslateTransition tt = new TranslateTransition();
             tt.setByY(-485);
-            tt.setDuration(Duration.millis(1000));
+            tt.setDuration(Duration.millis(500));
             tt.setNode(roundStatsPane);
-            tt.setInterpolator(Interpolator.EASE_BOTH);
+            tt.setInterpolator(Interpolator.EASE_OUT);
+            tt.setOnFinished(event1 -> {roundStatsBtn.setDisable(false);});
             tt.play();
             roundStatsBtn.setText("Back");
         } else {
             TranslateTransition tt = new TranslateTransition();
             tt.setByY(485);
-            tt.setDuration(Duration.millis(1000));
+            tt.setDuration(Duration.millis(500));
             tt.setNode(roundStatsPane);
-            tt.setInterpolator(Interpolator.EASE_BOTH);
+            tt.setInterpolator(Interpolator.EASE_IN);
+            tt.setOnFinished(event1 -> {roundStatsBtn.setDisable(false);});
             tt.play();
             roundStatsBtn.setText("Round Stats");
         }
@@ -142,6 +146,11 @@ public class CompleteScreenController {
 
     public void setMostRecentRound(Round round) {
         _mostRecentRound = round;
+    }
+
+    public void executeRecentRoundQuery () {
+        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, _mostRecentRound.getRoundID());
+        mrrq.execute();
     }
 
     public void statsChangeGraphBtnPressed() {

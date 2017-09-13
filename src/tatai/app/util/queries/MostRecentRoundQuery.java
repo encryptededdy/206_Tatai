@@ -19,16 +19,21 @@ import java.util.Arrays;
  * @author Edward
  */
 public class MostRecentRoundQuery extends Query {
+    private String SQLQuery;
+    private Label _roundScoreLabel;
+    private Label _scoreMessageLabel;
+    private int _score;
     /**
-     * Constructs a QuestionLogQuery object with constraints
-     * @param timeBound The oldest time (UNIX Time) to read
-     * @param limitSet Whether we limit questionSets
-     * @param questionSet If limitSet is true, which QuestionSet
-     * @param table Which TableView to write the output to
-     * @param round What round to read (if null then all rounds are read)
+     * Constructs a MostRecentRoundQuery object with constraints
+     * @param roundScore Which Label to write the score to
+     * @param roundid What round to read
      */
-    public MostRecentRoundQuery(Label roundScore, Integer roundid) {
-
+    public MostRecentRoundQuery(Label roundScore, Label scoreMessageLabel, TableView tableViewRound, Integer roundid) {
+        columnNames = new ArrayList<>(Arrays.asList("Question", "Answer", "Time (s)", "Correct", "Attempts"));
+        _roundScoreLabel = roundScore;
+        _scoreMessageLabel = scoreMessageLabel;
+        tableView = tableViewRound;
+        _score = 0;
         SQLQuery = "SELECT question, answer, timeToAnswer, correct, attempts FROM questions WHERE username = '"+Main.currentUser+"' AND roundid = " + roundid;
     }
 
@@ -66,13 +71,14 @@ public class MostRecentRoundQuery extends Query {
 
     private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
         // Process each column
-        row.add(dformat.format(Instant.ofEpochSecond(rs.getLong(1)))); // Date
-        row.add(rs.getString(2)); // QuestionSet
-        row.add(rs.getString(3)); // Question
-        row.add(rs.getString(4)); // Answer
-        row.add(rs.getString(5)); // AnswerTime
-        row.add((rs.getInt(6) == 1) ? "Yes" : "No"); // Correct
-        row.add(rs.getString(7)); // Attempts
+        row.add(rs.getString(1)); // Question
+        row.add(rs.getString(2)); // Answer
+        row.add(rs.getString(3)); // AnswerTime
+        row.add((rs.getInt(4) == 1) ? "Yes" : "No"); // Correct
+        if (rs.getInt(4) == 1) {
+            _score++;
+        }
+        row.add(rs.getString(5)); // Attempts
     }
 
 

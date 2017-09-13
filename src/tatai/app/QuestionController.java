@@ -112,6 +112,8 @@ public class QuestionController {
                 FXMLLoader loader = new FXMLLoader(Main.completeLayout);
                 try {
                     Parent root = loader.load();
+                    loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
+                    loader.<CompleteScreenController>getController().executeRecentRoundQuery();
                     // Fade out
                     FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
                     FadeTransition ft2 = TransitionFactory.fadeOut(recordBtn);

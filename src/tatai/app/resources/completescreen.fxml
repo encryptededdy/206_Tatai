@@ -23,7 +23,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <JFXButton fx:id="roundStatsBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="308.0" layoutY="16.0" maxWidth="121.32" minWidth="121.32" onAction="#roundStatsBtnPressed" prefWidth="121.32" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" text="Round Stats" textFill="WHITE" textOverrun="CLIP">
+            <JFXButton fx:id="roundStatsBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="308.0" layoutY="16.0" maxWidth="121.32" minWidth="121.32" onAction="#roundStatsBtnPressed" prefWidth="121.32" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" text="Round Stats" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font name="Roboto Regular" size="18.0" />
                </font>
