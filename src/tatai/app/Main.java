@@ -35,6 +35,7 @@ public class Main extends Application {
     static URL loginLayout;
     public static boolean showTutorial = true; //TODO: Change this to be optional
     final public static int transitionDuration = 300;
+    public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
 
     static { // Static initializer
@@ -77,7 +78,10 @@ public class Main extends Application {
     private static void startupCheck() {
         //TODO: Have a nicer error dialog or whatever
         if (!new File("HTK/MaoriNumbers").exists()) {
-            throw new RuntimeException("HTK files missing!");
+            throw new RuntimeException("Catherine HTK files missing!");
+        };
+        if (!new File("HTK/MaoriNumbers/HVite.exe").exists() && isWindows) {
+            throw new RuntimeException("Windows HTK files missing!");
         };
         File tempDir = new File(".tmp");
         if (!tempDir.exists()) {

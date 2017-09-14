@@ -6,11 +6,13 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import tatai.app.Main;
 
 import javax.sound.sampled.*;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Handles recording audio and storing it in a wav, along with playback.
@@ -120,15 +122,24 @@ public class Record {
      * @return String represented the detected speech
      */
     public String speechToText() {
-        String maoriText = null;
-    ProcessBuilder translateSpeechToMaoriPB = new ProcessBuilder(
-            "HVite", "-H", "HMMs/hmm15/macros", "-H", "HMMs/hmm15/hmmdefs", "-C", "user/configLR", "-w", "user/wordNetworkNum", "-o", "SWT", "-l", "*", "-i", Paths.get(".tmp/recout.mlf").toAbsolutePath().toString(), "-p", "0.0", "-s", "5.0", "user/dictionaryD", "user/tiedList", Paths.get(".tmp/foo.wav").toAbsolutePath().toString());
-    File htkMaoriNumbersDirectory = new File("HTK/MaoriNumbers");
-    translateSpeechToMaoriPB.directory(htkMaoriNumbersDirectory);
+        String maoriText;
+        ProcessBuilder translateSpeechToMaoriPB;
+        if (Main.isWindows) {
+            translateSpeechToMaoriPB = new ProcessBuilder(
+                    "cmd", "/C", "HVite", "-H", "HMMs/hmm15/macros", "-H", "HMMs/hmm15/hmmdefs", "-C", "user/configLR", "-w", "user/wordNetworkNum", "-o", "SWT", "-l", "*", "-i", Paths.get(".tmp/recout.mlf").toAbsolutePath().toString(), "-p", "0.0", "-s", "5.0", "user/dictionaryD", "user/tiedList", Paths.get(".tmp/foo.wav").toAbsolutePath().toString());
+        } else {
+            translateSpeechToMaoriPB = new ProcessBuilder(
+                    "HVite", "-H", "HMMs/hmm15/macros", "-H", "HMMs/hmm15/hmmdefs", "-C", "user/configLR", "-w", "user/wordNetworkNum", "-o", "SWT", "-l", "*", "-i", Paths.get(".tmp/recout.mlf").toAbsolutePath().toString(), "-p", "0.0", "-s", "5.0", "user/dictionaryD", "user/tiedList", Paths.get(".tmp/foo.wav").toAbsolutePath().toString());
+        }
+        File htkMaoriNumbersDirectory = new File("HTK/MaoriNumbers");
+        translateSpeechToMaoriPB.directory(htkMaoriNumbersDirectory);
 
     try {
-
         Process translateSpeechToMaoriProcess = translateSpeechToMaoriPB.start();
+        Scanner outputScanner = new Scanner(translateSpeechToMaoriProcess.getInputStream());
+        //while (outputScanner.hasNext()) {
+        //    System.out.println(outputScanner.next());
+        //}
         translateSpeechToMaoriProcess.waitFor();
         FileReader translationFileReader = new FileReader(".tmp/recout.mlf");
         BufferedReader translationBufferedReader = new BufferedReader(translationFileReader);
