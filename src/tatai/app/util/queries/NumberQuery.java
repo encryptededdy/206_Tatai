@@ -32,7 +32,7 @@ public class NumberQuery extends Query {
      */
     public NumberQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, Integer round) {
         // Names of the output columns
-        columnNames = new ArrayList<>(Arrays.asList("Answer", "Times Answered", "Average Time (s)", "% Correct", "Avg Attempts"));
+        columnNames = new ArrayList<>(Arrays.asList("Answer", "Times", "Avg Time (s)", "% Correct", "Avg Tries"));
         tableView = table;
         SQLQuery = "SELECT answer, timeToAnswer, correct, attempts FROM questions WHERE username = '"+Main.currentUser+"' AND date > " + timeBound;
         if (limitSet) {

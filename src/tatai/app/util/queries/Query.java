@@ -40,8 +40,7 @@ public abstract class Query {
 
     // Date and time format for output
     DateTimeFormatter dformat =
-            DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
-                    .withLocale( Locale.ENGLISH )
+            DateTimeFormatter.ofPattern("dd/MM/yy HH:mm")
                     .withZone( ZoneId.systemDefault() );
 
     public abstract void execute();

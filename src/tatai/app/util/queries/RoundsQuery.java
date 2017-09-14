@@ -29,7 +29,7 @@ public class RoundsQuery extends Query {
      */
     public RoundsQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, boolean unfinished) {
         // Names of the output columns
-        columnNames = new ArrayList<>(Arrays.asList("Date", "Question Set", "Time (s)", "Questions", "Correct", "Round Complete"));
+        columnNames = new ArrayList<>(Arrays.asList("Date", "Set", "Time (s)", "Questions", "Correct", "Complete"));
         tableView = table;
         SQLQuery = "SELECT date, questionSet, roundlength, noquestions, nocorrect, isComplete FROM rounds WHERE username = '"+Main.currentUser+"' AND date > " + timeBound;
         if (limitSet) {

@@ -39,7 +39,7 @@ public class QuestionLogQuery extends Query {
      */
     public QuestionLogQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, Integer round) {
         // Names of the output columns
-        columnNames = new ArrayList<>(Arrays.asList("Date", "Question Set", "Question", "Answer", "Time (s)", "Correct", "Attempts"));
+        columnNames = new ArrayList<>(Arrays.asList("Date", "Set", "Question", "Answer", "Time (s)", "Correct", "Tries"));
         tableView = table;
         SQLQuery = "SELECT date, questionSet, question, answer, timeToAnswer, correct, attempts FROM questions WHERE username = '"+Main.currentUser+"' AND date > " + timeBound;
         if (limitSet) {
