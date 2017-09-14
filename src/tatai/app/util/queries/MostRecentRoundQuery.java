@@ -30,7 +30,7 @@ public class MostRecentRoundQuery extends Query {
      * @param roundid What round to read
      */
     public MostRecentRoundQuery(Label roundScore, Label scoreMessageLabel, TableView tableViewRound, Integer roundid) {
-        columnNames = new ArrayList<>(Arrays.asList("Quest.", "Ans.", "Time (s)", "Correct", "Tries"));
+        columnNames = new ArrayList<>(Arrays.asList("Quest.", "Ans.", "Time", "Correct", "Tries"));
         _roundScoreLabel = roundScore;
         _scoreMessageLabel = scoreMessageLabel;
         tableView = tableViewRound;
@@ -69,7 +69,7 @@ public class MostRecentRoundQuery extends Query {
         };
         task.setOnSucceeded(event -> {
             if (_score < 8) {
-                _scoreMessageLabel.setText("Better Luck Next Time");
+                _scoreMessageLabel.setText("Ma te wa, karawhiua");
             } else {
                 _scoreMessageLabel.setText("Ka Pai!");
             }

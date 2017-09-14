@@ -19,16 +19,17 @@
 
 .table-view .filler {
   -fx-background-color: #212121;
-  -fx-max-width: 0px;
 }
 
 .table-row-cell{
-    -fx-background-color: -fx-table-cell-border-color, transparent;
+    -fx-background-color: #212121;
+    -fx-table-cell-border-color: #212121;
     -fx-padding: 0.0em; /* 0 */
 }
 
 .table-row-cell:odd{
-    -fx-background-color: -fx-table-cell-border-color, transparent;
+    -fx-background-color: #212121;
+    -fx-table-cell-border-color: #212121;
     -fx-padding: 0.0em; /* 0 */
 }
 
