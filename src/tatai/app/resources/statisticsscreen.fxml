@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StatisticsController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StatisticsController">
    <children>
       <HBox prefHeight="500.0" prefWidth="800.0">
          <children>
@@ -69,7 +69,7 @@
                   <DropShadow />
                </effect>
             </Pane>
-            <TableView fx:id="dataTable" prefHeight="500.0" prefWidth="600.0" />
+            <TableView fx:id="dataTable" prefHeight="500.0" prefWidth="600.0" stylesheets="@table.css" />
          </children>
       </HBox>
    </children>

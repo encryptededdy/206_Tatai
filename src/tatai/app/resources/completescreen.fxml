@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -93,10 +94,15 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <TableView fx:id="resultsTable" layoutX="9.0" layoutY="28.0" prefHeight="272.0" prefWidth="630.0">
+            <TableView fx:id="resultsTable" layoutX="27.0" layoutY="10.0" prefHeight="315.0" prefWidth="460.0" stylesheets="@table.css">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy></TableView>
+               </columnResizePolicy>
+               <columns>
+                  <TableColumn prefWidth="75.0" text="Column X" />
+                  <TableColumn prefWidth="75.0" text="Column X" />
+                  <TableColumn prefWidth="75.0" text="Column X" />
+               </columns></TableView>
             <JFXButton fx:id="statsChangeGraphBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="302.5" layoutY="345.0" maxWidth="45.0" minWidth="45.0" onAction="#statsChangeGraphBtnPressed" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font name="Roboto Regular" size="18.0" />
