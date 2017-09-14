@@ -69,7 +69,7 @@ public class LoginController {
      */
     private void getStatistics() {
         String newValue = usernameSelector.getValue();
-        ResultSet ptrs = Main.database.returnOp("SELECT sum(sessionlength) FROM sessions WHERE username = '"+newValue+"'");
+        ResultSet ptrs = Main.database.returnOp("SELECT sum(roundlength) FROM rounds WHERE username = '"+newValue+"'");
         ResultSet lastrs = Main.database.returnOp("SELECT max(date) FROM sessions WHERE username = '"+newValue+"'");
         ResultSet questionrs = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+newValue+"'");
         long lastLogin = 0;
@@ -80,15 +80,17 @@ public class LoginController {
             questionrs.next();
             questionsCounter.setText(questionrs.getString(1)); // get the number of questions returned
             lastrs.next();
-            lastLogin = Instant.now().getEpochSecond() - lastrs.getLong(1);
+            lastLogin = lastrs.getLong(1);
         } catch (Exception e) {
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
         // Convert the login time
-        if (TimeUnit.SECONDS.toMinutes(lastLogin) < 60) {
-            lastLog.setText(TimeUnit.SECONDS.toMinutes(lastLogin)+" minutes ago");
+        if (lastLogin == 0) {
+            lastLog.setText("Never");
+        } else if (TimeUnit.SECONDS.toMinutes(Instant.now().getEpochSecond() - lastLogin) < 60) {
+            lastLog.setText(TimeUnit.SECONDS.toMinutes(Instant.now().getEpochSecond() - lastLogin)+" minutes ago");
         } else {
-            lastLog.setText(TimeUnit.SECONDS.toHours(lastLogin)+" hours ago");
+            lastLog.setText(TimeUnit.SECONDS.toHours(Instant.now().getEpochSecond() - lastLogin)+" hours ago");
         }
         // Convert playTime
         if (TimeUnit.SECONDS.toMinutes(playTime) < 60) {

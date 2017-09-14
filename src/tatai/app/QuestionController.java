@@ -77,10 +77,10 @@ public class QuestionController {
     private ImageView backgroundImage;
 
     // Help Popups
-    PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will turn red while recording");
+    PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] to record");
     PopOver playHelp = PopoverFactory.helpPopOver("Click the play button to listen\nto your recording");
-    PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question");
-    PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question");
+    PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
+    PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
 
     public void initialize() {
         // Setup for the transition
