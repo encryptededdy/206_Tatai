@@ -2,10 +2,7 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -59,6 +56,9 @@ public class QuestionController {
     private Pane controlsPane;
 
     @FXML
+    private Pane tutorialNotif;
+
+    @FXML
     private Pane resultsPane;
 
     @FXML
@@ -90,10 +90,19 @@ public class QuestionController {
 
     void fadeIn() {
         TransitionFactory.fadeIn(questionPane).play();
-        TransitionFactory.fadeIn(controlsPane).play();
+        FadeTransition controlsTransition = TransitionFactory.fadeIn(controlsPane);
         if (Main.showTutorial) {
             recordHelp.show(recordBtn, -5);
+            controlsTransition.setOnFinished(event -> {
+                TranslateTransition tt = new TranslateTransition();
+                tt.setByY(60);
+                tt.setDuration(Duration.millis(200));
+                tt.setNode(tutorialNotif);
+                tt.setInterpolator(Interpolator.EASE_OUT);
+                tt.play();
+            });
         }
+        controlsTransition.play();
     }
 
     void setQuestionSet(String questionSet) {
@@ -226,6 +235,26 @@ public class QuestionController {
     @FXML
     void playBtnPressed() {
         answerRecording.play();
+    }
+
+    /**
+     * When the disable button is pressed in the tutorial notification
+     */
+    @FXML
+    void tutorialNotifDisabledPressed() {
+        hideHelpTexts();
+        Main.showTutorial = false;
+        tutorialNotifOKPressed();
+    }
+
+    @FXML
+    void tutorialNotifOKPressed() {
+        TranslateTransition tt = new TranslateTransition();
+        tt.setByY(-60);
+        tt.setDuration(Duration.millis(200));
+        tt.setNode(tutorialNotif);
+        tt.setInterpolator(Interpolator.EASE_OUT);
+        tt.play();
     }
 
     @FXML

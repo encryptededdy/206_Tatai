@@ -86,5 +86,28 @@
             </Pane>
          </children>
       </Pane>
+      <Pane fx:id="tutorialNotif" layoutX="71.0" layoutY="-60.0" prefHeight="50.0" prefWidth="661.0" style="-fx-background-color: #212121;">
+         <effect>
+            <DropShadow radius="9.75" width="20.0" />
+         </effect>
+         <children>
+            <MaterialDesignIconView fill="WHITE" glyphName="INFORMATION" layoutX="14.0" layoutY="35.0" size="24" />
+            <Label layoutX="55.0" layoutY="15.0" text="The tutorial is currently enabled for this session" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Light" size="18.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="tutorialNotifOK" layoutX="593.0" layoutY="9.0" onAction="#tutorialNotifOKPressed" text="OK" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="tutorialNotifDisable" layoutX="479.0" layoutY="9.0" onAction="#tutorialNotifDisabledPressed" text="Disable" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </JFXButton>
+         </children>
+      </Pane>
    </children>
 </Pane>
