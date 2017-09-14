@@ -49,6 +49,9 @@ public class LoginController {
     @FXML
     private Label lastLog;
 
+    @FXML
+    private Label playtimeLabel;
+
     /**
      * Get the users and fill in usernameSelector with users in the database
      */
@@ -70,9 +73,10 @@ public class LoginController {
         ResultSet lastrs = Main.database.returnOp("SELECT max(date) FROM sessions WHERE username = '"+newValue+"'");
         ResultSet questionrs = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+newValue+"'");
         long lastLogin = 0;
+        long playTime = 0;
         try {
             ptrs.next();
-            playtimeCounter.setText(Integer.toString(ptrs.getInt(1)/60)); // get the playtime in minutes
+            playTime = ptrs.getLong(1);
             questionrs.next();
             questionsCounter.setText(questionrs.getString(1)); // get the number of questions returned
             lastrs.next();
@@ -86,6 +90,17 @@ public class LoginController {
         } else {
             lastLog.setText(TimeUnit.SECONDS.toHours(lastLogin)+" hours ago");
         }
+        // Convert playTime
+        if (TimeUnit.SECONDS.toMinutes(playTime) < 60) {
+            // Minutes
+            playtimeLabel.setText("Playtime (mins)");
+            playtimeCounter.setText(Long.toString(TimeUnit.SECONDS.toMinutes(playTime)));
+        } else {
+            // Hours
+            playtimeLabel.setText("Playtime (hrs)");
+            playtimeCounter.setText(Long.toString(TimeUnit.SECONDS.toHours(playTime)));
+        }
+
     }
 
     /**

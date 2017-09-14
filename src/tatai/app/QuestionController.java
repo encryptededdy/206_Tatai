@@ -193,8 +193,8 @@ public class QuestionController {
             recordBtn.setDisable(false);
             recordBtn.setStyle("-fx-background-color: #3F51B5;");
             if (Main.showTutorial) {
-                checkHelp.show(playBtn, -5);
-                playHelp.show(checkBtn, -5);
+                checkHelp.show(checkBtn, -5);
+                playHelp.show(playBtn, -5);
             }
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");

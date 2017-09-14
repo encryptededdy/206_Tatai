@@ -49,7 +49,7 @@
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </JFXButton>
-                  <Label layoutX="83.0" layoutY="89.0" text="Playtime (mins)" textFill="WHITE">
+                  <Label fx:id="playtimeLabel" layoutX="83.0" layoutY="89.0" text="Playtime (mins)" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="14.0" />
                      </font>
