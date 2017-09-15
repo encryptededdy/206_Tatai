@@ -53,7 +53,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <JFXButton fx:id="recordBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="276.0" layoutY="16.0" onAction="#recordBtnPressed" onMouseEntered="#recordBtnHover" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
+            <JFXButton fx:id="recordBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="275.0" layoutY="16.0" onAction="#recordBtnPressed" onMouseEntered="#recordBtnHover" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font size="18.0" />
                </font>

@@ -14,7 +14,7 @@
     -fx-table-color: #212121;
     -fx-faint-focus-color: transparent;
     -fx-background-insets: -1.4, 0, 1;
-    -fx-background-radius: 1.4, 0, 0;
+    -fx-background-radius: 0, 0, 0;
     /*....*/
     -fx-padding: 0; /* 0.083333em; */
 }
@@ -34,12 +34,12 @@
 .table-view .column-header,
 .table-view .column-header-background,
 .table-view .column-header-background .filler {
-    -fx-background-color: #424242;
+    -fx-background-color: #37474F;
 }
 
 .table-view .column-header {
     -fx-border-width: 0 1 0 1;
-    -fx-border-color: #616161;
+    -fx-border-color: #263238;
 }
 
 .table-view .column-header .label {

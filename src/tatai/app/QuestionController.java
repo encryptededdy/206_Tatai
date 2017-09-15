@@ -94,7 +94,6 @@ public class QuestionController {
         TransitionFactory.fadeIn(questionPane).play();
         FadeTransition controlsTransition = TransitionFactory.fadeIn(controlsPane);
         if (Main.showTutorial) {
-            recordHelp.show(recordBtn, -5);
             controlsTransition.setOnFinished(event -> {
                 TranslateTransition tt = new TranslateTransition();
                 tt.setByY(60);
@@ -102,6 +101,7 @@ public class QuestionController {
                 tt.setNode(tutorialNotif);
                 tt.setInterpolator(Interpolator.EASE_OUT);
                 tt.play();
+                recordHelp.show(recordBtn, -5);
             });
         }
         controlsTransition.play();
