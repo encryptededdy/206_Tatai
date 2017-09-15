@@ -58,6 +58,9 @@ public class MainMenuController {
     @FXML
     private Rectangle fadeBox;
 
+    @FXML
+    private JFXButton logoutBtn;
+
     /**
      * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
      * set to be used (from questionDropDown)
@@ -85,6 +88,22 @@ public class MainMenuController {
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
         ft.play();
+    }
+
+    /**
+     * Logs out the current users when logout is pressed
+     */
+    @FXML
+    private void logoutBtnPressed() throws IOException {
+        Main.database.stopSession();
+        Main.currentUser = null;
+        Main.currentSession = 0;
+
+        // Load the new scene
+        Scene scene = logoutBtn.getScene();
+        FXMLLoader loader = new FXMLLoader(Main.loginLayout);
+        Parent root = loader.load();
+        scene.setRoot(root);
     }
 
     /**

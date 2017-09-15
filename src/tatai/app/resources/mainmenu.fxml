@@ -66,6 +66,11 @@
             <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="20.0" />
          </graphic>
       </JFXButton>
+      <JFXButton fx:id="logoutBtn" cancelButton="true" layoutX="710.0" layoutY="452.0" onAction="#logoutBtnPressed" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="20.0" />
+         </graphic>
+      </JFXButton>
       <Rectangle fx:id="fadeBox" arcHeight="5.0" arcWidth="5.0" height="500.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="800.0" />
    </children>
 </Pane>
