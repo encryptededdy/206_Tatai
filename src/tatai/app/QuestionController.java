@@ -180,7 +180,9 @@ public class QuestionController {
         scene.setRoot(root);
     }
 
-    // When questionpane is rightclicked - easter egg
+    /**
+     * Triggered when the Question Pane is right clicked - an easter egg
+     */
     @FXML
     void questionRightClick() {
         qNumPane.setVisible(false);
@@ -222,6 +224,7 @@ public class QuestionController {
         st.setByX(1.5f);
         st.setByY(1.5f);
         st.setCycleCount(Animation.INDEFINITE);
+        st.setInterpolator(Interpolator.LINEAR);
         st.setAutoReverse(true);
         st.play();
         backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));

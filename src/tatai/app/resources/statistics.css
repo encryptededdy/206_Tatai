@@ -124,9 +124,14 @@
     -fx-text-fill: white;
 }
 
-.jfx-combo-box .list-view
+.jfx-combo-box .list-cell
 {
-    -fx-background-color: #2C2C2C;
+    -fx-background-color: #212121;
+}
+
+.jfx-combo-box .list-cell:hover
+{
+    -fx-background-color: #3F51B5;
 }
 
 .jfx-date-picker .jfx-text-field{
