@@ -6,6 +6,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import tatai.app.Main;
+import tatai.app.util.Translator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -112,7 +113,7 @@ public class MostRecentRoundQuery extends Query {
     private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
         // Process each column
         row.add(rs.getString(1)); // Question
-        row.add(rs.getString(2)); // Answer
+        row.add(Translator.toDisplayable(rs.getString(2))); // Answer
 
         _totalTimeToAnswer += rs.getInt(3);
         row.add(rs.getString(3)); // AnswerTime

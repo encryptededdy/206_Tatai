@@ -5,6 +5,8 @@ import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Database;
 
 import java.time.Instant;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Represents a question presented during a Round. Requires a QuestionGenerator to generate questions.
@@ -51,8 +53,13 @@ public class Question {
      * @return Boolean representing whether the answer is correct
      */
     boolean checkAnswer(String answer) {
-        // TODO: record statistics
-        if (answer.contains(_answer)) {
+        // A regex is used to make sure we still mark correct if the recogniser detects background noise as words. Instead
+        // we match to make sure the correct words are said in the correct order only.
+        String answerRegex = _answer.replace(" ", ".*.");
+        System.out.println("Regex: "+answerRegex);
+        Pattern pattern = Pattern.compile(answerRegex);
+        Matcher matcher = pattern.matcher(answer);
+        if (matcher.find()) {
             _correct = true;
             recordData();
             return true;

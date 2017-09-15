@@ -11,6 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.util.Callback;
 import tatai.app.Main;
+import tatai.app.util.Translator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -89,7 +90,7 @@ public class QuestionLogQuery extends Query {
         row.add(dformat.format(Instant.ofEpochSecond(rs.getLong(1)))); // Date
         row.add(rs.getString(2)); // QuestionSet
         row.add(rs.getString(3)); // Question
-        row.add(rs.getString(4)); // Answer
+        row.add(Translator.toDisplayable(rs.getString(4))); // Answer
         row.add(rs.getString(5)); // AnswerTime
         row.add((rs.getInt(6) == 1) ? "Yes" : "No"); // Correct
         row.add(rs.getString(7)); // Attempts

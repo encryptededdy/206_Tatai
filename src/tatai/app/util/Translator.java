@@ -55,4 +55,8 @@ public class Translator {
             throw new UnsupportedOperationException("Numbers over 100 unsupported");
         }
     }
+
+    public static String toDisplayable(String input){
+        return input.replace("aa", "ā");
+    }
 }

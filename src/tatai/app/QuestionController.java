@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
@@ -23,6 +20,7 @@ import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.PopoverFactory;
 import tatai.app.util.Record;
 import tatai.app.util.TransitionFactory;
+import tatai.app.util.Translator;
 
 import java.io.IOException;
 
@@ -271,7 +269,7 @@ public class QuestionController {
         nextQuestionBtn.setVisible(true); // show the next question btn
         incorrectIcon.setVisible(false);
         correctIcon.setVisible(true); // show the tick
-        resultsLabel.setText("Correct!");
+        resultsLabel.setText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")");
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
         nextQuestionBtn.setDefaultButton(true);
@@ -291,7 +289,7 @@ public class QuestionController {
             if (Main.showTutorial) {
                 nextHelp.show(nextQuestionBtn, -5);
             }
-            resultsLabel.setText("Correct answer: " + _currentRound.currentAnswer());
+            resultsLabel.setText("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()));
         } else { // First attempt, prompt user to try again.
             resultsLabel.setText("Please try again.");
             recordBtn.setDefaultButton(true);

@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.control.TableView;
 import tatai.app.Main;
+import tatai.app.util.Translator;
 
 import java.math.RoundingMode;
 import java.sql.ResultSet;
@@ -58,7 +59,7 @@ public class NumberQuery extends Query {
                     while(rs.next()){
 
                         // Add data to the numbers map to store data for each possible answer
-                        String answer = rs.getString(1);
+                        String answer = Translator.toDisplayable(rs.getString(1));
                         if (numbers.containsKey(answer)) {
                             // Answer has already been added, update counts
                             ObservableList<String> row = numbers.get(answer);
@@ -70,7 +71,7 @@ public class NumberQuery extends Query {
                             row.set(4, Integer.toString(Integer.parseInt(row.get(4))+rs.getInt(4))); // add attempt count
                         } else {
                             ObservableList<String> row = FXCollections.observableArrayList();
-                            row.add(rs.getString(1)); // Answer
+                            row.add(Translator.toDisplayable(rs.getString(1))); // Answer
                             row.add("1"); // Times Answered
                             row.add(rs.getString(2)); // AnswerTime
                             row.add((rs.getInt(3) == 1) ? "1" : "0"); // Correct
