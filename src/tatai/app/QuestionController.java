@@ -4,6 +4,7 @@ import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,11 +24,14 @@ import tatai.app.util.TransitionFactory;
 import tatai.app.util.Translator;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class QuestionController {
 
     private Round _currentRound;
     private Record answerRecording;
+    private TranslateTransition easterEggTT;
+    private boolean easterEggEnabled = false;
 
     @FXML
     private JFXButton recordBtn;
@@ -172,6 +176,8 @@ public class QuestionController {
     // When questionpane is rightclicked - easter egg
     @FXML
     void questionRightClick() {
+        easterEggEnabled = true;
+        Random rng = new Random();
         System.out.println("activated");
         ColorAdjust colorAdjust = new ColorAdjust();
         colorAdjust.setHue(-1);
@@ -182,8 +188,29 @@ public class QuestionController {
         KeyFrame kf = new KeyFrame(Duration.seconds(2), kv);
         timeline.getKeyFrames().add(kf);
         timeline.play();
+        // moving meme
+        easterEggTT = new TranslateTransition();
+        easterEggTT.setByY(rng.nextInt(50)-25);
+        easterEggTT.setByX(rng.nextInt(50)-25);
+        easterEggTT.setDuration(Duration.millis(100));
+        easterEggTT.setNode(questionPane);
+        easterEggTT.setInterpolator(Interpolator.LINEAR);
+        easterEggTT.setOnFinished(event -> {
+            easterEggTT.setByY(rng.nextInt(50)-25);
+            easterEggTT.setByX(rng.nextInt(50)-25);
+            easterEggTT.play();
+        });
+        easterEggTT.play();
         backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));
         backgroundImage.setEffect(colorAdjust);
+    }
+
+    @FXML
+    void recordBtnHover() {
+        if (easterEggEnabled) {
+            Random rng = new Random();
+            controlsPane.setLayoutY(rng.nextInt(450));
+        }
     }
 
     @FXML

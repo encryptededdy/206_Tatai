@@ -16,44 +16,6 @@
             <Image url="@bkgnd.png" />
          </image>
       </ImageView>
-      <Pane fx:id="controlsPane" layoutX="32.0" layoutY="429.0" prefHeight="71.0" prefWidth="737.0" style="-fx-background-color: #212121;">
-         <effect>
-            <DropShadow radius="9.75" width="20.0" />
-         </effect>
-         <children>
-            <JFXButton fx:id="recordBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="276.0" layoutY="16.0" onAction="#recordBtnPressed" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView fill="WHITE" glyphName="MICROPHONE" size="24" />
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="checkBtn" buttonType="RAISED" disable="true" layoutX="642.0" layoutY="21.0" onAction="#checkBtnPressed" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #3F51B5;" text="Check" textFill="WHITE">
-               <font>
-                  <Font name="Roboto Medium" size="14.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="menuBtn" buttonType="RAISED" cancelButton="true" layoutX="26.0" layoutY="20.0" onAction="#menuBtnPressed" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #3F51B5;" text="Menu" textFill="WHITE">
-               <font>
-                  <Font name="Roboto Medium" size="14.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="playBtn" buttonType="RAISED" disable="true" ellipsisString="" layoutX="399.0" layoutY="16.0" onAction="#playBtnPressed" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
-               <font>
-                  <Font size="18.0" />
-               </font>
-               <graphic>
-                  <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="24" />
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="nextQuestionBtn" buttonType="RAISED" cancelButton="true" layoutX="263.0" layoutY="11.0" onAction="#nextBtnPressed" prefHeight="46.0" prefWidth="212.0" style="-fx-background-color: #3F51B5;" text="Next Question" textFill="WHITE" visible="false">
-               <font>
-                  <Font name="Roboto Medium" size="18.0" />
-               </font>
-            </JFXButton>
-         </children>
-      </Pane>
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
@@ -84,6 +46,44 @@
                   <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="14.0" layoutY="38.0" size="30" visible="false" />
                </children>
             </Pane>
+         </children>
+      </Pane>
+      <Pane fx:id="controlsPane" layoutX="32.0" layoutY="429.0" prefHeight="71.0" prefWidth="737.0" style="-fx-background-color: #212121;">
+         <effect>
+            <DropShadow radius="9.75" width="20.0" />
+         </effect>
+         <children>
+            <JFXButton fx:id="recordBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="276.0" layoutY="16.0" onAction="#recordBtnPressed" onMouseEntered="#recordBtnHover" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITE" glyphName="MICROPHONE" size="24" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="checkBtn" buttonType="RAISED" disable="true" layoutX="642.0" layoutY="21.0" onAction="#checkBtnPressed" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #3F51B5;" text="Check" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="menuBtn" buttonType="RAISED" cancelButton="true" layoutX="26.0" layoutY="20.0" onAction="#menuBtnPressed" prefHeight="25.0" prefWidth="69.0" style="-fx-background-color: #3F51B5;" text="Menu" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="14.0" />
+               </font>
+            </JFXButton>
+            <JFXButton fx:id="playBtn" buttonType="RAISED" disable="true" ellipsisString="" layoutX="399.0" layoutY="16.0" onAction="#playBtnPressed" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="24" />
+               </graphic>
+            </JFXButton>
+            <JFXButton fx:id="nextQuestionBtn" buttonType="RAISED" cancelButton="true" layoutX="263.0" layoutY="11.0" onAction="#nextBtnPressed" prefHeight="46.0" prefWidth="212.0" style="-fx-background-color: #3F51B5;" text="Next Question" textFill="WHITE" visible="false">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
       <Pane fx:id="tutorialNotif" layoutX="71.0" layoutY="-60.0" prefHeight="50.0" prefWidth="661.0" style="-fx-background-color: #212121;">
