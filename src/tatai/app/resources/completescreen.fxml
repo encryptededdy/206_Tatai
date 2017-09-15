@@ -10,6 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CompleteScreenController">
@@ -94,7 +95,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <TableView fx:id="resultsTable" layoutX="27.0" layoutY="10.0" prefHeight="315.0" prefWidth="460.0" stylesheets="@table.css">
+            <TableView fx:id="resultsTable" layoutX="20.0" layoutY="10.0" prefHeight="315.0" prefWidth="460.0" stylesheets="@table.css">
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                </columnResizePolicy>
@@ -111,6 +112,35 @@
                   <FontAwesomeIconView fill="WHITE" glyphName="BAR_CHART" size="20.0" />
                </graphic>
             </JFXButton>
+            <VBox layoutX="490.0" layoutY="8.0" prefHeight="315.0" prefWidth="140.0">
+               <children>
+                  <Label prefHeight="32.0" prefWidth="166.0" style="-fx-alignment: center-left; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Misc." textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Regular" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="statLabelAverage" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0.7em 0em 0em 0em;" text="Your Longest Streak This Round" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Roboto Regular" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="statLabelAverageNo" alignment="CENTER" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0em 0em 0.7em 0em;" text="8" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Roboto Regular" size="32.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="statLabelOverall" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0.7em 0em 0em 0em;" text="Average Time To Answer" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Roboto Regular" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="statLabelOverallNo" alignment="CENTER" contentDisplay="TOP" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0em 0em 0.7em 0em;" text="3" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Roboto Regular" size="32.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </Pane>
    </children>

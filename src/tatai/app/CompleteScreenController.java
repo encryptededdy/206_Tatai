@@ -66,6 +66,18 @@ public class CompleteScreenController {
     @FXML
     private JFXButton statsChangeGraphBtn;
 
+    @FXML
+    private Label statLabelAverage;
+
+    @FXML
+    private Label statLabelAverageNo;
+
+    @FXML
+    private Label statLabelOverall;
+
+    @FXML
+        private Label statLabelOverallNo;
+
     public void initialize() {
         scoreMessageLabel.setOpacity(0);
         yourScoreLabel.setOpacity(0);
@@ -149,7 +161,7 @@ public class CompleteScreenController {
     }
 
     public void executeRecentRoundQuery () {
-        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, _mostRecentRound.getRoundID());
+        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
 

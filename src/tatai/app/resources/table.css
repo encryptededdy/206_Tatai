@@ -76,7 +76,7 @@
 
 
 .table-view .scroll-bar .track {
-  -fx-background-color:transparent;
+  -fx-background-color:#212121;
   -fx-border-color:transparent;
   -fx-background-radius: 0em;
   -fx-border-radius:2em;

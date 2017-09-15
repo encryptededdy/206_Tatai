@@ -132,3 +132,7 @@
 .jfx-date-picker .jfx-text-field{
     -fx-text-fill: white;
 }
+
+.placeholder .label {
+  -fx-text-fill: white;
+}
