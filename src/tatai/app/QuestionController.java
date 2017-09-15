@@ -201,6 +201,19 @@ public class QuestionController {
             easterEggTT.play();
         });
         easterEggTT.play();
+        // rotating meme
+        RotateTransition rt = new RotateTransition(Duration.seconds(2), questionPane);
+        rt.setByAngle(360);
+        rt.setCycleCount(Animation.INDEFINITE);
+        rt.setInterpolator(Interpolator.LINEAR);
+        rt.play();
+        // scaling meme
+        ScaleTransition st = new ScaleTransition(Duration.seconds(1), questionPane);
+        st.setByX(1.5f);
+        st.setByY(1.5f);
+        st.setCycleCount(Animation.INDEFINITE);
+        st.setAutoReverse(true);
+        st.play();
         backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));
         backgroundImage.setEffect(colorAdjust);
     }
