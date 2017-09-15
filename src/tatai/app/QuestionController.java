@@ -14,6 +14,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
@@ -64,6 +65,9 @@ public class QuestionController {
     private Pane resultsPane;
 
     @FXML
+    private Pane qNumPane;
+
+    @FXML
     private Label resultsLabel;
 
     @FXML
@@ -77,6 +81,9 @@ public class QuestionController {
 
     @FXML
     private ImageView backgroundImage;
+
+    @FXML
+    private ImageView xpTheme;
 
     // Help Popups
     PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] to record");
@@ -176,6 +183,9 @@ public class QuestionController {
     // When questionpane is rightclicked - easter egg
     @FXML
     void questionRightClick() {
+        qNumPane.setVisible(false);
+        xpTheme.setVisible(true);
+        questionLabel.setTextFill(Color.BLACK);
         easterEggEnabled = true;
         Random rng = new Random();
         System.out.println("activated");
@@ -298,7 +308,7 @@ public class QuestionController {
     @FXML
     void nextBtnPressed() {
         nextHelp.hide();
-        Main.showTutorial = false;
+        tutorialNotifDisabledPressed();
         // Ok, move on to the next question.
         nextQuestionBtn.setDefaultButton(false);
         recordBtn.setDefaultButton(true);
