@@ -13,6 +13,8 @@ import java.time.ZoneId;
 
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.layout.HBox;
+import tatai.app.util.TransitionFactory;
 import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
 import tatai.app.util.queries.RoundsQuery;
@@ -21,6 +23,9 @@ public class StatisticsController {
 
     @FXML
     protected void initialize() {
+        // Set opacity of UI to 0 to allow for fade in
+        mainStats.setOpacity(0);
+
         // Set the user data for the radio buttons
         questionLogToggle.setUserData("questionLog");
         numbersToggle.setUserData("numbersPronounced");
@@ -78,11 +83,18 @@ public class StatisticsController {
     private JFXProgressBar progressBar;
 
     @FXML
+    private HBox mainStats;
+
+    @FXML
     void backBtnPressed(ActionEvent event) throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
         scene.setRoot(root);
+    }
+
+    void fadeIn() {
+        TransitionFactory.fadeIn(mainStats).play();
     }
 
     /**

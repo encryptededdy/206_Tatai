@@ -19,7 +19,7 @@
       </ImageView>
       <Pane fx:id="mainPane" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;">
          <effect>
-            <DropShadow radius="9.75" width="20.0" />
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
          <children>
             <ImageView fitHeight="195.0" fitWidth="400.0">
@@ -39,7 +39,7 @@
                         <Font name="Roboto" size="14.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="newBtn" buttonType="RAISED" defaultButton="true" layoutX="214.0" layoutY="244.0" onAction="#newBtnPressed" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #455864;" text="New User" textFill="WHITE">
+                  <JFXButton fx:id="newBtn" buttonType="RAISED" disable="true" layoutX="214.0" layoutY="244.0" onAction="#newBtnPressed" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #455864;" text="New User" textFill="WHITE">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>

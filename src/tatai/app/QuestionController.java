@@ -9,11 +9,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
@@ -32,6 +36,8 @@ public class QuestionController {
     private Record answerRecording;
     private TranslateTransition easterEggTT;
     private boolean easterEggEnabled = false;
+    private ParallelTransition imageFly;
+    private int noQuestions;
 
     @FXML
     private JFXButton recordBtn;
@@ -64,7 +70,13 @@ public class QuestionController {
     private Pane resultsPane;
 
     @FXML
+    private Pane qNumPane;
+
+    @FXML
     private Label resultsLabel;
+
+    @FXML
+    private Pane questionPaneclr;
 
     @FXML
     private MaterialDesignIconView correctIcon;
@@ -78,6 +90,15 @@ public class QuestionController {
     @FXML
     private ImageView backgroundImage;
 
+    @FXML
+    private ImageView xpTheme;
+
+    @FXML
+    private ImageView flyImage;
+
+    @FXML
+    private Pane shadowBox;
+
     // Help Popups
     PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] to record");
     PopOver playHelp = PopoverFactory.helpPopOver("Click the play button to listen\nto your recording");
@@ -86,13 +107,15 @@ public class QuestionController {
 
     public void initialize() {
         // Setup for the transition
-        questionPane.setOpacity(0);
-        controlsPane.setOpacity(0);
+        //questionPane.setOpacity(0);
+        controlsPane.setLayoutY(500);
+        questionPaneclr.setVisible(true);
     }
 
     void fadeIn() {
-        TransitionFactory.fadeIn(questionPane).play();
-        FadeTransition controlsTransition = TransitionFactory.fadeIn(controlsPane);
+        FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr);
+        clrTransition.setOnFinished(event -> questionPaneclr.setVisible(false));
+        TranslateTransition controlsTransition = TransitionFactory.move(controlsPane, 0, -71);
         if (Main.showTutorial) {
             controlsTransition.setOnFinished(event -> {
                 TranslateTransition tt = new TranslateTransition();
@@ -103,59 +126,80 @@ public class QuestionController {
                 tt.play();
                 recordHelp.show(recordBtn, -5);
             });
+
         }
+        clrTransition.play();
         controlsTransition.play();
     }
 
     void setQuestionSet(String questionSet) {
         QuestionGenerator generator;
         generator = Main.questionGenerators.get(questionSet);
+        noQuestions = 10; // don't hardcode this
         _currentRound = new Round(generator, 10); // TODO: numQuestions shouldn't be hardcoded
         generateQuestion();
     }
 
     private void generateQuestion() {
-        // Fade out
-        FadeTransition fade = TransitionFactory.fadeOut(questionLabel);
-        fade.setOnFinished(event -> {
-            if (_currentRound.hasNext()) {
-                questionLabel.setText(_currentRound.next());
-                questionNumberLabel.setText("Question "+_currentRound.questionNumber());
-                playBtn.setDisable(true);
-                // Hide the question feedback / results
-                nextQuestionBtn.setVisible(false);
-                resultsPane.setVisible(false);
-                // Fade in
-                TransitionFactory.fadeIn(questionLabel).play();
-            } else {
-                _currentRound.finish();
-                // no more questions! Show completion screen
-                // Load the new scene
-                Scene scene = playBtn.getScene();
-                FXMLLoader loader = new FXMLLoader(Main.completeLayout);
-                try {
-                    Parent root = loader.load();
-                    loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
-                    loader.<CompleteScreenController>getController().executeRecentRoundQuery();
-                    loader.<CompleteScreenController>getController().executePreviousRoundScoreQuery();
-                    // Fade out
-                    FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
-                    FadeTransition ft2 = TransitionFactory.fadeOut(recordBtn);
-                    FadeTransition ft3 = TransitionFactory.fadeOut(playBtn);
-                    FadeTransition ft4 = TransitionFactory.fadeOut(checkBtn);
-                    ft4.setOnFinished(event1 -> {scene.setRoot(root); loader.<CompleteScreenController>getController().fadeIn();}); // switch scenes when fade complete
-                    ft0.play();
-                    ft2.play();
-                    ft3.play();
-                    ft4.play();
-                } catch (IOException iox) {
-                    // completescreen.fxml missing
-                    iox.printStackTrace();
-                }
-
+        // Image the current round
+        if (_currentRound.questionNumber() != -1 && _currentRound.questionNumber() < noQuestions && !easterEggEnabled) {
+            WritableImage snapshot = questionPane.snapshot(new SnapshotParameters(), null);
+            // load it into the ImageView
+            flyImage.setImage(snapshot);
+            // Show it
+            flyImage.setVisible(true);
+            // Create the transition objects if they don't exist
+            if (imageFly == null) {
+                TranslateTransition tt = TransitionFactory.move(flyImage, 250, -500, 600);
+                tt.setFromX(0);
+                tt.setFromY(0);
+                tt.setInterpolator(Interpolator.EASE_IN);
+                RotateTransition rt = new RotateTransition(Duration.millis(600), flyImage);
+                rt.setToAngle(90);
+                rt.setFromAngle(0);
+                rt.setInterpolator(Interpolator.EASE_IN);
+                imageFly = new ParallelTransition(rt, tt);
+                imageFly.setOnFinished(event -> flyImage.setVisible(false));
             }
-        });
-        fade.play();
+            // Animate the transition
+            imageFly.playFromStart();
+        }
+        if (_currentRound.hasNext()) {
+            questionLabel.setText(_currentRound.next());
+            questionNumberLabel.setText("Question "+_currentRound.questionNumber());
+            playBtn.setDisable(true);
+            // Hide the question feedback / results
+            nextQuestionBtn.setVisible(false);
+            resultsPane.setVisible(false);
+            // Fade in
+            //TransitionFactory.fadeIn(questionLabel).play();
+        } else {
+            _currentRound.finish();
+            // no more questions! Show completion screen
+            // Load the new scene
+            Scene scene = playBtn.getScene();
+            FXMLLoader loader = new FXMLLoader(Main.completeLayout);
+            try {
+                Parent root = loader.load();
+                loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
+                loader.<CompleteScreenController>getController().executeRecentRoundQuery();
+                loader.<CompleteScreenController>getController().executePreviousRoundScoreQuery();
+                // Fade out
+                FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
+                FadeTransition ft2 = TransitionFactory.fadeOut(recordBtn);
+                FadeTransition ft3 = TransitionFactory.fadeOut(playBtn);
+                FadeTransition ft4 = TransitionFactory.fadeOut(checkBtn);
+                ft4.setOnFinished(event1 -> {scene.setRoot(root); loader.<CompleteScreenController>getController().fadeIn();}); // switch scenes when fade complete
+                ft0.play();
+                ft2.play();
+                ft3.play();
+                ft4.play();
+            } catch (IOException iox) {
+                // completescreen.fxml missing
+                iox.printStackTrace();
+            }
+
+        }
     }
 
     private void hideHelpTexts() {
@@ -174,9 +218,15 @@ public class QuestionController {
         scene.setRoot(root);
     }
 
-    // When questionpane is rightclicked - easter egg
+    /**
+     * Triggered when the Question Pane is right clicked - an easter egg
+     */
     @FXML
     void questionRightClick() {
+        shadowBox.setVisible(false);
+        qNumPane.setVisible(false);
+        xpTheme.setVisible(true);
+        questionLabel.setTextFill(Color.BLACK);
         easterEggEnabled = true;
         Random rng = new Random();
         System.out.println("activated");
@@ -213,6 +263,7 @@ public class QuestionController {
         st.setByX(1.5f);
         st.setByY(1.5f);
         st.setCycleCount(Animation.INDEFINITE);
+        st.setInterpolator(Interpolator.LINEAR);
         st.setAutoReverse(true);
         st.play();
         backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));
@@ -299,7 +350,7 @@ public class QuestionController {
     @FXML
     void nextBtnPressed() {
         nextHelp.hide();
-        Main.showTutorial = false;
+        tutorialNotifDisabledPressed();
         // Ok, move on to the next question.
         nextQuestionBtn.setDefaultButton(false);
         recordBtn.setDefaultButton(true);

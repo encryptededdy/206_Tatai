@@ -3,6 +3,9 @@ package tatai.app;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,10 +56,16 @@ public class MainMenuController {
     private Pane mainPane;
 
     @FXML
+    private Pane mainDataPane;
+
+    @FXML
     private JFXButton statisticsBtn;
 
     @FXML
     private Rectangle fadeBox;
+
+    @FXML
+    private JFXButton logoutBtn;
 
     /**
      * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
@@ -70,9 +79,18 @@ public class MainMenuController {
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
-        ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, 100);
+        // Shrink anim
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), mainPane);
+        st.setToY(0.544);
+        st.setToX(1.025);
+        // Move anim
+        TranslateTransition tt = TransitionFactory.move(mainPane, 0, (int)(-73*0.544), 500);
+        ParallelTransition pt = new ParallelTransition(st, tt);
+        ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
+        pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
         ft.play();
+        //
     }
 
     @FXML
@@ -82,9 +100,29 @@ public class MainMenuController {
         FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
         Parent root = loader.load();
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
-        ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane);
+        // Expand
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), mainPane);
+        st.setToX(2);
+        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<StatisticsController>getController().fadeIn();}); // switch scenes when fade complete
+        ft.setOnFinished(event -> st.play());
         ft.play();
+    }
+
+    /**
+     * Logs out the current users when logout is pressed
+     */
+    @FXML
+    private void logoutBtnPressed() throws IOException {
+        Main.database.stopSession();
+        Main.currentUser = null;
+        Main.currentSession = 0;
+
+        // Load the new scene
+        Scene scene = logoutBtn.getScene();
+        FXMLLoader loader = new FXMLLoader(Main.loginLayout);
+        Parent root = loader.load();
+        scene.setRoot(root);
     }
 
     /**

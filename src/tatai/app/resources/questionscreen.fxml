@@ -16,17 +16,24 @@
             <Image url="@bkgnd.png" />
          </image>
       </ImageView>
-      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
+      <Pane fx:id="shadowBox" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
+      </Pane>
+      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
          <children>
+            <ImageView fitHeight="272.0" fitWidth="410.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="xpTheme">
+               <image>
+                  <Image url="@xpWindow.png" />
+               </image>
+            </ImageView>
             <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="63.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="999" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Roboto Bold" size="120.0" />
                </font>
             </Label>
-            <Pane prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
+            <Pane fx:id="qNumPane" prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
                <children>
                   <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question x" textAlignment="CENTER" textFill="WHITE">
                      <font>
@@ -109,5 +116,7 @@
             </JFXButton>
          </children>
       </Pane>
+      <ImageView fx:id="flyImage" fitHeight="272.0" fitWidth="410.0" layoutX="196.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" visible="false" />
+      <Pane fx:id="questionPaneclr" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false" />
    </children>
 </Pane>
