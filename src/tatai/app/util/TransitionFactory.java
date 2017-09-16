@@ -30,4 +30,10 @@ public class TransitionFactory {
         fadeOut.setToValue(0);
         return fadeOut;
     }
+
+    public static FadeTransition fadeOut(Node target, int millis) {
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(millis), target);
+        fadeOut.setToValue(0);
+        return fadeOut;
+    }
 }

@@ -114,5 +114,6 @@
             </JFXButton>
          </children>
       </Pane>
+      <Pane fx:id="questionPaneclr" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" />
    </children>
 </Pane>

@@ -71,6 +71,9 @@ public class QuestionController {
     private Label resultsLabel;
 
     @FXML
+    private Pane questionPaneclr;
+
+    @FXML
     private MaterialDesignIconView correctIcon;
 
     @FXML
@@ -93,12 +96,13 @@ public class QuestionController {
 
     public void initialize() {
         // Setup for the transition
-        questionPane.setOpacity(0);
+        //questionPane.setOpacity(0);
         controlsPane.setOpacity(0);
     }
 
     void fadeIn() {
-        TransitionFactory.fadeIn(questionPane).play();
+        FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr);
+        clrTransition.setOnFinished(event -> questionPaneclr.setVisible(false));
         FadeTransition controlsTransition = TransitionFactory.fadeIn(controlsPane);
         if (Main.showTutorial) {
             controlsTransition.setOnFinished(event -> {
@@ -110,7 +114,9 @@ public class QuestionController {
                 tt.play();
                 recordHelp.show(recordBtn, -5);
             });
+
         }
+        clrTransition.play();
         controlsTransition.play();
     }
 

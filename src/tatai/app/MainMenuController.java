@@ -3,6 +3,9 @@ package tatai.app;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.animation.FadeTransition;
+import javafx.animation.ParallelTransition;
+import javafx.animation.ScaleTransition;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,6 +56,9 @@ public class MainMenuController {
     private Pane mainPane;
 
     @FXML
+    private Pane mainDataPane;
+
+    @FXML
     private JFXButton statisticsBtn;
 
     @FXML
@@ -73,9 +79,20 @@ public class MainMenuController {
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
-        ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, 100);
+        // Shrink anim
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), mainPane);
+        st.setToY(0.544);
+        st.setToX(1.025);
+        // Move anim
+        TranslateTransition tt = new TranslateTransition(Duration.millis(500), mainPane);
+        tt.setByY(-73*0.544);
+        //tt.setByX(-2*1.025);
+        ParallelTransition pt = new ParallelTransition(st, tt);
+        ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
+        pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
         ft.play();
+        //
     }
 
     @FXML
