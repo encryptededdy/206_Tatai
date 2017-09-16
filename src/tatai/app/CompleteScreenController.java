@@ -8,9 +8,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -18,6 +21,7 @@ import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.util.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
+import tatai.app.util.queries.PreviousRoundScoreQuery;
 
 import java.io.IOException;
 import java.net.URL;
@@ -76,7 +80,16 @@ public class CompleteScreenController {
     private Label statLabelOverall;
 
     @FXML
-        private Label statLabelOverallNo;
+    private Label statLabelOverallNo;
+
+    @FXML
+    private BarChart pastRoundScoresBarChart;
+
+    @FXML
+    private VBox graphVBox;
+
+    @FXML
+    private VBox roundStatsVBox;
 
     public void initialize() {
         scoreMessageLabel.setOpacity(0);
@@ -86,6 +99,9 @@ public class CompleteScreenController {
         replayBtn.setOpacity(0);
         nextRoundBtn.setOpacity(0);
         roundStatsPane.setLayoutY(500);
+        graphVBox.setOpacity(0);
+
+        //testPopulateBarChart();
     }
 
     void fadeIn() {
@@ -165,7 +181,27 @@ public class CompleteScreenController {
         mrrq.execute();
     }
 
-    public void statsChangeGraphBtnPressed() {
+    public void executePreviousRoundScoreQuery() {
+        PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
+        prsq.execute();
+    }
 
+    public void statsChangeGraphBtnPressed() {
+        if (roundStatsVBox.getOpacity() == 1) {
+            FadeTransition ft0 = TransitionFactory.fadeOut(roundStatsVBox);
+            FadeTransition ft1 = TransitionFactory.fadeOut(resultsTable);
+            ft0.setOnFinished(actionEvent -> {
+                TransitionFactory.fadeIn(graphVBox).play();
+            });
+            ft1.play();
+            ft0.play();
+        } else {
+            FadeTransition ft2 = TransitionFactory.fadeOut(graphVBox);
+            ft2.setOnFinished(actionEvent -> {
+                TransitionFactory.fadeIn(roundStatsVBox).play();
+                TransitionFactory.fadeIn(resultsTable).play();
+            });
+            ft2.play();
+        }
     }
 }

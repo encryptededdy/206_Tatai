@@ -35,7 +35,8 @@ public class MostRecentRoundQuery extends Query {
 
     private int _longestStreak;
     private int _currentStreak;
-    private boolean _previousAnsCorrect;
+
+    private int _shortestAnswerTime;
 
     private ObservableList<ObservableList> data;
     /**
@@ -62,7 +63,6 @@ public class MostRecentRoundQuery extends Query {
 
         _longestStreak = 0;
         _currentStreak =0;
-        _previousAnsCorrect = false;
         SQLQuery = "SELECT question, answer, timeToAnswer, correct, attempts FROM questions WHERE username = '"+Main.currentUser+"' AND roundid = " + roundid;
     }
 
@@ -105,6 +105,7 @@ public class MostRecentRoundQuery extends Query {
             _roundScoreLabel.setText(_score + "/10");
             columnGenerator();
             tableView.setItems(data);
+            randomlyUpdateMiscStats();
             completeQuery();
         }); // Allow Query's listeners to be triggered once we're done
         new Thread(task).start();
@@ -117,6 +118,11 @@ public class MostRecentRoundQuery extends Query {
 
         _totalTimeToAnswer += rs.getInt(3);
         row.add(rs.getString(3)); // AnswerTime
+        if (_shortestAnswerTime == 0) {
+            _shortestAnswerTime = rs.getInt(3);
+        } else if (_shortestAnswerTime > rs.getInt(3)) {
+            _shortestAnswerTime = rs.getInt(3);
+        }
 
         row.add((rs.getBoolean(4)) ? "✓" : "✗"); // Correct
         if (rs.getBoolean(4)) {
@@ -129,7 +135,6 @@ public class MostRecentRoundQuery extends Query {
         if (_currentStreak > _longestStreak) {
             _longestStreak = _currentStreak;
         }
-
 
         _numberOfQuestions++;
 
@@ -162,7 +167,26 @@ public class MostRecentRoundQuery extends Query {
 
     private void setOverallQuickestAnswer() {
         _statLabelOverall.setText("Your Quickest Answer This Round");
-        _statLabelOverallNo.setText(Integer.toString(_longestStreak));
+        _statLabelOverallNo.setText(Integer.toString(_shortestAnswerTime));
+    }
+
+    private void randomlyUpdateMiscStats() {
+        int averageRand = Math.toIntExact(Math.round(Math.random()));
+        if (averageRand == 0) {
+            setAverageTimeToAnswer();
+        } else {
+            setAverageNumberOfAttempts();
+        }
+
+        int overallRand = Math.toIntExact(Math.round(2.0 * Math.random()));
+        if (overallRand == 0) {
+            setOverallRoundTime();
+        } else if (overallRand == 1) {
+            setOverallLongestStreak();
+        } else {
+            setOverallQuickestAnswer();
+        }
+
     }
 
 }

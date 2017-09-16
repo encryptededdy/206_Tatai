@@ -137,6 +137,7 @@ public class QuestionController {
                     Parent root = loader.load();
                     loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
                     loader.<CompleteScreenController>getController().executeRecentRoundQuery();
+                    loader.<CompleteScreenController>getController().executePreviousRoundScoreQuery();
                     // Fade out
                     FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
                     FadeTransition ft2 = TransitionFactory.fadeOut(recordBtn);

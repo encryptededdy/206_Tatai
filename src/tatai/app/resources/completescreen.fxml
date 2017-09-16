@@ -3,6 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -112,7 +115,7 @@
                   <FontAwesomeIconView fill="WHITE" glyphName="BAR_CHART" size="20.0" />
                </graphic>
             </JFXButton>
-            <VBox layoutX="490.0" layoutY="8.0" prefHeight="315.0" prefWidth="140.0">
+            <VBox fx:id="roundStatsVBox" layoutX="490.0" layoutY="8.0" prefHeight="315.0" prefWidth="140.0">
                <children>
                   <Label prefHeight="32.0" prefWidth="166.0" style="-fx-alignment: center-left; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Misc." textFill="WHITE">
                      <font>
@@ -139,6 +142,23 @@
                         <Font name="Roboto Regular" size="32.0" />
                      </font>
                   </Label>
+               </children>
+            </VBox>
+            <VBox fx:id="graphVBox" layoutX="20.0" layoutY="8.0" prefHeight="315.0" prefWidth="610.0">
+               <children>
+                  <Label contentDisplay="TOP" prefHeight="32.0" prefWidth="610.0" style="-fx-alignment: center; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Past Rounds" textAlignment="CENTER" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Regular" size="16.0" />
+                     </font>
+                  </Label>
+                  <BarChart fx:id="pastRoundScoresBarChart" animated="false" horizontalGridLinesVisible="false" legendVisible="false" maxHeight="399.0" maxWidth="650.0" minHeight="265.0" minWidth="610.0" prefHeight="265.0" prefWidth="650.0" stylesheets="@barchart.css" verticalGridLinesVisible="false">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" upperBound="9.0" />
+                     </yAxis>
+                  </BarChart>
                </children>
             </VBox>
          </children>
