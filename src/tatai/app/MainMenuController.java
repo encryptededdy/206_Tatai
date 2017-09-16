@@ -85,9 +85,7 @@ public class MainMenuController {
         st.setToY(0.544);
         st.setToX(1.025);
         // Move anim
-        TranslateTransition tt = new TranslateTransition(Duration.millis(500), mainPane);
-        tt.setByY(-73*0.544);
-        //tt.setByX(-2*1.025);
+        TranslateTransition tt = TransitionFactory.move(mainPane, 0, (int)(-73*0.544), 500);
         ParallelTransition pt = new ParallelTransition(st, tt);
         ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
         pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
@@ -102,8 +100,12 @@ public class MainMenuController {
         FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
         Parent root = loader.load();
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
-        ft.setOnFinished(event1 -> scene.setRoot(root)); // switch scenes when fade complete
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane);
+        // Expand
+        ScaleTransition st = new ScaleTransition(Duration.millis(500), mainPane);
+        st.setToX(2);
+        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<StatisticsController>getController().fadeIn();}); // switch scenes when fade complete
+        ft.setOnFinished(event -> st.play());
         ft.play();
     }
 

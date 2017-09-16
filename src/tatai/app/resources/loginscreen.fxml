@@ -19,7 +19,7 @@
       </ImageView>
       <Pane fx:id="mainPane" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;">
          <effect>
-            <DropShadow radius="9.75" width="20.0" />
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
          <children>
             <ImageView fitHeight="195.0" fitWidth="400.0">

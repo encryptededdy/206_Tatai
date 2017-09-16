@@ -1,6 +1,7 @@
 package tatai.app.util;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
 import javafx.util.Duration;
 import tatai.app.Main;
@@ -20,6 +21,12 @@ public class TransitionFactory {
         return fadeIn;
     }
 
+    public static FadeTransition fadeIn(Node target, int millis) {
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(millis), target);
+        fadeIn.setToValue(1);
+        return fadeIn;
+    }
+
     /**
      * Generates a FadeTransition object to fade the target out from 100% opacity
      * @param target The JavaFX node to be faded
@@ -35,5 +42,26 @@ public class TransitionFactory {
         FadeTransition fadeOut = new FadeTransition(Duration.millis(millis), target);
         fadeOut.setToValue(0);
         return fadeOut;
+    }
+
+    /**
+     * Generates a TranslateTransition object to move the target
+     * @param target The JavaFX node to be moved
+     * @param x X to move by
+     * @param y Y to move by
+     * @return The TranslateTransition object
+     */
+    public static TranslateTransition move(Node target, int x, int y) {
+        TranslateTransition move = new TranslateTransition(Duration.millis(Main.transitionDuration), target);
+        move.setByY(y);
+        move.setByX(x);
+        return move;
+    }
+
+    public static TranslateTransition move(Node target, int x, int y, int duration) {
+        TranslateTransition move = new TranslateTransition(Duration.millis(duration), target);
+        move.setByY(y);
+        move.setByX(x);
+        return move;
     }
 }

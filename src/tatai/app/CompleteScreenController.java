@@ -110,19 +110,13 @@ public class CompleteScreenController {
         // TODO Implement this
         roundStatsBtn.setDisable(true);
         if (roundStatsBtn.getText().equals("Round Stats")) {
-            TranslateTransition tt = new TranslateTransition();
-            tt.setByY(-485);
-            tt.setDuration(Duration.millis(500));
-            tt.setNode(roundStatsPane);
+            TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, -485, 500);
             tt.setInterpolator(Interpolator.EASE_OUT);
             tt.setOnFinished(event1 -> {roundStatsBtn.setDisable(false);});
             tt.play();
             roundStatsBtn.setText("Back");
         } else {
-            TranslateTransition tt = new TranslateTransition();
-            tt.setByY(485);
-            tt.setDuration(Duration.millis(500));
-            tt.setNode(roundStatsPane);
+            TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, 485, 500);
             tt.setInterpolator(Interpolator.EASE_IN);
             tt.setOnFinished(event1 -> {roundStatsBtn.setDisable(false);});
             tt.play();

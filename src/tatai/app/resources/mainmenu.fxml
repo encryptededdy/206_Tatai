@@ -19,6 +19,16 @@
             <Image url="@bkgnd.png" />
          </image>
       </ImageView>
+      <JFXButton fx:id="closeBtn" cancelButton="true" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="20.0" />
+         </graphic>
+      </JFXButton>
+      <JFXButton fx:id="logoutBtn" cancelButton="true" layoutX="710.0" layoutY="452.0" onAction="#logoutBtnPressed" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
+         <graphic>
+            <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="20.0" />
+         </graphic>
+      </JFXButton>
       <Pane fx:id="mainPane" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;">
          <children>
             <Pane fx:id="mainDataPane" prefHeight="500.0" prefWidth="400.0">
@@ -65,16 +75,6 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
       </Pane>
-      <JFXButton fx:id="closeBtn" cancelButton="true" layoutX="752.0" layoutY="452.0" onAction="#closeApplication" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
-         <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="TIMES" size="20.0" />
-         </graphic>
-      </JFXButton>
-      <JFXButton fx:id="logoutBtn" cancelButton="true" layoutX="710.0" layoutY="452.0" onAction="#logoutBtnPressed" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
-         <graphic>
-            <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="20.0" />
-         </graphic>
-      </JFXButton>
       <Rectangle fx:id="fadeBox" arcHeight="5.0" arcWidth="5.0" height="500.0" opacity="0.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" visible="false" width="800.0" />
    </children>
 </Pane>
