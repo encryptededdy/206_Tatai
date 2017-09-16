@@ -1,0 +1,32 @@
+.bar-chart:vertical .chart-content .chart-plot-background {
+  -fx-background-color: #212121;
+}
+
+.default-color0 {
+  -fx-background-color: #3F51B5;
+  -fx-background-radius: 4px;
+  -fx-max-width: 10px;
+}
+
+
+.default-color1 {
+  -fx-background-color: #3F51B5;
+  -fx-background-radius: 4px;
+}
+
+
+.default-color2 {
+  -fx-background-color: #3F51B5;
+  -fx-background-radius: 4px;
+}
+
+.axis:left {
+  -fx-minor-tick-count: 0;
+  -fx-border-color: #212121;
+}
+
+.axis:bottom {
+  -fx-minor-tick-count: 0;
+  -fx-background-color: #212121;
+  -fx-border-color: #212121;
+}
