@@ -16,41 +16,43 @@
             <Image url="@bkgnd.png" />
          </image>
       </ImageView>
-      <Pane fx:id="shadowBox" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
+      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
-      </Pane>
-      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
          <children>
-            <ImageView fitHeight="272.0" fitWidth="410.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="xpTheme">
-               <image>
-                  <Image url="@xpWindow.png" />
-               </image>
-            </ImageView>
-            <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="63.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="999" textAlignment="CENTER" textFill="WHITE">
-               <font>
-                  <Font name="Roboto Bold" size="120.0" />
-               </font>
-            </Label>
-            <Pane fx:id="qNumPane" prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
+            <Pane fx:id="questionPaneData" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
                <children>
-                  <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question x" textAlignment="CENTER" textFill="WHITE">
+                  <ImageView fitHeight="272.0" fitWidth="410.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="xpTheme">
+                     <image>
+                        <Image url="@xpWindow.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="63.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="999" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Roboto Medium" size="24.0" />
+                        <Font name="Roboto Bold" size="120.0" />
                      </font>
                   </Label>
-               </children>
-            </Pane>
-            <Pane fx:id="resultsPane" layoutY="220.0" prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;" visible="false">
-               <children>
-                  <Label fx:id="resultsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="9.0" prefHeight="35.0" prefWidth="342.0" text="Correct!" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto Medium" size="20.0" />
-                     </font>
-                  </Label>
-                  <MaterialDesignIconView fx:id="correctIcon" fill="#0cdd24" glyphName="CHECK" layoutX="14.0" layoutY="37.0" size="30" text="" visible="false" />
-                  <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="14.0" layoutY="38.0" size="30" visible="false" />
+                  <Pane fx:id="qNumPane" prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
+                     <children>
+                        <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="134.0" layoutY="9.0" prefHeight="29.0" prefWidth="142.0" text="Question x" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Medium" size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="resultsPane" layoutY="220.0" prefHeight="52.0" prefWidth="410.0" style="-fx-background-color: #303F9F;" visible="false">
+                     <children>
+                        <Label fx:id="resultsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="53.0" layoutY="9.0" prefHeight="35.0" prefWidth="342.0" text="Correct!" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Medium" size="20.0" />
+                           </font>
+                        </Label>
+                        <MaterialDesignIconView fx:id="correctIcon" fill="#0cdd24" glyphName="CHECK" layoutX="14.0" layoutY="37.0" size="30" text="" visible="false" />
+                        <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="14.0" layoutY="38.0" size="30" visible="false" />
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>

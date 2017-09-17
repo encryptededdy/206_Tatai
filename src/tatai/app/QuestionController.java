@@ -18,6 +18,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
@@ -38,6 +39,7 @@ public class QuestionController {
     private boolean easterEggEnabled = false;
     private ParallelTransition imageFly;
     private int noQuestions;
+    private TranslateTransition shakeTT;
 
     @FXML
     private JFXButton recordBtn;
@@ -97,7 +99,7 @@ public class QuestionController {
     private ImageView flyImage;
 
     @FXML
-    private Pane shadowBox;
+    private Pane questionPaneData;
 
     // Help Popups
     PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] to record");
@@ -110,6 +112,11 @@ public class QuestionController {
         //questionPane.setOpacity(0);
         controlsPane.setLayoutY(500);
         questionPaneclr.setVisible(true);
+        shakeTT = TransitionFactory.move(questionPane, 8, 0, 50);
+        shakeTT.setInterpolator(Interpolator.LINEAR);
+        shakeTT.setFromX(0);
+        shakeTT.setAutoReverse(true);
+        shakeTT.setCycleCount(8);
     }
 
     void fadeIn() {
@@ -142,8 +149,8 @@ public class QuestionController {
 
     private void generateQuestion() {
         // Image the current round
-        if (_currentRound.questionNumber() != -1 && _currentRound.questionNumber() < noQuestions && !easterEggEnabled) {
-            WritableImage snapshot = questionPane.snapshot(new SnapshotParameters(), null);
+        if (_currentRound.questionNumber() > 0 && _currentRound.questionNumber() < noQuestions && !easterEggEnabled) {
+            WritableImage snapshot = questionPaneData.snapshot(new SnapshotParameters(), null);
             // load it into the ImageView
             flyImage.setImage(snapshot);
             // Show it
@@ -158,7 +165,13 @@ public class QuestionController {
                 rt.setToAngle(30);
                 rt.setFromAngle(0);
                 rt.setInterpolator(Interpolator.EASE_OUT);
-                imageFly = new ParallelTransition(rt, tt);
+                ScaleTransition st = new ScaleTransition(Duration.millis(600), questionPane);
+                st.setFromX(0.95);
+                st.setFromY(0.95);
+                st.setToY(1);
+                st.setToX(1);
+                st.setInterpolator(Interpolator.EASE_OUT);
+                imageFly = new ParallelTransition(rt, tt, st);
                 imageFly.setOnFinished(event -> flyImage.setVisible(false));
             }
             // Animate the transition
@@ -223,7 +236,6 @@ public class QuestionController {
      */
     @FXML
     void questionRightClick() {
-        shadowBox.setVisible(false);
         qNumPane.setVisible(false);
         xpTheme.setVisible(true);
         questionLabel.setTextFill(Color.BLACK);
@@ -372,6 +384,7 @@ public class QuestionController {
     }
 
     private void answerIncorrect() {
+        shakeTT.playFromStart();
         incorrectIcon.setVisible(true);
         correctIcon.setVisible(false); // show the cross
         playBtn.setDisable(true); // avoid the user accidentally playing back existing recording
