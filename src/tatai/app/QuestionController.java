@@ -155,9 +155,9 @@ public class QuestionController {
                 tt.setFromY(0);
                 tt.setInterpolator(Interpolator.EASE_IN);
                 RotateTransition rt = new RotateTransition(Duration.millis(600), flyImage);
-                rt.setToAngle(90);
+                rt.setToAngle(30);
                 rt.setFromAngle(0);
-                rt.setInterpolator(Interpolator.EASE_IN);
+                rt.setInterpolator(Interpolator.EASE_OUT);
                 imageFly = new ParallelTransition(rt, tt);
                 imageFly.setOnFinished(event -> flyImage.setVisible(false));
             }
