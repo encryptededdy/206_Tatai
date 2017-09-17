@@ -3,7 +3,10 @@
     <output-path>$PROJECT_DIR$/out/artifacts/206_Tatai_jar</output-path>
     <root id="archive" name="206_Tatai.jar">
       <element id="module-output" name="206_Tatai" />
-      <element id="extracted-dir" path="$USER_HOME$/AppData/Roaming/Scene Builder/Library/jfoenix.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/jfoenix/jfoenix/1.8.0/jfoenix-1.8.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/de/jensd/fontawesomefx/8.9/fontawesomefx-8.9.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/controlsfx/controlsfx/8.40.13/controlsfx-8.40.13.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.20.0/sqlite-jdbc-3.20.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

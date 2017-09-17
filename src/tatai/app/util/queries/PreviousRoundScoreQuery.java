@@ -11,7 +11,7 @@ public class PreviousRoundScoreQuery extends Query {
     BarChart _recentRoundScoresBarChart;
     public PreviousRoundScoreQuery(BarChart recentRoundScoresBarChart) {
         _recentRoundScoresBarChart = recentRoundScoresBarChart;
-        SQLQuery = "SELECT noquestions, nocorrect FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 10";
+        SQLQuery = "SELECT noquestions, nocorrect FROM (SELECT noquestions, nocorrect, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 10) as output ORDER BY output.roundID ASC";
     }
 
     public void execute() {
