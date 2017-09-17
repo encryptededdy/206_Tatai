@@ -100,6 +100,7 @@ public class CompleteScreenController {
         nextRoundBtn.setOpacity(0);
         roundStatsPane.setLayoutY(500);
         graphVBox.setOpacity(0);
+        graphVBox.setMouseTransparent(true);
 
         //testPopulateBarChart();
     }
@@ -128,15 +129,21 @@ public class CompleteScreenController {
         if (roundStatsBtn.getText().equals("Round Stats")) {
             TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, -485, 500);
             tt.setInterpolator(Interpolator.EASE_OUT);
-            tt.setOnFinished(event1 -> {roundStatsBtn.setDisable(false);});
+            tt.setOnFinished(event1 -> {
+                roundStatsBtn.setDisable(false);
+                roundStatsBtn.setText("Back");
+            });
             tt.play();
-            roundStatsBtn.setText("Back");
+            TransitionFactory.fadeIn(roundStatsPane, 500).play();
         } else {
             TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, 485, 500);
             tt.setInterpolator(Interpolator.EASE_IN);
-            tt.setOnFinished(event1 -> {roundStatsBtn.setDisable(false);});
+            tt.setOnFinished(event1 -> {
+                roundStatsBtn.setDisable(false);
+                roundStatsBtn.setText("Round Stats");
+            });
             tt.play();
-            roundStatsBtn.setText("Round Stats");
+            TransitionFactory.fadeOut(roundStatsPane, 500).play();
         }
     }
 
@@ -185,6 +192,7 @@ public class CompleteScreenController {
             FadeTransition ft0 = TransitionFactory.fadeOut(roundStatsVBox);
             FadeTransition ft1 = TransitionFactory.fadeOut(resultsTable);
             ft0.setOnFinished(actionEvent -> {
+                graphVBox.setMouseTransparent(false);
                 TransitionFactory.fadeIn(graphVBox).play();
             });
             ft1.play();
@@ -192,6 +200,7 @@ public class CompleteScreenController {
         } else {
             FadeTransition ft2 = TransitionFactory.fadeOut(graphVBox);
             ft2.setOnFinished(actionEvent -> {
+                graphVBox.setMouseTransparent(true);
                 TransitionFactory.fadeIn(roundStatsVBox).play();
                 TransitionFactory.fadeIn(resultsTable).play();
             });
