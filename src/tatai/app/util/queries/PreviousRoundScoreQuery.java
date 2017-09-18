@@ -36,7 +36,6 @@ public class PreviousRoundScoreQuery extends Query {
             }
         };
         task.setOnSucceeded(event -> {
-            System.out.println("Succ ess");
             _recentRoundScoresBarChart.getData().add(recentScoresSeries);
             completeQuery();
         });
