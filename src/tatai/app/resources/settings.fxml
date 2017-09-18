@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXRippler?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -32,36 +33,48 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="gameSettingsBtn" layoutY="110.0" onMouseClicked="#gameSettingsBtnPressed" prefHeight="60.0" prefWidth="230.0" style="-fx-background-color: #424242;">
-                     <children>
-                        <Label layoutX="62.0" layoutY="19.0" text="Game" textFill="WHITE">
-                           <font>
-                              <Font name="Roboto Medium" size="18.0" />
-                           </font>
-                        </Label>
-                        <FontAwesomeIconView fill="WHITE" glyphName="GAMEPAD" layoutX="20.0" layoutY="38.0" size="24" />
-                     </children>
-                  </Pane>
-                  <Pane fx:id="generalSettingsBtn" layoutY="179.0" onMouseClicked="#generalSettingsBtnPressed" prefHeight="60.0" prefWidth="230.0">
-                     <children>
-                        <Label layoutX="62.0" layoutY="19.0" text="General" textFill="WHITE">
-                           <font>
-                              <Font name="Roboto Medium" size="18.0" />
-                           </font>
-                        </Label>
-                        <FontAwesomeIconView fill="WHITE" glyphName="GEAR" layoutX="21.0" layoutY="38.0" size="24" />
-                     </children>
-                  </Pane>
-                  <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="47.0" prefWidth="230.0">
-                     <children>
-                        <Label layoutX="62.0" layoutY="13.0" text="Back" textFill="WHITE">
-                           <font>
-                              <Font name="Roboto Medium" size="18.0" />
-                           </font>
-                        </Label>
-                        <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="32.0" size="24" />
-                     </children>
-                  </Pane>
+                  <JFXRippler layoutY="179.0" ripplerFill="white">
+                  <control>
+                     <Pane fx:id="generalSettingsBtn" layoutY="179.0" onMouseClicked="#generalSettingsBtnPressed" prefHeight="60.0" prefWidth="230.0">
+                        <children>
+                           <Label layoutX="62.0" layoutY="19.0" text="General" textFill="WHITE">
+                              <font>
+                                 <Font name="Roboto Medium" size="18.0" />
+                              </font>
+                           </Label>
+                           <FontAwesomeIconView fill="WHITE" glyphName="GEAR" layoutX="21.0" layoutY="38.0" size="24" />
+                        </children>
+                     </Pane>
+                  </control>
+                  </JFXRippler>
+                  <JFXRippler layoutY="439.0" ripplerFill="white">
+                  <control>
+                     <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="47.0" prefWidth="230.0">
+                        <children>
+                           <Label layoutX="62.0" layoutY="13.0" text="Back" textFill="WHITE">
+                              <font>
+                                 <Font name="Roboto Medium" size="18.0" />
+                              </font>
+                           </Label>
+                           <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="32.0" size="24" />
+                        </children>
+                     </Pane>
+                  </control>
+                  </JFXRippler>
+                  <JFXRippler layoutY="110.0" ripplerFill="white">
+                     <control>
+                        <Pane fx:id="gameSettingsBtn" onMouseClicked="#gameSettingsBtnPressed" prefHeight="60.0" prefWidth="230.0" style="-fx-background-color: #424242;">
+                           <children>
+                              <Label layoutX="62.0" layoutY="19.0" text="Game" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Medium" size="18.0" />
+                                 </font>
+                              </Label>
+                              <FontAwesomeIconView fill="WHITE" glyphName="GAMEPAD" layoutX="20.0" layoutY="38.0" size="24" />
+                           </children>
+                        </Pane>
+                     </control>
+                  </JFXRippler>
                </children>
             </Pane>
          </children>
