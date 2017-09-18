@@ -30,7 +30,7 @@
          <children>
             <JFXButton fx:id="roundStatsBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="308.0" layoutY="16.0" maxWidth="121.32" minWidth="121.32" onAction="#roundStatsBtnPressed" prefWidth="121.32" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" text="Round Stats" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
                <font>
-                  <Font name="Roboto Regular" size="18.0" />
+                  <Font name="Roboto Medium" size="18.0" />
                </font>
             </JFXButton>
             <JFXButton fx:id="replayBtn" buttonType="RAISED" layoutX="642.0" layoutY="21.0" maxWidth="25.0" onAction="#replayBtnPressed" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #3F51B5;" textFill="WHITE">
@@ -63,7 +63,7 @@
          <children>
             <Label fx:id="yourScoreLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="65.0" maxWidth="410.0" prefWidth="410.0" text="Your Score" textAlignment="CENTER" textFill="WHITE">
                <font>
-                  <Font name="Roboto Regular" size="20.0" />
+                  <Font name="Roboto Medium" size="20.0" />
                </font>
             </Label>
             <Label fx:id="scoreLabel" alignment="CENTER" layoutY="95.0" maxWidth="410.0" minWidth="165.0" prefHeight="141.0" prefWidth="410.0" text="8/10" textAlignment="CENTER" textFill="WHITE">
@@ -109,7 +109,7 @@
                </columns></TableView>
             <JFXButton fx:id="statsChangeGraphBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="302.5" layoutY="345.0" maxWidth="45.0" minWidth="45.0" onAction="#statsChangeGraphBtnPressed" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
                <font>
-                  <Font name="Roboto Regular" size="18.0" />
+                  <Font name="Roboto Medium" size="18.0" />
                </font>
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="BAR_CHART" size="20.0" />
@@ -119,27 +119,27 @@
                <children>
                   <Label prefHeight="32.0" prefWidth="166.0" style="-fx-alignment: center-left; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Misc." textFill="WHITE">
                      <font>
-                        <Font name="Roboto Regular" size="16.0" />
+                        <Font name="Roboto Medium" size="16.0" />
                      </font>
                   </Label>
                   <Label fx:id="statLabelAverage" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0.7em 0em 0em 0em;" text="Your Longest Streak This Round" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
-                        <Font name="Roboto Regular" size="16.0" />
+                        <Font name="Roboto Medium" size="16.0" />
                      </font>
                   </Label>
                   <Label fx:id="statLabelAverageNo" alignment="CENTER" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0em 0em 0.7em 0em;" text="8" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
-                        <Font name="Roboto Regular" size="32.0" />
+                        <Font name="Roboto Medium" size="32.0" />
                      </font>
                   </Label>
                   <Label fx:id="statLabelOverall" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0.7em 0em 0em 0em;" text="Average Time To Answer" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
-                        <Font name="Roboto Regular" size="16.0" />
+                        <Font name="Roboto Medium" size="16.0" />
                      </font>
                   </Label>
                   <Label fx:id="statLabelOverallNo" alignment="CENTER" contentDisplay="TOP" prefHeight="130.0" prefWidth="140.0" style="-fx-padding: 0em 0em 0.7em 0em;" text="3" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
-                        <Font name="Roboto Regular" size="32.0" />
+                        <Font name="Roboto Medium" size="32.0" />
                      </font>
                   </Label>
                </children>
@@ -148,7 +148,7 @@
                <children>
                   <Label contentDisplay="TOP" prefHeight="32.0" prefWidth="610.0" style="-fx-alignment: center; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Past Rounds" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Roboto Regular" size="16.0" />
+                        <Font name="Roboto Medium" size="16.0" />
                      </font>
                   </Label>
                   <BarChart fx:id="pastRoundScoresBarChart" animated="false" horizontalGridLinesVisible="false" legendVisible="false" maxHeight="399.0" maxWidth="650.0" minHeight="265.0" minWidth="610.0" prefHeight="265.0" prefWidth="650.0" stylesheets="@barchart.css" verticalGridLinesVisible="false">

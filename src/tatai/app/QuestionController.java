@@ -171,12 +171,18 @@ public class QuestionController {
                 st.setToY(1);
                 st.setToX(1);
                 st.setInterpolator(Interpolator.EASE_OUT);
-                imageFly = new ParallelTransition(rt, tt, st);
+                ScaleTransition st2 = new ScaleTransition(Duration.millis(600), flyImage);
+                st2.setFromX(1);
+                st2.setFromY(1);
+                st2.setToY(1.2);
+                st2.setToX(1.2);
+                imageFly = new ParallelTransition(rt, tt, st, st2);
                 imageFly.setOnFinished(event -> flyImage.setVisible(false));
             }
             // Animate the transition
             imageFly.playFromStart();
         }
+        // If it's not the last question
         if (_currentRound.hasNext()) {
             questionLabel.setText(_currentRound.next());
             questionNumberLabel.setText("Question "+_currentRound.questionNumber());
@@ -199,14 +205,13 @@ public class QuestionController {
                 loader.<CompleteScreenController>getController().executePreviousRoundScoreQuery();
                 // Fade out
                 FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
+                FadeTransition ft1 = TransitionFactory.fadeOut(questionLabel);
                 FadeTransition ft2 = TransitionFactory.fadeOut(recordBtn);
                 FadeTransition ft3 = TransitionFactory.fadeOut(playBtn);
                 FadeTransition ft4 = TransitionFactory.fadeOut(checkBtn);
-                ft4.setOnFinished(event1 -> {scene.setRoot(root); loader.<CompleteScreenController>getController().fadeIn();}); // switch scenes when fade complete
-                ft0.play();
-                ft2.play();
-                ft3.play();
-                ft4.play();
+                ParallelTransition pt = new ParallelTransition(ft0, ft1, ft2, ft3, ft4);
+                pt.setOnFinished(event1 -> {scene.setRoot(root); loader.<CompleteScreenController>getController().fadeIn();}); // switch scenes when fade complete
+                pt.play();
             } catch (IOException iox) {
                 // completescreen.fxml missing
                 iox.printStackTrace();
