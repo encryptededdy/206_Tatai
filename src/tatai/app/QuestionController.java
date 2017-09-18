@@ -188,7 +188,7 @@ public class QuestionController {
         // If it's not the last question
         if (_currentRound.hasNext()) {
             questionLabel.setText(_currentRound.next());
-            questionNumberLabel.setText("Question "+_currentRound.questionNumber());
+            questionNumberLabel.setText("Q"+_currentRound.questionNumber());
             playBtn.setDisable(true);
             // Hide the question feedback / results
             nextQuestionBtn.setVisible(false);
