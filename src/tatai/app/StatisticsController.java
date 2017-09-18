@@ -95,6 +95,7 @@ public class StatisticsController {
 
     void fadeIn() {
         TransitionFactory.fadeIn(mainStats).play();
+        loadBtnPressed();
     }
 
     /**
@@ -111,7 +112,7 @@ public class StatisticsController {
     }
 
     @FXML
-    void loadBtnPressed(ActionEvent event) {
+    void loadBtnPressed() {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":
                 progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);

@@ -100,9 +100,9 @@ public class MainMenuController {
         FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
         Parent root = loader.load();
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane);
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, 150);
         // Expand
-        ScaleTransition st = new ScaleTransition(Duration.millis(500), mainPane);
+        ScaleTransition st = new ScaleTransition(Duration.millis(250), mainPane);
         st.setToX(2);
         st.setOnFinished(event1 -> {scene.setRoot(root); loader.<StatisticsController>getController().fadeIn();}); // switch scenes when fade complete
         ft.setOnFinished(event -> st.play());
