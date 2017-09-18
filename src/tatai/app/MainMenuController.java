@@ -6,11 +6,11 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -18,6 +18,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
+
 import java.io.IOException;
 
 /**
@@ -41,10 +42,13 @@ public class MainMenuController {
     private JFXButton practiceBtn;
 
     @FXML
+    private ImageView backgroundImage;
+
+    @FXML
     private JFXButton settingsBtn;
 
     @FXML
-    private JFXButton micTestBtn;
+    private JFXButton netBtn;
 
     @FXML
     private JFXButton closeBtn;
@@ -68,6 +72,23 @@ public class MainMenuController {
     private JFXButton logoutBtn;
 
     /**
+     * These classes set up transitions INTO MainMenuController;
+     */
+    void setupFade(Boolean fadeImage) {
+        if (fadeImage) {
+            backgroundImage.setOpacity(0);
+        }
+        mainDataPane.setOpacity(0);
+    }
+
+    void fadeIn() {
+        if (backgroundImage.getOpacity() == 0) {
+            TransitionFactory.fadeIn(backgroundImage).play();
+        }
+        TransitionFactory.fadeIn(mainDataPane).play();
+    }
+
+    /**
      * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
      * set to be used (from questionDropDown)
      */
@@ -79,18 +100,31 @@ public class MainMenuController {
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, 100);
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
         // Shrink anim
-        ScaleTransition st = new ScaleTransition(Duration.millis(500), mainPane);
+        ScaleTransition st = new ScaleTransition(Duration.millis((int)(Main.transitionDuration*1.5)), mainPane);
         st.setToY(0.544);
         st.setToX(1.025);
         // Move anim
-        TranslateTransition tt = TransitionFactory.move(mainPane, 0, (int)(-73*0.544), 500);
+        TranslateTransition tt = TransitionFactory.move(mainPane, 0, (int)(-73*0.544), (int)(Main.transitionDuration*1.5));
         ParallelTransition pt = new ParallelTransition(st, tt);
         ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
         pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
         ft.play();
-        //
+    }
+
+    @FXML
+    private void settingsBtnPressed() throws IOException {
+        Scene scene = settingsBtn.getScene();
+        FXMLLoader loader = new FXMLLoader(Main.settingsLayout);
+        Parent root = loader.load();
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
+        FadeTransition ft2 = TransitionFactory.fadeOut(backgroundImage, (int)(Main.transitionDuration*0.5));
+        ParallelTransition pt = new ParallelTransition(ft, ft2);
+        TranslateTransition tt = TransitionFactory.move(mainPane, -370, 0, (int)(Main.transitionDuration*1.5));
+        pt.setOnFinished(event1 -> tt.play()); // move after bkgnd has faded
+        tt.setOnFinished(event -> {scene.setRoot(root); loader.<SettingsController>getController().fadeIn();});
+        pt.play();
     }
 
     @FXML
@@ -100,9 +134,9 @@ public class MainMenuController {
         FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
         Parent root = loader.load();
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, 150);
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
         // Expand
-        ScaleTransition st = new ScaleTransition(Duration.millis(250), mainPane);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
         st.setToX(2);
         st.setOnFinished(event1 -> {scene.setRoot(root); loader.<StatisticsController>getController().fadeIn();}); // switch scenes when fade complete
         ft.setOnFinished(event -> st.play());

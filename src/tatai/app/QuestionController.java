@@ -81,6 +81,9 @@ public class QuestionController {
     private Pane questionPaneclr;
 
     @FXML
+    private Pane questionPaneclrShadow;
+
+    @FXML
     private MaterialDesignIconView correctIcon;
 
     @FXML
@@ -127,7 +130,7 @@ public class QuestionController {
             controlsTransition.setOnFinished(event -> {
                 TranslateTransition tt = new TranslateTransition();
                 tt.setByY(60);
-                tt.setDuration(Duration.millis(200));
+                tt.setDuration(Duration.millis((Main.transitionDuration*0.5)));
                 tt.setNode(tutorialNotif);
                 tt.setInterpolator(Interpolator.EASE_OUT);
                 tt.play();
@@ -157,21 +160,21 @@ public class QuestionController {
             flyImage.setVisible(true);
             // Create the transition objects if they don't exist
             if (imageFly == null) {
-                TranslateTransition tt = TransitionFactory.move(flyImage, 250, -500, 600);
+                TranslateTransition tt = TransitionFactory.move(flyImage, 250, -500, (Main.transitionDuration*2));
                 tt.setFromX(0);
                 tt.setFromY(0);
                 tt.setInterpolator(Interpolator.EASE_IN);
-                RotateTransition rt = new RotateTransition(Duration.millis(600), flyImage);
+                RotateTransition rt = new RotateTransition(Duration.millis((Main.transitionDuration*2)), flyImage);
                 rt.setToAngle(30);
                 rt.setFromAngle(0);
                 rt.setInterpolator(Interpolator.EASE_OUT);
-                ScaleTransition st = new ScaleTransition(Duration.millis(600), questionPane);
+                ScaleTransition st = new ScaleTransition(Duration.millis((Main.transitionDuration*2)), questionPane);
                 st.setFromX(0.95);
                 st.setFromY(0.95);
                 st.setToY(1);
                 st.setToX(1);
                 st.setInterpolator(Interpolator.EASE_OUT);
-                ScaleTransition st2 = new ScaleTransition(Duration.millis(600), flyImage);
+                ScaleTransition st2 = new ScaleTransition(Duration.millis((Main.transitionDuration*2)), flyImage);
                 st2.setFromX(1);
                 st2.setFromY(1);
                 st2.setToY(1.2);
@@ -228,12 +231,29 @@ public class QuestionController {
     }
 
     @FXML
-    void menuBtnPressed(ActionEvent event) throws IOException {
+    void menuBtnPressed() throws IOException {
         hideHelpTexts();
+        // Load the new scene
         Scene scene = menuBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
-        scene.setRoot(root);
+        loader.<MainMenuController>getController().setupFade(false);
+
+        // bring the cover back
+        questionPaneclrShadow.setVisible(true);
+        // Fade in the cover
+        FadeTransition ft = TransitionFactory.fadeIn(questionPaneclrShadow, (int)(Main.transitionDuration*0.5));
+        // Expand anim
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), questionPaneclrShadow);
+        st.setToY(1.83823529);
+        st.setToX(0.99);
+        // Move anim
+        TranslateTransition tt2 = TransitionFactory.move(controlsPane, 0, 71);
+        TranslateTransition tt = TransitionFactory.move(questionPaneclrShadow, 0, (int)(73*0.544));
+        ParallelTransition pt = new ParallelTransition(st, tt, tt2);
+        ft.setOnFinished(event1 -> {questionPane.setVisible(false); pt.play();}); // play the expand anim when fade finished
+        pt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
+        ft.play();
     }
 
     /**

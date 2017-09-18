@@ -33,8 +33,9 @@ public class Main extends Application {
     static URL statisticsLayout;
     static URL completeLayout;
     static URL loginLayout;
+    static URL settingsLayout;
     public static boolean showTutorial = true; //TODO: Change this to be optional
-    final public static int transitionDuration = 300;
+    public static int transitionDuration = 300;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
 
@@ -43,6 +44,7 @@ public class Main extends Application {
         Font.loadFont(Main.class.getResource("resources/Roboto-Regular.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Bold.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Medium.ttf").toExternalForm(), 10);
+        Font.loadFont(Main.class.getResource("resources/Roboto-Light.ttf").toExternalForm(), 10);
         database = Database.getInstance();
     }
 
@@ -58,6 +60,7 @@ public class Main extends Application {
         statisticsLayout = getClass().getResource("resources/statisticsscreen.fxml");
         mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
         completeLayout = getClass().getResource("resources/completescreen.fxml");
+        settingsLayout = getClass().getResource("resources/settings.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize

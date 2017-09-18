@@ -120,5 +120,10 @@
       </Pane>
       <ImageView fx:id="flyImage" fitHeight="272.0" fitWidth="410.0" layoutX="196.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" visible="false" />
       <Pane fx:id="questionPaneclr" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false" />
+      <Pane fx:id="questionPaneclrShadow" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" opacity="0.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false">
+         <effect>
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
+         </effect>
+      </Pane>
    </children>
 </Pane>
