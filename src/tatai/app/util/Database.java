@@ -119,6 +119,10 @@ public class Database {
         insertOp("UPDATE sessions SET sessionlength = "+Instant.now().getEpochSecond()+" - date WHERE sessionID = "+Main.currentSession);
     }
 
+    public void newUser(String username) {
+        insertOp("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('"+username+"', "+Instant.now().getEpochSecond()+")");
+    }
+
     public ArrayList<String> getUsers() {
         ArrayList<String> output = new ArrayList<>();
         ResultSet rs = returnOp("SELECT username FROM users");

@@ -2,7 +2,8 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import javafx.animation.FadeTransition;
+import com.jfoenix.controls.JFXTextField;
+import javafx.animation.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -11,12 +12,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static tatai.app.Main.database;
 
@@ -52,15 +58,51 @@ public class LoginController {
     @FXML
     private Label playtimeLabel;
 
+    @FXML
+    private Pane newUserModalStart;
+
+    @FXML
+    private Pane newUserModal;
+
+    @FXML
+    private JFXTextField usernameField;
+
+    @FXML
+    private JFXButton createAccntBtn;
+
+    @FXML
+    private Label usernameInstructions;
+
+    private ParallelTransition expandModalTransition;
+
     /**
      * Get the users and fill in usernameSelector with users in the database
      */
     public void initialize() {
-        usernameSelector.getItems().addAll(database.getUsers());
-        usernameSelector.setValue(database.getUsers().iterator().next()); // Automatically selects the first object.
+        updateUsernameList();
         // Display the statistics, and make sure it updates everytime usernameSelector changes
         getStatistics();
         usernameSelector.valueProperty().addListener((observable, oldValue, newValue) -> getStatistics());
+        // Setup the expandModalTransition
+        TranslateTransition tt = TransitionFactory.move(newUserModalStart, (-70), (-120));
+        tt.setFromX(0);
+        tt.setFromY(0);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), newUserModalStart);
+        st.setFromY(1);
+        st.setFromX(1);
+        st.setToX(3);
+        st.setToY(6.73809524);
+        st.setInterpolator(Interpolator.EASE_OUT);
+        tt.setInterpolator(Interpolator.EASE_OUT);
+        expandModalTransition = new ParallelTransition(tt, st);
+        // Setup usernamechecker
+        usernameField.textProperty().addListener((observable, oldValue, newValue) -> usernameChecker());
+    }
+
+    private void updateUsernameList() {
+        usernameSelector.getItems().clear();
+        usernameSelector.getItems().addAll(database.getUsers());
+        usernameSelector.setValue(database.getUsers().iterator().next()); // Automatically selects the first object.
     }
 
     /**
@@ -122,13 +164,49 @@ public class LoginController {
         ft.play();
     }
 
+    @FXML
+    void closeModalBtnPressed() {
+        FadeTransition ft = TransitionFactory.fadeOut(newUserModal, Main.transitionDuration/2);
+        expandModalTransition.setRate(-1);
+        expandModalTransition.setOnFinished(event -> newUserModalStart.setVisible(false));
+        ft.setOnFinished(event -> {newUserModal.setVisible(false); expandModalTransition.play();});
+        ft.playFromStart();
+    }
+
     /**
      * Handles creation of a new user
      * TODO: Actually implement this
      */
     @FXML
     void newBtnPressed() {
+        newUserModal.setOpacity(0);
+        newUserModal.setVisible(true);
+        newUserModalStart.setVisible(true);
+        expandModalTransition.setOnFinished(event -> TransitionFactory.fadeIn(newUserModal, Main.transitionDuration/2).play());
+        expandModalTransition.setRate(1);
+        expandModalTransition.playFromStart();
+    }
 
+    @FXML
+    void createAccntBtnPressed() {
+        Main.database.newUser(usernameField.getText());
+        updateUsernameList();
+        usernameSelector.setValue(usernameField.getText());
+        closeModalBtnPressed();
+    }
+
+    private void usernameChecker() {
+        String name = usernameField.getText();
+        Pattern p = Pattern.compile("[^a-zA-Z-_.\\d\\s:]");
+        Matcher m = p.matcher(name);
+
+        if (m.find() || name.length() > 12 || Main.database.getUsers().contains(name)) {
+            usernameInstructions.setTextFill(Color.RED);
+            createAccntBtn.setDisable(true);
+        } else {
+            usernameInstructions.setTextFill(Color.LIGHTGRAY);
+            createAccntBtn.setDisable(false);
+        }
     }
 
 }

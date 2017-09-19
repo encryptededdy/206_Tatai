@@ -21,7 +21,7 @@
                <children>
                   <Pane prefHeight="100.0" prefWidth="230.0" style="-fx-background-color: #3F51B5;">
                      <children>
-                        <Label fx:id="username" layoutX="20.0" layoutY="34.0" prefHeight="29.0" prefWidth="180.0" text="MyUserName" textFill="WHITE">
+                        <Label fx:id="username" layoutX="20.0" layoutY="34.0" prefHeight="29.0" prefWidth="197.0" text="AAAAAAAAAAAA" textFill="WHITE">
                            <font>
                               <Font name="Roboto Medium" size="24.0" />
                            </font>

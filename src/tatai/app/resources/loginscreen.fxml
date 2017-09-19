@@ -2,6 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
@@ -39,7 +41,7 @@
                         <Font name="Roboto" size="14.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="newBtn" buttonType="RAISED" disable="true" layoutX="214.0" layoutY="244.0" onAction="#newBtnPressed" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #455864;" text="New User" textFill="WHITE">
+                  <JFXButton fx:id="newBtn" buttonType="RAISED" layoutX="214.0" layoutY="244.0" onAction="#newBtnPressed" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #424242;" text="New User" textFill="WHITE">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
@@ -79,6 +81,41 @@
                         <Font name="Roboto" size="24.0" />
                      </font>
                   </Label>
+                  <Pane fx:id="newUserModalStart" layoutX="215.0" layoutY="244.0" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #424242;" visible="false" />
+                  <Pane fx:id="newUserModal" layoutX="35.0" layoutY="3.0" prefHeight="283.0" prefWidth="330.0" style="-fx-background-color: #424242;" visible="false">
+                     <children>
+                        <Pane prefHeight="50.0" prefWidth="330.0" style="-fx-background-color: #3F51B5;">
+                           <children>
+                              <Label layoutX="18.0" layoutY="14.0" text="Create User" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Medium" size="18.0" />
+                                 </font>
+                              </Label>
+                              <MaterialDesignIconView fill="WHITE" glyphName="CLOSE" layoutX="287.0" layoutY="38.0" onMouseClicked="#closeModalBtnPressed" size="34" />
+                           </children>
+                        </Pane>
+                        <JFXTextField fx:id="usernameField" layoutX="27.0" layoutY="91.0" prefHeight="34.0" prefWidth="277.0" promptText="Username" style="-fx-text-inner-color: white;" unFocusColor="GREY">
+                           <font>
+                              <Font name="Roboto Medium" size="18.0" />
+                           </font>
+                        </JFXTextField>
+                        <Label layoutX="27.0" layoutY="67.0" text="Enter Username" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto" size="14.0" />
+                           </font>
+                        </Label>
+                        <JFXButton fx:id="createAccntBtn" buttonType="RAISED" defaultButton="true" layoutX="27.0" layoutY="216.0" onAction="#createAccntBtnPressed" prefHeight="42.0" prefWidth="277.0" style="-fx-background-color: #3F51B5;" text="Create Account" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Bold" size="18.0" />
+                           </font>
+                        </JFXButton>
+                        <Label fx:id="usernameInstructions" layoutX="27.0" layoutY="135.0" prefHeight="58.0" prefWidth="277.0" text="Username may only contain alphanumeric characters and spaces, up to 12 chars. The username must not already exist" textFill="GREY" wrapText="true">
+                           <font>
+                              <Font name="Roboto" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </Pane>
          </children>
