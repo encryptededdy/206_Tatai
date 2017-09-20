@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXRippler?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
@@ -22,11 +22,6 @@
          <children>
             <Pane prefHeight="500.0" prefWidth="200.0" style="-fx-background-color: #212121;">
                <children>
-                  <JFXButton fx:id="backBtn" buttonType="RAISED" cancelButton="true" layoutX="16.0" layoutY="447.0" onAction="#backBtnPressed" prefHeight="37.0" prefWidth="43.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="20.0" />
-                     </graphic>
-                  </JFXButton>
                   <Label layoutX="52.0" layoutY="14.0" text="Statistics" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="22.0" />
@@ -68,16 +63,11 @@
                            </font></JFXRadioButton>
                      </children>
                   </VBox>
-                  <JFXButton fx:id="loadBtn" buttonType="RAISED" layoutX="68.0" layoutY="447.0" onAction="#loadBtnPressed" prefHeight="37.0" prefWidth="113.0" style="-fx-background-color: #3F51B5;" text="Update" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto Medium" size="14.0" />
-                     </font>
-                  </JFXButton>
                   <JFXCheckBox fx:id="allQuestionSets" layoutX="18.0" layoutY="368.0" selected="true" text="All Question Sets" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="12.0" />
                      </font></JFXCheckBox>
-                  <JFXProgressBar fx:id="progressBar" layoutY="425.0" prefHeight="6.0" prefWidth="200.0" progress="0.0" style="-fx-control-inner-background: #212121; -fx-text-box-border: #212121;" />
+                  <JFXProgressBar fx:id="progressBar" layoutY="448.0" prefHeight="6.0" prefWidth="200.0" progress="0.0" style="-fx-control-inner-background: #212121; -fx-text-box-border: #212121;" />
                   <JFXCheckBox fx:id="unfinishedRounds" layoutX="18.0" layoutY="395.0" selected="true" text="Show unfinished rounds" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="12.0" />
@@ -87,6 +77,20 @@
                         <Font name="Roboto Medium" size="12.0" />
                      </font>
                   </JFXCheckBox>
+                  <JFXRippler layoutX="0" layoutY="453.0" prefHeight="47.0" prefWidth="200.0" ripplerFill="white">
+                     <control>
+                        <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="47.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="62.0" layoutY="13.0" text="Back" textFill="WHITE">
+                                 <font>
+                                    <Font name="Roboto Medium" size="18.0" />
+                                 </font>
+                              </Label>
+                              <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="32.0" size="24" />
+                           </children>
+                        </Pane>
+                     </control>
+                  </JFXRippler>
                </children>
                <effect>
                   <DropShadow />

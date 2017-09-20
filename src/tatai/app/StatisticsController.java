@@ -1,11 +1,8 @@
 package tatai.app;
 
 import com.jfoenix.controls.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,9 +11,9 @@ import java.io.IOException;
 import java.time.ZoneId;
 
 import javafx.scene.control.TableView;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import tatai.app.util.TransitionFactory;
 import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
@@ -46,17 +43,17 @@ public class StatisticsController {
         questionSetCombo.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
 
         // Add listeners to update the table when selections change
-        showType.selectedToggleProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
-        unfinishedRounds.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
-        thisSessionCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
-        questionSetCombo.valueProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
-        allQuestionSets.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
-        allDateCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
-        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        showType.selectedToggleProperty().addListener((observable, oldValue, newValue) -> updateTable());
+        unfinishedRounds.selectedProperty().addListener((observable, oldValue, newValue) -> updateTable());
+        thisSessionCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> updateTable());
+        questionSetCombo.valueProperty().addListener((observable, oldValue, newValue) -> updateTable());
+        allQuestionSets.selectedProperty().addListener((observable, oldValue, newValue) -> updateTable());
+        allDateCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> updateTable());
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> updateTable());
     }
 
     @FXML
-    private JFXButton backBtn;
+    private Pane backBtn;
 
     @FXML
     private JFXDatePicker datePicker;
@@ -101,7 +98,7 @@ public class StatisticsController {
     private HBox mainStats;
 
     @FXML
-    void backBtnPressed(ActionEvent event) throws IOException {
+    void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
@@ -110,7 +107,7 @@ public class StatisticsController {
 
     void fadeIn() {
         TransitionFactory.fadeIn(mainStats).play();
-        loadBtnPressed();
+        updateTable();
     }
 
     /**
@@ -134,8 +131,7 @@ public class StatisticsController {
         }
     }
 
-    @FXML
-    void loadBtnPressed() {
+    private void updateTable() {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":
                 progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
