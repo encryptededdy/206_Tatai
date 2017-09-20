@@ -28,29 +28,39 @@
                         <Image url="@xpWindow.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="questionLabel" alignment="CENTER" layoutX="117.0" layoutY="21.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="999" textAlignment="CENTER" textFill="WHITE">
+                  <Label fx:id="questionLabel" alignment="CENTER" layoutX="69.0" layoutY="83.0" maxWidth="272.0" minWidth="165.0" prefHeight="141.0" prefWidth="272.0" text="999" textAlignment="CENTER" textFill="WHITE">
                      <font>
-                        <Font name="Roboto Bold" size="120.0" />
+                        <Font name="Roboto Bold" size="130.0" />
                      </font>
                   </Label>
-                  <Pane fx:id="qNumPane" prefHeight="272.0" prefWidth="99.0" style="-fx-background-color: #303F9F;">
+                  <Pane fx:id="qNumPane" prefHeight="71.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
                      <children>
-                        <Label fx:id="questionNumberLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="3.0" prefHeight="78.0" prefWidth="92.0" text="Q10" textAlignment="CENTER" textFill="WHITE">
+                        <Label fx:id="questionNumberLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="249.0" prefHeight="71.0" prefWidth="102.0" text="Q9" textAlignment="CENTER" textFill="WHITE">
                            <font>
-                              <Font name="Roboto Light" size="40.0" />
+                              <Font name="Roboto Medium" size="40.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="setNameLabel" contentDisplay="CENTER" layoutX="22.0" layoutY="14.0" prefHeight="44.0" prefWidth="212.0" text="Tens Numbers" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Light" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="questionNumberTotalLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="348.0" layoutY="21.0" prefHeight="40.0" prefWidth="48.0" text="/10" textAlignment="CENTER" textFill="#d7d7d7">
+                           <font>
+                              <Font name="Roboto Light" size="24.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
-                  <Pane fx:id="resultsPane" layoutY="194.0" prefHeight="78.0" prefWidth="410.0" style="-fx-background-color: #303F9F;" visible="false">
+                  <Pane fx:id="resultsPane" prefHeight="71.0" prefWidth="410.0" style="-fx-background-color: #303F9F;">
                      <children>
-                        <Label fx:id="resultsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="108.0" layoutY="9.0" prefHeight="63.0" prefWidth="287.0" text="Correct!" textFill="WHITE" wrapText="true">
+                        <Label fx:id="resultsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="86.0" layoutY="6.0" prefHeight="60.0" prefWidth="310.0" style="-fx-font: 20 roboto;" text="Correct (AAAAAAAAAAAA)" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                            <font>
-                              <Font name="Roboto Medium" size="20.0" />
+                              <Font name="Roboto Medium" size="24.0" />
                            </font>
                         </Label>
-                        <MaterialDesignIconView fx:id="correctIcon" fill="#0cdd24" glyphName="CHECK" layoutX="19.0" layoutY="56.0" size="60" text="" visible="false" />
-                        <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="19.0" layoutY="60.0" size="60" visible="false" />
+                        <MaterialDesignIconView fx:id="correctIcon" fill="#0cdd24" glyphName="CHECK" layoutX="14.0" layoutY="56.0" size="60" text="" />
+                        <MaterialDesignIconView fx:id="incorrectIcon" fill="RED" glyphName="CLOSE" layoutX="14.0" layoutY="57.0" size="60" />
                      </children>
                   </Pane>
                </children>

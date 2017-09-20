@@ -104,6 +104,9 @@ public class QuestionController {
     @FXML
     private Pane questionPaneData;
 
+    @FXML
+    private Label setNameLabel, questionNumberTotalLabel;
+
     // Help Popups
     PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] to record");
     PopOver playHelp = PopoverFactory.helpPopOver("Click the play button to listen\nto your recording");
@@ -143,9 +146,11 @@ public class QuestionController {
     }
 
     void setQuestionSet(String questionSet) {
+        setNameLabel.setText(questionSet);
         QuestionGenerator generator;
         generator = Main.questionGenerators.get(questionSet);
         noQuestions = 10; // don't hardcode this
+        questionNumberTotalLabel.setText("/"+noQuestions);
         _currentRound = new Round(generator, 10); // TODO: numQuestions shouldn't be hardcoded
         generateQuestion();
     }
@@ -398,7 +403,7 @@ public class QuestionController {
         nextQuestionBtn.setVisible(true); // show the next question btn
         incorrectIcon.setVisible(false);
         correctIcon.setVisible(true); // show the tick
-        resultsLabel.setText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")");
+        scaleText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
         nextQuestionBtn.setDefaultButton(true);
@@ -419,14 +424,23 @@ public class QuestionController {
             if (Main.showTutorial) {
                 nextHelp.show(nextQuestionBtn, -5);
             }
-            resultsLabel.setText("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()));
+            scaleText("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()), resultsLabel);
         } else { // First attempt, prompt user to try again.
-            resultsLabel.setText("Please try again.");
+            scaleText("Please try again.", resultsLabel);
             recordBtn.setDefaultButton(true);
         }
         resultsPane.setOpacity(0);
         resultsPane.setVisible(true);
         TransitionFactory.fadeIn(resultsPane).play();
+    }
+
+    private void scaleText(String text, Label label) {
+        if (text.length() < 23) {
+            label.setStyle("-fx-font: 24 roboto;");
+        } else {
+            label.setStyle("-fx-font: 20 roboto;");
+        }
+        label.setText(text);
     }
 
 }
