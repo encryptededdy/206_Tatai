@@ -38,7 +38,7 @@ public class QuestionLogQuery extends Query {
      * @param table Which TableView to write the output to
      * @param round What round to read (if null then all rounds are read)
      */
-    public QuestionLogQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, Integer round) {
+    public QuestionLogQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, Integer round, Integer session) {
         // Names of the output columns
         columnNames = new ArrayList<>(Arrays.asList("Date", "Set", "Question", "Answer", "Time (s)", "Correct", "Tries"));
         tableView = table;
@@ -48,6 +48,9 @@ public class QuestionLogQuery extends Query {
         }
         if (round != null) {
             SQLQuery = SQLQuery + " AND roundID = " + round;
+        }
+        if (session != null) {
+            SQLQuery = SQLQuery + " AND sessionID = " + session;
         }
     }
 

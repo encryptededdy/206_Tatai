@@ -27,7 +27,7 @@ public class RoundsQuery extends Query {
      * @param table Which TableView to write the output to
      * @param unfinished Whether to show unfinished rounds
      */
-    public RoundsQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, boolean unfinished) {
+    public RoundsQuery(long timeBound, boolean limitSet, String questionSet, TableView<ObservableList> table, boolean unfinished, Integer session) {
         // Names of the output columns
         columnNames = new ArrayList<>(Arrays.asList("Date", "Set", "Time (s)", "Questions", "Correct", "Complete"));
         tableView = table;
@@ -37,6 +37,9 @@ public class RoundsQuery extends Query {
         }
         if (!unfinished) {
             SQLQuery = SQLQuery + " AND isComplete = 1";
+        }
+        if (session != null) {
+            SQLQuery = SQLQuery + " AND sessionID = " + session;
         }
     }
 

@@ -42,12 +42,12 @@
                      <font>
                         <Font name="Roboto Medium" size="12.0" />
                      </font></JFXCheckBox>
-                  <Label layoutX="23.0" layoutY="278.0" text="Show Question Set" textFill="WHITE">
+                  <Label layoutX="17.0" layoutY="306.0" text="Show Question Set" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="12.0" />
                      </font>
                   </Label>
-                  <JFXComboBox fx:id="questionSetCombo" layoutX="23.0" layoutY="303.0" prefHeight="25.0" prefWidth="156.0" style="-fx-text-fill: WHITE;" stylesheets="@statistics.css" />
+                  <JFXComboBox fx:id="questionSetCombo" layoutX="19.0" layoutY="331.0" prefHeight="25.0" prefWidth="156.0" style="-fx-text-fill: WHITE;" stylesheets="@statistics.css" />
                   <VBox layoutX="14.0" layoutY="56.0" prefHeight="90.0" prefWidth="212.0">
                      <children>
                         <JFXRadioButton fx:id="questionLogToggle" prefHeight="30.0" prefWidth="184.0" selected="true" text="Question Log" textFill="WHITE">
@@ -68,20 +68,25 @@
                            </font></JFXRadioButton>
                      </children>
                   </VBox>
-                  <JFXButton fx:id="loadBtn" buttonType="RAISED" layoutX="68.0" layoutY="447.0" onAction="#loadBtnPressed" prefHeight="37.0" prefWidth="113.0" style="-fx-background-color: #3F51B5;" text="Display" textFill="WHITE">
+                  <JFXButton fx:id="loadBtn" buttonType="RAISED" layoutX="68.0" layoutY="447.0" onAction="#loadBtnPressed" prefHeight="37.0" prefWidth="113.0" style="-fx-background-color: #3F51B5;" text="Update" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXCheckBox fx:id="allQuestionSets" layoutX="18.0" layoutY="340.0" selected="true" text="All Question Sets" textFill="WHITE">
+                  <JFXCheckBox fx:id="allQuestionSets" layoutX="18.0" layoutY="368.0" selected="true" text="All Question Sets" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="12.0" />
                      </font></JFXCheckBox>
                   <JFXProgressBar fx:id="progressBar" layoutY="425.0" prefHeight="6.0" prefWidth="200.0" progress="0.0" style="-fx-control-inner-background: #212121; -fx-text-box-border: #212121;" />
-                  <JFXCheckBox fx:id="unfinishedRounds" layoutX="18.0" layoutY="367.0" selected="true" text="Show unfinished rounds" textFill="WHITE">
+                  <JFXCheckBox fx:id="unfinishedRounds" layoutX="18.0" layoutY="395.0" selected="true" text="Show unfinished rounds" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="12.0" />
                      </font></JFXCheckBox>
+                  <JFXCheckBox fx:id="thisSessionCheckbox" layoutX="18.0" layoutY="263.0" text="This Session Only" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="12.0" />
+                     </font>
+                  </JFXCheckBox>
                </children>
                <effect>
                   <DropShadow />

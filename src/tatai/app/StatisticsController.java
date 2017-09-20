@@ -1,6 +1,8 @@
 package tatai.app;
 
 import com.jfoenix.controls.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.time.ZoneId;
 
 import javafx.scene.control.TableView;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import tatai.app.util.TransitionFactory;
@@ -41,6 +44,15 @@ public class StatisticsController {
         // Populate question set picker
         questionSetCombo.getItems().addAll(Main.questionGenerators.keySet());
         questionSetCombo.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
+
+        // Add listeners to update the table when selections change
+        showType.selectedToggleProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        unfinishedRounds.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        thisSessionCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        questionSetCombo.valueProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        allQuestionSets.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        allDateCheckbox.selectedProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
+        datePicker.valueProperty().addListener((observable, oldValue, newValue) -> loadBtnPressed());
     }
 
     @FXML
@@ -83,6 +95,9 @@ public class StatisticsController {
     private JFXProgressBar progressBar;
 
     @FXML
+    private JFXCheckBox thisSessionCheckbox;
+
+    @FXML
     private HBox mainStats;
 
     @FXML
@@ -104,10 +119,18 @@ public class StatisticsController {
      * @return The time in UNIX time
      */
     private long getUnixtimeSelected() {
-        if (!allDateCheckbox.isSelected()) {
+        if (!allDateCheckbox.isSelected() && datePicker.getValue() != null) {
             return datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toEpochSecond();
         } else {
             return 0;
+        }
+    }
+
+    private Integer getSession() {
+        if (thisSessionCheckbox.isSelected()) {
+            return Main.currentSession;
+        } else {
+            return null;
         }
     }
 
@@ -116,19 +139,19 @@ public class StatisticsController {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":
                 progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
-                QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null);
+                QuestionLogQuery query = new QuestionLogQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null, getSession());
                 query.setOnFinished(event1 -> progressBar.setProgress(0));
                 query.execute();
                 break;
             case "numbersPronounced":
                 progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
-                NumberQuery nquery = new NumberQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null);
+                NumberQuery nquery = new NumberQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, null, getSession());
                 nquery.setOnFinished(event1 -> progressBar.setProgress(0));
                 nquery.execute();
                 break;
             case "rounds":
                 progressBar.setProgress(JFXProgressBar.INDETERMINATE_PROGRESS);
-                RoundsQuery rquery = new RoundsQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, unfinishedRounds.isSelected());
+                RoundsQuery rquery = new RoundsQuery(getUnixtimeSelected(), !allQuestionSets.isSelected(), questionSetCombo.getValue(), dataTable, unfinishedRounds.isSelected(), getSession());
                 rquery.setOnFinished(event1 -> progressBar.setProgress(0));
                 rquery.execute();
                 break;
