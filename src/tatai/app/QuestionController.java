@@ -403,17 +403,16 @@ public class QuestionController {
         nextQuestionBtn.setVisible(true); // show the next question btn
         incorrectIcon.setVisible(false);
         correctIcon.setVisible(true); // show the tick
+        if (!resultsLabel.getText().equals("Please try again.")) {
+            resultsPane.setOpacity(0);
+            TransitionFactory.fadeIn(resultsPane).play();
+        }
         scaleText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
         nextQuestionBtn.setDefaultButton(true);
         if (Main.showTutorial) {
             nextHelp.show(nextQuestionBtn, -5);
         }
-        if (!resultsLabel.getText().equals("Please try again.")) {
-            resultsPane.setOpacity(0);
-            TransitionFactory.fadeIn(resultsPane).play();
-            System.out.println("fading in!");
-            resultsPane.setVisible(true);
-        }
+        resultsPane.setVisible(true);
     }
 
     private void answerIncorrect() {
@@ -421,6 +420,10 @@ public class QuestionController {
         incorrectIcon.setVisible(true);
         correctIcon.setVisible(false); // show the cross
         playBtn.setDisable(true); // avoid the user accidentally playing back existing recording
+        if (!resultsLabel.getText().equals("Please try again.")) { // Don't fade if already exists
+            resultsPane.setOpacity(0);
+            TransitionFactory.fadeIn(resultsPane).play();
+        }
         if (_currentRound.isLastAttempt()) { // Last attempt, so show the answer and allow to proceed to the next question
             nextQuestionBtn.setVisible(true); // show next question btn
             nextQuestionBtn.setDefaultButton(true);
@@ -431,10 +434,6 @@ public class QuestionController {
         } else { // First attempt, prompt user to try again.
             scaleText("Please try again.", resultsLabel);
             recordBtn.setDefaultButton(true);
-        }
-        if (!resultsLabel.getText().equals("Please try again.")) {
-            resultsPane.setOpacity(0);
-            TransitionFactory.fadeIn(resultsPane).play();
         }
         resultsPane.setVisible(true);
     }
