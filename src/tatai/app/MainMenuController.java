@@ -131,14 +131,14 @@ public class MainMenuController {
     private void statisticsBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = statisticsBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
+        FXMLLoader loader = new FXMLLoader(Main.dashboardLayout);
         Parent root = loader.load();
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
         // Expand
         ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
         st.setToX(2);
-        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<StatisticsController>getController().fadeIn();}); // switch scenes when fade complete
+        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<DashboardController>getController().fadeIn();}); // switch scenes when fade complete
         ft.setOnFinished(event -> st.play());
         ft.play();
     }

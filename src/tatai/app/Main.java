@@ -34,6 +34,7 @@ public class Main extends Application {
     static URL completeLayout;
     static URL loginLayout;
     static URL settingsLayout;
+    static URL dashboardLayout;
     public static boolean showTutorial = true; //TODO: Change this to be optional
     public static int transitionDuration = 300;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
@@ -61,6 +62,7 @@ public class Main extends Application {
         mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
         completeLayout = getClass().getResource("resources/completescreen.fxml");
         settingsLayout = getClass().getResource("resources/settings.fxml");
+        dashboardLayout = getClass().getResource("resources/statsdashboard.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize
