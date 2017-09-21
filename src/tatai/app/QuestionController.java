@@ -404,13 +404,16 @@ public class QuestionController {
         incorrectIcon.setVisible(false);
         correctIcon.setVisible(true); // show the tick
         scaleText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
-        resultsPane.setOpacity(0);
-        resultsPane.setVisible(true);
         nextQuestionBtn.setDefaultButton(true);
         if (Main.showTutorial) {
             nextHelp.show(nextQuestionBtn, -5);
         }
-        TransitionFactory.fadeIn(resultsPane).play();
+        if (!resultsLabel.getText().equals("Please try again.")) {
+            resultsPane.setOpacity(0);
+            TransitionFactory.fadeIn(resultsPane).play();
+            System.out.println("fading in!");
+            resultsPane.setVisible(true);
+        }
     }
 
     private void answerIncorrect() {
@@ -429,9 +432,11 @@ public class QuestionController {
             scaleText("Please try again.", resultsLabel);
             recordBtn.setDefaultButton(true);
         }
-        resultsPane.setOpacity(0);
+        if (!resultsLabel.getText().equals("Please try again.")) {
+            resultsPane.setOpacity(0);
+            TransitionFactory.fadeIn(resultsPane).play();
+        }
         resultsPane.setVisible(true);
-        TransitionFactory.fadeIn(resultsPane).play();
     }
 
     private void scaleText(String text, Label label) {
