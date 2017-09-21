@@ -1,6 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.*;
+import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -100,9 +101,11 @@ public class StatisticsController {
     @FXML
     void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+        FXMLLoader loader = new FXMLLoader(Main.dashboardLayout);
         Parent root = loader.load();
-        scene.setRoot(root);
+        FadeTransition ft = TransitionFactory.fadeOut(mainStats);
+        ft.setOnFinished(event -> {scene.setRoot(root); loader.<DashboardController>getController().fadeIn();});
+        ft.play();
     }
 
     void fadeIn() {
