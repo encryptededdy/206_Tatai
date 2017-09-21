@@ -1,6 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.*;
 import javafx.event.ActionEvent;
@@ -15,6 +16,8 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
@@ -40,6 +43,9 @@ public class QuestionController {
     private ParallelTransition imageFly;
     private int noQuestions;
     private TranslateTransition shakeTT;
+
+    @FXML
+    private JFXProgressBar recordingProgressBar;
 
     @FXML
     private JFXButton recordBtn;
@@ -107,9 +113,11 @@ public class QuestionController {
     @FXML
     private Label setNameLabel, questionNumberTotalLabel;
 
+    private Timeline recordingProgressTimeline;
+
     // Help Popups
-    PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] to record");
-    PopOver playHelp = PopoverFactory.helpPopOver("Click the play button to listen\nto your recording");
+    PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] or [R] to record");
+    PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
     PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
     PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
 
@@ -123,6 +131,13 @@ public class QuestionController {
         shakeTT.setFromX(0);
         shakeTT.setAutoReverse(true);
         shakeTT.setCycleCount(8);
+
+        // 1 second progress timer
+        recordingProgressTimeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(recordingProgressBar.progressProperty(), 0)),
+                new KeyFrame(Duration.seconds(1), new KeyValue(recordingProgressBar.progressProperty(), 1))
+        );
+
     }
 
     void fadeIn() {
@@ -143,6 +158,21 @@ public class QuestionController {
         }
         clrTransition.play();
         controlsTransition.play();
+
+        // Setup keyboard shortcut for play and record
+        backgroundImage.getScene().setOnKeyPressed(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.P) {
+                if (!playBtn.isDisabled()) {
+                    playBtnPressed();
+                }
+                keyEvent.consume();
+            } else if (keyEvent.getCode() == KeyCode.R) {
+                if (!recordBtn.isDisabled()) {
+                    recordBtnPressed();
+                }
+                keyEvent.consume();
+            }
+        });
     }
 
     void setQuestionSet(String questionSet) {
@@ -337,8 +367,12 @@ public class QuestionController {
                 checkHelp.show(checkBtn, -5);
                 playHelp.show(playBtn, -5);
             }
+            recordingProgressBar.setVisible(false);
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
+        recordingProgressBar.setVisible(true);
+        recordingProgressTimeline.setRate(0.5);
+        recordingProgressTimeline.play();
         answerRecording.record(2000);
         recordBtn.setDefaultButton(false);
         checkBtn.setDefaultButton(true);
