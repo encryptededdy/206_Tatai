@@ -65,7 +65,7 @@ public class SettingsController {
     private JFXCheckBox autoRecordCheckbox;
 
     @FXML
-    private JFXCheckBox longerRecordCheckbox;
+    private JFXCheckBox longerRecordCheckbox, enableTutorialCheckbox;
 
     @FXML
     private Pane backBtn;
@@ -82,9 +82,14 @@ public class SettingsController {
         cardPane.setOpacity(0);
         // Set initial values
         username.setText(Main.currentUser);
-        if (Main.transitionDuration != 300) {
+        if (Main.transitionDuration > 300) {
             longerAnimCheckbox.setSelected(true);
         }
+        if (Main.transitionDuration == 1) {
+            disableAnimCheckbox.setSelected(true);
+            longerAnimCheckbox.setDisable(true);
+        }
+        enableTutorialCheckbox.setSelected(Main.showTutorial);
         // Setup the page change transition
         _frontPane = gameSettingsPane;
         ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), animImage);
@@ -142,6 +147,23 @@ public class SettingsController {
             Main.transitionDuration = 600;
         } else {
             Main.transitionDuration = 300;
+        }
+    }
+
+    @FXML
+    private void enableTutorialCheckboxChanged() {
+        Main.showTutorial = enableTutorialCheckbox.isSelected();
+    }
+
+    @FXML
+    private void disableAnimCheckboxChanged() {
+        if (disableAnimCheckbox.isSelected()) {
+            Main.transitionDuration = 1;
+            longerAnimCheckbox.setDisable(true);
+        } else {
+            Main.transitionDuration = 300;
+            longerAnimCheckbox.setDisable(false);
+            longerAnimCheckbox.setSelected(false);
         }
     }
 

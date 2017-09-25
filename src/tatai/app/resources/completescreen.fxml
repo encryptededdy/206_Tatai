@@ -18,10 +18,7 @@
 
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CompleteScreenController">
    <children>
-      <ImageView fitHeight="500.0" fitWidth="800.0">
-         <image>
-            <Image url="@bkgnd.png" />
-         </image>
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
       </ImageView>
       <Pane fx:id="controlsPane" layoutX="32.0" layoutY="429.0" prefHeight="71.0" prefWidth="737.0" style="-fx-background-color: #212121;">
          <effect>

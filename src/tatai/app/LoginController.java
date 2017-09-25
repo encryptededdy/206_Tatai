@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -75,10 +76,15 @@ public class LoginController {
 
     private ParallelTransition expandModalTransition;
 
+    @FXML
+    private ImageView backgroundImage;
+
     /**
      * Get the users and fill in usernameSelector with users in the database
      */
     public void initialize() {
+        backgroundImage.setImage(Main.background);
+
         updateUsernameList();
         // Display the statistics, and make sure it updates everytime usernameSelector changes
         getStatistics();

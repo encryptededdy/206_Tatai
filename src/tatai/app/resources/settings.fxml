@@ -98,7 +98,7 @@
                         <FontAwesomeIconView fill="WHITE" glyphName="GEAR" layoutX="23.0" layoutY="38.0" size="24" />
                      </children>
                   </Pane>
-                  <JFXCheckBox fx:id="disableAnimCheckbox" checkedColor="#3f51b5" disable="true" layoutX="14.0" layoutY="82.0" text="Disable Animations" textFill="WHITE">
+                  <JFXCheckBox fx:id="disableAnimCheckbox" checkedColor="#3f51b5" layoutX="14.0" layoutY="82.0" onAction="#disableAnimCheckboxChanged" text="Disable Animations" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="14.0" />
                      </font>
@@ -178,6 +178,16 @@
                      </font>
                   </JFXCheckBox>
                   <Label layoutX="223.0" layoutY="220.0" prefHeight="36.0" prefWidth="263.0" text="Extend the recording length for if you talk slowly etc." textFill="#a0a0a0" wrapText="true">
+                     <font>
+                        <Font name="Roboto" size="13.0" />
+                     </font>
+                  </Label>
+                  <JFXCheckBox fx:id="enableTutorialCheckbox" checkedColor="#3f51b5" layoutX="14.0" layoutY="281.0" onAction="#enableTutorialCheckboxChanged" text="Enable Tutorial" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="14.0" />
+                     </font>
+                  </JFXCheckBox>
+                  <Label layoutX="223.0" layoutY="281.0" prefHeight="36.0" prefWidth="263.0" text="Enables the game tutorial. Automatically disabled after 1 round is completed" textFill="#a0a0a0" wrapText="true">
                      <font>
                         <Font name="Roboto" size="13.0" />
                      </font>

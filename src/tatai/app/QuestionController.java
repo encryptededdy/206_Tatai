@@ -122,6 +122,7 @@ public class QuestionController {
     PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
 
     public void initialize() {
+        backgroundImage.setImage(Main.background);
         // Setup for the transition
         //questionPane.setOpacity(0);
         controlsPane.setLayoutY(500);

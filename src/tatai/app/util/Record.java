@@ -58,7 +58,6 @@ public class Record {
             AudioInputStream audioInputStream = new AudioInputStream(line);
             AudioSystem.write(audioInputStream, fileType, recordingWav);
 
-
         } catch (LineUnavailableException | IOException e) {
             e.printStackTrace();
         }

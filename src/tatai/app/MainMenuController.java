@@ -34,6 +34,8 @@ public class MainMenuController {
      * Populates the questionDropDown with the questionGenerators stored in Main. Preselects the first option
      */
     public void initialize() {
+        backgroundImage.setImage(Main.background);
+
         questionDropDown.getItems().addAll(Main.questionGenerators.keySet());
         questionDropDown.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
     }

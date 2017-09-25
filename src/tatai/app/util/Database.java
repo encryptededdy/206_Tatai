@@ -33,6 +33,9 @@ public class Database {
         return instance;
     }
 
+    /**
+     * Opens the SQL connection
+     */
     private void openConnection() {
         try {
             Class.forName("org.sqlite.JDBC");
@@ -111,18 +114,37 @@ public class Database {
     public int startSession() {
         int ID = getNextID("sessionID", "sessions");
         insertOp("INSERT INTO sessions (sessionID, username, date) VALUES ("+ID+", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+")");
+        // Checks if the user has completed a round before. If so, disable the tutorial.
+        ResultSet completeOp = returnOp("SELECT COUNT(*) FROM rounds WHERE username = '"+Main.currentUser+"' AND isComplete = 1");
+        try {
+            completeOp.next();
+            Main.showTutorial = completeOp.getInt(1) == 0;
+        } catch (Exception e) {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
         return ID;
     }
 
+    /**
+     * Stops the session, and writes the time into the database
+     */
     public void stopSession() {
         // Record the length of the current session
         insertOp("UPDATE sessions SET sessionlength = "+Instant.now().getEpochSecond()+" - date WHERE sessionID = "+Main.currentSession);
     }
 
+    /**
+     * Creates a new user in the database. If the user already exists nothing will be created.
+     * @param username The username of the new user
+     */
     public void newUser(String username) {
         insertOp("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('"+username+"', "+Instant.now().getEpochSecond()+")");
     }
 
+    /**
+     * Gets a list of currently registered users in the database
+     * @return An ArrayList of the currently registered users
+     */
     public ArrayList<String> getUsers() {
         ArrayList<String> output = new ArrayList<>();
         ResultSet rs = returnOp("SELECT username FROM users");
@@ -136,6 +158,9 @@ public class Database {
         return output;
     }
 
+    /**
+     * Creates the tables for the database structure, if they don't already exist.
+     */
     private void createTables() {
         ArrayList<String> queries = new ArrayList<>();
         // Create the users table

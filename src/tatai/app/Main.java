@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tatai.app.questions.generators.NumberGenerator;
@@ -28,6 +29,7 @@ public class Main extends Application {
     public static Database database;
     public static String currentUser;
     public static int currentSession;
+    static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb1.jpg"));
     static URL mainMenuLayout;
     static URL questionLayout;
     static URL statisticsLayout;

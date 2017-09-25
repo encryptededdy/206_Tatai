@@ -12,6 +12,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.LineTo;
@@ -91,7 +92,13 @@ public class CompleteScreenController {
     @FXML
     private VBox roundStatsVBox;
 
+    @FXML
+    private ImageView backgroundImage;
+
+
     public void initialize() {
+        backgroundImage.setImage(Main.background);
+
         scoreMessageLabel.setOpacity(0);
         yourScoreLabel.setOpacity(0);
         scoreLabel.setOpacity(0);
