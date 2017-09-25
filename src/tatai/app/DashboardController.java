@@ -3,14 +3,16 @@ package tatai.app;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.chart.ChartData;
 import eu.hansolo.tilesfx.skins.BarChartItem;
-import javafx.animation.FadeTransition;
+import javafx.animation.*;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.TransitionFactory;
 
@@ -26,28 +28,29 @@ public class DashboardController {
     private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
 
     @FXML
-    private Pane dataPane, backBtn, advBtn;
+    private Pane dataPane, backBtn, advBtn, backgroundPane;
+
+    @FXML
+    private ImageView backgroundImage;
 
     public void initialize() {
+        backgroundImage.setImage(Main.background);
         dataPane.setOpacity(0);
-        Task<Void> task = new Task<Void>() {
-            @Override
-            protected Void call() throws Exception {
-                populateAccuracyTile();
-                populateTTAnswerTile();
-                populateRoundScoreGraph();
-                //populateTime();
-                populateTriesBar();
-                populateQuestionSetBar();
-                populateRoundLength();
-                return null;
-            }
-        };
-        new Thread(task).start();
+        populateTiles();
     }
 
     public void fadeIn() {
         TransitionFactory.fadeIn(dataPane).play();
+    }
+
+    private void populateTiles() {
+        populateAccuracyTile();
+        populateTTAnswerTile();
+        populateRoundScoreGraph();
+        //populateTime();
+        populateTriesBar();
+        populateQuestionSetBar();
+        populateRoundLength();
     }
 
     private void populateAccuracyTile() {
@@ -100,16 +103,21 @@ public class DashboardController {
     }
 
     private void populateQuestionSetBar() {
+        int max = 100;
         for (Map.Entry<String, QuestionGenerator> entry : Main.questionGenerators.entrySet()) {
             String generator = entry.getKey();
             ResultSet total = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+Main.currentUser+"' AND questionSet = '"+generator+"'");
             try {
                 total.next();
                 questionSetBar.addBarChartItem(new BarChartItem(generator, total.getInt(1)));
+                if (total.getInt(1) > max) {
+                    max = total.getInt(1);
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+        questionSetBar.setMaxValue(max);
     }
 
     private void populateTriesBar() {
@@ -137,7 +145,11 @@ public class DashboardController {
             } else {
                 roundLength.setValue(latest.getDouble(1));
                 while (data.next()) {
-                    roundLength.addChartData(new ChartData(data.getDouble(1)));
+                    if (data.getDouble(1) > 400) { // Removes outliers, as they cause errors with the graph smoothing
+                        roundLength.addChartData(new ChartData(400));
+                    } else {
+                        roundLength.addChartData(new ChartData(data.getDouble(1)));
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -150,7 +162,15 @@ public class DashboardController {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
-        scene.setRoot(root);
+        loader.<MainMenuController>getController().setupFade(false);
+        // Fade out items
+        FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration/2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), backgroundPane);
+        st.setToX(0.5);
+        st.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
+        ft.setOnFinished(event -> st.play());
+        // animate
+        ft.play();
     }
 
     @FXML
