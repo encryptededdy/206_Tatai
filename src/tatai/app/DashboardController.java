@@ -4,6 +4,7 @@ import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.chart.ChartData;
 import eu.hansolo.tilesfx.skins.BarChartItem;
 import javafx.animation.FadeTransition;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,13 +30,20 @@ public class DashboardController {
 
     public void initialize() {
         dataPane.setOpacity(0);
-        populateAccuracyTile();
-        populateTTAnswerTile();
-        populateRoundScoreGraph();
-        //populateTime();
-        populateTriesBar();
-        populateQuestionSetBar();
-        populateRoundLength();
+        Task<Void> task = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                populateAccuracyTile();
+                populateTTAnswerTile();
+                populateRoundScoreGraph();
+                //populateTime();
+                populateTriesBar();
+                populateQuestionSetBar();
+                populateRoundLength();
+                return null;
+            }
+        };
+        new Thread(task).start();
     }
 
     public void fadeIn() {
@@ -124,10 +132,13 @@ public class DashboardController {
         ResultSet data = Main.database.returnOp("SELECT roundlength FROM (SELECT roundlength, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 20) as output ORDER BY output.roundID ASC");
         ResultSet latest = Main.database.returnOp("SELECT roundlength FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 1");
         try {
-            latest.next();
-            roundLength.setValue(latest.getDouble(1));
-            while (data.next()) {
-                roundLength.addChartData(new ChartData(data.getDouble(1)));
+            if (!latest.next()) {
+                roundLength.setValue(0);
+            } else {
+                roundLength.setValue(latest.getDouble(1));
+                while (data.next()) {
+                    roundLength.addChartData(new ChartData(data.getDouble(1)));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
