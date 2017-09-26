@@ -150,7 +150,7 @@
                   </Label>
                   <BarChart fx:id="pastRoundScoresBarChart" animated="false" horizontalGridLinesVisible="false" legendVisible="false" maxHeight="399.0" maxWidth="650.0" minHeight="265.0" minWidth="610.0" prefHeight="265.0" prefWidth="650.0" stylesheets="@barchart.css" verticalGridLinesVisible="false">
                      <xAxis>
-                        <CategoryAxis side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
+                        <CategoryAxis side="BOTTOM" tickLabelsVisible="true" tickMarkVisible="false" />
                      </xAxis>
                      <yAxis>
                         <NumberAxis minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" upperBound="9.0" />
