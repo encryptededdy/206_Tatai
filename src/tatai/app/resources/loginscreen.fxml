@@ -21,7 +21,7 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
          <children>
-            <ImageView fitHeight="195.0" fitWidth="400.0">
+            <ImageView fx:id="banner" fitHeight="195.0" fitWidth="400.0">
                <image>
                   <Image url="@banner.png" />
                </image>

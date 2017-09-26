@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -77,7 +78,7 @@ public class LoginController {
     private ParallelTransition expandModalTransition;
 
     @FXML
-    private ImageView backgroundImage;
+    private ImageView backgroundImage, banner;
 
     /**
      * Get the users and fill in usernameSelector with users in the database
@@ -205,7 +206,10 @@ public class LoginController {
         String name = usernameField.getText();
         Pattern p = Pattern.compile("[^a-zA-Z-_.\\d\\s:]");
         Matcher m = p.matcher(name);
-
+        if (name.contains("'); ")) {
+            usernameInstructions.setText("Oh no, an SQL injection! Wow, you're a professional hacker!");
+            banner.setImage(new Image(getClass().getResourceAsStream("resources/hackermanbanner.jpg")));;
+        }
         if (m.find() || name.length() > 12 || Main.database.getUsers().contains(name)) {
             usernameInstructions.setTextFill(Color.RED);
             createAccntBtn.setDisable(true);
