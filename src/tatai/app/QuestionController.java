@@ -34,6 +34,9 @@ import tatai.app.util.Translator;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * Handles the question screen, and the display of all questions and associated animations
+ */
 public class QuestionController {
 
     private Round _currentRound;
@@ -116,11 +119,14 @@ public class QuestionController {
     private Timeline recordingProgressTimeline;
 
     // Help Popups
-    PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nThe microphone will be red while recording\nYou can also press [ENTER] or [R] to record");
-    PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
-    PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
-    PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
+    private PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nYou can also press [ENTER] or [R] to record");
+    private PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
+    private PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
+    private PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
 
+    /**
+     * Setup the screen for animation, also create the timer for record/playback
+     */
     public void initialize() {
         backgroundImage.setImage(Main.background);
         // Setup for the transition
@@ -186,6 +192,9 @@ public class QuestionController {
         generateQuestion();
     }
 
+    /**
+     * Switches to the next question in the round, or the complete screen if this is the last round
+     */
     private void generateQuestion() {
         // Image the current round
         if (_currentRound.questionNumber() > 0 && _currentRound.questionNumber() < noQuestions && !easterEggEnabled) {
@@ -259,6 +268,9 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Hides all help tooltips
+     */
     private void hideHelpTexts() {
         recordHelp.hide();
         playHelp.hide();
@@ -266,6 +278,10 @@ public class QuestionController {
         nextHelp.hide();
     }
 
+    /**
+     * Animates out the pane to switch to the main menu
+     * @throws IOException
+     */
     @FXML
     void menuBtnPressed() throws IOException {
         hideHelpTexts();
@@ -371,6 +387,7 @@ public class QuestionController {
             recordingProgressBar.setVisible(false);
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
+        recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #F44336;");
         recordingProgressBar.setVisible(true);
         recordingProgressTimeline.setRate(0.5);
         recordingProgressTimeline.play();
@@ -401,6 +418,10 @@ public class QuestionController {
 
     @FXML
     void playBtnPressed() {
+        recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #03A9F4;");
+        recordingProgressBar.setVisible(true);
+        recordingProgressTimeline.setRate(0.5);
+        recordingProgressTimeline.play();
         answerRecording.play();
     }
 

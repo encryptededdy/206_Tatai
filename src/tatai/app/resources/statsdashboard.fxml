@@ -65,5 +65,15 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
       </Pane>
+      <Pane fx:id="noDataErrorPane" prefHeight="440.0" prefWidth="800.0" visible="false">
+         <children>
+            <Pane opacity="0.75" prefHeight="440.0" prefWidth="800.0" style="-fx-background-color: #000000;" />
+            <Label layoutX="90.0" layoutY="206.0" text="Please complete at least 1 round before viewing statistics" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </Pane>

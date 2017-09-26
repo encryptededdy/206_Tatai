@@ -22,37 +22,69 @@ import java.sql.SQLException;
 import java.time.LocalTime;
 import java.util.Map;
 
+/**
+ * Controls the dashboard statistics screen
+ */
+
 public class DashboardController {
 
     @FXML
     private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
 
     @FXML
-    private Pane dataPane, backBtn, advBtn, backgroundPane;
+    private Pane dataPane, backBtn, advBtn, backgroundPane, noDataErrorPane;
 
     @FXML
     private ImageView backgroundImage;
 
+    /**
+     * Sets up the dashboard for fade in, and populates all dashboard fields
+     */
     public void initialize() {
         backgroundImage.setImage(Main.background);
         dataPane.setOpacity(0);
         populateTiles();
     }
 
-    public void fadeIn() {
+    /**
+     * Fades in the screen (to animate in)
+     */
+    void fadeIn() {
         TransitionFactory.fadeIn(dataPane).play();
     }
 
+    /**
+     * Calls all methods to populate dashboard tiles
+     */
     private void populateTiles() {
-        populateAccuracyTile();
-        populateTTAnswerTile();
-        populateRoundScoreGraph();
-        //populateTime();
-        populateTriesBar();
-        populateQuestionSetBar();
-        populateRoundLength();
+        if (hasCompletedRound()) {
+            populateAccuracyTile();
+            populateTTAnswerTile();
+            populateRoundScoreGraph();
+            //populateTime();
+            populateTriesBar();
+            populateQuestionSetBar();
+            populateRoundLength();
+        } else {
+            noDataErrorPane.setVisible(true);
+        }
     }
 
+    private boolean hasCompletedRound() {
+        boolean complete = false;
+        ResultSet rs = Main.database.returnOp("SELECT COUNT(*) FROM rounds WHERE username = '"+Main.currentUser+"' AND isComplete = 1");
+        try {
+            rs.next();
+            complete = (rs.getInt(1) > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return complete;
+    }
+
+    /**
+     * Populates the Questions correct/total accuracy tile from the database
+     */
     private void populateAccuracyTile() {
         ResultSet total = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+Main.currentUser+"'");
         ResultSet correct = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+Main.currentUser+"' AND correct = 1");
@@ -66,6 +98,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Populates the avg time to answer tile
+     */
     private void populateTTAnswerTile() {
         ResultSet length = Main.database.returnOp("SELECT AVG(timeToAnswer) FROM questions WHERE username = '"+Main.currentUser+"'");
         try {
@@ -88,6 +123,9 @@ public class DashboardController {
     }
     */
 
+    /**
+     * Populates the graph of the last 20 scores along with the current score
+     */
     private void populateRoundScoreGraph() {
         ResultSet data = Main.database.returnOp("SELECT noquestions, nocorrect FROM (SELECT noquestions, nocorrect, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 20) as output ORDER BY output.roundID ASC");
         ResultSet latest = Main.database.returnOp("SELECT noquestions, nocorrect FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 1");
@@ -102,6 +140,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Populates the bar graph of the number of questions answered per question set.
+     */
     private void populateQuestionSetBar() {
         int max = 100;
         for (Map.Entry<String, QuestionGenerator> entry : Main.questionGenerators.entrySet()) {
@@ -110,6 +151,7 @@ public class DashboardController {
             try {
                 total.next();
                 questionSetBar.addBarChartItem(new BarChartItem(generator, total.getInt(1)));
+                // track the max value
                 if (total.getInt(1) > max) {
                     max = total.getInt(1);
                 }
@@ -117,9 +159,13 @@ public class DashboardController {
                 e.printStackTrace();
             }
         }
+        // set the max value
         questionSetBar.setMaxValue(max);
     }
 
+    /**
+     * Populates the donut graph of tries to answer a questions
+     */
     private void populateTriesBar() {
         ResultSet firstTry = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+Main.currentUser+"' AND attempts = 1");
         ResultSet secondTry = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+Main.currentUser+"' AND attempts = 2");
@@ -136,6 +182,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Populates the graph of round lengths over the past 20 rounds
+     */
     private void populateRoundLength() {
         ResultSet data = Main.database.returnOp("SELECT roundlength FROM (SELECT roundlength, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 20) as output ORDER BY output.roundID ASC");
         ResultSet latest = Main.database.returnOp("SELECT roundlength FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 1");
@@ -157,6 +206,10 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Animate out the screen then switch to the main menu
+     * @throws IOException
+     */
     @FXML
     void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
@@ -173,6 +226,10 @@ public class DashboardController {
         ft.play();
     }
 
+    /**
+     * Fade out and switch to the Advanced Statistics screen
+     * @throws IOException
+     */
     @FXML
     void advBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
