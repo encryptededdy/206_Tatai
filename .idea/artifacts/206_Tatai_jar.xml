@@ -7,6 +7,7 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/de/jensd/fontawesomefx/8.9/fontawesomefx-8.9.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/controlsfx/controlsfx/8.40.13/controlsfx-8.40.13.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/xerial/sqlite-jdbc/3.20.0/sqlite-jdbc-3.20.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/eu/hansolo/tilesfx/1.4.5/tilesfx-1.4.5.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

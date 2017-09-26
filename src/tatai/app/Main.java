@@ -38,7 +38,7 @@ public class Main extends Application {
     static URL settingsLayout;
     static URL dashboardLayout;
     public static boolean showTutorial = true; //TODO: Change this to be optional
-    public static int transitionDuration = 300;
+    public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
 

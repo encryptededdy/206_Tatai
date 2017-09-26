@@ -82,7 +82,7 @@ public class SettingsController {
         cardPane.setOpacity(0);
         // Set initial values
         username.setText(Main.currentUser);
-        if (Main.transitionDuration > 300) {
+        if (Main.transitionDuration > 200) {
             longerAnimCheckbox.setSelected(true);
         }
         if (Main.transitionDuration == 1) {
@@ -144,9 +144,9 @@ public class SettingsController {
     @FXML
     private void longerAnimCheckboxChanged() {
         if (longerAnimCheckbox.isSelected()) {
-            Main.transitionDuration = 600;
+            Main.transitionDuration = 400;
         } else {
-            Main.transitionDuration = 300;
+            Main.transitionDuration = 200;
         }
     }
 
@@ -161,7 +161,7 @@ public class SettingsController {
             Main.transitionDuration = 1;
             longerAnimCheckbox.setDisable(true);
         } else {
-            Main.transitionDuration = 300;
+            Main.transitionDuration = 200;
             longerAnimCheckbox.setDisable(false);
             longerAnimCheckbox.setSelected(false);
         }

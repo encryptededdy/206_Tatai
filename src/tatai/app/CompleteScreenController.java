@@ -57,7 +57,7 @@ public class CompleteScreenController {
     private Pane mainPane;
 
     @FXML
-    private Pane scorePane;
+    private Pane scorePane, questionPaneclrShadow;
 
     @FXML
     private Pane controlsPane;
@@ -121,19 +121,41 @@ public class CompleteScreenController {
         TransitionFactory.fadeIn(nextRoundBtn).play();
     }
 
+    /**
+     * Animates out the pane to switch to the main menu
+     * @throws IOException
+     */
     @FXML
-    void menuBtnPressed(ActionEvent event) throws IOException {
+    void menuBtnPressed() throws IOException {
+        // If the stats screen is up, put it away.
+        if (!roundStatsBtn.getText().equals("Round Stats")) roundStatsBtnPressed();
+        // Load the new scene
         Scene scene = menuBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
-        scene.setRoot(root);
+        loader.<MainMenuController>getController().setupFade(false);
+
+        // bring the cover back
+        questionPaneclrShadow.setVisible(true);
+        // Fade in the cover
+        FadeTransition ft = TransitionFactory.fadeIn(questionPaneclrShadow, (int)(Main.transitionDuration*0.5));
+        // Expand anim
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), questionPaneclrShadow);
+        st.setToY(1.83823529);
+        st.setToX(0.99);
+        // Move anim
+        TranslateTransition tt2 = TransitionFactory.move(controlsPane, 0, 71);
+        TranslateTransition tt = TransitionFactory.move(questionPaneclrShadow, 0, (int)(73*0.544));
+        ParallelTransition pt = new ParallelTransition(st, tt, tt2);
+        ft.setOnFinished(event1 -> {scorePane.setVisible(false); pt.play();}); // play the expand anim when fade finished
+        pt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
+        ft.play();
     }
 
     @FXML
     void roundStatsBtnPressed() {
-        // TODO Implement this
         roundStatsBtn.setDisable(true);
-        if (roundStatsBtn.getText().equals("Round Stats")) {
+        if (roundStatsBtn.getText().equals("Round Stats")) { // if the stats screen isn't up
             TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, -485, 500);
             tt.setInterpolator(Interpolator.EASE_OUT);
             tt.setOnFinished(event1 -> {
@@ -141,8 +163,8 @@ public class CompleteScreenController {
                 roundStatsBtn.setText("Back");
             });
             tt.play();
-            TransitionFactory.fadeIn(roundStatsPane, 500).play();
-        } else {
+            TransitionFactory.fadeIn(roundStatsPane).play();
+        } else { // stats screen is up, going back.
             TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, 485, 500);
             tt.setInterpolator(Interpolator.EASE_IN);
             tt.setOnFinished(event1 -> {
@@ -150,7 +172,7 @@ public class CompleteScreenController {
                 roundStatsBtn.setText("Round Stats");
             });
             tt.play();
-            TransitionFactory.fadeOut(roundStatsPane, 500).play();
+            TransitionFactory.fadeOut(roundStatsPane).play();
         }
     }
 
