@@ -9,7 +9,11 @@ import javafx.scene.layout.Priority;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+/**
+ * Generates dialog boxes for various uses...
+ */
 public class DialogFactory {
+
     /**
      * Displays an error message with a stack trace.
      *
@@ -45,7 +49,7 @@ public class DialogFactory {
         expContent.add(label, 0, 0);
         expContent.add(textArea, 0, 1);
 
-// Set expandable Exception into the dialog pane.
+        // Set expandable Exception into the dialog pane.
         alert.getDialogPane().setExpandableContent(expContent);
 
         alert.showAndWait();

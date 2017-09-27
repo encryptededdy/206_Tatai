@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +17,6 @@ import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
@@ -106,6 +103,9 @@ public class LoginController {
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> usernameChecker());
     }
 
+    /**
+     * Populates the list of Usernames from the database
+     */
     private void updateUsernameList() {
         usernameSelector.getItems().clear();
         usernameSelector.getItems().addAll(database.getUsers());
@@ -171,6 +171,9 @@ public class LoginController {
         ft.play();
     }
 
+    /**
+     * Closes the create user modal
+     */
     @FXML
     void closeModalBtnPressed() {
         FadeTransition ft = TransitionFactory.fadeOut(newUserModal, Main.transitionDuration/2);
@@ -194,6 +197,9 @@ public class LoginController {
         expandModalTransition.playFromStart();
     }
 
+    /**
+     * Opens the create user modal
+     */
     @FXML
     void createAccntBtnPressed() {
         Main.database.newUser(usernameField.getText());
@@ -202,11 +208,14 @@ public class LoginController {
         closeModalBtnPressed();
     }
 
+    /**
+     * Triggered when username is entered. Checks if it's valid
+     */
     private void usernameChecker() {
         String name = usernameField.getText();
         Pattern p = Pattern.compile("[^a-zA-Z-_.\\d\\s:]");
         Matcher m = p.matcher(name);
-        if (name.contains("'); ")) {
+        if (name.contains("'); ")) { // Easter egg if the user attempts SQL injection
             usernameInstructions.setText("Oh wow, you tried to SQL inject a educational game. Congrats.");
             banner.setImage(new Image(getClass().getResourceAsStream("resources/hackermanbanner.jpg")));;
         }

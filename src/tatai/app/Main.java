@@ -13,7 +13,6 @@ import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Database;
 import tatai.app.util.DialogFactory;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 import java.net.URL;
 import java.util.LinkedHashMap;
