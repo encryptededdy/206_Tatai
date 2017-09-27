@@ -11,6 +11,7 @@ import tatai.app.questions.generators.NumberGenerator;
 import tatai.app.questions.generators.NumberGenerator99;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Database;
+import tatai.app.util.DialogFactory;
 
 import javax.xml.crypto.Data;
 import java.io.File;
@@ -57,6 +58,7 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
+        startupCheck();
         // Load the FXMLs for our various layouts
         loginLayout = getClass().getResource("resources/loginscreen.fxml");
         questionLayout = getClass().getResource("resources/questionscreen.fxml");
@@ -76,19 +78,21 @@ public class Main extends Application {
     }
 
     static void onClose() {
-        //TODO: Add cleanup code here to cleanup
         database.stopSession();
         database.close();
         System.out.println("Application closing!");
     }
 
     private static void startupCheck() {
-        //TODO: Have a nicer error dialog or whatever
         if (!new File("HTK/MaoriNumbers").exists()) {
-            throw new RuntimeException("Catherine HTK files missing!");
+            RuntimeException e = new RuntimeException("Catherine HTK files missing!");
+            DialogFactory.exception("Catherine HTK training Files are missing", "HTK Machine Broke", e);
+            throw e;
         };
         if (!new File("HTK/MaoriNumbers/HVite.exe").exists() && isWindows) {
-            throw new RuntimeException("Windows HTK files missing!");
+            RuntimeException e = new RuntimeException("Windows HTK files missing!");
+            DialogFactory.exception("Windows HTK binary is missing", "HTK Machine Broke", e);
+            throw e;
         };
         File tempDir = new File(".tmp");
         if (!tempDir.exists()) {
@@ -99,7 +103,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         populateGenerators();
-        startupCheck();
         launch(args);
     }
 

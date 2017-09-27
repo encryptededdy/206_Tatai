@@ -41,8 +41,7 @@ public class Database {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:tataiData.sqlite");
         } catch ( Exception e ) {
-            System.out.println("Oh no");
-            System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
     }
 
@@ -53,7 +52,7 @@ public class Database {
         try {
             connection.close();
         } catch ( Exception e ) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
     }
 
@@ -67,7 +66,7 @@ public class Database {
             statement.execute(query);
             statement.close();
         } catch ( Exception e ) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
     }
 
@@ -81,7 +80,7 @@ public class Database {
             Statement statement = connection.createStatement();
             return statement.executeQuery(query);
         } catch ( Exception e ) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
         return null;
     }
@@ -102,7 +101,7 @@ public class Database {
                 return 1;
             }
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
         return 1;
     }
@@ -120,7 +119,7 @@ public class Database {
             completeOp.next();
             Main.showTutorial = completeOp.getInt(1) == 0;
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
         return ID;
     }
@@ -153,7 +152,7 @@ public class Database {
                 output.add(rs.getString(1));
             }
         } catch (Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
         return output;
     }
@@ -206,7 +205,7 @@ public class Database {
             }
             statement.close();
         } catch ( Exception e ) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
     }
 }
