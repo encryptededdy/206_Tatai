@@ -207,7 +207,7 @@ public class LoginController {
         Pattern p = Pattern.compile("[^a-zA-Z-_.\\d\\s:]");
         Matcher m = p.matcher(name);
         if (name.contains("'); ")) {
-            usernameInstructions.setText("Oh no, an SQL injection! Wow, you're a professional hacker!");
+            usernameInstructions.setText("Oh wow, you tried to SQL inject a educational game. Congrats.");
             banner.setImage(new Image(getClass().getResourceAsStream("resources/hackermanbanner.jpg")));;
         }
         if (m.find() || name.length() > 12 || Main.database.getUsers().contains(name)) {
