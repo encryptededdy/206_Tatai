@@ -26,7 +26,8 @@ public class Record {
     private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
     private TargetDataLine line;
     private ArrayList<Node> nodeListeners = new ArrayList<Node>();
-    private ArrayList<EventHandler<ActionEvent>> eventHandlers = new ArrayList<>();
+    private ArrayList<EventHandler<ActionEvent>> recordingeventHandlers = new ArrayList<>();
+    private ArrayList<EventHandler<ActionEvent>> playbackeventHandlers = new ArrayList<>();
 
     /**
      * Define the Audio recording format (currently setup to match HTK input specifications)
@@ -66,7 +67,7 @@ public class Record {
     private void finishRecording() {
         line.stop();
         line.close();
-        completeEvent();
+        completeRecordingEvent();
     }
 
     /**
@@ -99,6 +100,7 @@ public class Record {
     public void play() {
         Media recording = new Media(Paths.get(".tmp/foo.wav").toUri().toString());
         MediaPlayer recordingPlayer = new MediaPlayer(recording);
+        recordingPlayer.setOnEndOfMedia(this::completePlaybackEvent);
         recordingPlayer.play();
     }
 
@@ -107,11 +109,25 @@ public class Record {
      * @param handler   the EventHandler to be called
      */
     public void setOnFinished(EventHandler<ActionEvent> handler) {
-        eventHandlers.add(handler);
+        recordingeventHandlers.add(handler);
     }
 
-    private void completeEvent() {
-        for (EventHandler<ActionEvent> handler : eventHandlers) {
+    /**
+     * Add an event handler to be called at the completion of audio playback
+     * @param handler   the EventHandler to be called
+     */
+    public void setOnPlaybackFinished(EventHandler<ActionEvent> handler) {
+        playbackeventHandlers.add(handler);
+    }
+
+    private void completeRecordingEvent() {
+        for (EventHandler<ActionEvent> handler : recordingeventHandlers) {
+            handler.handle(new ActionEvent());
+        }
+    }
+
+    private void completePlaybackEvent() {
+        for (EventHandler<ActionEvent> handler : playbackeventHandlers) {
             handler.handle(new ActionEvent());
         }
     }

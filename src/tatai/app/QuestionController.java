@@ -46,6 +46,10 @@ public class QuestionController {
     private ParallelTransition imageFly;
     private int noQuestions;
     private TranslateTransition shakeTT;
+    private int playBtnPresses = 0;
+
+    @FXML
+    private MaterialDesignIconView playBtnIcon;
 
     @FXML
     private JFXProgressBar recordingProgressBar;
@@ -230,6 +234,10 @@ public class QuestionController {
             // Animate the transition
             imageFly.playFromStart();
         }
+
+        // Reset the play button press counter
+        playBtnPresses = 0;
+
         // If it's not the last question
         if (_currentRound.hasNext()) {
             questionLabel.setText(_currentRound.next());
@@ -367,9 +375,12 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Handles recording the audio. Disables buttons while recording, makes a recording using util.Record, and activates
+     * the progressBar for recording
+     */
     @FXML
     void recordBtnPressed() {
-        // TODO: Actually implement the recording logic
         recordHelp.hide();
         answerRecording = new Record();
         playBtn.setDisable(true);
@@ -416,13 +427,31 @@ public class QuestionController {
         }
     }
 
+    /**
+     * Handles the playback of the recording, and the associated progressbar
+     */
     @FXML
     void playBtnPressed() {
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #03A9F4;");
         recordingProgressBar.setVisible(true);
         recordingProgressTimeline.setRate(0.5);
         recordingProgressTimeline.play();
+        recordingProgressTimeline.setOnFinished(event -> recordingProgressBar.setVisible(false));
+        playBtnPresses++;
+        if (playBtnPresses > 5) playbackEasterEgg(); // activate the easter egg
         answerRecording.play();
+    }
+
+    /**
+     * Easter egg of the expanding play button
+     */
+    private void playbackEasterEgg() {
+        ScaleTransition st = new ScaleTransition(Duration.seconds(5), playBtn);
+        st.setInterpolator(Interpolator.EASE_IN);
+        st.setToX(3);
+        st.setToY(3);
+        st.play();
+        st.setOnFinished(event -> {playBtnIcon.setText("\uD83D\uDE20"); playBtn.setStyle("-fx-background-color: #F44336;");});
     }
 
     /**

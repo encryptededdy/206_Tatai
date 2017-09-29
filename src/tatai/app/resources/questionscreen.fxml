@@ -93,7 +93,7 @@
                   <Font size="18.0" />
                </font>
                <graphic>
-                  <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="24" />
+                  <MaterialDesignIconView fx:id="playBtnIcon" fill="WHITE" glyphName="PLAY" size="24" />
                </graphic>
             </JFXButton>
             <JFXButton fx:id="nextQuestionBtn" buttonType="RAISED" cancelButton="true" layoutX="263.0" layoutY="11.0" onAction="#nextBtnPressed" prefHeight="46.0" prefWidth="212.0" style="-fx-background-color: #3F51B5;" text="Next Question" textFill="WHITE" visible="false">
