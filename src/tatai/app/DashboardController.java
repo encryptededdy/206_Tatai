@@ -208,7 +208,7 @@ public class DashboardController {
 
     /**
      * Animate out the screen then switch to the main menu
-     * @throws IOException
+     * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML
     void backBtnPressed() throws IOException {
@@ -228,7 +228,7 @@ public class DashboardController {
 
     /**
      * Fade out and switch to the Advanced Statistics screen
-     * @throws IOException
+     * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML
     void advBtnPressed() throws IOException {

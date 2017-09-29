@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.animation.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +17,6 @@ import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
@@ -105,7 +102,7 @@ public class LoginController {
         // Setup usernamechecker
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> usernameChecker());
     }
-
+    
     private void updateUsernameList() {
         usernameSelector.getItems().clear();
         usernameSelector.getItems().addAll(database.getUsers());
@@ -161,7 +158,7 @@ public class LoginController {
 
     /**
      * Handles login process. Writes in the current user and begins the session. Then fades out and switches to the main menu
-     * @throws IOException
+     * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML
     void loginBtnPressed() throws IOException {

@@ -4,8 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,11 +15,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Scale;
 import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
@@ -73,7 +68,7 @@ public class QuestionController {
     private Label questionNumberLabel;
 
     @FXML
-    private Pane questionPane;
+    private Pane questionPane, confirmPane;
 
     @FXML
     private Pane controlsPane;
@@ -151,6 +146,10 @@ public class QuestionController {
 
     }
 
+    /**
+     * Animates in the objects in the Question scene. Called by the transitioning controller after it's animation is
+     * played.
+     */
     void fadeIn() {
         FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr);
         clrTransition.setOnFinished(event -> questionPaneclr.setVisible(false));
@@ -186,6 +185,10 @@ public class QuestionController {
         });
     }
 
+    /**
+     * Defines the QuestionSet to be used by this question instance
+     * @param questionSet The QuestionSet to use
+     */
     void setQuestionSet(String questionSet) {
         setNameLabel.setText(questionSet);
         QuestionGenerator generator;
@@ -288,10 +291,10 @@ public class QuestionController {
 
     /**
      * Animates out the pane to switch to the main menu
-     * @throws IOException
+     * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML
-    void menuBtnPressed() throws IOException {
+    void confirmBtnPressed() throws IOException {
         hideHelpTexts();
         // Load the new scene
         Scene scene = menuBtn.getScene();
@@ -314,6 +317,22 @@ public class QuestionController {
         ft.setOnFinished(event1 -> {questionPane.setVisible(false); pt.play();}); // play the expand anim when fade finished
         pt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
         ft.play();
+    }
+
+    /**
+     * Shows the exit confirmation pane
+     */
+    @FXML
+    void menuBtnPressed() {
+        confirmPane.setVisible(true);
+    }
+
+    /**
+     * Hides the exit confirmation pane
+     */
+    @FXML
+    void cancelBtnPressed() {
+        confirmPane.setVisible(false);
     }
 
     /**
@@ -367,8 +386,11 @@ public class QuestionController {
         backgroundImage.setEffect(colorAdjust);
     }
 
+    /**
+     * Easter egg handler that shifts the recording button around
+     */
     @FXML
-    void recordBtnHover() {
+    private void recordBtnHover() {
         if (easterEggEnabled) {
             Random rng = new Random();
             controlsPane.setLayoutY(rng.nextInt(450));
@@ -407,6 +429,9 @@ public class QuestionController {
         checkBtn.setDefaultButton(true);
     }
 
+    /**
+     * User submits the answer; checks if it's correct
+     */
     @FXML
     void checkBtnPressed() {
         checkBtn.setDisable(true);
@@ -464,6 +489,9 @@ public class QuestionController {
         tutorialNotifOKPressed();
     }
 
+    /**
+     * When the OK button is pressed in the tutorial notification (thus dismissing said notification)
+     */
     @FXML
     void tutorialNotifOKPressed() {
         TranslateTransition tt = new TranslateTransition();
@@ -474,6 +502,9 @@ public class QuestionController {
         tt.play();
     }
 
+    /**
+     * When the next question button is pressed. Generates the next question.
+     */
     @FXML
     void nextBtnPressed() {
         nextHelp.hide();
@@ -484,6 +515,9 @@ public class QuestionController {
         generateQuestion();
     }
 
+    /**
+     * Called when the answer is correct. Displays on-screen feedback and sets up the next question button.
+     */
     private void answerCorrect() {
         nextQuestionBtn.setVisible(true); // show the next question btn
         incorrectIcon.setVisible(false);
@@ -500,6 +534,10 @@ public class QuestionController {
         resultsPane.setVisible(true);
     }
 
+    /**
+     * Called when the answer is incorrect. Allows the user to try again, or set up the next question button if it's
+     * their last attempt
+     */
     private void answerIncorrect() {
         shakeTT.playFromStart();
         incorrectIcon.setVisible(true);
@@ -523,6 +561,11 @@ public class QuestionController {
         resultsPane.setVisible(true);
     }
 
+    /**
+     * Handles the scaling of text (ie. reduces font size on longer text)
+     * @param text The text to be scaled
+     * @param label The label to write this text to
+     */
     private void scaleText(String text, Label label) {
         if (text.length() < 23) {
             label.setStyle("-fx-font: 24 roboto;");
