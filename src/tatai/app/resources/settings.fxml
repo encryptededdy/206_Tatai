@@ -138,6 +138,16 @@
                         <Font name="Roboto" size="14.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="unlockAllBtn" buttonType="RAISED" layoutX="26.0" layoutY="359.0" onMouseEntered="#unlockAllBtnHoverOn" onMouseExited="#unlockAllBtnHoverOff" prefHeight="29.0" prefWidth="133.0" style="-fx-background-color: #3F51B5;" text="Unlock All" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <Label layoutX="223.0" layoutY="356.0" prefHeight="36.0" prefWidth="263.0" text="Unlocks all items in the store" textFill="#a0a0a0" wrapText="true">
+                     <font>
+                        <Font name="Roboto" size="13.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
             <Pane fx:id="gameSettingsPane" layoutX="33.0" layoutY="30.0" prefHeight="440.0" prefWidth="510.0" style="-fx-background-color: #303030;">

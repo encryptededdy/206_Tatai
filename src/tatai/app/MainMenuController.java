@@ -176,7 +176,6 @@ public class MainMenuController {
      */
     @FXML
     private void closeApplicationRight() {
-        Main.onClose();
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         Media sound = new Media(getClass().getResource("resources/shutdown.wav").toString());
         MediaPlayer player = new MediaPlayer(sound);
@@ -185,6 +184,5 @@ public class MainMenuController {
         ft.play();
         fadeBox.setVisible(true);
         player.play();
-        player.setOnEndOfMedia(mainStage::close);
     }
 }

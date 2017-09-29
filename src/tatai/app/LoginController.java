@@ -102,7 +102,7 @@ public class LoginController {
         // Setup usernamechecker
         usernameField.textProperty().addListener((observable, oldValue, newValue) -> usernameChecker());
     }
-    
+
     private void updateUsernameList() {
         usernameSelector.getItems().clear();
         usernameSelector.getItems().addAll(database.getUsers());
