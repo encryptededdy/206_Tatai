@@ -68,7 +68,7 @@ public class QuestionController {
     private Label questionNumberLabel;
 
     @FXML
-    private Pane questionPane, confirmPane;
+    private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
 
     @FXML
     private Pane controlsPane;
@@ -112,6 +112,8 @@ public class QuestionController {
     @FXML
     private Pane questionPaneData;
 
+    private ParallelTransition menuConfirmTransition;
+
     @FXML
     private Label setNameLabel, questionNumberTotalLabel;
 
@@ -144,6 +146,18 @@ public class QuestionController {
                 new KeyFrame(Duration.seconds(1), new KeyValue(recordingProgressBar.progressProperty(), 1))
         );
 
+        // Menu button opening transition
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), menuBtnCover);
+        st.setFromX(1);
+        st.setFromY(1);
+        st.setToX(10.6811594);
+        st.setToY(2.9);
+        TranslateTransition tt = TransitionFactory.move(menuBtnCover, 307, 0);
+        tt.setFromX(0);
+        FadeTransition ft = TransitionFactory.fadeIn(darkenContents);
+        ft.setToValue(0.5);
+        ft.setFromValue(0);
+        menuConfirmTransition = new ParallelTransition(st, tt, ft);
     }
 
     /**
@@ -295,6 +309,7 @@ public class QuestionController {
      */
     @FXML
     void confirmBtnPressed() throws IOException {
+        TransitionFactory.fadeOut(darkenContents).play();
         hideHelpTexts();
         // Load the new scene
         Scene scene = menuBtn.getScene();
@@ -324,7 +339,11 @@ public class QuestionController {
      */
     @FXML
     void menuBtnPressed() {
-        confirmPane.setVisible(true);
+        menuBtnCover.setVisible(true);
+        darkenContents.setVisible(true);
+        menuConfirmTransition.setRate(1);
+        menuConfirmTransition.play();
+        menuConfirmTransition.setOnFinished(event -> confirmPane.setVisible(true));
     }
 
     /**
@@ -333,6 +352,9 @@ public class QuestionController {
     @FXML
     void cancelBtnPressed() {
         confirmPane.setVisible(false);
+        menuConfirmTransition.setRate(-1);
+        menuConfirmTransition.play();
+        menuConfirmTransition.setOnFinished(event -> {menuBtnCover.setVisible(false); darkenContents.setVisible(false);});
     }
 
     /**
