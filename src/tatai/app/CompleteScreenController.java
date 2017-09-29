@@ -2,22 +2,16 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.util.TransitionFactory;
@@ -25,12 +19,9 @@ import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class CompleteScreenController {
-    Round _mostRecentRound;
+    private Round _mostRecentRound;
 
     @FXML
     private JFXButton menuBtn;
@@ -123,7 +114,7 @@ public class CompleteScreenController {
 
     /**
      * Animates out the pane to switch to the main menu
-     * @throws IOException
+     * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML
     void menuBtnPressed() throws IOException {
@@ -202,16 +193,16 @@ public class CompleteScreenController {
         ft.play();
     }
 
-    public void setMostRecentRound(Round round) {
+    void setMostRecentRound(Round round) {
         _mostRecentRound = round;
     }
 
-    public void executeRecentRoundQuery () {
+    void executeRecentRoundQuery () {
         MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
 
-    public void executePreviousRoundScoreQuery() {
+    void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }

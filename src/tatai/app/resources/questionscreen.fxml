@@ -93,7 +93,7 @@
                   <Font size="18.0" />
                </font>
                <graphic>
-                  <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="24" />
+                  <MaterialDesignIconView fx:id="playBtnIcon" fill="WHITE" glyphName="PLAY" size="24" />
                </graphic>
             </JFXButton>
             <JFXButton fx:id="nextQuestionBtn" buttonType="RAISED" cancelButton="true" layoutX="263.0" layoutY="11.0" onAction="#nextBtnPressed" prefHeight="46.0" prefWidth="212.0" style="-fx-background-color: #3F51B5;" text="Next Question" textFill="WHITE" visible="false">
@@ -102,6 +102,25 @@
                </font>
             </JFXButton>
             <JFXProgressBar fx:id="recordingProgressBar" prefHeight="5.0" prefWidth="737.0" progress="0.0" style="-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: red;" />
+            <Pane fx:id="confirmPane" layoutX="9.0" layoutY="11.0" prefHeight="50.0" prefWidth="722.0" style="-fx-background-color: #212121;" visible="false">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="410.0" style="-fx-font: 16 roboto;" text="Are you sure you want to exit? (Statistics will be saved)" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                     <font>
+                        <Font name="Roboto Medium" size="24.0" />
+                     </font>
+                  </Label>
+                  <JFXButton buttonType="RAISED" cancelButton="true" layoutX="608.0" layoutY="11.0" onAction="#confirmBtnPressed" prefHeight="28.0" prefWidth="93.0" style="-fx-background-color: #F44336;" text="Yes" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="14.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton buttonType="RAISED" cancelButton="true" layoutX="482.0" layoutY="11.0" onAction="#cancelBtnPressed" prefHeight="28.0" prefWidth="93.0" style="-fx-background-color: #3F51B5;" text="No" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="14.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane fx:id="tutorialNotif" layoutX="71.0" layoutY="-60.0" prefHeight="50.0" prefWidth="661.0" style="-fx-background-color: #212121;">

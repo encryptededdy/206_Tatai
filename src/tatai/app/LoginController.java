@@ -138,25 +138,30 @@ public class LoginController {
             lastLog.setText("Never");
         } else if (TimeUnit.SECONDS.toMinutes(Instant.now().getEpochSecond() - lastLogin) < 60) {
             lastLog.setText(TimeUnit.SECONDS.toMinutes(Instant.now().getEpochSecond() - lastLogin)+" minutes ago");
-        } else {
+        } else if (TimeUnit.SECONDS.toHours(Instant.now().getEpochSecond() - lastLogin) < 48) {
             lastLog.setText(TimeUnit.SECONDS.toHours(Instant.now().getEpochSecond() - lastLogin)+" hours ago");
+        } else {
+            lastLog.setText(TimeUnit.SECONDS.toDays(Instant.now().getEpochSecond() - lastLogin)+" days ago");
         }
         // Convert playTime
         if (TimeUnit.SECONDS.toMinutes(playTime) < 60) {
             // Minutes
             playtimeLabel.setText("Playtime (mins)");
             playtimeCounter.setText(Long.toString(TimeUnit.SECONDS.toMinutes(playTime)));
-        } else {
+        } else if (TimeUnit.SECONDS.toHours(playTime) < 48) {
             // Hours
             playtimeLabel.setText("Playtime (hrs)");
             playtimeCounter.setText(Long.toString(TimeUnit.SECONDS.toHours(playTime)));
+        } else {
+            playtimeLabel.setText("Playtime (days)");
+            playtimeCounter.setText(Long.toString(TimeUnit.SECONDS.toDays(playTime)));
         }
 
     }
 
     /**
      * Handles login process. Writes in the current user and begins the session. Then fades out and switches to the main menu
-     * @throws IOException
+     * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML
     void loginBtnPressed() throws IOException {
