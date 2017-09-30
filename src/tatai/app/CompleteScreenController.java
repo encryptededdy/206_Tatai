@@ -23,6 +23,12 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Controller class for the complete screen which comes after a round is completed.
+ *
+ * @author Zach Huxford
+ */
+
 public class CompleteScreenController {
 
     Round _mostRecentRound;
@@ -48,10 +54,14 @@ public class CompleteScreenController {
     @FXML private VBox roundStatsVBox;
     @FXML private ImageView backgroundImage;
 
+    // Hacky variables for next round logic
     private String _nextGeneratorName;
     private boolean _nextRoundAvailable;
 
-
+    /**
+     * Setup javafx objects to be animated in.
+     * Also decides if the next round button will be disabled.
+     */
     public void initialize() {
         backgroundImage.setImage(Main.background);
 
@@ -70,6 +80,9 @@ public class CompleteScreenController {
         }
     }
 
+    /**
+     * fades in all of the javafx objects once the scene has been changed to the complete screen.
+     */
     void fadeIn() {
         TransitionFactory.fadeIn(scoreMessageLabel).play();
         TransitionFactory.fadeIn(yourScoreLabel).play();
@@ -109,6 +122,10 @@ public class CompleteScreenController {
         ft.play();
     }
 
+    /**
+     * Animates in and out the roundStats pane which shows a graph containing the scores of the most recent rounds
+     * and a table showing information pertaining to the most recent round in particular.
+     */
     @FXML void roundStatsBtnPressed() {
         roundStatsBtn.setDisable(true);
         if (roundStatsBtn.getText().equals("Round Stats")) { // if the stats screen isn't up
@@ -132,6 +149,11 @@ public class CompleteScreenController {
         }
     }
 
+    /**
+     * Determines the name of the round type just played and changes scene to a new instance of question screen
+     * with a question generator of the same type (after the appropriate elements fade out)
+     * @throws IOException
+     */
     @FXML void replayBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = replayBtn.getScene();
@@ -145,6 +167,12 @@ public class CompleteScreenController {
         ft.play();
     }
 
+    /**
+     * Determines the name of the round type just played and changes scene to a new instance of question screen
+     * with a question generator of the next type in the sequence determined by setMostRecentRound
+     * (after the appropriate elements fade out)
+     * @throws IOException
+     */
     @FXML void nextRoundBtnPressed() throws IOException{
         // Load the new scene
         Scene scene = replayBtn.getScene();
@@ -152,13 +180,19 @@ public class CompleteScreenController {
         Parent root = loader.load();
 
 
-        loader.<QuestionController>getController().setQuestionSet(_nextGeneratorName); // TODO detect current question Generator
+        loader.<QuestionController>getController().setQuestionSet(_nextGeneratorName);
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
         ft.play();
     }
 
+    /**
+     * gives a reference to the most recent Round object from the question controller
+     * also determines the name of the type of the next round if there is one.
+     * @param round the Round object from the most recent Round
+     *
+     */
     void setMostRecentRound(Round round) {
         _mostRecentRound = round;
         _nextGeneratorName = getNextRoundName(round);
@@ -170,16 +204,27 @@ public class CompleteScreenController {
         }
     }
 
+    /**
+     * constructs and executes a MostRecentRoundQuery which queries the database for information about the most recent round
+     * and then updates the results table stats label etc with stats about the most recent round.
+     */
     void executeRecentRoundQuery () {
         MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, nextRoundBtn, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
 
+    /**
+     * constructs and executes a PreviousRoundScoreQuery which queries the database for information about the scores for the
+     * 10 most recent rounds and updates the pastRoundScoresBarChart with that data.
+     */
     void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }
 
+    /**
+     * toggles the visibility of the graphVBox, the roundStatsVbox and the resultsTable
+     */
     public void statsChangeGraphBtnPressed() {
         if (roundStatsVBox.getOpacity() == 1) {
             FadeTransition ft0 = TransitionFactory.fadeOut(roundStatsVBox);
@@ -201,6 +246,12 @@ public class CompleteScreenController {
         }
     }
 
+    /**
+     * Determines the name of the next round if there is one based on the LinkedHashMap of questionGenerators in Main
+     * and the Round object of the most recent round.
+     * @param mostRecentRound
+     * @return
+     */
     private String getNextRoundName(Round mostRecentRound) {
         String currentGeneratorName = mostRecentRound.getGeneratorName();
         String nextGeneratorName = null;

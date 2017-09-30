@@ -65,6 +65,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Queries the sql database to see if the current user has completed a round
+     */
     private boolean hasCompletedRound() {
         boolean complete = false;
         ResultSet rs = Main.database.returnOp("SELECT COUNT(*) FROM rounds WHERE username = '"+Main.currentUser+"' AND isComplete = 1");
