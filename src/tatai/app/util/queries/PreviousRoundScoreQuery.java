@@ -74,9 +74,10 @@ public class PreviousRoundScoreQuery extends Query {
         StackPane node = new StackPane();
         Label label = new Label(text);
         label.setTextFill(new Color(1, 1, 1, 1));
+        label.setFont(Main.currentFont);
         Group group = new Group(label);
         StackPane.setAlignment(group, Pos.TOP_CENTER);
-        StackPane.setMargin(group, new Insets(5, 0, 0, 0));
+        StackPane.setMargin(group, new Insets(-26, 0, 0, 0));
 
         node.setBackground(new Background(new BackgroundFill(color, new CornerRadii(4.0), null)));
         node.getChildren().add(group);

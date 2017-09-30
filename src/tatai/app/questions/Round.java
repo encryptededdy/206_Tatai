@@ -15,6 +15,7 @@ public class Round {
     private int _currentQuestion = -1;
     private int _roundID;
     private long _startTime;
+    private QuestionGenerator _roundQuestionGenerator;
 
     /**
      * Constructs a Round
@@ -22,6 +23,8 @@ public class Round {
      * @param numQuestions Number of questions in the round
      */
     public Round(QuestionGenerator generator, int numQuestions) {
+        _roundQuestionGenerator = generator;
+
         System.out.println("Starting round: "+Main.database.getNextID("roundID", "rounds"));
         _roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
 
@@ -110,5 +113,9 @@ public class Round {
 
     public int getRoundID() {
         return _roundID;
+    }
+
+    public String getGeneratorName() {
+        return _roundQuestionGenerator.getGeneratorName();
     }
 }

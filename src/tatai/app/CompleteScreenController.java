@@ -2,26 +2,38 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
+import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CompleteScreenController {
-    private Round _mostRecentRound;
+    Round _mostRecentRound;
 
     @FXML
     private JFXButton menuBtn;
@@ -86,6 +98,9 @@ public class CompleteScreenController {
     @FXML
     private ImageView backgroundImage;
 
+    private String _nextGeneratorName;
+    private boolean _nextRoundAvailable;
+
 
     public void initialize() {
         backgroundImage.setImage(Main.background);
@@ -100,7 +115,9 @@ public class CompleteScreenController {
         graphVBox.setOpacity(0);
         graphVBox.setMouseTransparent(true);
 
-        //testPopulateBarChart();
+        if (!_nextRoundAvailable) {
+            nextRoundBtn.setDisable(true);
+        }
     }
 
     void fadeIn() {
@@ -114,7 +131,7 @@ public class CompleteScreenController {
 
     /**
      * Animates out the pane to switch to the main menu
-     * @throws IOException Exception can be thrown when loading FXML
+     * @throws IOException
      */
     @FXML
     void menuBtnPressed() throws IOException {
@@ -173,7 +190,8 @@ public class CompleteScreenController {
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet("Numbers"); // TODO detect current question Generator
+        String currentGeneratorName = _mostRecentRound.getGeneratorName();
+        loader.<QuestionController>getController().setQuestionSet(currentGeneratorName);
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
@@ -186,23 +204,32 @@ public class CompleteScreenController {
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet("Tens Numbers"); // TODO detect current question Generator
+
+
+        loader.<QuestionController>getController().setQuestionSet(_nextGeneratorName); // TODO detect current question Generator
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
         ft.play();
     }
 
-    void setMostRecentRound(Round round) {
+    public void setMostRecentRound(Round round) {
         _mostRecentRound = round;
+        _nextGeneratorName = getNextRoundName(round);
+
+        if (_nextGeneratorName == null) {
+            _nextRoundAvailable = false;
+        } else {
+            _nextRoundAvailable = true;
+        }
     }
 
-    void executeRecentRoundQuery () {
-        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, _mostRecentRound.getRoundID());
+    public void executeRecentRoundQuery () {
+        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, nextRoundBtn, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
 
-    void executePreviousRoundScoreQuery() {
+    public void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }
@@ -226,5 +253,23 @@ public class CompleteScreenController {
             });
             ft2.play();
         }
+    }
+
+    private String getNextRoundName(Round mostRecentRound) {
+        String currentGeneratorName = mostRecentRound.getGeneratorName();
+        String nextGeneratorName = null;
+        Iterator it = Main.questionGenerators.entrySet().iterator();
+        boolean isCurrentGenerator = false;
+        while (it.hasNext()) {
+            Map.Entry<String, QuestionGenerator> entry = (Map.Entry)it.next();
+            QuestionGenerator qg = entry.getValue();
+            if (isCurrentGenerator) {
+                return qg.getGeneratorName();
+            }
+            if (qg.getGeneratorName().equals(currentGeneratorName)) {
+                isCurrentGenerator = true;
+            }
+        }
+        return null;
     }
 }

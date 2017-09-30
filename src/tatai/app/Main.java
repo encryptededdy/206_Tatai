@@ -41,6 +41,7 @@ public class Main extends Application {
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
+    public static Font currentFont;
 
     static { // Static initializer
         // Load fonts
@@ -48,6 +49,7 @@ public class Main extends Application {
         Font.loadFont(Main.class.getResource("resources/Roboto-Bold.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Medium.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Light.ttf").toExternalForm(), 10);
+        currentFont = new Font("Roboto", 18);
         database = Database.getInstance();
     }
 

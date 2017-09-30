@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CompleteScreenController">
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CompleteScreenController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
       </ImageView>
@@ -142,14 +142,14 @@
             </VBox>
             <VBox fx:id="graphVBox" layoutX="20.0" layoutY="8.0" prefHeight="315.0" prefWidth="610.0">
                <children>
-                  <Label contentDisplay="TOP" prefHeight="32.0" prefWidth="610.0" style="-fx-alignment: center; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Past Rounds" textAlignment="CENTER" textFill="WHITE">
+                  <Label contentDisplay="TOP" prefHeight="32.0" prefWidth="610.0" style="-fx-alignment: center; -fx-padding: 1.1em 0.5em 0.85em 0.5em; -fx-border-width: 0px 0px 1px 0px; -fx-border-color: #444444;" text="Past Round Scores" textAlignment="CENTER" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="16.0" />
                      </font>
                   </Label>
                   <BarChart fx:id="pastRoundScoresBarChart" animated="false" horizontalGridLinesVisible="false" legendVisible="false" maxHeight="399.0" maxWidth="650.0" minHeight="265.0" minWidth="610.0" prefHeight="265.0" prefWidth="650.0" stylesheets="@barchart.css" verticalGridLinesVisible="false">
                      <xAxis>
-                        <CategoryAxis side="BOTTOM" tickLabelsVisible="true" tickMarkVisible="false" />
+                        <CategoryAxis side="BOTTOM" tickLabelsVisible="false" tickMarkVisible="false" />
                      </xAxis>
                      <yAxis>
                         <NumberAxis minorTickVisible="false" side="LEFT" tickLabelsVisible="false" tickMarkVisible="false" upperBound="9.0" />

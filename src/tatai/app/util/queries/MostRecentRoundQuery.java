@@ -1,5 +1,6 @@
 package tatai.app.util.queries;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -8,6 +9,7 @@ import javafx.scene.control.TableView;
 import tatai.app.Main;
 import tatai.app.util.Translator;
 
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -27,6 +29,7 @@ public class MostRecentRoundQuery extends Query {
     private Label _statLabelAverageNo;
     private Label _statLabelOverall;
     private Label _statLabelOverallNo;
+    private JFXButton _nextRoundButton;
     private int _score;
     private int _numberOfQuestions;
     private int _totalTimeToAnswer;
@@ -45,7 +48,7 @@ public class MostRecentRoundQuery extends Query {
      * @param roundid What round to read
      */
     public MostRecentRoundQuery(
-            Label roundScore, Label scoreMessageLabel, TableView tableViewRound, Label statLabelAverage, Label statLabelAverageNo, Label statLabelOverall, Label statLabelOverallNo, Integer roundid) {
+            Label roundScore, Label scoreMessageLabel, TableView tableViewRound, Label statLabelAverage, Label statLabelAverageNo, Label statLabelOverall, Label statLabelOverallNo, JFXButton nextRoundButton, Integer roundid) {
         columnNames = new ArrayList<>(Arrays.asList("Quest.", "Ans.", "Time", "Correct", "Tries"));
         _roundScoreLabel = roundScore;
         _scoreMessageLabel = scoreMessageLabel;
@@ -53,6 +56,7 @@ public class MostRecentRoundQuery extends Query {
         _statLabelAverageNo = statLabelAverageNo;
         _statLabelOverall = statLabelOverall;
         _statLabelOverallNo = statLabelOverallNo;
+        _nextRoundButton = nextRoundButton;
         tableView = tableViewRound;
 
         _score = 0;
@@ -98,6 +102,7 @@ public class MostRecentRoundQuery extends Query {
         task.setOnSucceeded(event -> {
             if (_score < 8) {
                 _scoreMessageLabel.setText("Ma te wa, karawhiua");
+                _nextRoundButton.setDisable(true);
             } else {
                 _scoreMessageLabel.setText("Ka Pai!");
             }
