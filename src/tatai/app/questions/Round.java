@@ -2,13 +2,14 @@ package tatai.app.questions;
 
 import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.Database;
 
 import java.time.Instant;
 import java.util.ArrayList;
 
 /**
  *  Represents a game Round. Stores a list of questions.
+ *
+ *  @author Edward
  */
 public class Round {
     private ArrayList<Question> _questions = new ArrayList<>();
@@ -103,18 +104,34 @@ public class Round {
         return currentQuestion().isLastAttempt();
     }
 
+    /**
+     * Gets the number of the current question (ie. the nth question)
+     * @return The number of the current question
+     */
     public int questionNumber() {
         return _currentQuestion+1;
     }
 
+    /**
+     * Gets the current question object
+     * @return The current question object
+     */
     private Question currentQuestion() {
         return _questions.get(_currentQuestion);
     }
 
+    /**
+     * Gets the identifier of the current round (as stored in the database)
+     * @return The current round ID
+     */
     public int getRoundID() {
         return _roundID;
     }
 
+    /**
+     * Get the name of the generator used for this round (eg. "Tens Questions"
+     * @return The generator name
+     */
     public String getGeneratorName() {
         return _roundQuestionGenerator.getGeneratorName();
     }

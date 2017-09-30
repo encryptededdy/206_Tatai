@@ -83,8 +83,7 @@ public class CompleteScreenController {
      * Animates out the pane to switch to the main menu
      * @throws IOException
      */
-    @FXML
-    void menuBtnPressed() throws IOException {
+    @FXML void menuBtnPressed() throws IOException {
         // If the stats screen is up, put it away.
         if (!roundStatsBtn.getText().equals("Round Stats")) roundStatsBtnPressed();
         // Load the new scene
@@ -110,8 +109,7 @@ public class CompleteScreenController {
         ft.play();
     }
 
-    @FXML
-    void roundStatsBtnPressed() {
+    @FXML void roundStatsBtnPressed() {
         roundStatsBtn.setDisable(true);
         if (roundStatsBtn.getText().equals("Round Stats")) { // if the stats screen isn't up
             TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, -485, 500);
@@ -134,8 +132,7 @@ public class CompleteScreenController {
         }
     }
 
-    @FXML
-    void replayBtnPressed() throws IOException {
+    @FXML void replayBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
@@ -148,8 +145,7 @@ public class CompleteScreenController {
         ft.play();
     }
 
-    @FXML
-    void nextRoundBtnPressed() throws IOException{
+    @FXML void nextRoundBtnPressed() throws IOException{
         // Load the new scene
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
@@ -163,7 +159,7 @@ public class CompleteScreenController {
         ft.play();
     }
 
-    public void setMostRecentRound(Round round) {
+    void setMostRecentRound(Round round) {
         _mostRecentRound = round;
         _nextGeneratorName = getNextRoundName(round);
 
@@ -174,12 +170,12 @@ public class CompleteScreenController {
         }
     }
 
-    public void executeRecentRoundQuery () {
+    void executeRecentRoundQuery () {
         MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, nextRoundBtn, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
 
-    public void executePreviousRoundScoreQuery() {
+    void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }

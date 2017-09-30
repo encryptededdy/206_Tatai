@@ -2,13 +2,18 @@ package tatai.app.util;
 
 import tatai.app.Main;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.Instant;
 import java.util.ArrayList;
 
 /**
  * The singleton Database class maintains a connection to the SQLite database. It also handles configuration and setup
  * of the database.
+ *
+ * @author Edward
  */
 public class Database {
     private static Database instance = null;

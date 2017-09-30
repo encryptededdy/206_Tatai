@@ -27,6 +27,8 @@ import static tatai.app.Main.database;
 
 /**
  * Controller for the login screen.
+ *
+ * @author Edward
  */
 public class LoginController {
     @FXML private Pane mainPane;
@@ -133,8 +135,7 @@ public class LoginController {
      * Handles login process. Writes in the current user and begins the session. Then fades out and switches to the main menu
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML
-    void loginBtnPressed() throws IOException {
+    @FXML void loginBtnPressed() throws IOException {
         Main.currentUser = usernameSelector.getValue(); // write the username
         Main.currentSession = database.startSession(); // start the session
         Scene scene = loginBtn.getScene();
@@ -149,8 +150,7 @@ public class LoginController {
     /**
      * Closes the create user modal
      */
-    @FXML
-    void closeModalBtnPressed() {
+    @FXML void closeModalBtnPressed() {
         FadeTransition ft = TransitionFactory.fadeOut(newUserModal, Main.transitionDuration/2);
         expandModalTransition.setRate(-1);
         expandModalTransition.setOnFinished(event -> newUserModalStart.setVisible(false));
@@ -160,10 +160,8 @@ public class LoginController {
 
     /**
      * Handles creation of a new user
-     * TODO: Actually implement this
      */
-    @FXML
-    void newBtnPressed() {
+    @FXML void newBtnPressed() {
         newUserModal.setOpacity(0);
         newUserModal.setVisible(true);
         newUserModalStart.setVisible(true);
@@ -175,8 +173,7 @@ public class LoginController {
     /**
      * Opens the create user modal
      */
-    @FXML
-    void createAccntBtnPressed() {
+    @FXML void createAccntBtnPressed() {
         Main.database.newUser(usernameField.getText());
         updateUsernameList();
         usernameSelector.setValue(usernameField.getText());

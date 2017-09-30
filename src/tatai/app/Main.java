@@ -84,6 +84,9 @@ public class Main extends Application {
         System.out.println("Application closing!");
     }
 
+    /**
+     * Checks for required files on startup, and shows error if they are missing
+     */
     private static void startupCheck() {
         if (!new File("HTK/MaoriNumbers").exists()) {
             RuntimeException e = new RuntimeException("Catherine HTK files missing!");
@@ -107,6 +110,9 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Placeholder method to define the avaliable question generators
+     */
     private static void populateGenerators() {
         // define generators to be used
         questionGenerators.put("Numbers", new NumberGenerator());

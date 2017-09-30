@@ -6,6 +6,8 @@ import org.controlsfx.control.PopOver;
 
 /**
  * Generates PopOver objects
+ *
+ * @author Edward
  */
 public class PopoverFactory {
     /**

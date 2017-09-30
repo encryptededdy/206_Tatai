@@ -1,27 +1,17 @@
 package tatai.app.util.queries;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.util.Callback;
 import tatai.app.Main;
 import tatai.app.util.Translator;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Locale;
 
 /**
  * A Query that gets a question log of all question attempts since a specified date and outputs to a TableView
@@ -88,6 +78,12 @@ public class QuestionLogQuery extends Query {
         new Thread(task).start();
     }
 
+    /**
+     * Processes a column of data
+     * @param row The row to add the output to
+     * @param rs The resultset to get the data from
+     * @throws SQLException Thrown when a bad request is made to the ResultSet
+     */
     private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
         // Process each column
         row.add(dformat.format(Instant.ofEpochSecond(rs.getLong(1)))); // Date

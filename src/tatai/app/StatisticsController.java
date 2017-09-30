@@ -19,10 +19,17 @@ import tatai.app.util.queries.RoundsQuery;
 import java.io.IOException;
 import java.time.ZoneId;
 
+/**
+ * Controller for the advanced statistics screen
+ *
+ * @author Edward
+ */
 public class StatisticsController {
 
-    @FXML
-    protected void initialize() {
+    /**
+     * Sets up for animation and also makes all listeners and bindings
+     */
+    @FXML protected void initialize() {
         // Set opacity of UI to 0 to allow for fade in
         mainStats.setOpacity(0);
 
@@ -68,6 +75,10 @@ public class StatisticsController {
     @FXML private JFXCheckBox thisSessionCheckbox;
     @FXML private HBox mainStats;
 
+    /**
+     * Return back to the main menu
+     * @throws IOException Exception can be thrown when loading FXML
+     */
     @FXML
     void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
@@ -96,6 +107,10 @@ public class StatisticsController {
         }
     }
 
+    /**
+     * Gets the Session selected by the user
+     * @return The session number, or null if unselected
+     */
     private Integer getSession() {
         if (thisSessionCheckbox.isSelected()) {
             return Main.currentSession;
@@ -104,6 +119,9 @@ public class StatisticsController {
         }
     }
 
+    /**
+     * Triggers a update of the table with new filter parameters
+     */
     private void updateTable() {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":

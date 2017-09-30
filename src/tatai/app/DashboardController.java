@@ -22,6 +22,8 @@ import java.util.Map;
 
 /**
  * Controls the dashboard statistics screen
+ *
+ * @author Edward
  */
 
 public class DashboardController {
@@ -203,8 +205,7 @@ public class DashboardController {
      * Animate out the screen then switch to the main menu
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML
-    void backBtnPressed() throws IOException {
+    @FXML void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
@@ -223,8 +224,7 @@ public class DashboardController {
      * Fade out and switch to the Advanced Statistics screen
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML
-    void advBtnPressed() throws IOException {
+    @FXML void advBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
         Parent root = loader.load();

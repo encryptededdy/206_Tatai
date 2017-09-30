@@ -17,6 +17,11 @@ import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
 
+/**
+ * Controller for the settings screen
+ *
+ * @author Edward
+ */
 public class SettingsController {
 
     @FXML private Pane navPane;
@@ -42,6 +47,9 @@ public class SettingsController {
     private Pane _frontPane;
     private ParallelTransition flyingTransition;
 
+    /**
+     * Setup for animations, and loads the initial setting values
+     */
     public void initialize() {
         // setup for in animations
         navPaneData.setOpacity(0);
@@ -71,11 +79,19 @@ public class SettingsController {
         flyingTransition.setOnFinished(event -> animImage.setVisible(false));
     }
 
+    /**
+     * Fade in the screen
+     */
     void fadeIn() {
         TransitionFactory.fadeIn(navPaneData).play();
         TransitionFactory.fadeIn(cardPane).play();
     }
-@FXML private void backBtnPressed() throws IOException {
+
+    /**
+     * Animates back to the main menu
+     * @throws IOException IOException can be thrown when loading FXML
+     */
+    @FXML private void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
@@ -88,29 +104,41 @@ public class SettingsController {
         tt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
         ft.play();
     }
-@FXML private void generalSettingsBtnPressed() {
+
+    /**
+     * Switch to general settings screen
+     */
+    @FXML private void generalSettingsBtnPressed() {
         if (_frontPane != generalSettingsPane) {
             bringToFront(generalSettingsPane);
         }
         generalSettingsBtn.setStyle("-fx-background-color: #424242");
     }
-@FXML private void gameSettingsBtnPressed() {
+
+    /**
+     * Switch to game settings screen
+     */
+    @FXML private void gameSettingsBtnPressed() {
         if (_frontPane != gameSettingsPane) {
             bringToFront(gameSettingsPane);
         }
         gameSettingsBtn.setStyle("-fx-background-color: #424242");
     }
-@FXML private void longerAnimCheckboxChanged() {
+
+    /**
+     * Enable longer an imations
+     */
+    @FXML private void longerAnimCheckboxChanged() {
         if (longerAnimCheckbox.isSelected()) {
             Main.transitionDuration = 400;
         } else {
             Main.transitionDuration = 200;
         }
     }
-@FXML private void enableTutorialCheckboxChanged() {
+    @FXML private void enableTutorialCheckboxChanged() {
         Main.showTutorial = enableTutorialCheckbox.isSelected();
     }
-@FXML private void disableAnimCheckboxChanged() {
+    @FXML private void disableAnimCheckboxChanged() {
         if (disableAnimCheckbox.isSelected()) {
             Main.transitionDuration = 1;
             longerAnimCheckbox.setDisable(true);
@@ -123,19 +151,24 @@ public class SettingsController {
 
     /**
      * Easter egg
-     */@FXML private void unlockAllBtnHoverOn() {
+     */
+    @FXML private void unlockAllBtnHoverOn() {
         unlockAllBtn.setText("Clear Data");
         unlockAllBtn.setStyle("-fx-background-color: #F44336;");
         clearDataButton.setText("Unlock All");
         clearDataButton.setStyle("-fx-background-color: #3F51B5;");
     }
-@FXML private void unlockAllBtnHoverOff() {
+    @FXML private void unlockAllBtnHoverOff() {
         clearDataButton.setText("Clear Data");
         clearDataButton.setStyle("-fx-background-color: #F44336;");
         unlockAllBtn.setText("Unlock All");
         unlockAllBtn.setStyle("-fx-background-color: #3F51B5;");
     }
 
+    /**
+     * Brings the specified pane to the front, animating it with a flyaway animation of the old pane
+     * @param pane The pane to bring to the front
+     */
     private void bringToFront(Pane pane) {
         // Load the animImage with the current front pane
         WritableImage snapshot = _frontPane.snapshot(new SnapshotParameters(), null);

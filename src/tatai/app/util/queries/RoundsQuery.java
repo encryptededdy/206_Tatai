@@ -77,6 +77,12 @@ public class RoundsQuery extends Query {
         new Thread(task).start();
     }
 
+    /**
+     * Processes a column of data
+     * @param row The row to add the output to
+     * @param rs The resultset to get the data from
+     * @throws SQLException Thrown when a bad request is made to the ResultSet
+     */
     private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
         // Process each column
         row.add(dformat.format(Instant.ofEpochSecond(rs.getLong(1)))); // Date

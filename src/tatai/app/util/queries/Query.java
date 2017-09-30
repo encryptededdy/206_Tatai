@@ -1,25 +1,15 @@
 package tatai.app.util.queries;
 
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.util.Callback;
-import tatai.app.Main;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
-import java.util.Locale;
 
 /**
  * Queries the Database for information and populates a TableView.
@@ -62,6 +52,9 @@ public abstract class Query {
         }
     }
 
+    /**
+     * Adds the columns from the columnNames ArrayList into the Table
+     */
     void columnGenerator() {
 
             /*
