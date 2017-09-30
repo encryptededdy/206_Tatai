@@ -22,6 +22,12 @@ import tatai.app.Main;
 
 import java.sql.ResultSet;
 
+/**
+ * A query that gets the scores of the most recent 10 completed rounds completed by the current user and plots them in a
+ * bar chart which is passed to the constructor
+ *
+ * @author Zach
+ */
 public class PreviousRoundScoreQuery extends Query {
     BarChart _recentRoundScoresBarChart;
     public PreviousRoundScoreQuery(BarChart recentRoundScoresBarChart) {
@@ -29,6 +35,11 @@ public class PreviousRoundScoreQuery extends Query {
         SQLQuery = "SELECT noquestions, nocorrect FROM (SELECT noquestions, nocorrect, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 10) as output ORDER BY output.roundID ASC";
     }
 
+    /**
+     * Creates a Task to query the database off the event dispatch thread and generates XYChart.Data objects based on the
+     * scores of the past rounds, executes the query and when completed updates the BarChart to contain the data from the
+     * query.
+     */
     public void execute() {
         XYChart.Series<String, Integer> recentScoresSeries = new XYChart.Series();
 
@@ -66,6 +77,13 @@ public class PreviousRoundScoreQuery extends Query {
         new Thread(task).start();
     }
 
+    /**
+     * creates and styles an XYChart.Data object appropirately for the graph
+     * @param axisLabel the score label to be put above the bar on the graph
+     * @param value the value of the score for the given round
+     * @param color the color that the bar will be shaded
+     * @return the styled XYChart.Data object
+     */
     private XYChart.Data createData(String axisLabel, int value, Color color) {
         XYChart.Data data =  new XYChart.Data(axisLabel, value);
 

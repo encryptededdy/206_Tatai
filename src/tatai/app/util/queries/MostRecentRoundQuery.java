@@ -17,9 +17,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A Query that gets a question log of all question attempts since a specified date and outputs to a TableView
+ * A query which obtains statistics of interest pertaining to the most recent round played by the current user and updates
+ * the table object and statistics Label objects appropriately
  *
- * @author Edward
+ * @author Zach
  */
 public class MostRecentRoundQuery extends Query {
     private String SQLQuery;
@@ -43,9 +44,12 @@ public class MostRecentRoundQuery extends Query {
 
     private ObservableList<ObservableList> data;
     /**
-     * Constructs a MostRecentRoundQuery object with constraints
-     * @param roundScore Which Label to write the score to
-     * @param roundid What round to read
+     * Constructs a MostRecentRoundQuery object with a reference to the most recent roundID and many javafx Labels and one
+     * table, all of which will be updated after the query has returned with the appropriate information to fill them
+     *
+     * Initializes many of the fields
+     *
+     * constructs the SQL query
      */
     public MostRecentRoundQuery(
             Label roundScore, Label scoreMessageLabel, TableView tableViewRound, Label statLabelAverage, Label statLabelAverageNo, Label statLabelOverall, Label statLabelOverallNo, JFXButton nextRoundButton, Integer roundid) {
@@ -71,7 +75,8 @@ public class MostRecentRoundQuery extends Query {
     }
 
     /**
-     * Executes the Query in a background thread. setOnFinished listeners will be informed when this is complete.
+     * Executes the Query in a background thread. setOnFinished listeners will be informed when this is complete and all
+     * of the relevant tables and labels will be updated with the statistics
      */
     public void execute() {
         Task<Void> task = new Task<Void>() {
@@ -84,10 +89,7 @@ public class MostRecentRoundQuery extends Query {
                     // Process data for each row
                     while(rs.next()) {
                         ObservableList<String> row = FXCollections.observableArrayList();
-
                         columnProcess(row, rs);
-
-                        //System.out.println("Row [1] added "+row );
                         data.add(row);
                     }
                 }catch(Exception e){
@@ -100,6 +102,8 @@ public class MostRecentRoundQuery extends Query {
             }
         };
         task.setOnSucceeded(event -> {
+            //Displays a "better luck next time" message if the score is below 8/10 or a "good job!" if 8/10 or greater
+            // also disables the nextRoundButton if the score is below 8/10
             if (_score < 8) {
                 _scoreMessageLabel.setText("Ma te wa, karawhiua");
                 _nextRoundButton.setDisable(true);
@@ -116,6 +120,13 @@ public class MostRecentRoundQuery extends Query {
         new Thread(task).start();
     }
 
+    /**
+     * Constructs a table row from one row of the ResultSet
+     * also increments the appropriate counters other misc statistics can be generated.
+     * @param row
+     * @param rs
+     * @throws SQLException
+     */
     private void columnProcess(ObservableList<String> row, ResultSet rs) throws SQLException {
         // Process each column
         row.add(rs.getString(1)); // Question
@@ -147,34 +158,54 @@ public class MostRecentRoundQuery extends Query {
         row.add(rs.getString(5)); // Attempts
     }
 
+    // These Misc Stats methods should probably be it's own interface or class
 
+    /**
+     * updates the statLabelAverage with the average time to answer statistic for the most recent round
+     */
     private void setAverageTimeToAnswer() {
         int averageTimeToAnswer = _totalTimeToAnswer / _numberOfQuestions;
         _statLabelAverage.setText("Average Time To Answer");
         _statLabelAverageNo.setText(Integer.toString(averageTimeToAnswer));
     }
 
+    /**
+     * updates the statLabelAverage with the average number of attempts statistic for the most recent round
+     */
     private void setAverageNumberOfAttempts() {
         int averageNumberOfAttempts = _numberOfAttempts / _numberOfQuestions;
         _statLabelAverage.setText("Average Number of Attempts");
         _statLabelAverageNo.setText(Integer.toString(averageNumberOfAttempts));
     }
 
+    /**
+     * updates the statLabelOverall with the overall round time statistic for the most recent round
+     */
     private void setOverallRoundTime() {
         _statLabelOverall.setText("Overall Round Time");
         _statLabelOverallNo.setText(Integer.toString(_totalTimeToAnswer));
     }
 
+    /**
+     * updates the statLabelOverall with the longest streak this round statistic for the most recent round
+     */
     private void setOverallLongestStreak() {
         _statLabelOverall.setText("Your Longest Streak This Round");
         _statLabelOverallNo.setText(Integer.toString(_longestStreak));
     }
 
+    /**
+     * updates the statLabelOverall with the quickest time to answer statistic for the most recent round
+     */
     private void setOverallQuickestAnswer() {
         _statLabelOverall.setText("Your Quickest Answer This Round");
         _statLabelOverallNo.setText(Integer.toString(_shortestAnswerTime));
     }
 
+    /**
+     * Randomly chooses what miscellaneous stats the labels will be updated with and then runs the chosen methods from above
+     * to update the labels
+     */
     private void randomlyUpdateMiscStats() {
         int averageRand = Math.toIntExact(Math.round(Math.random()));
         if (averageRand == 0) {
