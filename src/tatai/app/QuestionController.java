@@ -43,79 +43,32 @@ public class QuestionController {
     private TranslateTransition shakeTT;
     private int playBtnPresses = 0;
 
-    @FXML
-    private MaterialDesignIconView playBtnIcon;
-
-    @FXML
-    private JFXProgressBar recordingProgressBar;
-
-    @FXML
-    private JFXButton recordBtn;
-
-    @FXML
-    private JFXButton playBtn;
-
-    @FXML
-    private JFXButton checkBtn;
-
-    @FXML
-    private JFXButton menuBtn;
-
-    @FXML
-    private Label questionLabel;
-
-    @FXML
-    private Label questionNumberLabel;
-
-    @FXML
-    private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
-
-    @FXML
-    private Pane controlsPane;
-
-    @FXML
-    private Pane tutorialNotif;
-
-    @FXML
-    private Pane resultsPane;
-
-    @FXML
-    private Pane qNumPane;
-
-    @FXML
-    private Label resultsLabel;
-
-    @FXML
-    private Pane questionPaneclr;
-
-    @FXML
-    private Pane questionPaneclrShadow;
-
-    @FXML
-    private MaterialDesignIconView correctIcon;
-
-    @FXML
-    private MaterialDesignIconView incorrectIcon;
-
-    @FXML
-    private JFXButton nextQuestionBtn;
-
-    @FXML
-    private ImageView backgroundImage;
-
-    @FXML
-    private ImageView xpTheme;
-
-    @FXML
-    private ImageView flyImage;
-
-    @FXML
-    private Pane questionPaneData;
+    @FXML private MaterialDesignIconView playBtnIcon;
+    @FXML private JFXProgressBar recordingProgressBar;
+    @FXML private JFXButton recordBtn;
+    @FXML private JFXButton playBtn;
+    @FXML private JFXButton checkBtn;
+    @FXML private JFXButton menuBtn;
+    @FXML private Label questionLabel;
+    @FXML private Label questionNumberLabel;
+    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
+    @FXML private Pane controlsPane;
+    @FXML private Pane tutorialNotif;
+    @FXML private Pane resultsPane;
+    @FXML private Pane qNumPane;
+    @FXML private Label resultsLabel;
+    @FXML private Pane questionPaneclr;
+    @FXML private Pane questionPaneclrShadow;
+    @FXML private MaterialDesignIconView correctIcon;
+    @FXML private MaterialDesignIconView incorrectIcon;
+    @FXML private JFXButton nextQuestionBtn;
+    @FXML private ImageView backgroundImage;
+    @FXML private ImageView xpTheme;
+    @FXML private ImageView flyImage;
+    @FXML private Pane questionPaneData;
+    @FXML private Label setNameLabel, questionNumberTotalLabel;
 
     private ParallelTransition menuConfirmTransition;
-
-    @FXML
-    private Label setNameLabel, questionNumberTotalLabel;
 
     private Timeline recordingProgressTimeline;
 
@@ -410,9 +363,7 @@ public class QuestionController {
 
     /**
      * Easter egg handler that shifts the recording button around
-     */
-    @FXML
-    private void recordBtnHover() {
+     */@FXML private void recordBtnHover() {
         if (easterEggEnabled) {
             Random rng = new Random();
             controlsPane.setLayoutY(rng.nextInt(450));

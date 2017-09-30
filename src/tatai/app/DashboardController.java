@@ -3,7 +3,8 @@ package tatai.app;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.chart.ChartData;
 import eu.hansolo.tilesfx.skins.BarChartItem;
-import javafx.animation.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,14 +26,9 @@ import java.util.Map;
 
 public class DashboardController {
 
-    @FXML
-    private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
-
-    @FXML
-    private Pane dataPane, backBtn, advBtn, backgroundPane, noDataErrorPane;
-
-    @FXML
-    private ImageView backgroundImage;
+    @FXML private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
+    @FXML private Pane dataPane, backBtn, advBtn, backgroundPane, noDataErrorPane;
+    @FXML private ImageView backgroundImage;
 
     /**
      * Sets up the dashboard for fade in, and populates all dashboard fields

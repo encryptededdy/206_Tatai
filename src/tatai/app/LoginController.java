@@ -29,53 +29,23 @@ import static tatai.app.Main.database;
  * Controller for the login screen.
  */
 public class LoginController {
-
-    @FXML
-    private Pane mainPane;
-
-    @FXML
-    private Pane loginPane;
-
-    @FXML
-    private JFXComboBox<String> usernameSelector;
-
-    @FXML
-    private JFXButton newBtn;
-
-    @FXML
-    private JFXButton loginBtn;
-
-    @FXML
-    private Label questionsCounter;
-
-    @FXML
-    private Label playtimeCounter;
-
-    @FXML
-    private Label lastLog;
-
-    @FXML
-    private Label playtimeLabel;
-
-    @FXML
-    private Pane newUserModalStart;
-
-    @FXML
-    private Pane newUserModal;
-
-    @FXML
-    private JFXTextField usernameField;
-
-    @FXML
-    private JFXButton createAccntBtn;
-
-    @FXML
-    private Label usernameInstructions;
+    @FXML private Pane mainPane;
+    @FXML private Pane loginPane;
+    @FXML private JFXComboBox<String> usernameSelector;
+    @FXML private JFXButton newBtn;
+    @FXML private JFXButton loginBtn;
+    @FXML private Label questionsCounter;
+    @FXML private Label playtimeCounter;
+    @FXML private Label lastLog;
+    @FXML private Label playtimeLabel;
+    @FXML private Pane newUserModalStart;
+    @FXML private Pane newUserModal;
+    @FXML private JFXTextField usernameField;
+    @FXML private JFXButton createAccntBtn;
+    @FXML private Label usernameInstructions;
+    @FXML private ImageView backgroundImage, banner;
 
     private ParallelTransition expandModalTransition;
-
-    @FXML
-    private ImageView backgroundImage, banner;
 
     /**
      * Get the users and fill in usernameSelector with users in the database

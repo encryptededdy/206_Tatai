@@ -3,14 +3,10 @@ package tatai.app;
 import com.jfoenix.controls.*;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import java.io.IOException;
-import java.time.ZoneId;
-
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -19,6 +15,9 @@ import tatai.app.util.TransitionFactory;
 import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
 import tatai.app.util.queries.RoundsQuery;
+
+import java.io.IOException;
+import java.time.ZoneId;
 
 public class StatisticsController {
 
@@ -53,50 +52,21 @@ public class StatisticsController {
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> updateTable());
     }
 
-    @FXML
-    private Pane backBtn;
-
-    @FXML
-    private JFXDatePicker datePicker;
-
-    @FXML
-    private JFXCheckBox allDateCheckbox;
-
-    @FXML
-    private JFXCheckBox allQuestionSets;
-
-    @FXML
-    private JFXComboBox<String> questionSetCombo;
-
-    @FXML
-    private JFXRadioButton questionLogToggle;
-
-    @FXML
-    private ToggleGroup showType;
-
-    @FXML
-    private JFXRadioButton numbersToggle;
-
-    @FXML
-    private JFXRadioButton roundsToggle;
-
-    @FXML
-    private JFXButton loadBtn;
-
-    @FXML
-    private JFXCheckBox unfinishedRounds;
-
-    @FXML
-    private TableView<ObservableList> dataTable;
-
-    @FXML
-    private JFXProgressBar progressBar;
-
-    @FXML
-    private JFXCheckBox thisSessionCheckbox;
-
-    @FXML
-    private HBox mainStats;
+    @FXML private Pane backBtn;
+    @FXML private JFXDatePicker datePicker;
+    @FXML private JFXCheckBox allDateCheckbox;
+    @FXML private JFXCheckBox allQuestionSets;
+    @FXML private JFXComboBox<String> questionSetCombo;
+    @FXML private JFXRadioButton questionLogToggle;
+    @FXML private ToggleGroup showType;
+    @FXML private JFXRadioButton numbersToggle;
+    @FXML private JFXRadioButton roundsToggle;
+    @FXML private JFXButton loadBtn;
+    @FXML private JFXCheckBox unfinishedRounds;
+    @FXML private TableView<ObservableList> dataTable;
+    @FXML private JFXProgressBar progressBar;
+    @FXML private JFXCheckBox thisSessionCheckbox;
+    @FXML private HBox mainStats;
 
     @FXML
     void backBtnPressed() throws IOException {

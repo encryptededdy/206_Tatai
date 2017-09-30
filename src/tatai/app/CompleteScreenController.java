@@ -2,22 +2,16 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.*;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
@@ -26,77 +20,33 @@ import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class CompleteScreenController {
+
     Round _mostRecentRound;
-
-    @FXML
-    private JFXButton menuBtn;
-
-    @FXML
-    private JFXButton roundStatsBtn;
-
-    @FXML
-    private JFXButton replayBtn;
-
-    @FXML
-    private JFXButton nextRoundBtn;
-
-    @FXML
-    private Label scoreMessageLabel;
-
-    @FXML
-    private Label scoreLabel;
-
-    @FXML
-    private Label yourScoreLabel;
-
-    @FXML
-    private Pane mainPane;
-
-    @FXML
-    private Pane scorePane, questionPaneclrShadow;
-
-    @FXML
-    private Pane controlsPane;
-
-    @FXML
-    private Pane roundStatsPane;
-
-    @FXML
-    private TableView resultsTable;
-
-    @FXML
-    private JFXButton statsChangeGraphBtn;
-
-    @FXML
-    private Label statLabelAverage;
-
-    @FXML
-    private Label statLabelAverageNo;
-
-    @FXML
-    private Label statLabelOverall;
-
-    @FXML
-    private Label statLabelOverallNo;
-
-    @FXML
-    private BarChart pastRoundScoresBarChart;
-
-    @FXML
-    private VBox graphVBox;
-
-    @FXML
-    private VBox roundStatsVBox;
-
-    @FXML
-    private ImageView backgroundImage;
+    @FXML private JFXButton menuBtn;
+    @FXML private JFXButton roundStatsBtn;
+    @FXML private JFXButton replayBtn;
+    @FXML private JFXButton nextRoundBtn;
+    @FXML private Label scoreMessageLabel;
+    @FXML private Label scoreLabel;
+    @FXML private Label yourScoreLabel;
+    @FXML private Pane mainPane;
+    @FXML private Pane scorePane, questionPaneclrShadow;
+    @FXML private Pane controlsPane;
+    @FXML private Pane roundStatsPane;
+    @FXML private TableView resultsTable;
+    @FXML private JFXButton statsChangeGraphBtn;
+    @FXML private Label statLabelAverage;
+    @FXML private Label statLabelAverageNo;
+    @FXML private Label statLabelOverall;
+    @FXML private Label statLabelOverallNo;
+    @FXML private BarChart pastRoundScoresBarChart;
+    @FXML private VBox graphVBox;
+    @FXML private VBox roundStatsVBox;
+    @FXML private ImageView backgroundImage;
 
     private String _nextGeneratorName;
     private boolean _nextRoundAvailable;

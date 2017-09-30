@@ -19,62 +19,25 @@ import java.io.IOException;
 
 public class SettingsController {
 
-    @FXML
-    private Pane navPane;
-
-    @FXML
-    private Pane navPaneData;
-
-    @FXML
-    private Label username;
-
-    @FXML
-    private Label onlineUsername;
-
-    @FXML
-    private Pane gameSettingsBtn;
-
-    @FXML
-    private Pane generalSettingsBtn;
-
-    @FXML
-    private Pane cardPane;
-
-    @FXML
-    private Pane generalSettingsPane;
-
-    @FXML
-    private JFXCheckBox disableAnimCheckbox;
-
-    @FXML
-    private JFXCheckBox longerAnimCheckbox;
-
-    @FXML
-    private JFXButton clearDataButton;
-
-    @FXML
-    private JFXButton deleteUserButton;
-
-    @FXML
-    private JFXButton unlockAllBtn;
-
-    @FXML
-    private Pane gameSettingsPane;
-
-    @FXML
-    private JFXCheckBox strictCheckingCheckbox;
-
-    @FXML
-    private JFXCheckBox autoRecordCheckbox;
-
-    @FXML
-    private JFXCheckBox longerRecordCheckbox, enableTutorialCheckbox;
-
-    @FXML
-    private Pane backBtn;
-
-    @FXML
-    private ImageView animImage;
+    @FXML private Pane navPane;
+    @FXML private Pane navPaneData;
+    @FXML private Label username;
+    @FXML private Label onlineUsername;
+    @FXML private Pane gameSettingsBtn;
+    @FXML private Pane generalSettingsBtn;
+    @FXML private Pane cardPane;
+    @FXML private Pane generalSettingsPane;
+    @FXML private JFXCheckBox disableAnimCheckbox;
+    @FXML private JFXCheckBox longerAnimCheckbox;
+    @FXML private JFXButton clearDataButton;
+    @FXML private JFXButton deleteUserButton;
+    @FXML private JFXButton unlockAllBtn;
+    @FXML private Pane gameSettingsPane;
+    @FXML private JFXCheckBox strictCheckingCheckbox;
+    @FXML private JFXCheckBox autoRecordCheckbox;
+    @FXML private JFXCheckBox longerRecordCheckbox, enableTutorialCheckbox;
+    @FXML private Pane backBtn;
+    @FXML private ImageView animImage;
 
     private Pane _frontPane;
     private ParallelTransition flyingTransition;
@@ -112,9 +75,7 @@ public class SettingsController {
         TransitionFactory.fadeIn(navPaneData).play();
         TransitionFactory.fadeIn(cardPane).play();
     }
-
-    @FXML
-    private void backBtnPressed() throws IOException {
+@FXML private void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
@@ -127,39 +88,29 @@ public class SettingsController {
         tt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
         ft.play();
     }
-
-    @FXML
-    private void generalSettingsBtnPressed() {
+@FXML private void generalSettingsBtnPressed() {
         if (_frontPane != generalSettingsPane) {
             bringToFront(generalSettingsPane);
         }
         generalSettingsBtn.setStyle("-fx-background-color: #424242");
     }
-
-    @FXML
-    private void gameSettingsBtnPressed() {
+@FXML private void gameSettingsBtnPressed() {
         if (_frontPane != gameSettingsPane) {
             bringToFront(gameSettingsPane);
         }
         gameSettingsBtn.setStyle("-fx-background-color: #424242");
     }
-
-    @FXML
-    private void longerAnimCheckboxChanged() {
+@FXML private void longerAnimCheckboxChanged() {
         if (longerAnimCheckbox.isSelected()) {
             Main.transitionDuration = 400;
         } else {
             Main.transitionDuration = 200;
         }
     }
-
-    @FXML
-    private void enableTutorialCheckboxChanged() {
+@FXML private void enableTutorialCheckboxChanged() {
         Main.showTutorial = enableTutorialCheckbox.isSelected();
     }
-
-    @FXML
-    private void disableAnimCheckboxChanged() {
+@FXML private void disableAnimCheckboxChanged() {
         if (disableAnimCheckbox.isSelected()) {
             Main.transitionDuration = 1;
             longerAnimCheckbox.setDisable(true);
@@ -172,17 +123,13 @@ public class SettingsController {
 
     /**
      * Easter egg
-     */
-    @FXML
-    private void unlockAllBtnHoverOn() {
+     */@FXML private void unlockAllBtnHoverOn() {
         unlockAllBtn.setText("Clear Data");
         unlockAllBtn.setStyle("-fx-background-color: #F44336;");
         clearDataButton.setText("Unlock All");
         clearDataButton.setStyle("-fx-background-color: #3F51B5;");
     }
-
-    @FXML
-    private void unlockAllBtnHoverOff() {
+@FXML private void unlockAllBtnHoverOff() {
         clearDataButton.setText("Clear Data");
         clearDataButton.setStyle("-fx-background-color: #F44336;");
         unlockAllBtn.setText("Unlock All");
