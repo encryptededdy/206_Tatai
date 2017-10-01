@@ -70,14 +70,10 @@ public class CompleteScreenController {
         scoreLabel.setOpacity(0);
         roundStatsBtn.setOpacity(0);
         replayBtn.setOpacity(0);
-        nextRoundBtn.setOpacity(0);
+        //nextRoundBtn.setOpacity(0);
         roundStatsPane.setLayoutY(500);
         graphVBox.setOpacity(0);
         graphVBox.setMouseTransparent(true);
-
-        if (!_nextRoundAvailable) {
-            nextRoundBtn.setDisable(true);
-        }
     }
 
     /**
@@ -89,7 +85,9 @@ public class CompleteScreenController {
         TransitionFactory.fadeIn(scoreLabel).play();
         TransitionFactory.fadeIn(roundStatsBtn).play();
         TransitionFactory.fadeIn(replayBtn).play();
-        TransitionFactory.fadeIn(nextRoundBtn).play();
+
+        // JavaFX Bug means this breaks the disable property.
+        //TransitionFactory.fadeIn(nextRoundBtn).play();
     }
 
     /**
@@ -197,10 +195,11 @@ public class CompleteScreenController {
         _mostRecentRound = round;
         _nextGeneratorName = getNextRoundName(round);
 
-        if (_nextGeneratorName == null) {
-            _nextRoundAvailable = false;
-        } else {
-            _nextRoundAvailable = true;
+        _nextRoundAvailable = _nextGeneratorName != null;
+
+        if (!_nextRoundAvailable) {
+            System.out.println("Disabling button");
+            nextRoundBtn.setDisable(true);
         }
     }
 
@@ -254,13 +253,13 @@ public class CompleteScreenController {
      */
     private String getNextRoundName(Round mostRecentRound) {
         String currentGeneratorName = mostRecentRound.getGeneratorName();
-        String nextGeneratorName = null;
         Iterator it = Main.questionGenerators.entrySet().iterator();
         boolean isCurrentGenerator = false;
         while (it.hasNext()) {
             Map.Entry<String, QuestionGenerator> entry = (Map.Entry)it.next();
             QuestionGenerator qg = entry.getValue();
             if (isCurrentGenerator) {
+                System.out.println("Found next generator: "+qg.getGeneratorName());
                 return qg.getGeneratorName();
             }
             if (qg.getGeneratorName().equals(currentGeneratorName)) {
