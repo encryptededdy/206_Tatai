@@ -53,11 +53,7 @@ public class Round {
      * @return boolean representing if there are any questions left
      */
     public boolean hasNext() {
-        if (_questions.size() > _currentQuestion+1) {
-            return true;
-        } else {
-            return false;
-        }
+        return _questions.size() > _currentQuestion + 1;
     }
 
     /**
@@ -67,6 +63,7 @@ public class Round {
         // Round is complete. Write data.
         Main.database.insertOp("UPDATE rounds SET isComplete = 1 WHERE roundid = "+_roundID);
         Main.database.insertOp("UPDATE rounds SET roundlength = "+(Instant.now().getEpochSecond() - _startTime)+" WHERE roundid = "+_roundID);
+        Main.database.insertOp("UPDATE rounds SET score = "+getScore()+" WHERE roundid = "+_roundID);
         System.out.println("Calculated score: "+getScore());
     }
 
