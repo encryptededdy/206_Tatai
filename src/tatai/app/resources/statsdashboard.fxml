@@ -2,13 +2,12 @@
 
 <?import com.jfoenix.controls.JFXRippler?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import eu.hansolo.tilesfx.Tile?>
-<?import javafx.scene.control.Label?>
+<?import eu.hansolo.tilesfx.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.DashboardController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
@@ -65,7 +64,7 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
       </Pane>
-      <Pane fx:id="noDataErrorPane" prefHeight="440.0" prefWidth="800.0" visible="false">
+      <Pane fx:id="noDataErrorPane" layoutY="60.0" prefHeight="440.0" prefWidth="800.0">
          <children>
             <Pane opacity="0.75" prefHeight="440.0" prefWidth="800.0" style="-fx-background-color: #000000;" />
             <Label layoutX="90.0" layoutY="206.0" text="Please complete at least 1 round before viewing statistics" textFill="WHITE">

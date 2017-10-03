@@ -2,7 +2,6 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXProgressBar;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
@@ -13,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
@@ -34,7 +34,7 @@ public class TataiNetController {
 
     @FXML private Label connectingLabel;
 
-    @FXML private JFXProgressBar leaderboardProgress;
+    @FXML private ProgressIndicator leaderboardProgress;
 
     private ObservableList<LeaderboardEntry> leaderboard;
 
