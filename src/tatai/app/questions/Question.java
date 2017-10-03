@@ -10,6 +10,8 @@ import java.util.regex.Pattern;
 
 /**
  * Represents a question presented during a Round. Requires a QuestionGenerator to generate questions.
+ *
+ * @author Edward
  */
 public class Question {
     private String _question;

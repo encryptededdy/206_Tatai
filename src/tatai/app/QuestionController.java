@@ -31,6 +31,9 @@ import java.util.Random;
 
 /**
  * Handles the question screen, and the display of all questions and associated animations
+ *
+ * @author Edward
+ * @author Zach
  */
 public class QuestionController {
 
@@ -43,79 +46,32 @@ public class QuestionController {
     private TranslateTransition shakeTT;
     private int playBtnPresses = 0;
 
-    @FXML
-    private MaterialDesignIconView playBtnIcon;
-
-    @FXML
-    private JFXProgressBar recordingProgressBar;
-
-    @FXML
-    private JFXButton recordBtn;
-
-    @FXML
-    private JFXButton playBtn;
-
-    @FXML
-    private JFXButton checkBtn;
-
-    @FXML
-    private JFXButton menuBtn;
-
-    @FXML
-    private Label questionLabel;
-
-    @FXML
-    private Label questionNumberLabel;
-
-    @FXML
-    private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
-
-    @FXML
-    private Pane controlsPane;
-
-    @FXML
-    private Pane tutorialNotif;
-
-    @FXML
-    private Pane resultsPane;
-
-    @FXML
-    private Pane qNumPane;
-
-    @FXML
-    private Label resultsLabel;
-
-    @FXML
-    private Pane questionPaneclr;
-
-    @FXML
-    private Pane questionPaneclrShadow;
-
-    @FXML
-    private MaterialDesignIconView correctIcon;
-
-    @FXML
-    private MaterialDesignIconView incorrectIcon;
-
-    @FXML
-    private JFXButton nextQuestionBtn;
-
-    @FXML
-    private ImageView backgroundImage;
-
-    @FXML
-    private ImageView xpTheme;
-
-    @FXML
-    private ImageView flyImage;
-
-    @FXML
-    private Pane questionPaneData;
+    @FXML private MaterialDesignIconView playBtnIcon;
+    @FXML private JFXProgressBar recordingProgressBar;
+    @FXML private JFXButton recordBtn;
+    @FXML private JFXButton playBtn;
+    @FXML private JFXButton checkBtn;
+    @FXML private JFXButton menuBtn;
+    @FXML private Label questionLabel;
+    @FXML private Label questionNumberLabel;
+    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
+    @FXML private Pane controlsPane;
+    @FXML private Pane tutorialNotif;
+    @FXML private Pane resultsPane;
+    @FXML private Pane qNumPane;
+    @FXML private Label resultsLabel;
+    @FXML private Pane questionPaneclr;
+    @FXML private Pane questionPaneclrShadow;
+    @FXML private MaterialDesignIconView correctIcon;
+    @FXML private MaterialDesignIconView incorrectIcon;
+    @FXML private JFXButton nextQuestionBtn;
+    @FXML private ImageView backgroundImage;
+    @FXML private ImageView xpTheme;
+    @FXML private ImageView flyImage;
+    @FXML private Pane questionPaneData;
+    @FXML private Label setNameLabel, questionNumberTotalLabel;
 
     private ParallelTransition menuConfirmTransition;
-
-    @FXML
-    private Label setNameLabel, questionNumberTotalLabel;
 
     private Timeline recordingProgressTimeline;
 
@@ -311,8 +267,7 @@ public class QuestionController {
      * Animates out the pane to switch to the main menu
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML
-    void confirmBtnPressed() throws IOException {
+    @FXML void confirmBtnPressed() throws IOException {
         TransitionFactory.fadeOut(darkenContents).play();
         hideHelpTexts();
         // Load the new scene
@@ -341,8 +296,7 @@ public class QuestionController {
     /**
      * Shows the exit confirmation pane
      */
-    @FXML
-    void menuBtnPressed() {
+    @FXML void menuBtnPressed() {
         menuBtnCover.setVisible(true);
         darkenContents.setVisible(true);
         menuConfirmTransition.setRate(1);
@@ -353,8 +307,7 @@ public class QuestionController {
     /**
      * Hides the exit confirmation pane
      */
-    @FXML
-    void cancelBtnPressed() {
+    @FXML void cancelBtnPressed() {
         confirmPane.setVisible(false);
         menuConfirmTransition.setRate(-1);
         menuConfirmTransition.play();
@@ -364,8 +317,7 @@ public class QuestionController {
     /**
      * Triggered when the Question Pane is right clicked - an easter egg
      */
-    @FXML
-    void questionRightClick() {
+    @FXML void questionRightClick() {
         qNumPane.setVisible(false);
         xpTheme.setVisible(true);
         questionLabel.setTextFill(Color.BLACK);
@@ -415,8 +367,7 @@ public class QuestionController {
     /**
      * Easter egg handler that shifts the recording button around
      */
-    @FXML
-    private void recordBtnHover() {
+    @FXML private void recordBtnHover() {
         if (easterEggEnabled) {
             Random rng = new Random();
             controlsPane.setLayoutY(rng.nextInt(450));
@@ -427,8 +378,7 @@ public class QuestionController {
      * Handles recording the audio. Disables buttons while recording, makes a recording using util.Record, and activates
      * the progressBar for recording
      */
-    @FXML
-    void recordBtnPressed() {
+    @FXML void recordBtnPressed() {
         recordHelp.hide();
         answerRecording = new Record();
         playBtn.setDisable(true);
@@ -458,8 +408,7 @@ public class QuestionController {
     /**
      * User submits the answer; checks if it's correct
      */
-    @FXML
-    void checkBtnPressed() {
+    @FXML void checkBtnPressed() {
         checkBtn.setDisable(true);
         // If the answer is correct, call answerCorrect();
         // If not, call answerIncorrect();
@@ -481,8 +430,7 @@ public class QuestionController {
     /**
      * Handles the playback of the recording, and the associated progressbar
      */
-    @FXML
-    void playBtnPressed() {
+    @FXML void playBtnPressed() {
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #03A9F4;");
         recordingProgressBar.setVisible(true);
         recordingProgressTimeline.setRate(0.5);
@@ -508,8 +456,7 @@ public class QuestionController {
     /**
      * When the disable button is pressed in the tutorial notification
      */
-    @FXML
-    void tutorialNotifDisabledPressed() {
+    @FXML void tutorialNotifDisabledPressed() {
         hideHelpTexts();
         Main.showTutorial = false;
         tutorialNotifOKPressed();
@@ -518,8 +465,7 @@ public class QuestionController {
     /**
      * When the OK button is pressed in the tutorial notification (thus dismissing said notification)
      */
-    @FXML
-    void tutorialNotifOKPressed() {
+    @FXML void tutorialNotifOKPressed() {
         TranslateTransition tt = new TranslateTransition();
         tt.setByY(-60);
         tt.setDuration(Duration.millis(200));
@@ -531,8 +477,7 @@ public class QuestionController {
     /**
      * When the next question button is pressed. Generates the next question.
      */
-    @FXML
-    void nextBtnPressed() {
+    @FXML void nextBtnPressed() {
         nextHelp.hide();
         tutorialNotifDisabledPressed();
         // Ok, move on to the next question.

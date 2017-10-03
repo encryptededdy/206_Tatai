@@ -41,6 +41,7 @@ public class Main extends Application {
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
+    public static Font currentFont;
 
     static { // Static initializer
         // Load fonts
@@ -48,6 +49,7 @@ public class Main extends Application {
         Font.loadFont(Main.class.getResource("resources/Roboto-Bold.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Medium.ttf").toExternalForm(), 10);
         Font.loadFont(Main.class.getResource("resources/Roboto-Light.ttf").toExternalForm(), 10);
+        currentFont = new Font("Roboto", 18);
         database = Database.getInstance();
     }
 
@@ -82,6 +84,9 @@ public class Main extends Application {
         System.out.println("Application closing!");
     }
 
+    /**
+     * Checks for required files on startup, and shows error if they are missing
+     */
     private static void startupCheck() {
         if (!new File("HTK/MaoriNumbers").exists()) {
             RuntimeException e = new RuntimeException("Catherine HTK files missing!");
@@ -105,6 +110,9 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Placeholder method to define the avaliable question generators
+     */
     private static void populateGenerators() {
         // define generators to be used
         questionGenerators.put("Numbers", new NumberGenerator());

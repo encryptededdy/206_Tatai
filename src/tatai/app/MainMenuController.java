@@ -39,39 +39,17 @@ public class MainMenuController {
         questionDropDown.getItems().addAll(Main.questionGenerators.keySet());
         questionDropDown.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
     }
-
-    @FXML
-    private JFXButton practiceBtn;
-
-    @FXML
-    private ImageView backgroundImage;
-
-    @FXML
-    private JFXButton settingsBtn;
-
-    @FXML
-    private JFXButton netBtn;
-
-    @FXML
-    private JFXButton closeBtn;
-
-    @FXML
-    private JFXComboBox<String> questionDropDown;
-
-    @FXML
-    private Pane mainPane;
-
-    @FXML
-    private Pane mainDataPane;
-
-    @FXML
-    private JFXButton statisticsBtn;
-
-    @FXML
-    private Rectangle fadeBox;
-
-    @FXML
-    private JFXButton logoutBtn;
+    @FXML private JFXButton practiceBtn;
+    @FXML private ImageView backgroundImage;
+    @FXML private JFXButton settingsBtn;
+    @FXML private JFXButton netBtn;
+    @FXML private JFXButton closeBtn;
+    @FXML private JFXComboBox<String> questionDropDown;
+    @FXML private Pane mainPane;
+    @FXML private Pane mainDataPane;
+    @FXML private JFXButton statisticsBtn;
+    @FXML private Rectangle fadeBox;
+    @FXML private JFXButton logoutBtn;
 
     /**
      * These classes set up transitions INTO MainMenuController;
@@ -94,8 +72,7 @@ public class MainMenuController {
      * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
      * set to be used (from questionDropDown)
      */
-    @FXML
-    private void practiceBtnPressed() throws IOException {
+    @FXML private void practiceBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = practiceBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
@@ -115,8 +92,10 @@ public class MainMenuController {
         ft.play();
     }
 
-    @FXML
-    private void settingsBtnPressed() throws IOException {
+    /**
+     * Opens the settings screen when the settings button is pressed
+     */
+    @FXML private void settingsBtnPressed() throws IOException {
         Scene scene = settingsBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.settingsLayout);
         Parent root = loader.load();
@@ -129,8 +108,10 @@ public class MainMenuController {
         pt.play();
     }
 
-    @FXML
-    private void statisticsBtnPressed() throws IOException {
+    /**
+     * Opens the statistics screen when the statistics button is pressed
+     */
+    @FXML private void statisticsBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = statisticsBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.dashboardLayout);
@@ -148,8 +129,7 @@ public class MainMenuController {
     /**
      * Logs out the current users when logout is pressed
      */
-    @FXML
-    private void logoutBtnPressed() throws IOException {
+    @FXML private void logoutBtnPressed() throws IOException {
         Main.database.stopSession();
         Main.currentUser = null;
         Main.currentSession = 0;
@@ -164,8 +144,7 @@ public class MainMenuController {
     /**
      * Closes the application when the close button is pressed.
      */
-    @FXML
-    private void closeApplication() {
+    @FXML private void closeApplication() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         Main.onClose();
         mainStage.close();
@@ -174,8 +153,7 @@ public class MainMenuController {
     /**
      * Easter egg when you right click the close button... shhh!
      */
-    @FXML
-    private void closeApplicationRight() {
+    @FXML private void closeApplicationRight() {
         Stage mainStage = (Stage) closeBtn.getScene().getWindow();
         Media sound = new Media(getClass().getResource("resources/shutdown.wav").toString());
         MediaPlayer player = new MediaPlayer(sound);

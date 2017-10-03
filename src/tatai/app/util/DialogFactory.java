@@ -11,6 +11,8 @@ import java.io.StringWriter;
 
 /**
  * Generates dialog boxes for various uses...
+ *
+ * @author Edward
  */
 public class DialogFactory {
 

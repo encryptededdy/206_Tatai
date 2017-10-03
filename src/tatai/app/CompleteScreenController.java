@@ -14,79 +14,54 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
+import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
+
+/**
+ * Controller class for the complete screen which comes after a round is completed.
+ *
+ * @author Zach Huxford
+ */
 
 public class CompleteScreenController {
-    private Round _mostRecentRound;
 
-    @FXML
-    private JFXButton menuBtn;
+    Round _mostRecentRound;
+    @FXML private JFXButton menuBtn;
+    @FXML private JFXButton roundStatsBtn;
+    @FXML private JFXButton replayBtn;
+    @FXML private JFXButton nextRoundBtn;
+    @FXML private Label scoreMessageLabel;
+    @FXML private Label scoreLabel;
+    @FXML private Label yourScoreLabel;
+    @FXML private Pane mainPane;
+    @FXML private Pane scorePane, questionPaneclrShadow;
+    @FXML private Pane controlsPane;
+    @FXML private Pane roundStatsPane;
+    @FXML private TableView resultsTable;
+    @FXML private JFXButton statsChangeGraphBtn;
+    @FXML private Label statLabelAverage;
+    @FXML private Label statLabelAverageNo;
+    @FXML private Label statLabelOverall;
+    @FXML private Label statLabelOverallNo;
+    @FXML private BarChart pastRoundScoresBarChart;
+    @FXML private VBox graphVBox;
+    @FXML private VBox roundStatsVBox;
+    @FXML private ImageView backgroundImage;
 
-    @FXML
-    private JFXButton roundStatsBtn;
+    // Hacky variables for next round logic
+    private String _nextGeneratorName;
+    private boolean _nextRoundAvailable;
 
-    @FXML
-    private JFXButton replayBtn;
-
-    @FXML
-    private JFXButton nextRoundBtn;
-
-    @FXML
-    private Label scoreMessageLabel;
-
-    @FXML
-    private Label scoreLabel;
-
-    @FXML
-    private Label yourScoreLabel;
-
-    @FXML
-    private Pane mainPane;
-
-    @FXML
-    private Pane scorePane, questionPaneclrShadow;
-
-    @FXML
-    private Pane controlsPane;
-
-    @FXML
-    private Pane roundStatsPane;
-
-    @FXML
-    private TableView resultsTable;
-
-    @FXML
-    private JFXButton statsChangeGraphBtn;
-
-    @FXML
-    private Label statLabelAverage;
-
-    @FXML
-    private Label statLabelAverageNo;
-
-    @FXML
-    private Label statLabelOverall;
-
-    @FXML
-    private Label statLabelOverallNo;
-
-    @FXML
-    private BarChart pastRoundScoresBarChart;
-
-    @FXML
-    private VBox graphVBox;
-
-    @FXML
-    private VBox roundStatsVBox;
-
-    @FXML
-    private ImageView backgroundImage;
-
-
+    /**
+     * Setup javafx objects to be animated in.
+     * Also decides if the next round button will be disabled.
+     */
     public void initialize() {
         backgroundImage.setImage(Main.background);
 
@@ -95,29 +70,31 @@ public class CompleteScreenController {
         scoreLabel.setOpacity(0);
         roundStatsBtn.setOpacity(0);
         replayBtn.setOpacity(0);
-        nextRoundBtn.setOpacity(0);
+        //nextRoundBtn.setOpacity(0);
         roundStatsPane.setLayoutY(500);
         graphVBox.setOpacity(0);
         graphVBox.setMouseTransparent(true);
-
-        //testPopulateBarChart();
     }
 
+    /**
+     * fades in all of the javafx objects once the scene has been changed to the complete screen.
+     */
     void fadeIn() {
         TransitionFactory.fadeIn(scoreMessageLabel).play();
         TransitionFactory.fadeIn(yourScoreLabel).play();
         TransitionFactory.fadeIn(scoreLabel).play();
         TransitionFactory.fadeIn(roundStatsBtn).play();
         TransitionFactory.fadeIn(replayBtn).play();
-        TransitionFactory.fadeIn(nextRoundBtn).play();
+
+        // JavaFX Bug means this breaks the disable property.
+        //TransitionFactory.fadeIn(nextRoundBtn).play();
     }
 
     /**
      * Animates out the pane to switch to the main menu
-     * @throws IOException Exception can be thrown when loading FXML
+     * @throws IOException
      */
-    @FXML
-    void menuBtnPressed() throws IOException {
+    @FXML void menuBtnPressed() throws IOException {
         // If the stats screen is up, put it away.
         if (!roundStatsBtn.getText().equals("Round Stats")) roundStatsBtnPressed();
         // Load the new scene
@@ -143,8 +120,11 @@ public class CompleteScreenController {
         ft.play();
     }
 
-    @FXML
-    void roundStatsBtnPressed() {
+    /**
+     * Animates in and out the roundStats pane which shows a graph containing the scores of the most recent rounds
+     * and a table showing information pertaining to the most recent round in particular.
+     */
+    @FXML void roundStatsBtnPressed() {
         roundStatsBtn.setDisable(true);
         if (roundStatsBtn.getText().equals("Round Stats")) { // if the stats screen isn't up
             TranslateTransition tt = TransitionFactory.move(roundStatsPane, 0, -485, 500);
@@ -167,46 +147,83 @@ public class CompleteScreenController {
         }
     }
 
-    @FXML
-    void replayBtnPressed() throws IOException {
+    /**
+     * Determines the name of the round type just played and changes scene to a new instance of question screen
+     * with a question generator of the same type (after the appropriate elements fade out)
+     * @throws IOException
+     */
+    @FXML void replayBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet("Numbers"); // TODO detect current question Generator
+        String currentGeneratorName = _mostRecentRound.getGeneratorName();
+        loader.<QuestionController>getController().setQuestionSet(currentGeneratorName);
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
         ft.play();
     }
 
-    @FXML
-    void nextRoundBtnPressed() throws IOException{
+    /**
+     * Determines the name of the round type just played and changes scene to a new instance of question screen
+     * with a question generator of the next type in the sequence determined by setMostRecentRound
+     * (after the appropriate elements fade out)
+     * @throws IOException
+     */
+    @FXML void nextRoundBtnPressed() throws IOException{
         // Load the new scene
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet("Tens Numbers"); // TODO detect current question Generator
+
+
+        loader.<QuestionController>getController().setQuestionSet(_nextGeneratorName);
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
         ft.play();
     }
 
+    /**
+     * gives a reference to the most recent Round object from the question controller
+     * also determines the name of the type of the next round if there is one.
+     * @param round the Round object from the most recent Round
+     *
+     */
     void setMostRecentRound(Round round) {
         _mostRecentRound = round;
+        _nextGeneratorName = getNextRoundName(round);
+
+        _nextRoundAvailable = _nextGeneratorName != null;
+
+        if (!_nextRoundAvailable) {
+            System.out.println("Disabling button");
+            nextRoundBtn.setDisable(true);
+        }
     }
 
+    /**
+     * constructs and executes a MostRecentRoundQuery which queries the database for information about the most recent round
+     * and then updates the results table stats label etc with stats about the most recent round.
+     */
     void executeRecentRoundQuery () {
-        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, _mostRecentRound.getRoundID());
+        MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, nextRoundBtn, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
 
+    /**
+     * constructs and executes a PreviousRoundScoreQuery which queries the database for information about the scores for the
+     * 10 most recent rounds and updates the pastRoundScoresBarChart with that data.
+     */
     void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }
 
+    /**
+     * toggles the visibility of the graphVBox, the roundStatsVbox and the resultsTable
+     */
     public void statsChangeGraphBtnPressed() {
         if (roundStatsVBox.getOpacity() == 1) {
             FadeTransition ft0 = TransitionFactory.fadeOut(roundStatsVBox);
@@ -226,5 +243,29 @@ public class CompleteScreenController {
             });
             ft2.play();
         }
+    }
+
+    /**
+     * Determines the name of the next round if there is one based on the LinkedHashMap of questionGenerators in Main
+     * and the Round object of the most recent round.
+     * @param mostRecentRound
+     * @return
+     */
+    private String getNextRoundName(Round mostRecentRound) {
+        String currentGeneratorName = mostRecentRound.getGeneratorName();
+        Iterator it = Main.questionGenerators.entrySet().iterator();
+        boolean isCurrentGenerator = false;
+        while (it.hasNext()) {
+            Map.Entry<String, QuestionGenerator> entry = (Map.Entry)it.next();
+            QuestionGenerator qg = entry.getValue();
+            if (isCurrentGenerator) {
+                System.out.println("Found next generator: "+qg.getGeneratorName());
+                return qg.getGeneratorName();
+            }
+            if (qg.getGeneratorName().equals(currentGeneratorName)) {
+                isCurrentGenerator = true;
+            }
+        }
+        return null;
     }
 }

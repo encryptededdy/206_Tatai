@@ -3,14 +3,10 @@ package tatai.app;
 import com.jfoenix.controls.*;
 import javafx.animation.FadeTransition;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import java.io.IOException;
-import java.time.ZoneId;
-
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
@@ -20,10 +16,20 @@ import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
 import tatai.app.util.queries.RoundsQuery;
 
+import java.io.IOException;
+import java.time.ZoneId;
+
+/**
+ * Controller for the advanced statistics screen
+ *
+ * @author Edward
+ */
 public class StatisticsController {
 
-    @FXML
-    protected void initialize() {
+    /**
+     * Sets up for animation and also makes all listeners and bindings
+     */
+    @FXML protected void initialize() {
         // Set opacity of UI to 0 to allow for fade in
         mainStats.setOpacity(0);
 
@@ -53,51 +59,26 @@ public class StatisticsController {
         datePicker.valueProperty().addListener((observable, oldValue, newValue) -> updateTable());
     }
 
-    @FXML
-    private Pane backBtn;
+    @FXML private Pane backBtn;
+    @FXML private JFXDatePicker datePicker;
+    @FXML private JFXCheckBox allDateCheckbox;
+    @FXML private JFXCheckBox allQuestionSets;
+    @FXML private JFXComboBox<String> questionSetCombo;
+    @FXML private JFXRadioButton questionLogToggle;
+    @FXML private ToggleGroup showType;
+    @FXML private JFXRadioButton numbersToggle;
+    @FXML private JFXRadioButton roundsToggle;
+    @FXML private JFXButton loadBtn;
+    @FXML private JFXCheckBox unfinishedRounds;
+    @FXML private TableView<ObservableList> dataTable;
+    @FXML private JFXProgressBar progressBar;
+    @FXML private JFXCheckBox thisSessionCheckbox;
+    @FXML private HBox mainStats;
 
-    @FXML
-    private JFXDatePicker datePicker;
-
-    @FXML
-    private JFXCheckBox allDateCheckbox;
-
-    @FXML
-    private JFXCheckBox allQuestionSets;
-
-    @FXML
-    private JFXComboBox<String> questionSetCombo;
-
-    @FXML
-    private JFXRadioButton questionLogToggle;
-
-    @FXML
-    private ToggleGroup showType;
-
-    @FXML
-    private JFXRadioButton numbersToggle;
-
-    @FXML
-    private JFXRadioButton roundsToggle;
-
-    @FXML
-    private JFXButton loadBtn;
-
-    @FXML
-    private JFXCheckBox unfinishedRounds;
-
-    @FXML
-    private TableView<ObservableList> dataTable;
-
-    @FXML
-    private JFXProgressBar progressBar;
-
-    @FXML
-    private JFXCheckBox thisSessionCheckbox;
-
-    @FXML
-    private HBox mainStats;
-
+    /**
+     * Return back to the main menu
+     * @throws IOException Exception can be thrown when loading FXML
+     */
     @FXML
     void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
@@ -126,6 +107,10 @@ public class StatisticsController {
         }
     }
 
+    /**
+     * Gets the Session selected by the user
+     * @return The session number, or null if unselected
+     */
     private Integer getSession() {
         if (thisSessionCheckbox.isSelected()) {
             return Main.currentSession;
@@ -134,6 +119,9 @@ public class StatisticsController {
         }
     }
 
+    /**
+     * Triggers a update of the table with new filter parameters
+     */
     private void updateTable() {
         switch ((String)showType.getSelectedToggle().getUserData()) {
             case "questionLog":

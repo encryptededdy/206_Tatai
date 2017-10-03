@@ -3,7 +3,8 @@ package tatai.app;
 import eu.hansolo.tilesfx.Tile;
 import eu.hansolo.tilesfx.chart.ChartData;
 import eu.hansolo.tilesfx.skins.BarChartItem;
-import javafx.animation.*;
+import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,18 +22,15 @@ import java.util.Map;
 
 /**
  * Controls the dashboard statistics screen
+ *
+ * @author Edward
  */
 
 public class DashboardController {
 
-    @FXML
-    private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
-
-    @FXML
-    private Pane dataPane, backBtn, advBtn, backgroundPane, noDataErrorPane;
-
-    @FXML
-    private ImageView backgroundImage;
+    @FXML private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
+    @FXML private Pane dataPane, backBtn, advBtn, backgroundPane, noDataErrorPane;
+    @FXML private ImageView backgroundImage;
 
     /**
      * Sets up the dashboard for fade in, and populates all dashboard fields
@@ -67,6 +65,9 @@ public class DashboardController {
         }
     }
 
+    /**
+     * Queries the sql database to see if the current user has completed a round
+     */
     private boolean hasCompletedRound() {
         boolean complete = false;
         ResultSet rs = Main.database.returnOp("SELECT COUNT(*) FROM rounds WHERE username = '"+Main.currentUser+"' AND isComplete = 1");
@@ -207,8 +208,7 @@ public class DashboardController {
      * Animate out the screen then switch to the main menu
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML
-    void backBtnPressed() throws IOException {
+    @FXML void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
         Parent root = loader.load();
@@ -227,8 +227,7 @@ public class DashboardController {
      * Fade out and switch to the Advanced Statistics screen
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML
-    void advBtnPressed() throws IOException {
+    @FXML void advBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
         Parent root = loader.load();

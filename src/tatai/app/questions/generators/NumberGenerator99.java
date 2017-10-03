@@ -9,7 +9,7 @@ import java.util.Random;
  * @author Edward
  */
 public class NumberGenerator99 implements QuestionGenerator {
-    String _answer;
+    private String _answer;
 
     public String generateQuestion() {
         Random rng = new Random();

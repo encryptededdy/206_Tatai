@@ -9,7 +9,10 @@ import javafx.scene.media.MediaPlayer;
 import tatai.app.Main;
 
 import javax.sound.sampled.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -43,6 +46,9 @@ public class Record {
 
     }
 
+    /**
+     * Begin an audio recording
+     */
     private void start() {
         try {
             AudioFormat format = getAudioFormat();
@@ -64,6 +70,9 @@ public class Record {
         }
     }
 
+    /**
+     * Stops and closes the line to finish the recording
+     */
     private void finishRecording() {
         line.stop();
         line.close();

@@ -8,6 +8,8 @@ import tatai.app.Main;
 
 /**
  * Generates objects used in the transitions of scenes
+ *
+ * @author Edward
  */
 public class TransitionFactory {
     /**
