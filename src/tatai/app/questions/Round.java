@@ -65,6 +65,9 @@ public class Round {
         Main.database.insertOp("UPDATE rounds SET roundlength = "+(Instant.now().getEpochSecond() - _startTime)+" WHERE roundid = "+_roundID);
         Main.database.insertOp("UPDATE rounds SET score = "+getScore()+" WHERE roundid = "+_roundID);
         System.out.println("Calculated score: "+getScore());
+
+        // Upload the score
+        Main.netConnection.uploadScore(_roundQuestionGenerator.getGeneratorName(), getScore());
     }
 
     /**

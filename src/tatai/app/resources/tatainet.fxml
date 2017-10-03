@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.TataiNetController">
+   <children>
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
+      <Pane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
+      <Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <Pane fx:id="controls" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: #3F51B5;">
+               <children>
+                  <JFXRippler ripplerFill="white">
+                     <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="60.0" prefWidth="72.0">
+                        <children>
+                           <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
+                        </children>
+                     </Pane>
+                  </JFXRippler>
+                  <Label layoutX="291.0" layoutY="16.0" text="TataiNet Multiplayer" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+               <JFXListView fx:id="highscoreList" layoutX="29.0" layoutY="148.0" prefHeight="325.0" prefWidth="260.0" />
+               <Label layoutX="29.0" layoutY="80.0" text="Global Scoreboard" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </Label>
+               <JFXComboBox fx:id="scoreboardComboGameMode" layoutX="29.0" layoutY="110.0" prefHeight="29.0" prefWidth="258.0" stylesheets="@statistics.css" />
+         </children>
+      </Pane>
+         <effect>
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
+         </effect>
+      </Pane>
+      <Pane fx:id="progressPane" layoutY="58.0" prefHeight="382.0" prefWidth="800.0" visible="false">
+         <children>
+            <Pane opacity="0.75" prefHeight="440.0" prefWidth="800.0" style="-fx-background-color: #000000;" />
+            <Label fx:id="connectingLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="100.0" layoutY="206.0" prefHeight="29.0" prefWidth="587.0" text="Connecting" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+   </children>
+</Pane>
