@@ -81,17 +81,13 @@ public class TataiNetController {
         Task<Void> populateTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                try {
-                    leaderboard = FXCollections.observableArrayList(Main.netConnection.getLeaderboard(scoreboardComboGameMode.getValue()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                leaderboard = FXCollections.observableArrayList(Main.netConnection.getLeaderboard(scoreboardComboGameMode.getValue()));
                 return null;
             }
         };
         populateTask.setOnSucceeded(event -> {leaderboardList.setItems(leaderboard); leaderboardProgress.setVisible(false);});
         leaderboardProgress.setVisible(true);
-        new Thread(populateTask).run();
+        new Thread(populateTask).start();
     }
 
 }
