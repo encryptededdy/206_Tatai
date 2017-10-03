@@ -12,7 +12,7 @@ import tatai.app.questions.generators.NumberGenerator99;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Database;
 import tatai.app.util.DialogFactory;
-import tatai.app.util.NetConnection;
+import tatai.app.util.net.NetConnection;
 
 import java.io.File;
 import java.net.URL;

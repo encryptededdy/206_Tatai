@@ -14,8 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import tatai.app.util.NetConnection;
 import tatai.app.util.TransitionFactory;
+import tatai.app.util.net.NetConnection;
 
 import java.io.IOException;
 import java.sql.ResultSet;

@@ -1,15 +1,20 @@
-package tatai.app.util;
+package tatai.app.util.net;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.concurrent.Task;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import tatai.app.Main;
+import tatai.app.util.DialogFactory;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A class that exchanges data with TataiNet over an HTTP connection
@@ -113,5 +118,27 @@ public class NetConnection {
             }
         };
         new Thread(uploadTask).start();
+    }
+
+    public ArrayList<LeaderboardEntry> getLeaderboard(String gamemode) {
+        try {
+            String result = Request.Post(host + "getHighScores.php")
+                    .bodyForm(Form.form().add("gamemode", gamemode)
+                            .build())
+                    .execute()
+                    .returnContent().toString();
+            JsonElement scoresArray = new JsonParser().parse(result).getAsJsonObject().get("scores");
+            Gson gson = new Gson();
+            if (!scoresArray.isJsonNull()) {
+                LeaderboardEntry[] leaderboardArray = gson.fromJson(scoresArray, LeaderboardEntry[].class);
+                return new ArrayList<>(Arrays.asList(leaderboardArray));
+            } else {
+                // return an empty set
+                return new ArrayList<LeaderboardEntry>();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
