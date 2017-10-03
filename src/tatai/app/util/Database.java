@@ -170,7 +170,9 @@ public class Database {
         // Create the users table
         queries.add("CREATE TABLE IF NOT EXISTS users " +
                 "(username TEXT PRIMARY KEY     NOT NULL," +
-                " creationdate       INTEGER     NOT NULL)");
+                " creationdate       INTEGER     NOT NULL," +
+                " onlineName    TEXT," +
+                " onlineAuthID  TEXT)");
         // Create the questions table
         queries.add("CREATE TABLE IF NOT EXISTS questions " +
                 "(questionID INTEGER PRIMARY KEY AUTOINCREMENT    NOT NULL," +
@@ -194,6 +196,7 @@ public class Database {
                 " roundlength   INTEGER," +
                 " noquestions   INTEGER    NOT NULL," +
                 " nocorrect     INTEGER NOT NULL," +
+                " score         INTEGER," +
                 " isComplete    INTEGER NOT NULL)");
         // Create the sessions table
         queries.add("CREATE TABLE IF NOT EXISTS sessions " +

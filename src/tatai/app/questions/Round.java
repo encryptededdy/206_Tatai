@@ -3,6 +3,8 @@ package tatai.app.questions;
 import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -17,6 +19,8 @@ public class Round {
     private int _roundID;
     private long _startTime;
     private QuestionGenerator _roundQuestionGenerator;
+    private int _numQuestions;
+    private Integer _score;
 
     /**
      * Constructs a Round
@@ -38,6 +42,8 @@ public class Round {
             _questions.add(new Question(generator, _roundID));
         }
 
+        _numQuestions = numQuestions;
+
         // Start the clock
         _startTime = Instant.now().getEpochSecond();
     }
@@ -47,11 +53,7 @@ public class Round {
      * @return boolean representing if there are any questions left
      */
     public boolean hasNext() {
-        if (_questions.size() > _currentQuestion+1) {
-            return true;
-        } else {
-            return false;
-        }
+        return _questions.size() > _currentQuestion + 1;
     }
 
     /**
@@ -61,6 +63,8 @@ public class Round {
         // Round is complete. Write data.
         Main.database.insertOp("UPDATE rounds SET isComplete = 1 WHERE roundid = "+_roundID);
         Main.database.insertOp("UPDATE rounds SET roundlength = "+(Instant.now().getEpochSecond() - _startTime)+" WHERE roundid = "+_roundID);
+        Main.database.insertOp("UPDATE rounds SET score = "+getScore()+" WHERE roundid = "+_roundID);
+        System.out.println("Calculated score: "+getScore());
     }
 
     /**
@@ -94,6 +98,31 @@ public class Round {
         } else {
             throw new RuntimeException("No more Questions");
         }
+    }
+
+    public int getScore() {
+        // If score is uncalculated, then calculate score.
+        if (_score == null) {
+            // Scoring algorithm: accuracy(%) * (20 - avgQuestionLength) * ((noQuestions + 90)/100)
+            ResultSet correctRS = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE correct = 1 AND roundID = "+_roundID);
+            ResultSet qLengthRS = Main.database.returnOp("SELECT AVG(timeToAnswer) FROM questions WHERE roundID = "+_roundID);
+            try {
+                correctRS.next();
+                qLengthRS.next();
+                double accuracy = (correctRS.getDouble(1)/_numQuestions)*100;
+                double lengthScore = 20 - qLengthRS.getDouble(1);
+
+                // Calculate the score
+                _score = (int)(accuracy * lengthScore * ((_numQuestions + 90)/100));
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return 0;
+            }
+            return _score;
+        } else {
+            return _score;
+        }
+
     }
 
     /**
