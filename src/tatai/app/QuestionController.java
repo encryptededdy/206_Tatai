@@ -195,6 +195,10 @@ public class QuestionController {
                     recordBtnPressed();
                 }
                 keyEvent.consume();
+            } else if (keyEvent.getCode() == KeyCode.CAPS) {
+                // flip upside down easter egg
+                backgroundImage.getParent().setScaleY(-1*backgroundImage.getParent().getScaleY());
+                keyEvent.consume();
             }
         });
     }
