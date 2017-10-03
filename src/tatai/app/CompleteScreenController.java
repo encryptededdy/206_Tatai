@@ -201,6 +201,7 @@ public class CompleteScreenController {
             System.out.println("Disabling button");
             nextRoundBtn.setDisable(true);
         }
+        yourScoreLabel.setText("Your Score: " + Integer.toString(_mostRecentRound.getScore()));
     }
 
     /**
