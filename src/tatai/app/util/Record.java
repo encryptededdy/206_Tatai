@@ -81,7 +81,8 @@ public class Record {
 
     /**
      * Begin the audio recording
-     * @param duration  Duration of audio recording in ms
+     *
+     * @param duration Duration of audio recording in ms
      */
     public void record(long duration) {
         Task<Void> stopRecording = new Task<Void>() {
@@ -115,7 +116,8 @@ public class Record {
 
     /**
      * Add an event handler to be called at the completion of an audio recording
-     * @param handler   the EventHandler to be called
+     *
+     * @param handler the EventHandler to be called
      */
     public void setOnFinished(EventHandler<ActionEvent> handler) {
         recordingeventHandlers.add(handler);
@@ -123,7 +125,8 @@ public class Record {
 
     /**
      * Add an event handler to be called at the completion of audio playback
-     * @param handler   the EventHandler to be called
+     *
+     * @param handler the EventHandler to be called
      */
     public void setOnPlaybackFinished(EventHandler<ActionEvent> handler) {
         playbackeventHandlers.add(handler);
@@ -143,6 +146,7 @@ public class Record {
 
     /**
      * Uses HTK speech recognition to convert the audio recording to text
+     *
      * @return String represented the detected speech
      */
     public String speechToText() {
@@ -158,30 +162,30 @@ public class Record {
         File htkMaoriNumbersDirectory = new File("HTK/MaoriNumbers");
         translateSpeechToMaoriPB.directory(htkMaoriNumbersDirectory);
 
-    try {
-        Process translateSpeechToMaoriProcess = translateSpeechToMaoriPB.start();
-        Scanner outputScanner = new Scanner(translateSpeechToMaoriProcess.getInputStream());
-        //while (outputScanner.hasNext()) {
-        //    System.out.println(outputScanner.next());
-        //}
-        translateSpeechToMaoriProcess.waitFor();
-        FileReader translationFileReader = new FileReader(".tmp/recout.mlf");
-        BufferedReader translationBufferedReader = new BufferedReader(translationFileReader);
-        StringBuilder maoriTextBuilder = new StringBuilder();
-        String line = null;
+        try {
+            Process translateSpeechToMaoriProcess = translateSpeechToMaoriPB.start();
+            Scanner outputScanner = new Scanner(translateSpeechToMaoriProcess.getInputStream());
+            //while (outputScanner.hasNext()) {
+            //    System.out.println(outputScanner.next());
+            //}
+            translateSpeechToMaoriProcess.waitFor();
+            FileReader translationFileReader = new FileReader(".tmp/recout.mlf");
+            BufferedReader translationBufferedReader = new BufferedReader(translationFileReader);
+            StringBuilder maoriTextBuilder = new StringBuilder();
+            String line = null;
 
-        while ((line = translationBufferedReader.readLine()) != null) {
-            if (!line.equals("#!MLF!#") && !line.equals("\"*/foo.rec\"") && !line.equals("sil") && !line.equals(".")) {
-                maoriTextBuilder.append(line);
-                maoriTextBuilder.append(" ");
+            while ((line = translationBufferedReader.readLine()) != null) {
+                if (!line.equals("#!MLF!#") && !line.equals("\"*/foo.rec\"") && !line.equals("sil") && !line.equals(".")) {
+                    maoriTextBuilder.append(line);
+                    maoriTextBuilder.append(" ");
+                }
             }
-        }
 
-        maoriText = maoriTextBuilder.toString();
-    } catch (IOException | InterruptedException ioe) {
-        ioe.printStackTrace();
-        throw new RuntimeException("HTK Execution error!");
-    }
+            maoriText = maoriTextBuilder.toString();
+        } catch (IOException | InterruptedException ioe) {
+            ioe.printStackTrace();
+            throw new RuntimeException("HTK Execution error!");
+        }
         return maoriText;
     }
 

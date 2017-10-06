@@ -1,7 +1,6 @@
 package tatai.app;
 
-import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXListView;
+import com.jfoenix.controls.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
@@ -15,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
 import tatai.app.util.net.LeaderboardEntry;
@@ -26,15 +26,22 @@ public class TataiNetController {
 
     @FXML private ImageView backgroundImage;
 
-    @FXML private Pane backgroundPane, dataPane, controls, backBtn, progressPane;
+    @FXML private Pane backgroundPane, dataPane, controls, backBtn, signUpPane;
 
     @FXML private JFXListView<LeaderboardEntry> leaderboardList;
 
     @FXML private JFXComboBox<String> scoreboardComboGameMode;
 
-    @FXML private Label connectingLabel;
+    @FXML private Label usernameInstructions, usernameLabel;
 
     @FXML private ProgressIndicator leaderboardProgress;
+
+    @FXML private JFXTextField usernameField;
+
+    @FXML private JFXButton registerBtn;
+
+    @FXML private JFXProgressBar registerProgress;
+
 
     private ObservableList<LeaderboardEntry> leaderboard;
 
@@ -49,6 +56,15 @@ public class TataiNetController {
         // Sets up the listview's cellfactory
         leaderboardList.setCellFactory(param -> new LeaderboardViewCell());
         populateLeaderboard();
+        if (Main.netConnection.getUsername() == null) {
+            // User isn't registered, show registration screen
+            usernameLabel.setText("Unregistered");
+            signUpPane.setVisible(true);
+            // Setup usernamechecker
+            usernameField.textProperty().addListener((observable, oldValue, newValue) -> usernameChecker());
+        } else {
+            usernameLabel.setText("Logged in: "+Main.netConnection.getUsername());
+        }
     }
 
     /**
@@ -88,6 +104,29 @@ public class TataiNetController {
         populateTask.setOnSucceeded(event -> {leaderboardList.setItems(leaderboard); leaderboardProgress.setVisible(false);});
         leaderboardProgress.setVisible(true);
         new Thread(populateTask).start();
+    }
+
+    /**
+     * Triggered when username is entered. Checks if it's valid
+     */
+    private void usernameChecker() {
+        String name = usernameField.getText();
+        if (name.length() > 12) {
+            usernameInstructions.setTextFill(Color.RED);
+            registerBtn.setDisable(true);
+        } else {
+            usernameInstructions.setTextFill(Color.WHITE);
+            registerBtn.setDisable(false);
+        }
+    }
+
+    /**
+     * Register a new user
+     */
+    @FXML private void registerBtnPressed() {
+        // register the user
+        registerProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
+        Main.netConnection.registerUser(usernameField.getText(), event -> {signUpPane.setVisible(false); registerProgress.setProgress(0); usernameLabel.setText("Logged in: "+usernameField.getText());}, event -> {usernameInstructions.setText("User already exists"); registerProgress.setProgress(0);}, event -> {usernameInstructions.setText("Network Error"); registerProgress.setProgress(0);});
     }
 
 }

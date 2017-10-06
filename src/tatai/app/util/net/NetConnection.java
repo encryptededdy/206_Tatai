@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import tatai.app.Main;
@@ -140,5 +142,56 @@ public class NetConnection {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void registerUser(String username, EventHandler<WorkerStateEvent> onSuccess, EventHandler<WorkerStateEvent> onDuplicate, EventHandler<WorkerStateEvent> onError) {
+        if (registered) {
+            System.err.println("User already registered");
+            return;
+        }
+        Task<String> registerTask = new Task<String>() {
+            @Override
+            protected String call() throws Exception {
+                try {
+                    String result = Request.Post(host+"createUser.php")
+                            .bodyForm(Form.form().add("username", username)
+                                    .build())
+                            .execute()
+                            .returnContent().toString();
+                    JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+                    if (jsonObject.get("created").getAsBoolean()) {
+                        System.out.println("User created");
+                        String authID = jsonObject.get("authID").getAsString();
+                        System.out.println("Got authID: "+authID);
+                        // Actually write the data into the db
+                        Main.database.insertOp("UPDATE users SET onlineName = '"+username+"', onlineAuthID = '"+authID+"' WHERE username = '"+Main.currentUser+"'");
+                        registered = true;
+                        onlineName = username;
+                        onlineAuthID = authID;
+                        return "Success";
+                    } else {
+                        System.err.println("Unable to create user");
+                        return "Duplicate";
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "Failure";
+                }
+            }
+        };
+        registerTask.setOnSucceeded(event -> {
+            if (registerTask.getValue().equals("Success")) {
+                onSuccess.handle(event);
+            } else if (registerTask.getValue().equals("Duplicate")) {
+                onDuplicate.handle(event);
+            } else {
+                onError.handle(event);
+            }
+        });
+        new Thread(registerTask).start();
+    }
+
+    public String getUsername() {
+        return onlineName;
     }
 }

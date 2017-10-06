@@ -9,10 +9,8 @@ import javafx.scene.control.TableView;
 import tatai.app.Main;
 import tatai.app.util.Translator;
 
-import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,7 +32,6 @@ public class MostRecentRoundQuery extends Query {
     private int _score;
     private int _numberOfQuestions;
     private int _totalTimeToAnswer;
-    private int _roundTimeLength;
     private int _numberOfAttempts;
 
     private int _longestStreak;
@@ -66,7 +63,7 @@ public class MostRecentRoundQuery extends Query {
         _score = 0;
         _numberOfQuestions = 0;
         _totalTimeToAnswer = 0;
-        _roundTimeLength = 0;
+        int _roundTimeLength = 0;
         _numberOfAttempts = 0;
 
         _longestStreak = 0;

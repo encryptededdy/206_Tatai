@@ -16,7 +16,7 @@ import java.time.format.DateTimeFormatter;
  */
 public class LeaderboardViewCell extends ListCell<LeaderboardEntry>{
 
-    FXMLLoader loader;
+    private FXMLLoader loader;
 
     @FXML private Label scoreLabel, usernameLabel, dateLabel, placeLabel;
 
