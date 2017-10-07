@@ -169,7 +169,7 @@ public class QuestionController {
         generator = Main.questionGenerators.get(questionSet);
         noQuestions = 10; // don't hardcode this
         questionNumberTotalLabel.setText("/"+noQuestions);
-        _currentRound = new Round(generator, 10); // TODO: numQuestions shouldn't be hardcoded
+        _currentRound = new Round(generator, noQuestions); // TODO: numQuestions shouldn't be hardcoded
         generateQuestion();
     }
 

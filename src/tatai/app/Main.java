@@ -119,10 +119,11 @@ public class Main extends Application {
         // define generators to be used
         questionGenerators.put("Numbers", new NumberGenerator());
         questionGenerators.put("Tens Numbers", new NumberGenerator99());
-        questionGenerators.put("Basic Addition", new MathGenerator(9, 8, 8, MathOperator.ADD, "Basic Addition"));
-        questionGenerators.put("Advanced Addition", new MathGenerator(99, 99, 99, MathOperator.ADD, "Advanced Addition"));
-        questionGenerators.put("Times Tables", new MathGenerator(99, 9, 9, MathOperator.MULTIPLY, "Times Tables", true));
-        questionGenerators.put("Advanced Multiplication", new MathGenerator(99, 24, 25, MathOperator.MULTIPLY, "Advanced Multiplication", false));
-
+        questionGenerators.put("Basic Addition", new MathGenerator(9, 8, MathOperator.ADD, "Basic Addition"));
+        questionGenerators.put("Advanced Addition", new MathGenerator(99, 99, MathOperator.ADD, "Advanced Addition"));
+        questionGenerators.put("Subtraction", new MathGenerator(99, 99, MathOperator.SUBTRACT, "Subtraction"));
+        questionGenerators.put("Times Tables", new MathGenerator(99, 12, MathOperator.MULTIPLY, "Times Tables", true));
+        questionGenerators.put("Advanced Multiplication", new MathGenerator(99, 24, MathOperator.MULTIPLY, "Advanced Multiplication", false));
+        questionGenerators.put("Division", new MathGenerator(20, 12, MathOperator.DIVIDE, "Division"));
     }
 }

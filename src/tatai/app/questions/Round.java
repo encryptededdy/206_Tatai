@@ -44,6 +44,13 @@ public class Round {
 
         _numQuestions = numQuestions;
 
+        // DEBUG
+        /*
+        for (Question question : _questions) {
+            System.out.println(question.toString() + " Answer: " + question.getAnswer());
+        }
+        */
+
         // Start the clock
         _startTime = Instant.now().getEpochSecond();
     }
