@@ -7,9 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tatai.app.questions.generators.NumberGenerator;
-import tatai.app.questions.generators.NumberGenerator99;
-import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.questions.generators.*;
 import tatai.app.util.Database;
 import tatai.app.util.DialogFactory;
 import tatai.app.util.net.NetConnection;
@@ -121,5 +119,10 @@ public class Main extends Application {
         // define generators to be used
         questionGenerators.put("Numbers", new NumberGenerator());
         questionGenerators.put("Tens Numbers", new NumberGenerator99());
+        questionGenerators.put("Basic Addition", new BasicAdditionGenerator());
+        questionGenerators.put("Advanced Addition", new AdvancedAdditionGenerator());
+        questionGenerators.put("Basic Multiplication", new BasicMultiplicationGenerator());
+        questionGenerators.put("Advanced Multiplication", new AdvancedMultiplicationGenerator());
+
     }
 }

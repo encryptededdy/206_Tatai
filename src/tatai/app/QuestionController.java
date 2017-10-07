@@ -217,7 +217,7 @@ public class QuestionController {
 
         // If it's not the last question
         if (_currentRound.hasNext()) {
-            questionLabel.setText(_currentRound.next());
+            scaleQuestionText(_currentRound.next(), questionLabel);
             questionNumberLabel.setText("Q"+_currentRound.questionNumber());
             playBtn.setDisable(true);
             // Hide the question feedback / results
@@ -497,7 +497,7 @@ public class QuestionController {
             resultsPane.setOpacity(0);
             TransitionFactory.fadeIn(resultsPane).play();
         }
-        scaleText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
+        scaleTextFeedback("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
         nextQuestionBtn.setDefaultButton(true);
         if (Main.showTutorial) {
             nextHelp.show(nextQuestionBtn, -5);
@@ -524,20 +524,20 @@ public class QuestionController {
             if (Main.showTutorial) {
                 nextHelp.show(nextQuestionBtn, -5);
             }
-            scaleText("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()), resultsLabel);
+            scaleTextFeedback("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()), resultsLabel);
         } else { // First attempt, prompt user to try again.
-            scaleText("Please try again.", resultsLabel);
+            scaleTextFeedback("Please try again.", resultsLabel);
             recordBtn.setDefaultButton(true);
         }
         resultsPane.setVisible(true);
     }
 
     /**
-     * Handles the scaling of text (ie. reduces font size on longer text)
+     * Handles the scaling of text for the correct/incorrect box (ie. reduces font size on longer text)
      * @param text The text to be scaled
      * @param label The label to write this text to
      */
-    private void scaleText(String text, Label label) {
+    private void scaleTextFeedback(String text, Label label) {
         if (text.length() < 23) {
             label.setStyle("-fx-font: 24 roboto;");
         } else {
@@ -546,4 +546,12 @@ public class QuestionController {
         label.setText(text);
     }
 
+    private void scaleQuestionText(String text, Label label) {
+        if (text.length() < 6) {
+            label.setStyle("-fx-font: 130 \"Roboto Bold\";");
+        } else {
+            label.setStyle("-fx-font: 85 \"Roboto Bold\";");
+        }
+        label.setText(text);
+    }
 }

@@ -41,13 +41,13 @@
                      </Label>
                </children>
             </Pane>
-               <JFXListView fx:id="leaderboardList" layoutX="29.0" layoutY="118.0" prefHeight="355.0" prefWidth="300.0" style="-fx-control-inner-background: #303030;" />
+               <JFXListView fx:id="leaderboardList" layoutX="29.0" layoutY="118.0" prefHeight="355.0" prefWidth="320.0" style="-fx-control-inner-background: #303030;" />
                <Label layoutX="30.0" layoutY="79.0" text="Leaderboard" textFill="WHITE">
                   <font>
                      <Font name="Roboto Medium" size="18.0" />
                   </font>
                </Label>
-               <JFXComboBox fx:id="scoreboardComboGameMode" layoutX="152.0" layoutY="76.0" prefHeight="29.0" prefWidth="176.0" stylesheets="@statistics.css" />
+               <JFXComboBox fx:id="scoreboardComboGameMode" layoutX="173.0" layoutY="76.0" prefHeight="29.0" prefWidth="176.0" stylesheets="@statistics.css" />
                <ProgressIndicator fx:id="leaderboardProgress" layoutX="151.0" layoutY="269.0" prefHeight="53.0" prefWidth="57.0" style="-fx-progress-color: white;" visible="false" />
          </children>
       </Pane>
@@ -78,7 +78,7 @@
                   <Font name="Roboto" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="usernameInstructions" layoutX="187.0" layoutY="242.0" prefHeight="23.0" prefWidth="452.0" text="Username must be less than 12 chars and must not already exist." textFill="GREY" wrapText="true">
+            <Label fx:id="usernameInstructions" layoutX="187.0" layoutY="242.0" prefHeight="23.0" prefWidth="452.0" text="Username must be less than 14 chars and must not already exist." textFill="GREY" wrapText="true">
                <font>
                   <Font name="Roboto" size="14.0" />
                </font>

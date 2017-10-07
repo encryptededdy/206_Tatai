@@ -111,7 +111,7 @@ public class TataiNetController {
      */
     private void usernameChecker() {
         String name = usernameField.getText();
-        if (name.length() > 12) {
+        if (name.length() > 14) {
             usernameInstructions.setTextFill(Color.RED);
             registerBtn.setDisable(true);
         } else {
