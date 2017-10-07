@@ -106,9 +106,9 @@ public class MathGenerator implements QuestionGenerator {
                 case SUBTRACT:
                     return Translator.toMaoriDisplayable(firstNumber) + " tangohia te " + Translator.toMaoriDisplayable(secondNumber);
                 case MULTIPLY:
-                    return "Whakareatia te " + Translator.toMaoriDisplayable(firstNumber) + " ki te " + Translator.toMaoriDisplayable(secondNumber);
+                    return Translator.toMaoriDisplayable(firstNumber) + ", whakarea ki te " + Translator.toMaoriDisplayable(secondNumber);
                 case DIVIDE:
-                    return "Hauwhātia te " + Translator.toMaoriDisplayable(firstNumber) + ", ka " + Translator.toMaoriDisplayable(secondNumber);
+                    return Translator.toMaoriDisplayable(firstNumber) + ", whakawehea ki te " + Translator.toMaoriDisplayable(secondNumber);
                 default:
                     throw new UnsupportedOperationException("Unknown operator: " + operator);
             }
