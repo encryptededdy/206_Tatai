@@ -12,6 +12,7 @@ import tatai.app.questions.generators.NumberGenerator99;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Database;
 import tatai.app.util.DialogFactory;
+import tatai.app.util.net.NetConnection;
 
 import java.io.File;
 import java.net.URL;
@@ -37,6 +38,8 @@ public class Main extends Application {
     static URL loginLayout;
     static URL settingsLayout;
     static URL dashboardLayout;
+    static URL tatainetLayout;
+    public static NetConnection netConnection;
     public static boolean showTutorial = true; //TODO: Change this to be optional
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
@@ -68,6 +71,7 @@ public class Main extends Application {
         completeLayout = getClass().getResource("resources/completescreen.fxml");
         settingsLayout = getClass().getResource("resources/settings.fxml");
         dashboardLayout = getClass().getResource("resources/statsdashboard.fxml");
+        tatainetLayout = getClass().getResource("resources/tatainet.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize

@@ -163,4 +163,19 @@ public class MainMenuController {
         fadeBox.setVisible(true);
         player.play();
     }
+
+    @FXML private void netBtnPressed() throws IOException {
+        // Load the new scene
+        Scene scene = netBtn.getScene();
+        FXMLLoader loader = new FXMLLoader(Main.tatainetLayout);
+        Parent root = loader.load();
+        // Fade out
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
+        // Expand
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
+        st.setToX(2);
+        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<TataiNetController>getController().fadeIn();}); // switch scenes when fade complete
+        ft.setOnFinished(event -> st.play());
+        ft.play();
+    }
 }

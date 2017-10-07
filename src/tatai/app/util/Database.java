@@ -71,6 +71,7 @@ public class Database {
             statement.execute(query);
             statement.close();
         } catch ( Exception e ) {
+            e.printStackTrace();
             DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
     }

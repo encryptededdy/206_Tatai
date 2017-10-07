@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.TataiNetController">
+   <children>
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
+      <Pane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
+      <Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <Pane fx:id="controls" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: #3F51B5;">
+               <children>
+                  <JFXRippler ripplerFill="white">
+                     <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="60.0" prefWidth="72.0">
+                        <children>
+                           <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
+                        </children>
+                     </Pane>
+                  </JFXRippler>
+                  <Label layoutX="291.0" layoutY="16.0" text="TataiNet Multiplayer" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="24.0" />
+                     </font>
+                  </Label>
+                     <Label fx:id="usernameLabel" alignment="CENTER_RIGHT" layoutX="588.0" layoutY="33.0" prefHeight="18.0" prefWidth="198.0" text="Logged in: USERUSERUSER" textFill="WHITE">
+                        <font>
+                           <Font name="Roboto" size="14.0" />
+                        </font>
+                     </Label>
+               </children>
+            </Pane>
+               <JFXListView fx:id="leaderboardList" layoutX="29.0" layoutY="118.0" prefHeight="355.0" prefWidth="300.0" style="-fx-control-inner-background: #303030;" />
+               <Label layoutX="30.0" layoutY="79.0" text="Leaderboard" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </Label>
+               <JFXComboBox fx:id="scoreboardComboGameMode" layoutX="152.0" layoutY="76.0" prefHeight="29.0" prefWidth="176.0" stylesheets="@statistics.css" />
+               <ProgressIndicator fx:id="leaderboardProgress" layoutX="151.0" layoutY="269.0" prefHeight="53.0" prefWidth="57.0" style="-fx-progress-color: white;" visible="false" />
+         </children>
+      </Pane>
+         <effect>
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
+         </effect>
+      </Pane>
+      <Pane fx:id="signUpPane" layoutY="58.0" prefHeight="440.0" prefWidth="800.0" visible="false">
+         <children>
+            <Pane opacity="0.8" prefHeight="440.0" prefWidth="800.0" style="-fx-background-color: #000000;" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="43.0" prefHeight="29.0" prefWidth="587.0" text="You are currently not registered for TataiNet" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="24.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="72.0" prefHeight="91.0" prefWidth="587.0" text="Registering for TataiNet will enable automatic uploads of high scores and also multiplayer functionality (challenge mode). You will need an internet connection to proceed." textAlignment="CENTER" textFill="WHITE" wrapText="true">
+               <font>
+                  <Font name="Roboto" size="18.0" />
+               </font>
+            </Label>
+            <JFXTextField fx:id="usernameField" layoutX="187.0" layoutY="196.0" prefHeight="34.0" prefWidth="452.0" promptText="Username" style="-fx-text-inner-color: white;" unFocusColor="GREY">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </JFXTextField>
+            <Label layoutX="187.0" layoutY="178.0" text="Enter Username" textFill="WHITE">
+               <font>
+                  <Font name="Roboto" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="usernameInstructions" layoutX="187.0" layoutY="242.0" prefHeight="23.0" prefWidth="452.0" text="Username must be less than 12 chars and must not already exist." textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Roboto" size="14.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="registerBtn" buttonType="RAISED" defaultButton="true" layoutX="275.0" layoutY="305.0" onAction="#registerBtnPressed" prefHeight="42.0" prefWidth="277.0" style="-fx-background-color: #3F51B5;" text="Register" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXProgressBar fx:id="registerProgress" layoutX="275.0" layoutY="362.0" prefHeight="8.0" prefWidth="277.0" progress="0.0" />
+         </children>
+      </Pane>
+   </children>
+</Pane>
