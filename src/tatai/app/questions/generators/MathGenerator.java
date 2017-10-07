@@ -35,7 +35,7 @@ public class MathGenerator implements QuestionGenerator {
         int number = 0;
         // TODO: Make the generation algorithm less shitty
         // While our generated number doesn't meet the specification...
-        while (!((firstNumber * secondNumber) <= highBound && (firstNumber + secondNumber) >= 1)) {
+        while (!(number <= highBound && number >= 1)) {
             switch (operator) {
                 case ADD:
                     firstNumber = rng.nextInt(firstOperandMax+1);
