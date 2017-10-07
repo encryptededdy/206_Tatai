@@ -202,6 +202,7 @@ public class CompleteScreenController {
             nextRoundBtn.setDisable(true);
         }
         yourScoreLabel.setText("Your Score: " + Integer.toString(_mostRecentRound.getScore()));
+        if (_mostRecentRound.getScore() < 200) yourScoreLabel.setVisible(false);
     }
 
     /**

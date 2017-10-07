@@ -112,9 +112,8 @@ public class Round {
             try {
                 correctRS.next();
                 qLengthRS.next();
-                double accuracy = (correctRS.getDouble(1)/_numQuestions)*100;
-                double lengthScore = 20 - qLengthRS.getDouble(1);
-
+                double accuracy = (correctRS.getDouble(1)/_numQuestions)*100; // accuracy in %
+                double lengthScore = Math.max(20 - qLengthRS.getDouble(1), 1); // 20 - avg time or 1
                 // Calculate the score
                 _score = (int)(accuracy * lengthScore * ((_numQuestions + 90)/100));
             } catch (SQLException e) {

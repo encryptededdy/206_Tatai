@@ -119,10 +119,10 @@ public class Main extends Application {
         // define generators to be used
         questionGenerators.put("Numbers", new NumberGenerator());
         questionGenerators.put("Tens Numbers", new NumberGenerator99());
-        questionGenerators.put("Basic Addition", new BasicAdditionGenerator());
-        questionGenerators.put("Advanced Addition", new AdvancedAdditionGenerator());
-        questionGenerators.put("Basic Multiplication", new BasicMultiplicationGenerator());
-        questionGenerators.put("Advanced Multiplication", new AdvancedMultiplicationGenerator());
+        questionGenerators.put("Basic Addition", new MathGenerator(9, 8, 8, MathOperator.ADD, "Basic Addition"));
+        questionGenerators.put("Advanced Addition", new MathGenerator(99, 99, 99, MathOperator.ADD, "Advanced Addition"));
+        questionGenerators.put("Basic Multiplication", new MathGenerator(99, 9, 9, MathOperator.MULTIPLY, "Basic Multiplication", true));
+        questionGenerators.put("Advanced Multiplication", new MathGenerator(99, 24, 25, MathOperator.MULTIPLY, "Advanced Multiplication", false));
 
     }
 }
