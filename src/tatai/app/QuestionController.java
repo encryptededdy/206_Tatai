@@ -549,8 +549,10 @@ public class QuestionController {
     private void scaleQuestionText(String text, Label label) {
         if (text.length() < 6) {
             label.setStyle("-fx-font: 130 \"Roboto Bold\";");
+        } else if (text.length() < 8) {
+            label.setStyle("-fx-font: 100 \"Roboto Bold\";");
         } else {
-            label.setStyle("-fx-font: 85 \"Roboto Bold\";");
+            label.setStyle("-fx-font: 30 \"Roboto Bold\";");
         }
         label.setText(text);
     }
