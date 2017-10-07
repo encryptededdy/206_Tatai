@@ -9,6 +9,7 @@ import javafx.scene.control.TableView;
 import tatai.app.Main;
 import tatai.app.util.Translator;
 
+import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
