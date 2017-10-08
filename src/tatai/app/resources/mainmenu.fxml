@@ -55,7 +55,7 @@
                         <Image url="@banner.png" />
                      </image>
                   </ImageView>
-                  <JFXComboBox fx:id="questionDropDown" layoutX="77.0" layoutY="233.0" prefHeight="35.0" prefWidth="247.0" style="-fx-background-color: #FFFFFF;" visibleRowCount="4">
+                  <JFXComboBox fx:id="questionDropDown" layoutX="77.0" layoutY="233.0" prefHeight="35.0" prefWidth="195.0" style="-fx-background-color: #FFFFFF;" visibleRowCount="4">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
@@ -65,6 +65,19 @@
                         <Font name="Roboto" size="14.0" />
                      </font>
                   </Label>
+                  <Label fx:id="devQuote" alignment="CENTER" layoutX="219.0" layoutY="126.0" prefHeight="42.0" prefWidth="173.0" rotate="-30.0" text="quote" textAlignment="CENTER" textFill="#4fc3f7" wrapText="true">
+                     <font>
+                        <Font name="Roboto" size="12.0" />
+                     </font>
+                  </Label>
+                  <JFXButton fx:id="editBtn" buttonType="RAISED" defaultButton="true" layoutX="279.0" layoutY="233.0" onAction="#editBtnPressed" prefHeight="35.0" prefWidth="39.0" style="-fx-background-color: #3F51B5;" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Bold" size="18.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="20.0" />
+                     </graphic>
+                  </JFXButton>
                </children>
             </Pane>
          </children>

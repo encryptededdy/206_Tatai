@@ -6,6 +6,8 @@ import java.util.Random;
 
 /**
  * Generates math questions according to specified parameters.
+ *
+ * @author Edward
  */
 public class MathGenerator implements QuestionGenerator {
     private String _answer;
@@ -17,7 +19,20 @@ public class MathGenerator implements QuestionGenerator {
     private boolean allowMultiplyByOne;
     private boolean inMaori;
 
+    private boolean custom;
+
     private final int generatorMax = 99; // The biggest number that is allowed to appear in an equation
+
+    /**
+     * Instantiate a MathGenerator with specifications governing the questions to be generated
+     * @param highBound The highest number (answer) to be generated
+     * @param operandMax The maximum value of any operand
+     * @param operator The operator to use (ADD, SUBTRACT, DIVIDE, MULTIPLY)
+     * @param name The name to name this generator
+     */
+    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name) {
+        this(highBound, operandMax, operator, name, true, false, false);
+    }
 
     /**
      * Instantiate a MathGenerator with specifications governing the questions to be generated
@@ -27,24 +42,43 @@ public class MathGenerator implements QuestionGenerator {
      * @param name The name to name this generator
      * @param allowMultiplyByOne Whether to allow multiply by 1 questions (optional)
      */
+    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne) {
+        this(highBound, operandMax, operator, name, allowMultiplyByOne, false, false);
+    }
+
+    /**
+     * Instantiate a MathGenerator with specifications governing the questions to be generated
+     * @param highBound The highest number (answer) to be generated
+     * @param operandMax The maximum value of any operand
+     * @param operator The operator to use (ADD, SUBTRACT, DIVIDE, MULTIPLY)
+     * @param name The name to name this generator
+     * @param allowMultiplyByOne Whether to allow multiply by 1 questions (optional)
+     * @param inMaori Whether to generate the question in Maori
+     */
     public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori) {
+        this(highBound, operandMax, operator, name, allowMultiplyByOne, inMaori, false);
+    }
+
+    /**
+     * Instantiate a MathGenerator with specifications governing the questions to be generated
+     * @param highBound The highest number (answer) to be generated
+     * @param operandMax The maximum value of any operand
+     * @param operator The operator to use (ADD, SUBTRACT, DIVIDE, MULTIPLY)
+     * @param name The name to name this generator
+     * @param allowMultiplyByOne Whether to allow multiply by 1 questions (optional)
+     * @param inMaori Whether to generate the question in Maori
+     * @param custom Whether this generator is user-created (custom) or built in (not custom)
+     */
+    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori, boolean custom) {
         this.highBound = highBound;
         this.operandMax = operandMax;
         this.operator = operator;
         this.name = name;
         this.allowMultiplyByOne = allowMultiplyByOne;
         this.inMaori = inMaori;
+        this.custom = custom;
         // A few checks to prevent against bad inputs
         if (operator == MathOperator.SUBTRACT && operandMax < highBound) System.err.println("Warning: Range unreachable");
-    }
-
-
-    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne) {
-        this(highBound, operandMax, operator, name, allowMultiplyByOne, false);
-    }
-
-    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name) {
-        this(highBound, operandMax, operator, name, false, false);
     }
 
     /**
@@ -80,7 +114,7 @@ public class MathGenerator implements QuestionGenerator {
                         secondNumber = rng.nextInt(operandMax) + 1;
                     } else {
                         // If the max operand is one and multiplication by one is disallowed.... yeah...
-                        if (operandMax < 2) throw new RuntimeException("Invaid range with x1 disallowed");
+                        if (operandMax < 2) throw new RuntimeException("Invalid range with x1 disallowed");
                         firstNumber = rng.nextInt(operandMax - 1) + 2;
                         secondNumber = rng.nextInt(operandMax - 1) + 2;
                     }
@@ -99,8 +133,9 @@ public class MathGenerator implements QuestionGenerator {
         _answer = Translator.toMaori(number);
 
         // Generate the string for the question
-        if (inMaori) {
+        if (inMaori) { // Generate the string in Maori
             switch (operator) {
+                // TODO: Check these translations...
                 case ADD:
                     return Translator.toMaoriDisplayable(firstNumber) + " tāpirihia te " + Translator.toMaoriDisplayable(secondNumber);
                 case SUBTRACT:
@@ -112,9 +147,8 @@ public class MathGenerator implements QuestionGenerator {
                 default:
                     throw new UnsupportedOperationException("Unknown operator: " + operator);
             }
-        } else {
+        } else { // Generate the string in arabic numerals / english
             switch (operator) {
-                // TODO: Check these translations...
                 case ADD:
                     return firstNumber + " + " + secondNumber;
                 case SUBTRACT:
@@ -136,5 +170,7 @@ public class MathGenerator implements QuestionGenerator {
     public String getGeneratorName() {
         return name;
     }
+
+    public boolean isCustom() { return custom; };
 
 }

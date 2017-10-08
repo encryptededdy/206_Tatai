@@ -21,10 +21,10 @@ import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.PopoverFactory;
 import tatai.app.util.Record;
-import tatai.app.util.TransitionFactory;
 import tatai.app.util.Translator;
+import tatai.app.util.factories.PopoverFactory;
+import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.util.Random;
@@ -52,14 +52,12 @@ public class QuestionController {
     @FXML private JFXButton playBtn;
     @FXML private JFXButton checkBtn;
     @FXML private JFXButton menuBtn;
-    @FXML private Label questionLabel;
-    @FXML private Label questionNumberLabel;
+    @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel;
     @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
     @FXML private Pane controlsPane;
     @FXML private Pane tutorialNotif;
     @FXML private Pane resultsPane;
     @FXML private Pane qNumPane;
-    @FXML private Label resultsLabel;
     @FXML private Pane questionPaneclr;
     @FXML private Pane questionPaneclrShadow;
     @FXML private MaterialDesignIconView correctIcon;
@@ -69,7 +67,6 @@ public class QuestionController {
     @FXML private ImageView xpTheme;
     @FXML private ImageView flyImage;
     @FXML private Pane questionPaneData;
-    @FXML private Label setNameLabel, questionNumberTotalLabel;
 
     private ParallelTransition menuConfirmTransition;
 

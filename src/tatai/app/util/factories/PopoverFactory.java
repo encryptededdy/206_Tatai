@@ -1,4 +1,4 @@
-package tatai.app.util;
+package tatai.app.util.factories;
 
 import javafx.scene.control.Label;
 import javafx.scene.text.TextAlignment;

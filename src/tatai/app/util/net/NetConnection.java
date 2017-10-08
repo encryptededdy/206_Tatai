@@ -10,7 +10,7 @@ import javafx.event.EventHandler;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import tatai.app.Main;
-import tatai.app.util.DialogFactory;
+import tatai.app.util.factories.DialogFactory;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -20,6 +20,8 @@ import java.util.Arrays;
 
 /**
  * A class that exchanges data with TataiNet over an HTTP connection
+ *
+ * @author Edward
  */
 public class NetConnection {
     private static NetConnection instance = null;

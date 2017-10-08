@@ -21,6 +21,7 @@ public class Round {
     private QuestionGenerator _roundQuestionGenerator;
     private int _numQuestions;
     private Integer _score;
+    private boolean isCustom;
 
     /**
      * Constructs a Round
@@ -29,6 +30,9 @@ public class Round {
      */
     public Round(QuestionGenerator generator, int numQuestions) {
         _roundQuestionGenerator = generator;
+
+        // Check if this is a custom round
+        isCustom = generator.isCustom();
 
         System.out.println("Starting round: "+Main.database.getNextID("roundID", "rounds"));
         _roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
@@ -74,7 +78,7 @@ public class Round {
         System.out.println("Calculated score: "+getScore());
 
         // Upload the score
-        Main.netConnection.uploadScore(_roundQuestionGenerator.getGeneratorName(), getScore());
+        if (!isCustom) Main.netConnection.uploadScore(_roundQuestionGenerator.getGeneratorName(), getScore());
     }
 
     /**

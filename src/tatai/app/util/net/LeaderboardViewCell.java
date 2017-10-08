@@ -13,6 +13,8 @@ import java.time.format.DateTimeFormatter;
 
 /**
  * Represents a cell in the Leaderboard View
+ *
+ * @author Edward
  */
 public class LeaderboardViewCell extends ListCell<LeaderboardEntry>{
 

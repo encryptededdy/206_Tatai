@@ -9,7 +9,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tatai.app.questions.generators.*;
 import tatai.app.util.Database;
-import tatai.app.util.DialogFactory;
+import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.net.NetConnection;
 
 import java.io.File;
@@ -37,11 +37,12 @@ public class Main extends Application {
     static URL settingsLayout;
     static URL dashboardLayout;
     static URL tatainetLayout;
+    static URL customgeneratorLayout;
     public static NetConnection netConnection;
-    public static boolean showTutorial = true; //TODO: Change this to be optional
+    public static boolean showTutorial = true;
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
-    final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
+    static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
     public static Font currentFont;
 
     static { // Static initializer
@@ -70,6 +71,7 @@ public class Main extends Application {
         settingsLayout = getClass().getResource("resources/settings.fxml");
         dashboardLayout = getClass().getResource("resources/statsdashboard.fxml");
         tatainetLayout = getClass().getResource("resources/tatainet.fxml");
+        customgeneratorLayout = getClass().getResource("resources/customgenerator.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize
