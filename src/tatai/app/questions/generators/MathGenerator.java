@@ -102,13 +102,17 @@ public class MathGenerator implements QuestionGenerator {
         if (inMaori) {
             switch (operator) {
                 case ADD:
-                    return Translator.toMaoriDisplayable(firstNumber) + " tāpirihia te " + Translator.toMaoriDisplayable(secondNumber);
+                    return "E " + Translator.toMaoriDisplayable(firstNumber) + ", tāpirihia te " + Translator.toMaoriDisplayable(secondNumber);
+                    // SOURCE: https://maoridictionary.co.nz/search?idiom=&phrase=&proverb=&loan=&histLoanWords=&keywords=tapiri
                 case SUBTRACT:
-                    return Translator.toMaoriDisplayable(firstNumber) + " tangohia te " + Translator.toMaoriDisplayable(secondNumber);
+                    return "E " + Translator.toMaoriDisplayable(firstNumber) + " tangohia te " + Translator.toMaoriDisplayable(secondNumber);
+                    // SOURCE: https://maoridictionary.co.nz/search?idiom=&phrase=&proverb=&loan=&histLoanWords=&keywords=tango
                 case MULTIPLY:
-                    return Translator.toMaoriDisplayable(firstNumber) + ", whakarea ki te " + Translator.toMaoriDisplayable(secondNumber);
+                    return "Whakarea te " + Translator.toMaoriDisplayable(firstNumber) + " ki te " + Translator.toMaoriDisplayable(secondNumber);
+                    // SOURCE: https://maoridictionary.co.nz/search?idiom=&phrase=&proverb=&loan=&histLoanWords=&keywords=whakarea
                 case DIVIDE:
                     return Translator.toMaoriDisplayable(firstNumber) + ", whakawehea ki te " + Translator.toMaoriDisplayable(secondNumber);
+                    // TODO Find an accurate translation for number dividee by number in Te Reo Maori
                 default:
                     throw new UnsupportedOperationException("Unknown operator: " + operator);
             }
