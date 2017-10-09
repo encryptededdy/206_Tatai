@@ -70,7 +70,7 @@
                         <Font name="Roboto" size="12.0" />
                      </font>
                   </Label>
-                  <JFXButton fx:id="editBtn" buttonType="RAISED" defaultButton="true" layoutX="279.0" layoutY="233.0" onAction="#editBtnPressed" prefHeight="35.0" prefWidth="39.0" style="-fx-background-color: #3F51B5;" textFill="WHITE">
+                  <JFXButton fx:id="editBtn" buttonType="RAISED" defaultButton="true" layoutX="279.0" layoutY="233.0" onAction="#editBtnPressed" prefHeight="35.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
