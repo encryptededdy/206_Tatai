@@ -1,12 +1,11 @@
 package tatai.app.util;
 
+import com.google.gson.Gson;
 import tatai.app.Main;
+import tatai.app.questions.generators.MathGenerator;
 import tatai.app.util.factories.DialogFactory;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -74,6 +73,21 @@ public class Database {
         } catch ( Exception e ) {
             e.printStackTrace();
             DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
+        }
+    }
+
+    /**
+     * Returns a PreparedStatement for custom use
+     * @param statement The prepared statement to use
+     * @return The corresponding PreparedStatement object
+     */
+    public PreparedStatement getPreparedStatement(String statement) {
+        try {
+            return connection.prepareStatement(statement);
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            DialogFactory.exception("Internal Database error.", "Database Error", e);
+            return null;
         }
     }
 
@@ -165,6 +179,24 @@ public class Database {
     }
 
     /**
+     * Populates the list of questiongenerators with those from the Database
+     */
+    public void populateGenerators() {
+        Gson gson = new Gson();
+        PreparedStatement ps = getPreparedStatement("SELECT json FROM savedSets WHERE username = ?");
+        try {
+            ps.setString(1, Main.currentUser);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                MathGenerator generator = gson.fromJson(rs.getString(1), MathGenerator.class);
+                Main.questionGenerators.put(generator.getGeneratorName(), generator);
+            }
+        } catch ( Exception e ) {
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
+        }
+    }
+
+    /**
      * Creates the tables for the database structure, if they don't already exist.
      */
     private void createTables() {
@@ -206,6 +238,13 @@ public class Database {
                 " username      TEXT    NOT NULL, " +
                 " date          INTEGER NOT NULL, " +
                 " sessionlength INTEGER)");
+        // Create the savedSets table
+        queries.add("CREATE TABLE IF NOT EXISTS savedSets " +
+                "(setID INTEGER PRIMARY KEY AUTOINCREMENT    NOT NULL," +
+                " username      TEXT    NOT NULL, " +
+                " setName       TEXT    NOT NULL, " +
+                " json          TEXT    NOT NULL, " +
+                " fromNet     INTEGER)");
         // Add the default user if it doesn't exist
         queries.add("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('default', "+Instant.now().getEpochSecond()+")");
         try {

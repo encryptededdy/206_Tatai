@@ -1,5 +1,6 @@
 package tatai.app;
 
+import com.google.gson.Gson;
 import com.jfoenix.controls.*;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
@@ -17,10 +18,16 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import tatai.app.questions.generators.MathGenerator;
 import tatai.app.questions.generators.MathOperator;
+import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 
+/**
+ * Controller for the Custom Question Set creation screen
+ */
 public class CustomGeneratorController {
 
     @FXML private ImageView backgroundImage;
@@ -41,8 +48,9 @@ public class CustomGeneratorController {
     @FXML private Label boundLabel;
     @FXML private Label nameLabel;
 
-    private MathOperator operator = MathOperator.ADD;
-
+    /**
+     * Sets up initial values and bindings
+     */
     public void initialize() {
         backgroundImage.setImage(Main.background);
         // Setup the math operator combobox
@@ -57,16 +65,20 @@ public class CustomGeneratorController {
         BooleanBinding checkOperand = Bindings.createBooleanBinding(this::checkOperandField, operandMaxField.textProperty(), operatorCombo.getSelectionModel().selectedItemProperty());
         BooleanBinding checkBound = Bindings.createBooleanBinding(this::checkBoundField, highBoundField.textProperty());
         BooleanBinding nameText = Bindings.createBooleanBinding(this::checkNameText, roundNameField.textProperty());
-
         saveSetBtn.disableProperty().bind(checkOperand.or(checkBound.or(nameText)));
 
-        // Configure updating the selected operator
-        operatorCombo.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> updateOperator());
+        // Configure validation of delete/sharable
+        BooleanBinding checkDeletable = Bindings.createBooleanBinding(this::checkisCustom, qSetList.getSelectionModel().selectedItemProperty());
+        deleteBtn.disableProperty().bind(checkDeletable.not());
+        shareBtn.disableProperty().bind(checkDeletable.not());
 
         // Prepare for animations
         dataPane.setOpacity(0);
     }
 
+    /**
+     * Populates the ListView of Question Sets
+     */
     private void populateQuestionSets() {
         qSetList.setItems(FXCollections.observableArrayList(Main.questionGenerators.keySet()));
     }
@@ -95,42 +107,94 @@ public class CustomGeneratorController {
         ft.play();
     }
 
+    /**
+     * Delete the selected item from the questionGenerators list and also from the database
+     */
     @FXML void deleteBtnPressed() {
-
+        String selected = qSetList.getSelectionModel().getSelectedItem();
+        Main.questionGenerators.remove(selected);
+        PreparedStatement ps = Main.database.getPreparedStatement("DELETE FROM savedSets WHERE username = ? AND setName = ?");
+        try {
+            ps.setString(1, Main.currentUser);
+            ps.setString(2, selected);
+            ps.executeUpdate();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            DialogFactory.exception("Internal Database error.", "Database Error", e);
+        }
+        populateQuestionSets();
     }
 
+    /**
+     * Saves a new Question Set
+     */
     @FXML void saveSetBtnPressed() {
+        Gson gson = new Gson();
+        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
         MathGenerator generator = new MathGenerator(
                 Integer.parseInt(highBoundField.getText()),
                 Integer.parseInt(operandMaxField.getText()),
-                operator,
+                getOperator(),
                 roundNameField.getText(),
                 times1Checkbox.isSelected(),
                 maoriCheckbox.isSelected(),
                 true);
-
+        String generatorJSON = gson.toJson(generator);
         Main.questionGenerators.put(roundNameField.getText(), generator);
         populateQuestionSets();
         // Added, now we clear the fields
         highBoundField.setText("");
         operandMaxField.setText("");
         roundNameField.setText("");
+        System.out.println("JSON Output;");
+        System.out.println(generatorJSON);
+        // Save it in the database
+        PreparedStatement ps = Main.database.getPreparedStatement("INSERT INTO savedSets (username, json, setName, fromNet) VALUES (?, ?, ?, ?)");
+        try {
+            ps.setString(1, Main.currentUser);
+            ps.setString(2, generatorJSON);
+            ps.setString(3, generator.getGeneratorName());
+            ps.setBoolean(4, false);
+            ps.executeUpdate();
+        } catch ( Exception e ) {
+                e.printStackTrace();
+                DialogFactory.exception("Internal Database error.", "Database Error", e);
+        }
     }
 
     @FXML void shareBtnPressed() {
-
+        //TODO: Implement online sharing
     }
 
-    private void updateOperator() {
+    /**
+     * Checks whether the selected QuestionSet is custom
+     * @return Whether it's custom
+     */
+    private boolean checkisCustom() {
+        if (qSetList.getSelectionModel().getSelectedItem() != null) {
+            String selected = qSetList.getSelectionModel().getSelectedItem();
+            QuestionGenerator selectedGenerator = Main.questionGenerators.get(selected);
+            return selectedGenerator.isCustom();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Gets the current operator selected in the ComboBox
+     */
+    private MathOperator getOperator() {
         switch (operatorCombo.getSelectionModel().getSelectedItem()) {
             case "+":
-                operator = MathOperator.ADD; break;
+                return MathOperator.ADD;
             case "-":
-                operator = MathOperator.SUBTRACT; break;
+                return MathOperator.SUBTRACT;
             case "x":
-                operator = MathOperator.MULTIPLY; break;
+                return MathOperator.MULTIPLY;
             case "÷":
-                operator = MathOperator.DIVIDE; break;
+                return MathOperator.DIVIDE;
+            default:
+                return null;
         }
     }
 
@@ -138,13 +202,12 @@ public class CustomGeneratorController {
      * Checks the numerical text fields to make sure they're valid.
      */
     private boolean checkOperandField() {
-        updateOperator();
         String operand = operandMaxField.getText();
         // Check the operand field
         if (operand.equals("")) {
             operandLabel.setText("Enter a number");
             return true;
-        } else if (Integer.parseInt(operand) > 12 && operator == MathOperator.DIVIDE) {
+        } else if (Integer.parseInt(operand) > 12 && getOperator() == MathOperator.DIVIDE) {
             operandLabel.setText("Division Max: 12");
             return true;
         } else if (Integer.parseInt(operand) > 99) {
@@ -156,6 +219,9 @@ public class CustomGeneratorController {
         }
     }
 
+    /**
+     * Checks the numerical text fields to make sure they're valid.
+     */
     private boolean checkBoundField() {
         String bound = highBoundField.getText();
         // Check the bound field
@@ -171,6 +237,9 @@ public class CustomGeneratorController {
         }
     }
 
+    /**
+     * Checks the question set name fields to make sure they're valid.
+     */
     private boolean checkNameText() {
         String name = roundNameField.getText();
         if (name.equals("")) {

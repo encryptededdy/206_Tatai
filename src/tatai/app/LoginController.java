@@ -139,6 +139,7 @@ public class LoginController {
     @FXML void loginBtnPressed() throws IOException {
         Main.currentUser = usernameSelector.getValue(); // write the username
         Main.currentSession = database.startSession(); // start the session
+        Main.populateGenerators(); // populate questiongenerators
         Main.netConnection = new NetConnection(); // open a TataiNet session
         Scene scene = loginBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
