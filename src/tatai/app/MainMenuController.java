@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import tatai.app.util.TransitionFactory;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * Controller for the Main Menu screen. Handles all button presses etc.
@@ -40,6 +41,7 @@ public class MainMenuController {
         questionDropDown.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
     }
     @FXML private JFXButton practiceBtn;
+    @FXML private JFXButton levelBtn;
     @FXML private ImageView backgroundImage;
     @FXML private JFXButton settingsBtn;
     @FXML private JFXButton netBtn;
@@ -89,6 +91,16 @@ public class MainMenuController {
         ParallelTransition pt = new ParallelTransition(st, tt);
         ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
         pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
+        ft.play();
+    }
+
+    @FXML private void levelBtnPressed() throws IOException {
+        Scene scene = levelBtn.getScene();
+        FXMLLoader loader = new FXMLLoader((Main.levelLayout));
+        Parent root = loader.load();
+
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
+        ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
         ft.play();
     }
 
