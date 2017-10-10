@@ -75,6 +75,10 @@
                      <graphic>
                         <FontAwesomeIconView fill="WHITE" glyphName="EDIT" size="20.0" />
                      </graphic>
+                  <JFXButton fx:id="levelBtn" buttonType="RAISED" defaultButton="true" layoutX="204.0" layoutY="285.0" onAction="#levelBtnPressed" prefHeight="42.0" prefWidth="120.0" style="-fx-background-color: #3F51B5;" text="Levels" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Bold" size="18.0" />
+                     </font>
                   </JFXButton>
                </children>
             </Pane>
