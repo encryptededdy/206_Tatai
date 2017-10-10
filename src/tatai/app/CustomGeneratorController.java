@@ -81,8 +81,9 @@ public class CustomGeneratorController {
 
         // Configure validation of delete/sharable
         BooleanBinding checkDeletable = Bindings.createBooleanBinding(this::checkisCustom, qSetList.getSelectionModel().selectedItemProperty());
+        BooleanBinding checkShareable = Bindings.createBooleanBinding(this::checkAlreadyUploaded, qSetList.getSelectionModel().selectedItemProperty());
         deleteBtn.disableProperty().bind(checkDeletable.not());
-        shareBtn.disableProperty().bind(checkDeletable.not());
+        shareBtn.disableProperty().bind(checkDeletable.not().or(checkShareable));
 
         // Configure duplication checking in TataiWorkshop
         BooleanBinding checkDuplicate = Bindings.createBooleanBinding(this::checkWorkshopDuplication, downloadSetList.getSelectionModel().selectedItemProperty());
@@ -192,13 +193,27 @@ public class CustomGeneratorController {
         }
     }
 
+    /**
+     * Check if the currently selected item has already been uploaded to the Tatai Workshop
+     * @return True if already uploaded
+     */
+    private boolean checkAlreadyUploaded() {
+        if (qSetList.getSelectionModel().getSelectedItem() != null) {
+            String selected = qSetList.getSelectionModel().getSelectedItem();
+            if (workshopGeneratorsName.contains(selected)) shareBtn.setText("Already Uploaded");
+            return workshopGeneratorsName.contains(selected);
+        } else {
+            return false;
+        }
+    }
+
     @FXML void shareBtnPressed() {
         if (!shareBtn.getText().equals("Uploaded")) {
-            shareBtn.setText("Uploading");
+            shareBtn.setText("Uploading...");
             Gson gson = new Gson();
             String selected = qSetList.getSelectionModel().getSelectedItem();
             if (workshopGeneratorsName.contains(selected)) {
-                shareBtn.setText("Duplicate");
+                shareBtn.setText("Already Uploaded");
             } else {
                 String generatorJSON = gson.toJson(Main.questionGenerators.get(selected));
                 EventHandler<WorkerStateEvent> onSuccess = event -> shareBtn.setText("Uploaded");
@@ -265,7 +280,7 @@ public class CustomGeneratorController {
      * @return Whether it's custom
      */
     private boolean checkisCustom() {
-        shareBtn.setText("Share");
+        shareBtn.setText("Upload to Workshop");
         if (qSetList.getSelectionModel().getSelectedItem() != null) {
             String selected = qSetList.getSelectionModel().getSelectedItem();
             QuestionGenerator selectedGenerator = Main.questionGenerators.get(selected);
