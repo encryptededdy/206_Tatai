@@ -7,6 +7,7 @@ import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -26,6 +28,7 @@ import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
 
 /**
  * Controller for the Custom Question Set creation screen
@@ -37,7 +40,7 @@ public class CustomGeneratorController {
     @FXML private Pane dataPane;
     @FXML private Pane controls;
     @FXML private Pane backBtn;
-    @FXML private JFXListView<String> qSetList;
+    @FXML private JFXListView<String> qSetList, downloadSetList;
     @FXML private JFXButton deleteBtn;
     @FXML private JFXComboBox<String> operatorCombo;
     @FXML private JFXCheckBox times1Checkbox;
@@ -49,8 +52,13 @@ public class CustomGeneratorController {
     @FXML private Label operandLabel;
     @FXML private Label boundLabel;
     @FXML private Label nameLabel;
+    @FXML private JFXButton downloadScreenBtn;
+    @FXML private Pane tataiWorkshopPane;
+    @FXML private JFXButton downloadBtn;
+    @FXML private ProgressIndicator workshopProgress;
 
-    private boolean uploading;
+    private ArrayList<MathGenerator> workshopGenerators;
+    private ArrayList<String> workshopGeneratorsName = new ArrayList<>();
 
     /**
      * Sets up initial values and bindings
@@ -76,8 +84,15 @@ public class CustomGeneratorController {
         deleteBtn.disableProperty().bind(checkDeletable.not());
         shareBtn.disableProperty().bind(checkDeletable.not());
 
+        // Configure duplication checking in TataiWorkshop
+        BooleanBinding checkDuplicate = Bindings.createBooleanBinding(this::checkWorkshopDuplication, downloadSetList.getSelectionModel().selectedItemProperty());
+        downloadBtn.disableProperty().bind(checkDuplicate);
+
         // Prepare for animations
         dataPane.setOpacity(0);
+
+        // Populate the workshop list (for deduplication)
+        populateWorkshop();
     }
 
     /**
@@ -91,24 +106,35 @@ public class CustomGeneratorController {
         TransitionFactory.fadeIn(dataPane).play();
     }
 
+    private void hideWorkshop() {
+        tataiWorkshopPane.setVisible(false); //TODO: Animate this
+    }
+
 
     /**
-     * Animate out the screen then switch to the main menu
+     * Animate out the screen then switch to the main menu, or close the workshop screen if it's open
      * @throws IOException Exception can be thrown when loading FXML
      */
     @FXML void backBtnPressed() throws IOException {
-        Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
-        Parent root = loader.load();
-        loader.<MainMenuController>getController().setupFade(false);
-        // Fade out items
-        FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration/2);
-        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), backgroundPane);
-        st.setToX(0.5);
-        st.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
-        ft.setOnFinished(event -> st.play());
-        // animate
-        ft.play();
+        if (tataiWorkshopPane.isVisible()) {
+            hideWorkshop();
+        } else {
+            Scene scene = backBtn.getScene();
+            FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+            Parent root = loader.load();
+            loader.<MainMenuController>getController().setupFade(false);
+            // Fade out items
+            FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration / 2);
+            ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), backgroundPane);
+            st.setToX(0.5);
+            st.setOnFinished(event -> {
+                scene.setRoot(root);
+                loader.<MainMenuController>getController().fadeIn();
+            });
+            ft.setOnFinished(event -> st.play());
+            // animate
+            ft.play();
+        }
     }
 
     /**
@@ -167,16 +193,71 @@ public class CustomGeneratorController {
     }
 
     @FXML void shareBtnPressed() {
-        //TODO: Implement online sharing
         if (!shareBtn.getText().equals("Uploaded")) {
             shareBtn.setText("Uploading");
             Gson gson = new Gson();
             String selected = qSetList.getSelectionModel().getSelectedItem();
-            String generatorJSON = gson.toJson(Main.questionGenerators.get(selected));
-            EventHandler<WorkerStateEvent> onSuccess = event -> shareBtn.setText("Uploaded");
-            EventHandler<WorkerStateEvent> onFail = event -> shareBtn.setText("Error");
-            Main.netConnection.uploadJSON(generatorJSON, "ezTatai_gen_1", onSuccess, onFail);
+            if (workshopGeneratorsName.contains(selected)) {
+                shareBtn.setText("Duplicate");
+            } else {
+                String generatorJSON = gson.toJson(Main.questionGenerators.get(selected));
+                EventHandler<WorkerStateEvent> onSuccess = event -> shareBtn.setText("Uploaded");
+                EventHandler<WorkerStateEvent> onFail = event -> shareBtn.setText("Error");
+                Main.netConnection.uploadJSON(generatorJSON, "ezTatai_gen_1", onSuccess, onFail);
+            }
         }
+    }
+
+    /**
+     * Opens the download (TataiWorkshop) screen
+     */
+    @FXML void downloadScreenBtnPressed() {
+        tataiWorkshopPane.setVisible(true); // TODO: Make this a transition
+        workshopProgress.setVisible(true);
+        populateWorkshop();
+    }
+
+    private void populateWorkshop() {
+        Task<ArrayList<MathGenerator>> populateDownloads = new Task<ArrayList<MathGenerator>>() {
+            @Override
+            protected ArrayList<MathGenerator> call() throws Exception {
+                return Main.netConnection.getGenerators();
+            }
+        };
+        populateDownloads.setOnSucceeded(event -> {
+            workshopGenerators = populateDownloads.getValue();
+            downloadSetList.getItems().clear();
+            for (MathGenerator generator : populateDownloads.getValue()) {
+                downloadSetList.getItems().add(generator.getGeneratorName());
+                workshopGeneratorsName.add(generator.getGeneratorName());
+            }
+            workshopProgress.setVisible(false);
+        });
+        new Thread(populateDownloads).start();
+    }
+
+    private boolean checkWorkshopDuplication() {
+        String item = downloadSetList.getSelectionModel().getSelectedItem();
+        if (item == null) {
+            return true;
+        }
+        if (Main.questionGenerators.containsKey(item)) {
+            downloadBtn.setText("Already Downloaded");
+            return true;
+        } else {
+            downloadBtn.setText("Download");
+            return false;
+        }
+    }
+
+    /**
+     * Handles installing a generator from TataiWorkshop
+     */
+    @FXML void downloadBtnPressed() {
+        MathGenerator gen = workshopGenerators.get(downloadSetList.getSelectionModel().getSelectedIndex());
+        Main.questionGenerators.put(gen.getGeneratorName(), gen);
+        populateQuestionSets();
+        hideWorkshop();
     }
 
     /**

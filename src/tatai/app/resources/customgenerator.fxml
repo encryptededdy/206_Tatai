@@ -8,6 +8,7 @@
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -48,82 +49,104 @@
                   </font>
                </Label>
                <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#303030" height="440.0" layoutX="326.0" layoutY="60.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="3.0" />
-               <JFXButton fx:id="deleteBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="48.0" layoutY="451.0" onAction="#deleteBtnPressed" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #3F51B5;" text="Delete" textFill="WHITE">
+               <JFXButton fx:id="deleteBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="24.0" layoutY="451.0" onAction="#deleteBtnPressed" prefHeight="35.0" prefWidth="72.0" style="-fx-background-color: #3F51B5;" text="Delete" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Bold" size="16.0" />
+                  </font>
+               </JFXButton>
+               <Label layoutX="411.0" layoutY="141.0" text="a" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="60.0" />
+                  </font>
+               </Label>
+               <JFXComboBox fx:id="operatorCombo" layoutX="462.0" layoutY="147.0" prefHeight="60.0" prefWidth="133.0" style="-fx-text-fill: WHITE; -fx-font: 30 &quot;Roboto Medium&quot;;" stylesheets="@statistics.css" />
+               <JFXCheckBox fx:id="times1Checkbox" layoutX="403.0" layoutY="356.0" prefHeight="29.0" prefWidth="190.0" style="-fx-font: 16 roboto;" text="Allow multiplication by 1" textFill="WHITE" />
+               <Label layoutX="613.0" layoutY="141.0" prefHeight="73.0" prefWidth="144.0" text="b = c" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="60.0" />
+                  </font>
+               </Label>
+               <Label layoutX="442.0" layoutY="225.0" prefHeight="73.0" prefWidth="89.0" text="b ≤" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="60.0" />
+                  </font>
+               </Label>
+               <Label layoutX="442.0" layoutY="282.0" prefHeight="73.0" prefWidth="89.0" text="c ≤" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="60.0" />
+                  </font>
+               </Label>
+               <JFXTextField fx:id="operandMaxField" layoutX="540.0" layoutY="239.0" prefHeight="46.0" prefWidth="110.0" style="-fx-font: 30 &quot;Roboto Medium&quot;; -fx-text-fill: WHITE;" />
+               <JFXTextField fx:id="highBoundField" layoutX="540.0" layoutY="295.0" prefHeight="46.0" prefWidth="110.0" style="-fx-font: 30 &quot;Roboto Medium&quot;; -fx-text-fill: WHITE;" />
+               <JFXCheckBox fx:id="maoriCheckbox" layoutX="403.0" layoutY="385.0" prefHeight="29.0" prefWidth="251.0" style="-fx-font: 16 roboto;" text="Display Questions in Māori" textFill="WHITE" />
+               <JFXTextField fx:id="roundNameField" layoutX="378.0" layoutY="423.0" prefHeight="35.0" prefWidth="268.0" promptText="Set Name" style="-fx-font: 20 &quot;Roboto&quot;; -fx-text-fill: WHITE;" />
+               <JFXButton fx:id="saveSetBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="661.0" layoutY="423.0" onAction="#saveSetBtnPressed" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #3F51B5;" text="Create" textFill="WHITE">
                   <font>
                      <Font name="Roboto Bold" size="18.0" />
                   </font>
                </JFXButton>
-               <Label layoutX="411.0" layoutY="154.0" text="a" textFill="WHITE">
+               <JFXButton fx:id="shareBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="103.0" layoutY="451.0" onAction="#shareBtnPressed" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #3F51B5;" text="Share" textFill="WHITE">
                   <font>
-                     <Font name="Roboto Medium" size="60.0" />
-                  </font>
-               </Label>
-               <JFXComboBox fx:id="operatorCombo" layoutX="462.0" layoutY="160.0" prefHeight="60.0" prefWidth="133.0" style="-fx-text-fill: WHITE; -fx-font: 30 &quot;Roboto Medium&quot;;" stylesheets="@statistics.css" />
-               <JFXCheckBox fx:id="times1Checkbox" layoutX="403.0" layoutY="369.0" prefHeight="29.0" prefWidth="190.0" style="-fx-font: 16 roboto;" text="Allow multiplication by 1" textFill="WHITE" />
-               <Label layoutX="613.0" layoutY="154.0" prefHeight="73.0" prefWidth="144.0" text="b = c" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="60.0" />
-                  </font>
-               </Label>
-               <Label layoutX="442.0" layoutY="238.0" prefHeight="73.0" prefWidth="89.0" text="b ≤" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="60.0" />
-                  </font>
-               </Label>
-               <Label layoutX="442.0" layoutY="295.0" prefHeight="73.0" prefWidth="89.0" text="c ≤" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="60.0" />
-                  </font>
-               </Label>
-               <JFXTextField fx:id="operandMaxField" layoutX="540.0" layoutY="252.0" prefHeight="46.0" prefWidth="110.0" style="-fx-font: 30 &quot;Roboto Medium&quot;; -fx-text-fill: WHITE;" />
-               <JFXTextField fx:id="highBoundField" layoutX="540.0" layoutY="308.0" prefHeight="46.0" prefWidth="110.0" style="-fx-font: 30 &quot;Roboto Medium&quot;; -fx-text-fill: WHITE;" />
-               <JFXCheckBox fx:id="maoriCheckbox" layoutX="403.0" layoutY="398.0" prefHeight="29.0" prefWidth="251.0" style="-fx-font: 16 roboto;" text="Display Questions in Māori" textFill="WHITE" />
-               <JFXTextField fx:id="roundNameField" layoutX="378.0" layoutY="436.0" prefHeight="35.0" prefWidth="268.0" promptText="Set Name" style="-fx-font: 20 &quot;Roboto&quot;; -fx-text-fill: WHITE;" />
-               <JFXButton fx:id="saveSetBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="661.0" layoutY="436.0" onAction="#saveSetBtnPressed" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #3F51B5;" text="Create" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Bold" size="18.0" />
+                     <Font name="Roboto Bold" size="16.0" />
                   </font>
                </JFXButton>
-               <JFXButton fx:id="shareBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="174.0" layoutY="451.0" onAction="#shareBtnPressed" prefHeight="35.0" prefWidth="110.0" style="-fx-background-color: #3F51B5;" text="Share" textFill="WHITE">
+               <Label layoutX="378.0" layoutY="266.0" text="where" textFill="WHITE">
                   <font>
-                     <Font name="Roboto Bold" size="18.0" />
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </Label>
+               <Label layoutX="388.0" layoutY="325.0" text="and" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </Label>
+               <Label layoutX="442.0" layoutY="118.0" text="Generate questions in format" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </Label>
+               <Label fx:id="operandLabel" layoutX="656.0" layoutY="266.0" prefHeight="18.0" prefWidth="144.0" text="Enter a number" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="14.0" />
+                  </font>
+               </Label>
+               <Label fx:id="boundLabel" layoutX="656.0" layoutY="323.0" prefHeight="18.0" prefWidth="122.0" text="Enter a number" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="14.0" />
+                  </font>
+               </Label>
+               <Label fx:id="nameLabel" layoutX="378.0" layoutY="464.0" prefHeight="18.0" prefWidth="268.0" text="Enter a name" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="14.0" />
+                  </font>
+               </Label>
+               <JFXButton fx:id="downloadScreenBtn" buttonType="RAISED" defaultButton="true" layoutX="207.0" layoutY="451.0" onAction="#downloadScreenBtnPressed" prefHeight="35.0" prefWidth="100.0" style="-fx-background-color: #3F51B5;" text="Download" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Bold" size="16.0" />
                   </font>
                </JFXButton>
-               <Label layoutX="378.0" layoutY="279.0" text="where" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="18.0" />
-                  </font>
-               </Label>
-               <Label layoutX="388.0" layoutY="338.0" text="and" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="18.0" />
-                  </font>
-               </Label>
-               <Label layoutX="443.0" layoutY="121.0" text="Generate questions in format" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="18.0" />
-                  </font>
-               </Label>
-               <Label fx:id="operandLabel" layoutX="656.0" layoutY="279.0" prefHeight="18.0" prefWidth="144.0" text="Enter a number" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="14.0" />
-                  </font>
-               </Label>
-               <Label fx:id="boundLabel" layoutX="656.0" layoutY="336.0" prefHeight="18.0" prefWidth="122.0" text="Enter a number" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="14.0" />
-                  </font>
-               </Label>
-               <Label fx:id="nameLabel" layoutX="378.0" layoutY="477.0" prefHeight="18.0" prefWidth="268.0" text="Enter a name" textFill="WHITE">
-                  <font>
-                     <Font name="Roboto Medium" size="14.0" />
-                  </font>
-               </Label>
          </children>
       </Pane>
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
+      </Pane>
+      <Pane fx:id="tataiWorkshopPane" layoutY="60.0" prefHeight="440.0" prefWidth="800.0" visible="false">
+         <children>
+            <Pane opacity="0.8" prefHeight="440.0" prefWidth="800.0" style="-fx-background-color: #000000;" />
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="107.0" layoutY="13.0" prefHeight="29.0" prefWidth="587.0" text="TataiWorkshop" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="24.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="downloadBtn" buttonType="RAISED" defaultButton="true" disable="true" layoutX="262.0" layoutY="369.0" onAction="#downloadBtnPressed" prefHeight="42.0" prefWidth="277.0" style="-fx-background-color: #3F51B5;" text="Download" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Bold" size="18.0" />
+               </font>
+            </JFXButton>
+            <JFXListView fx:id="downloadSetList" layoutX="241.0" layoutY="58.0" prefHeight="294.0" prefWidth="320.0" style="-fx-control-inner-background: #303030;" />
+            <ProgressIndicator fx:id="workshopProgress" layoutX="375.0" layoutY="179.0" style="-fx-progress-color: white;" />
+         </children>
       </Pane>
    </children>
 </Pane>

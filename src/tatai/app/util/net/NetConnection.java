@@ -10,6 +10,7 @@ import javafx.event.EventHandler;
 import org.apache.http.client.fluent.Form;
 import org.apache.http.client.fluent.Request;
 import tatai.app.Main;
+import tatai.app.questions.generators.MathGenerator;
 import tatai.app.util.factories.DialogFactory;
 
 import java.io.IOException;
@@ -227,6 +228,28 @@ public class NetConnection {
             }
         });
         new Thread(uploadTask).start();
+    }
+
+    public ArrayList<MathGenerator> getGenerators() {
+        try {
+            String result = Request.Post(host + "getData.php")
+                    .bodyForm(Form.form().add("version", "ezTatai_gen_1")
+                            .build())
+                    .execute()
+                    .returnContent().toString();
+            JsonElement dataArray = new JsonParser().parse(result).getAsJsonObject().get("data");
+            Gson gson = new Gson();
+            if (!dataArray.isJsonNull()) {
+                MathGenerator[] generatorArray = gson.fromJson(dataArray, MathGenerator[].class);
+                return new ArrayList<>(Arrays.asList(generatorArray));
+            } else {
+                // return an empty set
+                return new ArrayList<MathGenerator>();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public String getUsername() {
