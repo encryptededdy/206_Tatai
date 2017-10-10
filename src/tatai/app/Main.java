@@ -7,11 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tatai.app.questions.generators.NumberGenerator;
-import tatai.app.questions.generators.NumberGenerator99;
-import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.questions.generators.*;
 import tatai.app.util.Database;
-import tatai.app.util.DialogFactory;
+import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.net.NetConnection;
 
 import java.io.File;
@@ -39,11 +37,12 @@ public class Main extends Application {
     static URL settingsLayout;
     static URL dashboardLayout;
     static URL tatainetLayout;
+    static URL customgeneratorLayout;
     public static NetConnection netConnection;
-    public static boolean showTutorial = true; //TODO: Change this to be optional
+    public static boolean showTutorial = true;
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
-    final static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
+    public static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
     public static Font currentFont;
 
     static { // Static initializer
@@ -72,6 +71,7 @@ public class Main extends Application {
         settingsLayout = getClass().getResource("resources/settings.fxml");
         dashboardLayout = getClass().getResource("resources/statsdashboard.fxml");
         tatainetLayout = getClass().getResource("resources/tatainet.fxml");
+        customgeneratorLayout = getClass().getResource("resources/customgenerator.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize
@@ -110,16 +110,26 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
-        populateGenerators();
         launch(args);
     }
 
     /**
      * Placeholder method to define the avaliable question generators
      */
-    private static void populateGenerators() {
-        // define generators to be used
+    public static void populateGenerators() {
+        // Clear existing ones
+        questionGenerators.clear();
+        // Hardcoded, built in ones
         questionGenerators.put("Numbers", new NumberGenerator());
         questionGenerators.put("Tens Numbers", new NumberGenerator99());
+        questionGenerators.put("Easy Addition", new MathGenerator(9, 8, MathOperator.ADD, "Basic Addition"));
+        questionGenerators.put("Addition", new MathGenerator(99, 99, MathOperator.ADD, "Addition"));
+        questionGenerators.put("Subtraction", new MathGenerator(99, 99, MathOperator.SUBTRACT, "Subtraction"));
+        questionGenerators.put("Times Tables", new MathGenerator(99, 12, MathOperator.MULTIPLY, "Times Tables", true));
+        questionGenerators.put("Multiplication", new MathGenerator(99, 24, MathOperator.MULTIPLY, "Advanced Multiplication", false));
+        questionGenerators.put("Division", new MathGenerator(20, 12, MathOperator.DIVIDE, "Division"));
+        questionGenerators.put("Division (Maori)", new MathGenerator(20, 12, MathOperator.DIVIDE, "Division", false, true));
+        // Custom ones
+        database.populateGenerators();
     }
 }

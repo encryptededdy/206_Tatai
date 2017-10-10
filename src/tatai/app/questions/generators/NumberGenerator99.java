@@ -25,4 +25,7 @@ public class NumberGenerator99 implements QuestionGenerator {
     public String getGeneratorName() {
         return "Tens Numbers";
     }
+
+    // Not a custom level
+    public boolean isCustom() { return false; };
 }
