@@ -47,7 +47,7 @@ public class MainMenuController {
     @FXML private ImageView backgroundImage;
     @FXML private JFXComboBox<String> questionDropDown;
     @FXML private Pane mainPane, mainDataPane;
-    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, playBtn, editBtn;
+    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, playBtn, editBtn, practiceBtn;
     @FXML private Rectangle fadeBox;
     @FXML private Label devQuote;
 
@@ -89,6 +89,21 @@ public class MainMenuController {
         ParallelTransition pt = new ParallelTransition(st, tt);
         ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
         pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
+        ft.play();
+    }
+
+    @FXML private void practiceBtnPressed() throws IOException {
+        // Load the new scene
+        Scene scene = netBtn.getScene();
+        FXMLLoader loader = new FXMLLoader(Main.practiceLayout);
+        Parent root = loader.load();
+        // Fade out
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
+        // Expand
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
+        st.setToX(2);
+        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<PracticeModeController>getController().fadeIn();}); // switch scenes when fade complete
+        ft.setOnFinished(event -> st.play());
         ft.play();
     }
 

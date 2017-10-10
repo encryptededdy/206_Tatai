@@ -38,6 +38,7 @@ public class Main extends Application {
     static URL dashboardLayout;
     static URL tatainetLayout;
     static URL customgeneratorLayout;
+    static URL practiceLayout;
     public static NetConnection netConnection;
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
@@ -71,6 +72,7 @@ public class Main extends Application {
         settingsLayout = getClass().getResource("resources/settings.fxml");
         dashboardLayout = getClass().getResource("resources/statsdashboard.fxml");
         tatainetLayout = getClass().getResource("resources/tatainet.fxml");
+        practiceLayout = getClass().getResource("resources/practicescreen.fxml");
         customgeneratorLayout = getClass().getResource("resources/customgenerator.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
