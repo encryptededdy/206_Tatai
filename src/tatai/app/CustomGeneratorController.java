@@ -270,7 +270,21 @@ public class CustomGeneratorController {
      */
     @FXML void downloadBtnPressed() {
         MathGenerator gen = workshopGenerators.get(downloadSetList.getSelectionModel().getSelectedIndex());
+        Gson gson = new Gson();
+        String generatorJSON = gson.toJson(gen);
         Main.questionGenerators.put(gen.getGeneratorName(), gen);
+        // Save it in the database
+        PreparedStatement ps = Main.database.getPreparedStatement("INSERT INTO savedSets (username, json, setName, fromNet) VALUES (?, ?, ?, ?)");
+        try {
+            ps.setString(1, Main.currentUser);
+            ps.setString(2, generatorJSON);
+            ps.setString(3, gen.getGeneratorName());
+            ps.setBoolean(4, false);
+            ps.executeUpdate();
+        } catch ( Exception e ) {
+            e.printStackTrace();
+            DialogFactory.exception("Internal Database error.", "Database Error", e);
+        }
         populateQuestionSets();
         hideWorkshop();
     }
