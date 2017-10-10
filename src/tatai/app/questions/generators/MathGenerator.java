@@ -97,7 +97,7 @@ public class MathGenerator implements QuestionGenerator {
                 case ADD:
                     // Generate the first number in the addition. Needs to be less than the maximum number in the equation
                     // as "minus 0" questions are no fun.
-                    firstNumber = rng.nextInt(Math.min(operandMax, generatorMax - 2)) + 1;
+                    firstNumber = rng.nextInt(Math.min(operandMax, Math.min(generatorMax - 2, highBound - 1))) + 1;
                     // Generate the other number, maintaining that the equation answer remains in the bound
                     secondNumber = rng.nextInt(highBound - firstNumber);
                     number = firstNumber + secondNumber;
