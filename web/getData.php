@@ -19,7 +19,7 @@ if (isset($_POST['version'])) {
 
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            $data[] = $row["data"];
+            $data[] = json_decode($row["data"]);
         }
         exit(json_encode(array('status' => "OK", 'data' => $data)));
     } else {
