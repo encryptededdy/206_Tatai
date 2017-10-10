@@ -193,6 +193,42 @@ public class NetConnection {
         new Thread(registerTask).start();
     }
 
+    public void uploadJSON(String json, String version, EventHandler<WorkerStateEvent> onSuccess, EventHandler<WorkerStateEvent> onFailure) {
+        Task<Boolean> uploadTask = new Task<Boolean>() {
+            @Override
+            protected Boolean call() throws Exception {
+                try {
+                    String result = Request.Post(host+"uploadData.php")
+                            .bodyForm(Form.form().add("version", version)
+                                    .add("data", json)
+                                    .build())
+                            .execute()
+                            .returnContent().toString();
+                    JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+                    if (jsonObject.get("saved").getAsBoolean()) {
+                        System.out.println("Server uploaded OK");
+                        // The server accepted the highscore, so we're good.
+                        return true;
+                    } else {
+                        System.err.println("Server rejected upload. Status: "+jsonObject.get("status").getAsString());
+                        return false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        };
+        uploadTask.setOnSucceeded(event -> {
+            if (uploadTask.getValue()) {
+                onSuccess.handle(event);
+            } else {
+                onFailure.handle(event);
+            }
+        });
+        new Thread(uploadTask).start();
+    }
+
     public String getUsername() {
         return onlineName;
     }

@@ -7,6 +7,8 @@ import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -47,6 +49,8 @@ public class CustomGeneratorController {
     @FXML private Label operandLabel;
     @FXML private Label boundLabel;
     @FXML private Label nameLabel;
+
+    private boolean uploading;
 
     /**
      * Sets up initial values and bindings
@@ -164,6 +168,15 @@ public class CustomGeneratorController {
 
     @FXML void shareBtnPressed() {
         //TODO: Implement online sharing
+        if (!shareBtn.getText().equals("Uploaded")) {
+            shareBtn.setText("Uploading");
+            Gson gson = new Gson();
+            String selected = qSetList.getSelectionModel().getSelectedItem();
+            String generatorJSON = gson.toJson(Main.questionGenerators.get(selected));
+            EventHandler<WorkerStateEvent> onSuccess = event -> shareBtn.setText("Uploaded");
+            EventHandler<WorkerStateEvent> onFail = event -> shareBtn.setText("Error");
+            Main.netConnection.uploadJSON(generatorJSON, "ezTatai_gen_1", onSuccess, onFail);
+        }
     }
 
     /**
@@ -171,6 +184,7 @@ public class CustomGeneratorController {
      * @return Whether it's custom
      */
     private boolean checkisCustom() {
+        shareBtn.setText("Share");
         if (qSetList.getSelectionModel().getSelectedItem() != null) {
             String selected = qSetList.getSelectionModel().getSelectedItem();
             QuestionGenerator selectedGenerator = Main.questionGenerators.get(selected);
