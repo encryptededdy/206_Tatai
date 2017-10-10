@@ -21,10 +21,10 @@ import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.PopoverFactory;
 import tatai.app.util.Record;
-import tatai.app.util.TransitionFactory;
 import tatai.app.util.Translator;
+import tatai.app.util.factories.PopoverFactory;
+import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.util.Random;
@@ -52,14 +52,12 @@ public class QuestionController {
     @FXML private JFXButton playBtn;
     @FXML private JFXButton checkBtn;
     @FXML private JFXButton menuBtn;
-    @FXML private Label questionLabel;
-    @FXML private Label questionNumberLabel;
+    @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel;
     @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
     @FXML private Pane controlsPane;
     @FXML private Pane tutorialNotif;
     @FXML private Pane resultsPane;
     @FXML private Pane qNumPane;
-    @FXML private Label resultsLabel;
     @FXML private Pane questionPaneclr;
     @FXML private Pane questionPaneclrShadow;
     @FXML private MaterialDesignIconView correctIcon;
@@ -69,7 +67,6 @@ public class QuestionController {
     @FXML private ImageView xpTheme;
     @FXML private ImageView flyImage;
     @FXML private Pane questionPaneData;
-    @FXML private Label setNameLabel, questionNumberTotalLabel;
 
     private ParallelTransition menuConfirmTransition;
 
@@ -169,7 +166,7 @@ public class QuestionController {
         generator = Main.questionGenerators.get(questionSet);
         noQuestions = 10; // don't hardcode this
         questionNumberTotalLabel.setText("/"+noQuestions);
-        _currentRound = new Round(generator, 10); // TODO: numQuestions shouldn't be hardcoded
+        _currentRound = new Round(generator, noQuestions); // TODO: numQuestions shouldn't be hardcoded
         generateQuestion();
     }
 
@@ -217,7 +214,7 @@ public class QuestionController {
 
         // If it's not the last question
         if (_currentRound.hasNext()) {
-            questionLabel.setText(_currentRound.next());
+            scaleQuestionText(_currentRound.next(), questionLabel);
             questionNumberLabel.setText("Q"+_currentRound.questionNumber());
             playBtn.setDisable(true);
             // Hide the question feedback / results
@@ -497,7 +494,7 @@ public class QuestionController {
             resultsPane.setOpacity(0);
             TransitionFactory.fadeIn(resultsPane).play();
         }
-        scaleText("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
+        scaleTextFeedback("Correct! (" + Translator.toDisplayable(_currentRound.currentAnswer()) + ")", resultsLabel);
         nextQuestionBtn.setDefaultButton(true);
         if (Main.showTutorial) {
             nextHelp.show(nextQuestionBtn, -5);
@@ -524,20 +521,20 @@ public class QuestionController {
             if (Main.showTutorial) {
                 nextHelp.show(nextQuestionBtn, -5);
             }
-            scaleText("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()), resultsLabel);
+            scaleTextFeedback("Correct answer: " + Translator.toDisplayable(_currentRound.currentAnswer()), resultsLabel);
         } else { // First attempt, prompt user to try again.
-            scaleText("Please try again.", resultsLabel);
+            scaleTextFeedback("Please try again.", resultsLabel);
             recordBtn.setDefaultButton(true);
         }
         resultsPane.setVisible(true);
     }
 
     /**
-     * Handles the scaling of text (ie. reduces font size on longer text)
+     * Handles the scaling of text for the correct/incorrect box (ie. reduces font size on longer text)
      * @param text The text to be scaled
      * @param label The label to write this text to
      */
-    private void scaleText(String text, Label label) {
+    private void scaleTextFeedback(String text, Label label) {
         if (text.length() < 23) {
             label.setStyle("-fx-font: 24 roboto;");
         } else {
@@ -546,4 +543,14 @@ public class QuestionController {
         label.setText(text);
     }
 
+    private void scaleQuestionText(String text, Label label) {
+        if (text.length() < 6) {
+            label.setStyle("-fx-font: 130 \"Roboto Bold\";");
+        } else if (text.length() < 8) {
+            label.setStyle("-fx-font: 100 \"Roboto Bold\";");
+        } else {
+            label.setStyle("-fx-font: 30 \"Roboto Bold\";");
+        }
+        label.setText(text);
+    }
 }

@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.TransitionFactory;
+import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
 
@@ -202,6 +202,7 @@ public class CompleteScreenController {
             nextRoundBtn.setDisable(true);
         }
         yourScoreLabel.setText("Your Score: " + Integer.toString(_mostRecentRound.getScore()));
+        if (_mostRecentRound.getScore() < 200) yourScoreLabel.setVisible(false);
     }
 
     /**

@@ -21,6 +21,7 @@ public class Round {
     private QuestionGenerator _roundQuestionGenerator;
     private int _numQuestions;
     private Integer _score;
+    private boolean isCustom;
 
     /**
      * Constructs a Round
@@ -29,6 +30,9 @@ public class Round {
      */
     public Round(QuestionGenerator generator, int numQuestions) {
         _roundQuestionGenerator = generator;
+
+        // Check if this is a custom round
+        isCustom = generator.isCustom();
 
         System.out.println("Starting round: "+Main.database.getNextID("roundID", "rounds"));
         _roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
@@ -43,6 +47,13 @@ public class Round {
         }
 
         _numQuestions = numQuestions;
+
+        // DEBUG
+        /*
+        for (Question question : _questions) {
+            System.out.println(question.toString() + " Answer: " + question.getAnswer());
+        }
+        */
 
         // Start the clock
         _startTime = Instant.now().getEpochSecond();
@@ -67,7 +78,7 @@ public class Round {
         System.out.println("Calculated score: "+getScore());
 
         // Upload the score
-        Main.netConnection.uploadScore(_roundQuestionGenerator.getGeneratorName(), getScore());
+        if (!isCustom) Main.netConnection.uploadScore(_roundQuestionGenerator.getGeneratorName(), getScore());
     }
 
     /**
@@ -112,9 +123,8 @@ public class Round {
             try {
                 correctRS.next();
                 qLengthRS.next();
-                double accuracy = (correctRS.getDouble(1)/_numQuestions)*100;
-                double lengthScore = 20 - qLengthRS.getDouble(1);
-
+                double accuracy = (correctRS.getDouble(1)/_numQuestions)*100; // accuracy in %
+                double lengthScore = Math.max(20 - qLengthRS.getDouble(1), 1); // 20 - avg time or 1
                 // Calculate the score
                 _score = (int)(accuracy * lengthScore * ((_numQuestions + 90)/100));
             } catch (SQLException e) {

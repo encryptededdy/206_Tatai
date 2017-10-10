@@ -14,7 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import tatai.app.util.TransitionFactory;
+import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.NetConnection;
 
 import java.io.IOException;
@@ -139,6 +139,7 @@ public class LoginController {
     @FXML void loginBtnPressed() throws IOException {
         Main.currentUser = usernameSelector.getValue(); // write the username
         Main.currentSession = database.startSession(); // start the session
+        Main.populateGenerators(); // populate questiongenerators
         Main.netConnection = new NetConnection(); // open a TataiNet session
         Scene scene = loginBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
