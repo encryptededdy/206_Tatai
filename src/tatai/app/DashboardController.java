@@ -13,7 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.TransitionFactory;
+import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.sql.ResultSet;

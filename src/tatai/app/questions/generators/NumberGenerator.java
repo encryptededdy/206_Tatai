@@ -25,4 +25,7 @@ public class NumberGenerator implements QuestionGenerator {
     public String getGeneratorName() {
         return "Numbers";
     }
+
+    // Not a custom level
+    public boolean isCustom() { return false; };
 }

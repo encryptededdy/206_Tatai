@@ -23,4 +23,10 @@ public interface QuestionGenerator {
      * @return Full name
      */
     String getGeneratorName();
+
+    /**
+     * Checks whether this generator is user created. If so, high scores cannot be shared
+     * @return Whether the generator is custom
+     */
+    boolean isCustom();
 }

@@ -56,6 +56,20 @@ public class Translator {
         }
     }
 
+    /**
+     * Translate to Maori, in the displayable format
+     * @param number The number to translate
+     * @return String in Maori
+     */
+    public static String toMaoriDisplayable(int number) {
+        return toDisplayable(toMaori(number));
+    }
+
+    /**
+     * Convert maori into displayable format, correctly using macrons
+     * @param input The phrase to make displayable
+     * @return Maori displayable format
+     */
     public static String toDisplayable(String input){
         return input.replace("aa", "ā");
     }
