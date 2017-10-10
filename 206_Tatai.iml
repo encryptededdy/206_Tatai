@@ -8,11 +8,11 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="de.jensd:fontawesomefx:8.9" level="project" />
-    <orderEntry type="library" name="com.jfoenix:jfoenix:1.8.0" level="project" />
     <orderEntry type="library" name="org.xerial:sqlite-jdbc:3.20.0" level="project" />
     <orderEntry type="library" name="org.controlsfx:controlsfx:8.40.13" level="project" />
     <orderEntry type="library" name="eu.hansolo:tilesfx:1.4.5" level="project" />
     <orderEntry type="library" name="org.apache.httpcomponents:fluent-hc:4.2.3" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.2" level="project" />
+    <orderEntry type="library" name="com.jfoenix:jfoenix:1.8.0" level="project" />
   </component>
 </module>

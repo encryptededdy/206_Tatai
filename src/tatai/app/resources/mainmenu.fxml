@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.*?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -10,8 +9,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Rectangle?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
@@ -30,7 +28,7 @@
          <children>
             <Pane fx:id="mainDataPane" prefHeight="500.0" prefWidth="400.0">
                <children>
-                  <JFXButton fx:id="practiceBtn" buttonType="RAISED" defaultButton="true" layoutX="77.0" layoutY="285.0" onAction="#practiceBtnPressed" prefHeight="42.0" prefWidth="247.0" style="-fx-background-color: #3F51B5;" text="Practice" textFill="WHITE">
+                  <JFXButton fx:id="playBtn" buttonType="RAISED" defaultButton="true" layoutX="77.0" layoutY="276.0" onAction="#playBtnPressed" prefHeight="42.0" prefWidth="247.0" style="-fx-background-color: #3F51B5;" text="Play" textFill="WHITE">
                      <font>
                         <Font name="Roboto Bold" size="18.0" />
                      </font>

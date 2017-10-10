@@ -47,7 +47,7 @@ public class MainMenuController {
     @FXML private ImageView backgroundImage;
     @FXML private JFXComboBox<String> questionDropDown;
     @FXML private Pane mainPane, mainDataPane;
-    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, practiceBtn, editBtn;
+    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, playBtn, editBtn;
     @FXML private Rectangle fadeBox;
     @FXML private Label devQuote;
 
@@ -72,9 +72,9 @@ public class MainMenuController {
      * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
      * set to be used (from questionDropDown)
      */
-    @FXML private void practiceBtnPressed() throws IOException {
+    @FXML private void playBtnPressed() throws IOException {
         // Load the new scene
-        Scene scene = practiceBtn.getScene();
+        Scene scene = playBtn.getScene();
         FXMLLoader loader = new FXMLLoader(Main.questionLayout);
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
