@@ -2,22 +2,37 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.factories.TransitionFactory;
+
+import java.io.IOException;
 
 public class LevelSelectorController {
     @FXML JFXButton prevBtn;
     @FXML JFXButton nextBtn;
     @FXML ImageView backgroundImage;
     @FXML HBox levelSelectorHbox;
+    @FXML GridPane levelsGridPane1;
 
     public void initialize() {
         backgroundImage.setImage(Main.background);
         levelSelectorHbox.setOpacity(0.0);
+
+        try {
+            createLevelPane("Numbers", levelsGridPane1, 0, 0);
+            createLevelPane("Tens Numbers", levelsGridPane1, 1, 0);
+            createLevelPane("Easy Addition", levelsGridPane1, 0, 1);
+            createLevelPane("Addition", levelsGridPane1, 1, 1);
+        } catch (IOException iox) {
+            iox.printStackTrace();
+        }
 
     }
 
@@ -56,4 +71,15 @@ public class LevelSelectorController {
     public void nextBtnClicked() {
 
     }
+
+    private void createLevelPane(String questionGenerator, GridPane gridPane, int x, int y) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("resources/levelpane.fxml"));
+        Parent pane = loader.load();
+        loader.<LevelPaneController>getController().setQuestionGenerators(questionGenerator);
+        loader.<LevelPaneController>getController().setParentNode(levelSelectorHbox);
+        GridPane.setConstraints(pane, x, y);
+        GridPane.setMargin(pane, new Insets(0, 10, 10, 10));
+        gridPane.getChildren().add(pane);
+    }
+
 }
