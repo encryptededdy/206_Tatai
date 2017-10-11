@@ -19,6 +19,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import tatai.app.questions.generators.MathGenerator;
 import tatai.app.questions.generators.MathOperator;
@@ -56,6 +57,7 @@ public class CustomGeneratorController {
     @FXML private Pane tataiWorkshopPane;
     @FXML private JFXButton downloadBtn;
     @FXML private ProgressIndicator workshopProgress;
+    @FXML private StackPane mainStack;
 
     private ArrayList<MathGenerator> workshopGenerators;
     private ArrayList<String> workshopGeneratorsName = new ArrayList<>();
@@ -142,6 +144,15 @@ public class CustomGeneratorController {
      * Delete the selected item from the questionGenerators list and also from the database
      */
     @FXML void deleteBtnPressed() {
+        JFXButton okbtn = new JFXButton("OK");
+        JFXButton cancelbtn = new JFXButton("CANCEL");
+        JFXDialog dialog = DialogFactory.mdDialog(mainStack, "Delete Question Set", "Are you sure you want to delete "+qSetList.getSelectionModel().getSelectedItem()+"?", cancelbtn, okbtn);
+        cancelbtn.setOnAction(event -> dialog.close());
+        okbtn.setOnAction(event -> {processDelete(); dialog.close();});
+        dialog.show();
+    }
+
+    private void processDelete() {
         String selected = qSetList.getSelectionModel().getSelectedItem();
         Main.questionGenerators.remove(selected);
         PreparedStatement ps = Main.database.getPreparedStatement("DELETE FROM savedSets WHERE username = ? AND setName = ?");
