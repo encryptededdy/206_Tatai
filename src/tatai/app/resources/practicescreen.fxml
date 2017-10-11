@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import eu.hansolo.tilesfx.Tile?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.PracticeModeController">
+   <children>
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
+      <Pane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
+      <Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <Pane fx:id="controls" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: #3F51B5;">
+               <children>
+                  <JFXRippler ripplerFill="white">
+                     <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="60.0" prefWidth="72.0">
+                        <children>
+                           <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
+                        </children>
+                     </Pane>
+                  </JFXRippler>
+                  <Label layoutX="322.0" layoutY="16.0" text="Practice Mode" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+               <JFXListView fx:id="practiceList" layoutX="255.0" layoutY="60.0" prefHeight="440.0" prefWidth="545.0" stylesheets="@practicemode.css" />
+               <Pane fx:id="sidePane" layoutY="60.0" prefHeight="440.0" prefWidth="255.0" style="-fx-background-color: #151515;">
+                  <children>
+                     <JFXToggleButton fx:id="showAllToggle" layoutX="4.0" layoutY="4.0" prefHeight="58.0" prefWidth="246.0" text="Show all numbers (1-99)" textFill="WHITE" toggleColor="#3f51b5" toggleLineColor="#6e7fc9">
+                        <font>
+                           <Font name="Roboto" size="14.0" />
+                        </font>
+                     </JFXToggleButton>
+                     <Tile fx:id="accuracyTile" animated="true" averagingPeriod="60" layoutX="10.0" layoutY="132.0" prefHeight="238.0" prefWidth="236.0" skinType="CIRCULAR_PROGRESS" tickLabelDecimals="0" title="Current Accuracy" unit="\%" />
+                     <JFXToggleButton fx:id="bargraphToggle" layoutX="4.0" layoutY="39.0" prefHeight="58.0" prefWidth="198.0" text="Show Line Graph" textFill="WHITE" toggleColor="#3f51b5" toggleLineColor="#6e7fc9">
+                        <font>
+                           <Font name="Roboto" size="14.0" />
+                        </font>
+                     </JFXToggleButton>
+                     <JFXToggleButton fx:id="statisticsToggle" layoutY="74.0" prefHeight="58.0" prefWidth="198.0" selected="true" text="Show Accuracy" textFill="WHITE" toggleColor="#3f51b5" toggleLineColor="#6e7fc9">
+                        <font>
+                           <Font name="Roboto" size="14.0" />
+                        </font>
+                     </JFXToggleButton>
+                  </children></Pane>
+         </children>
+      </Pane>
+         <effect>
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
+         </effect>
+      </Pane>
+   </children>
+</Pane>
