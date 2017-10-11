@@ -39,6 +39,7 @@ public class Main extends Application {
     static URL tatainetLayout;
     static URL customgeneratorLayout;
     static URL practiceLayout;
+    static URL levelLayout;
     public static NetConnection netConnection;
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
@@ -74,6 +75,7 @@ public class Main extends Application {
         tatainetLayout = getClass().getResource("resources/tatainet.fxml");
         practiceLayout = getClass().getResource("resources/practicescreen.fxml");
         customgeneratorLayout = getClass().getResource("resources/customgenerator.fxml");
+        levelLayout = getClass().getResource("resources/levelscreen.fxml");
         Parent root = FXMLLoader.load(loginLayout);
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize

@@ -22,6 +22,7 @@ import tatai.app.util.DevQuotes;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
+import java.util.logging.Level;
 
 /**
  * Controller for the Main Menu screen. Handles all button presses etc.
@@ -44,6 +45,8 @@ public class MainMenuController {
         // Setup the quote animation and text
         DevQuotes.generateQuote(devQuote);
     }
+    @FXML private JFXButton practiceBtn;
+    @FXML private JFXButton levelBtn;
     @FXML private ImageView backgroundImage;
     @FXML private JFXComboBox<String> questionDropDown;
     @FXML private Pane mainPane, mainDataPane;
@@ -104,6 +107,13 @@ public class MainMenuController {
         st.setToX(2);
         st.setOnFinished(event1 -> {scene.setRoot(root); loader.<PracticeModeController>getController().fadeIn();}); // switch scenes when fade complete
         ft.setOnFinished(event -> st.play());
+    @FXML private void levelBtnPressed() throws IOException {
+        Scene scene = levelBtn.getScene();
+        FXMLLoader loader = new FXMLLoader((Main.levelLayout));
+        Parent root = loader.load();
+
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
+        ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
         ft.play();
     }
 
