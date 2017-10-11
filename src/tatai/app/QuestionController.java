@@ -357,7 +357,7 @@ public class QuestionController {
         st.setInterpolator(Interpolator.LINEAR);
         st.setAutoReverse(true);
         st.play();
-        backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));
+        backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.png")));
         backgroundImage.setEffect(colorAdjust);
     }
 
