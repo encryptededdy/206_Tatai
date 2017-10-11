@@ -279,7 +279,7 @@ public class CustomGeneratorController {
             ps.setString(1, Main.currentUser);
             ps.setString(2, generatorJSON);
             ps.setString(3, gen.getGeneratorName());
-            ps.setBoolean(4, false);
+            ps.setBoolean(4, true);
             ps.executeUpdate();
         } catch ( Exception e ) {
             e.printStackTrace();
