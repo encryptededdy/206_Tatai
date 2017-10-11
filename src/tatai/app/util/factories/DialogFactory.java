@@ -1,10 +1,13 @@
 package tatai.app.util.factories;
 
+import com.jfoenix.controls.JFXDialog;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -56,5 +59,41 @@ public class DialogFactory {
 
         alert.showAndWait();
 
+    }
+
+    /**
+     * Generates a Material design dialog
+     * @param container The StackPane to display the dialog in
+     * @param heading The heading of the dialog box
+     * @param body The body of the dialog box
+     * @param btn1 The first button (Left)
+     * @param btn2 The second button (Right)
+     * @return The JFXDialog object
+     */
+    public static JFXDialog mdDialog(StackPane container, String heading, String body, Button btn1, Button btn2) {
+        VBox dialogLayout = new VBox();
+        dialogLayout.setPadding(new Insets(24));
+
+        // Heading Text
+        Label headingLabel = new Label(heading);
+        headingLabel.setStyle("-fx-font: 18 \"Roboto Bold\"");
+        VBox.setMargin(headingLabel,  new Insets(0));
+
+        // Body Text
+        Label bodyLabel = new Label(body);
+        bodyLabel.setStyle("-fx-font: 16 \"Roboto\"; -fx-text-fill: grey;");
+        VBox.setMargin(bodyLabel, new Insets(20, 0, 0, 0));
+
+        // Buttons
+        HBox buttons = new HBox(18);
+        buttons.setAlignment(Pos.CENTER_RIGHT);
+        VBox.setMargin(buttons, new Insets(32, 0, 0, 0));
+        btn1.setStyle("-fx-font: 16 \"Roboto Bold\"; -fx-text-fill: #3F51B5;");
+        btn2.setStyle("-fx-font: 16 \"Roboto Bold\"; -fx-text-fill: #3F51B5;");
+        buttons.getChildren().addAll(btn1, btn2);
+
+        dialogLayout.getChildren().addAll(headingLabel, bodyLabel, buttons);
+
+        return new JFXDialog(container, dialogLayout, JFXDialog.DialogTransition.CENTER);
     }
 }
