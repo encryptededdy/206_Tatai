@@ -21,6 +21,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
 import tatai.app.util.factories.PopoverFactory;
@@ -227,7 +228,7 @@ public class QuestionController {
             // no more questions! Show completion screen
             // Load the new scene
             Scene scene = playBtn.getScene();
-            FXMLLoader loader = new FXMLLoader(Main.completeLayout);
+            FXMLLoader loader = Layout.COMPLETE.loader();
             try {
                 Parent root = loader.load();
                 loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
@@ -269,7 +270,7 @@ public class QuestionController {
         hideHelpTexts();
         // Load the new scene
         Scene scene = menuBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+        FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();
         loader.<MainMenuController>getController().setupFade(false);
 
@@ -357,7 +358,7 @@ public class QuestionController {
         st.setInterpolator(Interpolator.LINEAR);
         st.setAutoReverse(true);
         st.play();
-        backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.jpg")));
+        backgroundImage.setImage(new Image(getClass().getResourceAsStream("resources/bliss.png")));
         backgroundImage.setEffect(colorAdjust);
     }
 

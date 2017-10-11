@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.queries.NumberQuery;
 import tatai.app.util.queries.QuestionLogQuery;
@@ -82,7 +83,7 @@ public class StatisticsController {
     @FXML
     void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.dashboardLayout);
+        FXMLLoader loader = Layout.DASHBOARD.loader();
         Parent root = loader.load();
         FadeTransition ft = TransitionFactory.fadeOut(mainStats);
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<DashboardController>getController().fadeIn();});

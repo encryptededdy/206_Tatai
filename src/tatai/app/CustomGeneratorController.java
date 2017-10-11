@@ -2,8 +2,6 @@ package tatai.app;
 
 import com.google.gson.Gson;
 import com.jfoenix.controls.*;
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -11,21 +9,15 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.util.Duration;
 import tatai.app.questions.generators.MathGenerator;
 import tatai.app.questions.generators.MathOperator;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.factories.DialogFactory;
-import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -34,13 +26,9 @@ import java.util.ArrayList;
 /**
  * Controller for the Custom Question Set creation screen
  */
-public class CustomGeneratorController {
+public class CustomGeneratorController extends ToolbarController {
 
-    @FXML private ImageView backgroundImage;
-    @FXML private Pane backgroundPane;
-    @FXML private Pane dataPane;
     @FXML private Pane controls;
-    @FXML private Pane backBtn;
     @FXML private JFXListView<String> qSetList, downloadSetList;
     @FXML private JFXButton deleteBtn;
     @FXML private JFXComboBox<String> operatorCombo;
@@ -66,7 +54,7 @@ public class CustomGeneratorController {
      * Sets up initial values and bindings
      */
     public void initialize() {
-        backgroundImage.setImage(Main.background);
+        super.initialize();
         // Setup the math operator combobox
         operatorCombo.getItems().addAll("+", "-", "x", "÷");
         operatorCombo.setValue("+");
@@ -91,9 +79,6 @@ public class CustomGeneratorController {
         BooleanBinding checkDuplicate = Bindings.createBooleanBinding(this::checkWorkshopDuplication, downloadSetList.getSelectionModel().selectedItemProperty());
         downloadBtn.disableProperty().bind(checkDuplicate);
 
-        // Prepare for animations
-        dataPane.setOpacity(0);
-
         // Populate the workshop list (for deduplication)
         populateWorkshop();
     }
@@ -105,10 +90,6 @@ public class CustomGeneratorController {
         qSetList.setItems(FXCollections.observableArrayList(Main.questionGenerators.keySet()));
     }
 
-    void fadeIn() {
-        TransitionFactory.fadeIn(dataPane).play();
-    }
-
     private void hideWorkshop() {
         tataiWorkshopPane.setVisible(false); //TODO: Animate this
     }
@@ -118,25 +99,11 @@ public class CustomGeneratorController {
      * Animate out the screen then switch to the main menu, or close the workshop screen if it's open
      * @throws IOException Exception can be thrown when loading FXML
      */
-    @FXML void backBtnPressed() throws IOException {
+    @Override @FXML void backBtnPressed() throws IOException {
         if (tataiWorkshopPane.isVisible()) {
             hideWorkshop();
         } else {
-            Scene scene = backBtn.getScene();
-            FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
-            Parent root = loader.load();
-            loader.<MainMenuController>getController().setupFade(false);
-            // Fade out items
-            FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration / 2);
-            ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), backgroundPane);
-            st.setToX(0.5);
-            st.setOnFinished(event -> {
-                scene.setRoot(root);
-                loader.<MainMenuController>getController().fadeIn();
-            });
-            ft.setOnFinished(event -> st.play());
-            // animate
-            ft.play();
+            super.backBtnPressed();
         }
     }
 

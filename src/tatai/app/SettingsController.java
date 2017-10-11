@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
@@ -93,7 +94,7 @@ public class SettingsController {
      */
     @FXML private void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+        FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();
 
         loader.<MainMenuController>getController().setupFade(true); // setup for fade in

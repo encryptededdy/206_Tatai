@@ -1,7 +1,6 @@
 package tatai.app;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -9,11 +8,11 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tatai.app.questions.generators.*;
 import tatai.app.util.Database;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.net.NetConnection;
 
 import java.io.File;
-import java.net.URL;
 import java.util.LinkedHashMap;
 
 /**
@@ -29,17 +28,6 @@ public class Main extends Application {
     public static String currentUser;
     public static int currentSession;
     static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb1.jpg"));
-    static URL mainMenuLayout;
-    static URL questionLayout;
-    static URL statisticsLayout;
-    static URL completeLayout;
-    static URL loginLayout;
-    static URL settingsLayout;
-    static URL dashboardLayout;
-    static URL tatainetLayout;
-    static URL customgeneratorLayout;
-    static URL practiceLayout;
-    static URL levelLayout;
     public static NetConnection netConnection;
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
@@ -64,19 +52,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         startupCheck();
-        // Load the FXMLs for our various layouts
-        loginLayout = getClass().getResource("resources/loginscreen.fxml");
-        questionLayout = getClass().getResource("resources/questionscreen.fxml");
-        statisticsLayout = getClass().getResource("resources/statisticsscreen.fxml");
-        mainMenuLayout = getClass().getResource("resources/mainmenu.fxml");
-        completeLayout = getClass().getResource("resources/completescreen.fxml");
-        settingsLayout = getClass().getResource("resources/settings.fxml");
-        dashboardLayout = getClass().getResource("resources/statsdashboard.fxml");
-        tatainetLayout = getClass().getResource("resources/tatainet.fxml");
-        practiceLayout = getClass().getResource("resources/practicescreen.fxml");
-        customgeneratorLayout = getClass().getResource("resources/customgenerator.fxml");
-        levelLayout = getClass().getResource("resources/levelscreen.fxml");
-        Parent root = FXMLLoader.load(loginLayout);
+        Parent root = Layout.LOGIN.loader().load();
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize
         primaryStage.sizeToScene(); // for some reason setresizable expands the window???

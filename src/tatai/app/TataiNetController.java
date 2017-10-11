@@ -1,45 +1,26 @@
 package tatai.app;
 
 import com.jfoenix.controls.*;
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.util.Duration;
-import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.LeaderboardEntry;
 import tatai.app.util.net.LeaderboardViewCell;
 
-import java.io.IOException;
+public class TataiNetController extends ToolbarController {
 
-public class TataiNetController {
-
-    @FXML private ImageView backgroundImage;
-
-    @FXML private Pane backgroundPane, dataPane, controls, backBtn, signUpPane;
-
+    @FXML private Pane controls, signUpPane;
     @FXML private JFXListView<LeaderboardEntry> leaderboardList;
-
     @FXML private JFXComboBox<String> scoreboardComboGameMode;
-
     @FXML private Label usernameInstructions, usernameLabel;
-
     @FXML private ProgressIndicator leaderboardProgress;
-
     @FXML private JFXTextField usernameField;
-
     @FXML private JFXButton registerBtn;
-
     @FXML private JFXProgressBar registerProgress;
 
 
@@ -49,7 +30,7 @@ public class TataiNetController {
      * Populates the gamemode selector ComboBox
      */
     public void initialize() {
-        backgroundImage.setImage(Main.background);
+        super.initialize();
         scoreboardComboGameMode.getItems().addAll(Main.questionGenerators.keySet());
         scoreboardComboGameMode.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
         scoreboardComboGameMode.valueProperty().addListener((observable, oldValue, newValue) -> populateLeaderboard());
@@ -65,32 +46,6 @@ public class TataiNetController {
         } else {
             usernameLabel.setText("Logged in: "+Main.netConnection.getUsername());
         }
-    }
-
-    /**
-     * Fades in the screen (to animate in)
-     */
-    void fadeIn() {
-        TransitionFactory.fadeIn(dataPane).play();
-    }
-
-    /**
-     * Animate out the screen then switch to the main menu
-     * @throws IOException Exception can be thrown when loading FXML
-     */
-    @FXML void backBtnPressed() throws IOException {
-        Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
-        Parent root = loader.load();
-        loader.<MainMenuController>getController().setupFade(false);
-        // Fade out items
-        FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration/2);
-        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), backgroundPane);
-        st.setToX(0.5);
-        st.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
-        ft.setOnFinished(event -> st.play());
-        // animate
-        ft.play();
     }
 
     private void populateLeaderboard() {

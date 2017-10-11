@@ -19,6 +19,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import tatai.app.util.DevQuotes;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
@@ -76,7 +77,7 @@ public class MainMenuController {
     @FXML private void playBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = playBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.questionLayout);
+        FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
         // Fade out
@@ -96,7 +97,7 @@ public class MainMenuController {
     @FXML private void practiceBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = practiceBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.practiceLayout);
+        FXMLLoader loader = Layout.PRACTICE.loader();
         Parent root = loader.load();
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int) (Main.transitionDuration * 0.5));
@@ -113,9 +114,8 @@ public class MainMenuController {
 
     @FXML private void levelBtnPressed() throws IOException {
         Scene scene = levelBtn.getScene();
-        FXMLLoader loader = new FXMLLoader((Main.levelLayout));
+        FXMLLoader loader = Layout.LEVEL.loader();
         Parent root = loader.load();
-
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
         ft.play();
@@ -126,7 +126,7 @@ public class MainMenuController {
      */
     @FXML private void settingsBtnPressed() throws IOException {
         Scene scene = settingsBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.settingsLayout);
+        FXMLLoader loader = Layout.SETTINGS.loader();
         Parent root = loader.load();
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
         FadeTransition ft2 = TransitionFactory.fadeOut(backgroundImage, (int)(Main.transitionDuration*0.5));
@@ -143,7 +143,7 @@ public class MainMenuController {
     @FXML private void statisticsBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = statisticsBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.dashboardLayout);
+        FXMLLoader loader = Layout.DASHBOARD.loader();
         Parent root = loader.load();
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
@@ -165,7 +165,7 @@ public class MainMenuController {
 
         // Load the new scene
         Scene scene = logoutBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.loginLayout);
+        FXMLLoader loader = Layout.LOGIN.loader();
         Parent root = loader.load();
         scene.setRoot(root);
     }
@@ -196,7 +196,7 @@ public class MainMenuController {
     @FXML private void netBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = netBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.tatainetLayout);
+        FXMLLoader loader = Layout.TATAINET.loader();
         Parent root = loader.load();
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
@@ -211,7 +211,7 @@ public class MainMenuController {
     @FXML private void editBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = editBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.customgeneratorLayout);
+        FXMLLoader loader = Layout.CUSTOMGENERATOR.loader();
         Parent root = loader.load();
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
