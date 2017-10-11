@@ -7,7 +7,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import tatai.app.util.TransitionFactory;
+import tatai.app.util.factories.TransitionFactory;
 
 public class LevelSelectorController {
     @FXML JFXButton prevBtn;

@@ -9,7 +9,6 @@ import javafx.scene.control.TableView;
 import tatai.app.Main;
 import tatai.app.util.Translator;
 
-import javax.swing.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +49,7 @@ public class MostRecentRoundQuery extends Query {
      * constructs the SQL query
      */
     public MostRecentRoundQuery(
-            Label roundScore, Label scoreMessageLabel, TableView tableViewRound, Label statLabelAverage, Label statLabelAverageNo, Label statLabelOverall, Label statLabelOverallNo, JFXButton nextRoundButton, Integer roundid) {
+            Label roundScore, Label scoreMessageLabel, TableView<ObservableList> tableViewRound, Label statLabelAverage, Label statLabelAverageNo, Label statLabelOverall, Label statLabelOverallNo, JFXButton nextRoundButton, Integer roundid) {
         columnNames = new ArrayList<>(Arrays.asList("Quest.", "Ans.", "Time", "Correct", "Tries"));
         _roundScoreLabel = roundScore;
         _scoreMessageLabel = scoreMessageLabel;
