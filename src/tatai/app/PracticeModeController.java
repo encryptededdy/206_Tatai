@@ -3,25 +3,14 @@ package tatai.app;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXToggleButton;
 import eu.hansolo.tilesfx.Tile;
-import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import tatai.app.practice.PracticeModeCell;
-import tatai.app.util.factories.TransitionFactory;
 
-import java.io.IOException;
+public class PracticeModeController extends ToolbarController{
 
-public class PracticeModeController {
-
-    @FXML private ImageView backgroundImage;
-    @FXML private Pane dataPane, controls, backgroundPane, backBtn;
+    @FXML private Pane controls;
     @FXML private JFXListView<Integer> practiceList;
     @FXML private JFXToggleButton showAllToggle, bargraphToggle, statisticsToggle;
     @FXML private Tile accuracyTile;
@@ -30,7 +19,7 @@ public class PracticeModeController {
     private int totalCorrect = 0;
 
     public void initialize() {
-        backgroundImage.setImage(Main.background);
+        super.initialize();
         practiceList.setCellFactory(param -> new PracticeModeCell(this));
         setItems(false);
         showAllToggle.setOnAction(event -> setItems(showAllToggle.isSelected()));
@@ -76,32 +65,6 @@ public class PracticeModeController {
             double accuracy = totalCorrect / (double) totalAnswered;
             accuracyTile.setValue(accuracy*100);
         }
-    }
-
-    /**
-     * Fades in the screen (to animate in)
-     */
-    void fadeIn() {
-        TransitionFactory.fadeIn(dataPane).play();
-    }
-
-    /**
-     * Animate out the screen then switch to the main menu
-     * @throws IOException Exception can be thrown when loading FXML
-     */
-    @FXML void backBtnPressed() throws IOException {
-        Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
-        Parent root = loader.load();
-        loader.<MainMenuController>getController().setupFade(false);
-        // Fade out items
-        FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration/2);
-        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), backgroundPane);
-        st.setToX(0.5);
-        st.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
-        ft.setOnFinished(event -> st.play());
-        // animate
-        ft.play();
     }
 
 }
