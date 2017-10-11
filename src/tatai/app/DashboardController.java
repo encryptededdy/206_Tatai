@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
@@ -199,7 +200,7 @@ public class DashboardController extends ToolbarController {
      */
     @FXML void advBtnPressed() throws IOException {
         Scene scene = advBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.statisticsLayout);
+        FXMLLoader loader = Layout.STATISTICS.loader();
         Parent root = loader.load();
         FadeTransition ft = TransitionFactory.fadeOut(dataPane);
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<StatisticsController>getController().fadeIn();});

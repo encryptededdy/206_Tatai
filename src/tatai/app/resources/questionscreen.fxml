@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXProgressBar?>
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.QuestionController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
       </ImageView>
-      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
+      <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
          <children>
-            <Pane fx:id="questionPaneData" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
+            <Pane fx:id="questionPaneData" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #3F51B5;">
                <children>
                   <ImageView fitHeight="272.0" fitWidth="410.0" pickOnBounds="true" preserveRatio="true" visible="false" fx:id="xpTheme">
                      <image>
@@ -106,7 +104,7 @@
             <Pane fx:id="menuBtnCover" layoutX="26.0" layoutY="22.0" prefHeight="28.0" prefWidth="69.0" style="-fx-background-color: #313131;" visible="false" />
             <Pane fx:id="confirmPane" prefHeight="71.0" prefWidth="737.0" style="-fx-background-color: #313131;" visible="false">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="11.0" prefHeight="50.0" prefWidth="391.0" style="-fx-font: 16 roboto;" text="Are you sure you want to exit? (Statistics will be saved)" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="11.0" onContextMenuRequested="#questionRightClick" prefHeight="50.0" prefWidth="391.0" style="-fx-font: 16 roboto;" text="Are you sure you want to exit? (Statistics will be saved)" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                      <font>
                         <Font name="Roboto Medium" size="24.0" />
                      </font>
@@ -149,8 +147,8 @@
          </children>
       </Pane>
       <ImageView fx:id="flyImage" fitHeight="272.0" fitWidth="410.0" layoutX="196.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true" visible="false" />
-      <Pane fx:id="questionPaneclr" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false" />
-      <Pane fx:id="questionPaneclrShadow" layoutX="196.0" layoutY="73.0" onContextMenuRequested="#questionRightClick" opacity="0.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false">
+      <Pane fx:id="questionPaneclr" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false" />
+      <Pane fx:id="questionPaneclrShadow" layoutX="196.0" layoutY="73.0" opacity="0.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>

@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
@@ -38,7 +39,7 @@ public abstract class ToolbarController {
      */
     @FXML void backBtnPressed() throws IOException {
         Scene scene = backBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+        FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();
         loader.<MainMenuController>getController().setupFade(false);
         // Fade out items

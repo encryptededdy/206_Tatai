@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.NetConnection;
 
@@ -142,7 +143,7 @@ public class LoginController {
         Main.populateGenerators(); // populate questiongenerators
         Main.netConnection = new NetConnection(); // open a TataiNet session
         Scene scene = loginBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+        FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(loginPane);

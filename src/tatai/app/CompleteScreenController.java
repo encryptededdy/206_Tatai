@@ -2,6 +2,7 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.*;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,13 +16,12 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Controller class for the complete screen which comes after a round is completed.
@@ -43,7 +43,7 @@ public class CompleteScreenController {
     @FXML private Pane scorePane, questionPaneclrShadow;
     @FXML private Pane controlsPane;
     @FXML private Pane roundStatsPane;
-    @FXML private TableView resultsTable;
+    @FXML private TableView<ObservableList> resultsTable;
     @FXML private JFXButton statsChangeGraphBtn;
     @FXML private Label statLabelAverage;
     @FXML private Label statLabelAverageNo;
@@ -99,7 +99,7 @@ public class CompleteScreenController {
         if (!roundStatsBtn.getText().equals("Round Stats")) roundStatsBtnPressed();
         // Load the new scene
         Scene scene = menuBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.mainMenuLayout);
+        FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();
         loader.<MainMenuController>getController().setupFade(false);
 
@@ -155,7 +155,7 @@ public class CompleteScreenController {
     @FXML void replayBtnPressed() throws IOException {
         // Load the new scene
         Scene scene = replayBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.questionLayout);
+        FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
         String currentGeneratorName = _mostRecentRound.getGeneratorName();
         loader.<QuestionController>getController().setQuestionSet(currentGeneratorName);
@@ -174,7 +174,7 @@ public class CompleteScreenController {
     @FXML void nextRoundBtnPressed() throws IOException{
         // Load the new scene
         Scene scene = replayBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.questionLayout);
+        FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
 
 
@@ -250,11 +250,23 @@ public class CompleteScreenController {
     /**
      * Determines the name of the next round if there is one based on the LinkedHashMap of questionGenerators in Main
      * and the Round object of the most recent round.
-     * @param mostRecentRound
-     * @return
+     * @param mostRecentRound The round just prior to the next round to be found
+     * @return The next round
      */
     private String getNextRoundName(Round mostRecentRound) {
         String currentGeneratorName = mostRecentRound.getGeneratorName();
+        boolean isCurrentGenerator = false;
+        for (QuestionGenerator qg : Main.questionGenerators.values()) {
+            if (isCurrentGenerator) {
+                System.out.println("Found next generator: "+qg.getGeneratorName());
+                return qg.getGeneratorName();
+            }
+            if (qg.getGeneratorName().equals(currentGeneratorName)) {
+                isCurrentGenerator = true;
+            }
+        }
+        // Not sure what was happening here... but just use an enhanced forloop
+        /*
         Iterator it = Main.questionGenerators.entrySet().iterator();
         boolean isCurrentGenerator = false;
         while (it.hasNext()) {
@@ -267,7 +279,7 @@ public class CompleteScreenController {
             if (qg.getGeneratorName().equals(currentGeneratorName)) {
                 isCurrentGenerator = true;
             }
-        }
+        }*/
         return null;
     }
 }

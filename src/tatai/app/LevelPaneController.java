@@ -9,8 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class LevelPaneController {
 
     public void playBtnPressed() throws IOException {
         Scene scene = playMaoriBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.questionLayout);
+        FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(_normalNumberGenerator.getGeneratorName());
 
@@ -57,7 +57,7 @@ public class LevelPaneController {
 
     public void playMaoriBtnPressed() throws IOException {
         Scene scene = playMaoriBtn.getScene();
-        FXMLLoader loader = new FXMLLoader(Main.questionLayout);
+        FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
         loader.<QuestionController>getController().setQuestionSet(_maoriNumberGenerator.getGeneratorName());
 
