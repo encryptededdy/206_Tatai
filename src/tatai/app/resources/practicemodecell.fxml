@@ -6,28 +6,29 @@
 <?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
-<Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+
+<Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="520.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="numberLabel" layoutX="14.0" layoutY="-5.0" prefHeight="60.0" prefWidth="60.0" text="20" textFill="WHITE">
+      <Label fx:id="numberLabel" layoutX="14.0" layoutY="-10.0" prefHeight="60.0" prefWidth="60.0" text="20" textFill="WHITE">
          <font>
-            <Font name="Roboto Bold" size="40.0" />
+            <Font name="Roboto Bold" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="answerLabel" layoutX="89.0" layoutY="-4.0" onMousePressed="#answerLabelClickStart" onMouseReleased="#answerLabelClickEnd" prefHeight="60.0" prefWidth="265.0" text="Click &amp; hold for answer" textFill="GREY">
+      <Label fx:id="answerLabel" layoutX="89.0" onMouseEntered="#answerLabelClickStart" onMouseExited="#answerLabelClickEnd" prefHeight="40.0" prefWidth="265.0" text="Hover for answer" textFill="GREY">
          <font>
-            <Font name="Roboto" size="20.0" />
+            <Font name="Roboto" size="18.0" />
          </font>
       </Label>
-      <MaterialDesignIconView fx:id="correctIcon" fill="WHITE" glyphName="CHECK" layoutX="465.0" layoutY="43.0" size="50" text="" visible="false" />
-      <MaterialDesignIconView fx:id="incorrectIcon" fill="WHITE" glyphName="CLOSE" layoutX="465.0" layoutY="44.0" size="50" visible="false" />
-      <JFXButton fx:id="recordBtn" defaultButton="true" ellipsisString="" layoutX="399.0" layoutY="5.0" onAction="#recordBtnPressed" prefHeight="39.0" prefWidth="50.0" ripplerFill="WHITE" style="-fx-background-color: #414141;" textFill="WHITE" textOverrun="CLIP">
+      <MaterialDesignIconView fx:id="correctIcon" fill="WHITE" glyphName="CHECK" layoutX="470.0" layoutY="35.0" size="40" text="" visible="false" />
+      <MaterialDesignIconView fx:id="incorrectIcon" fill="WHITE" glyphName="CLOSE" layoutX="470.0" layoutY="36.0" size="40" visible="false" />
+      <JFXButton fx:id="recordBtn" defaultButton="true" ellipsisString="" layoutX="415.0" layoutY="4.0" onAction="#recordBtnPressed" prefHeight="33.0" prefWidth="50.0" ripplerFill="WHITE" style="-fx-background-color: #414141;" textFill="WHITE" textOverrun="CLIP">
          <font>
-            <Font size="18.0" />
+            <Font size="1.0" />
          </font>
          <graphic>
-            <MaterialDesignIconView fill="WHITE" glyphName="MICROPHONE" size="28" />
+            <MaterialDesignIconView fill="WHITE" glyphName="MICROPHONE" size="24" textAlignment="CENTER" wrappingWidth="28.0" />
          </graphic>
       </JFXButton>
-      <ProgressIndicator fx:id="recordingProgress" layoutX="474.0" layoutY="7.0" prefHeight="40.0" prefWidth="36.0" progress="0.0" stylesheets="@practicemode.css" />
+      <ProgressIndicator fx:id="recordingProgress" layoutX="473.0" layoutY="4.0" prefHeight="33.0" prefWidth="34.0" progress="0.0" stylesheets="@practicemode.css" />
    </children>
 </Pane>

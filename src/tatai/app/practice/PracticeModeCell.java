@@ -79,7 +79,7 @@ public class PracticeModeCell extends ListCell<Integer> {
 
     @FXML void answerLabelClickEnd() {
         answerLabel.setTextFill(Color.GRAY);
-        answerLabel.setText("Click & hold for answer");
+        answerLabel.setText("Hover for answer");
     }
 
     @FXML void answerLabelClickStart() {
