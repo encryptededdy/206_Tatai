@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="playtimeLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="-2.0" prefHeight="34.0" prefWidth="60.0" text="9999" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Roboto Bold" size="26.0" />
+         </font>
+      </Label>
+      <Label fx:id="usernameLabel" layoutX="5.0" layoutY="2.0" prefHeight="28.0" prefWidth="149.0" text="encryptedEddy" textFill="WHITE">
+         <font>
+            <Font name="Roboto" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="playtimeTextLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="186.0" layoutY="27.0" prefHeight="15.0" prefWidth="60.0" text="Days Played" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="Roboto" size="10.0" />
+         </font>
+      </Label>
+      <Label fx:id="lastloginLabel" layoutX="6.0" layoutY="27.0" prefHeight="14.0" prefWidth="149.0" text="Last Login: xxx days ago" textFill="WHITE">
+         <font>
+            <Font name="Roboto" size="10.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
