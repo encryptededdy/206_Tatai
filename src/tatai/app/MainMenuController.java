@@ -95,21 +95,7 @@ public class MainMenuController {
     }
 
     @FXML private void practiceBtnPressed() throws IOException {
-        // Load the new scene
-        Scene scene = practiceBtn.getScene();
-        FXMLLoader loader = Layout.PRACTICE.loader();
-        Parent root = loader.load();
-        // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int) (Main.transitionDuration * 0.5));
-        // Expand
-        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
-        st.setToX(2);
-        st.setOnFinished(event1 -> {
-            scene.setRoot(root);
-            loader.<PracticeModeController>getController().fadeIn();
-        }); // switch scenes when fade complete
-        ft.setOnFinished(event -> st.play());
-        ft.play();
+        switchToToolbar(Layout.PRACTICE);
     }
 
     @FXML private void levelBtnPressed() throws IOException {
@@ -141,18 +127,7 @@ public class MainMenuController {
      * Opens the statistics screen when the statistics button is pressed
      */
     @FXML private void statisticsBtnPressed() throws IOException {
-        // Load the new scene
-        Scene scene = statisticsBtn.getScene();
-        FXMLLoader loader = Layout.DASHBOARD.loader();
-        Parent root = loader.load();
-        // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
-        // Expand
-        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
-        st.setToX(2);
-        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<DashboardController>getController().fadeIn();}); // switch scenes when fade complete
-        ft.setOnFinished(event -> st.play());
-        ft.play();
+        switchToToolbar(Layout.DASHBOARD);
     }
 
     /**
@@ -194,31 +169,32 @@ public class MainMenuController {
     }
 
     @FXML private void netBtnPressed() throws IOException {
-        // Load the new scene
-        Scene scene = netBtn.getScene();
-        FXMLLoader loader = Layout.TATAINET.loader();
-        Parent root = loader.load();
-        // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
-        // Expand
-        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
-        st.setToX(2);
-        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<TataiNetController>getController().fadeIn();}); // switch scenes when fade complete
-        ft.setOnFinished(event -> st.play());
-        ft.play();
+        switchToToolbar(Layout.TATAINET);
     }
 
     @FXML private void editBtnPressed() throws IOException {
+        switchToToolbar(Layout.CUSTOMGENERATOR);
+    }
+
+    /**
+     * Animate to a ToolbarController screen
+     * @param target The layout to switch to
+     * @throws IOException Thrown on FXML load failure
+     */
+    private void switchToToolbar(Layout target) throws IOException {
         // Load the new scene
-        Scene scene = editBtn.getScene();
-        FXMLLoader loader = Layout.CUSTOMGENERATOR.loader();
+        Scene scene = practiceBtn.getScene();
+        FXMLLoader loader = target.loader();
         Parent root = loader.load();
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
+        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int) (Main.transitionDuration * 0.5));
         // Expand
         ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), mainPane);
         st.setToX(2);
-        st.setOnFinished(event1 -> {scene.setRoot(root); loader.<CustomGeneratorController>getController().fadeIn();}); // switch scenes when fade complete
+        st.setOnFinished(event1 -> {
+            scene.setRoot(root);
+            loader.<ToolbarController>getController().fadeIn();
+        }); // switch scenes when fade complete
         ft.setOnFinished(event -> st.play());
         ft.play();
     }
