@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXProgressBar?>
-<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.scene.control.Label?>
+<?import com.jfoenix.controls.*?>
+<?import de.jensd.fx.glyphs.materialdesignicons.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.QuestionController">
    <children>
-      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" layoutX="2.0">
       </ImageView>
+      <Label fx:id="popawayText" alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="57.0" prefHeight="44.0" prefWidth="352.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE" visible="false">
+         <font>
+            <Font name="Roboto Medium" size="30.0" />
+         </font>
+      </Label>
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />

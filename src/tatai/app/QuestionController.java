@@ -50,7 +50,7 @@ public class QuestionController {
     @FXML private MaterialDesignIconView playBtnIcon;
     @FXML private JFXProgressBar recordingProgressBar;
     @FXML private JFXButton recordBtn, playBtn, checkBtn, menuBtn;
-    @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel;
+    @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel, popawayText;
     @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents, controlsPane, tutorialNotif, resultsPane, qNumPane, questionPaneclr, questionPaneclrShadow;
     @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
@@ -58,6 +58,7 @@ public class QuestionController {
     @FXML private Pane questionPaneData;
 
     private ParallelTransition menuConfirmTransition;
+    private ParallelTransition popawayTextTransition;
 
     private Timeline recordingProgressTimeline;
 
@@ -103,6 +104,17 @@ public class QuestionController {
         ft.setToValue(0.5);
         ft.setFromValue(0);
         menuConfirmTransition = new ParallelTransition(st, tt, ft);
+
+        // Popaway text transition
+        TranslateTransition tt2 = TransitionFactory.move(popawayText, 0, -60);
+        tt2.setFromY(0);
+        tt2.setDuration(Duration.seconds(2));
+        tt2.setInterpolator(Interpolator.EASE_OUT);
+        FadeTransition ft2 = TransitionFactory.fadeOut(popawayText);
+        ft2.setFromValue(1);
+        ft2.setDuration(Duration.seconds(2));
+        popawayTextTransition = new ParallelTransition(tt2, ft2);
+        popawayTextTransition.setOnFinished(event -> popawayText.setVisible(false));
     }
 
     /**
@@ -250,6 +262,12 @@ public class QuestionController {
         playHelp.hide();
         checkHelp.hide();
         nextHelp.hide();
+    }
+
+    private void popawayAnim(String text) {
+        popawayText.setText(text);
+        popawayText.setVisible(true);
+        popawayTextTransition.play();
     }
 
     /**
@@ -426,6 +444,9 @@ public class QuestionController {
         checkHelp.hide();
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
+            if (_currentRound.getStreak() > 2) {
+                popawayAnim("Streak! "+_currentRound.getStreak()+" in a row!");
+            }
         } else {
             answerIncorrect();
         }
