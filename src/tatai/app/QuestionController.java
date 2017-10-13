@@ -2,6 +2,7 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.*;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.AchievementView;
 import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
@@ -50,15 +52,15 @@ public class QuestionController {
     @FXML private MaterialDesignIconView playBtnIcon;
     @FXML private JFXProgressBar recordingProgressBar;
     @FXML private JFXButton recordBtn, playBtn, checkBtn, menuBtn;
-    @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel, popawayText;
-    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents, controlsPane, tutorialNotif, resultsPane, qNumPane, questionPaneclr, questionPaneclrShadow;
+    @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel;
+    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents, controlsPane, tutorialNotif, resultsPane, qNumPane, questionPaneclr, questionPaneclrShadow, achievementPane;
     @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
     @FXML private ImageView backgroundImage, xpTheme, flyImage;
     @FXML private Pane questionPaneData;
 
     private ParallelTransition menuConfirmTransition;
-    private ParallelTransition popawayTextTransition;
+    private TranslateTransition achievementTransition;
 
     private Timeline recordingProgressTimeline;
 
@@ -105,16 +107,14 @@ public class QuestionController {
         ft.setFromValue(0);
         menuConfirmTransition = new ParallelTransition(st, tt, ft);
 
-        // Popaway text transition
-        TranslateTransition tt2 = TransitionFactory.move(popawayText, 0, -60);
-        tt2.setFromY(0);
-        tt2.setDuration(Duration.seconds(2));
-        tt2.setInterpolator(Interpolator.EASE_OUT);
-        FadeTransition ft2 = TransitionFactory.fadeOut(popawayText);
-        ft2.setFromValue(1);
-        ft2.setDuration(Duration.seconds(2));
-        popawayTextTransition = new ParallelTransition(tt2, ft2);
-        popawayTextTransition.setOnFinished(event -> popawayText.setVisible(false));
+        // Achievement transition
+        achievementTransition = TransitionFactory.move(achievementPane, 0, -60);
+        achievementTransition.setFromY(0);
+        achievementTransition.setInterpolator(Interpolator.EASE_OUT);
+        FadeTransition ft2 = TransitionFactory.fadeOut(achievementPane);
+        PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
+        pt2.setOnFinished(event -> ft2.play());
+        achievementTransition.setOnFinished(event -> pt2.play());
     }
 
     /**
@@ -264,10 +264,12 @@ public class QuestionController {
         nextHelp.hide();
     }
 
-    private void popawayAnim(String text) {
-        popawayText.setText(text);
-        popawayText.setVisible(true);
-        popawayTextTransition.play();
+    private void animateAchievement(AchievementView achievement) {
+        achievementPane.setOpacity(1);
+        achievementPane.getChildren().clear();
+        achievementPane.getChildren().setAll(achievement.getNode());
+        achievementPane.setVisible(true);
+        achievementTransition.play();
     }
 
     /**
@@ -444,8 +446,11 @@ public class QuestionController {
         checkHelp.hide();
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
-            if (_currentRound.getStreak() > 2) {
-                popawayAnim("Streak! "+_currentRound.getStreak()+" in a row!");
+            // TODO: Do actual achievement code here!
+            if (_currentRound.getStreak() > 2 && _currentRound.getStreak() < 5) {
+                animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.CHAIN));
+            } else if (_currentRound.getStreak() == 5) {
+                animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.TROPHY, "+100"));
             }
         } else {
             answerIncorrect();

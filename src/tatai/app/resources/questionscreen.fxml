@@ -12,11 +12,7 @@
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" layoutX="2.0">
       </ImageView>
-      <Label fx:id="popawayText" alignment="CENTER" contentDisplay="CENTER" layoutX="224.0" layoutY="57.0" prefHeight="44.0" prefWidth="352.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE" visible="false">
-         <font>
-            <Font name="Roboto Medium" size="30.0" />
-         </font>
-      </Label>
+      <Pane fx:id="achievementPane" layoutX="273.0" layoutY="424.0" prefHeight="50.0" prefWidth="258.0" />
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
