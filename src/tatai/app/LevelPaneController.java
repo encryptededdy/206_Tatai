@@ -39,6 +39,7 @@ public class LevelPaneController {
 
     public void setQuestionGenerators(String generatorName) {
         _normalNumberGenerator = Main.questionGenerators.get(generatorName);
+        System.out.println(Main.questionGenerators.get(generatorName).isCustom());
         _maoriNumberGenerator = Main.questionGenerators.get(generatorName + " (Maori)");
 
         levelNameLabel.setText(generatorName);

@@ -19,7 +19,8 @@ public enum Layout {
     TATAINET("tatai/app/resources/tatainet.fxml"),
     PRACTICE("tatai/app/resources/practicescreen.fxml"),
     CUSTOMGENERATOR("tatai/app/resources/customgenerator.fxml"),
-    LEVEL("tatai/app/resources/levelscreen.fxml");
+    LEVEL("tatai/app/resources/levelscreen.fxml"),
+    LEVELPANE("tatai/app/resources/levelpane.fxml");
 
     private URL url;
 

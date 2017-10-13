@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.LevelSelectorController">
@@ -22,14 +21,14 @@
          </image></ImageView>
       <HBox fx:id="levelSelectorHbox" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <JFXButton fx:id="prevBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#prevBtnClicked" onMouseEntered="#togglePrevHover" onMouseExited="#togglePrevHover" prefHeight="500.0" prefWidth="50.0" style="-fx-background-color: rgba(33, 33, 33, 0.2);">
+            <JFXButton fx:id="prevBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#prevBtnClicked" onMouseEntered="#togglePrevHover" onMouseExited="#togglePrevHover" prefHeight="500.0" prefWidth="50.0" style="-fx-background-color: rgb(40,40,40);">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="24.0" />
                </graphic>
             </JFXButton>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <AnchorPane maxWidth="700.0" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                  <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="700.0">
                      <children>
                         <Label alignment="CENTER" contentDisplay="CENTER" layoutX="244.5" text="Round Select" textAlignment="CENTER" textFill="WHITE">
                            <font>
@@ -38,18 +37,8 @@
                         </Label>
                      </children>
                   </AnchorPane>
-                  <GridPane fx:id="levelsGridPane1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                  </GridPane>
                </children>
-            </VBox>
+            </AnchorPane>
             <JFXButton fx:id="nextBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#nextBtnClicked" onMouseEntered="#toggleNextHover" onMouseExited="#toggleNextHover" prefHeight="500.0" prefWidth="50.0" style="-fx-background-color: rgba(33, 33, 33, 0.2);">
                <graphic>
                   <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_RIGHT" size="24.0" />
@@ -57,5 +46,25 @@
             </JFXButton>
          </children>
       </HBox>
+      <GridPane fx:id="levelsGridPane1" layoutX="50.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <GridPane fx:id="levelsGridPane2" layoutX="800.0" layoutY="50.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="700.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+      </GridPane>
    </children>
 </Pane>
