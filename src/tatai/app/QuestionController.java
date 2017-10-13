@@ -2,6 +2,7 @@ package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView;
 import javafx.animation.*;
 import javafx.fxml.FXML;
@@ -21,6 +22,7 @@ import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.AchievementView;
 import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
@@ -49,27 +51,16 @@ public class QuestionController {
 
     @FXML private MaterialDesignIconView playBtnIcon;
     @FXML private JFXProgressBar recordingProgressBar;
-    @FXML private JFXButton recordBtn;
-    @FXML private JFXButton playBtn;
-    @FXML private JFXButton checkBtn;
-    @FXML private JFXButton menuBtn;
+    @FXML private JFXButton recordBtn, playBtn, checkBtn, menuBtn;
     @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel;
-    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
-    @FXML private Pane controlsPane;
-    @FXML private Pane tutorialNotif;
-    @FXML private Pane resultsPane;
-    @FXML private Pane qNumPane;
-    @FXML private Pane questionPaneclr;
-    @FXML private Pane questionPaneclrShadow;
-    @FXML private MaterialDesignIconView correctIcon;
-    @FXML private MaterialDesignIconView incorrectIcon;
+    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents, controlsPane, tutorialNotif, resultsPane, qNumPane, questionPaneclr, questionPaneclrShadow, achievementPane;
+    @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
-    @FXML private ImageView backgroundImage;
-    @FXML private ImageView xpTheme;
-    @FXML private ImageView flyImage;
+    @FXML private ImageView backgroundImage, xpTheme, flyImage;
     @FXML private Pane questionPaneData;
 
     private ParallelTransition menuConfirmTransition;
+    private TranslateTransition achievementTransition;
 
     private Timeline recordingProgressTimeline;
 
@@ -78,6 +69,7 @@ public class QuestionController {
     private PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
     private PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
     private PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
+    private PopOver pttHelp = PopoverFactory.helpPopOver("Next time, you can also click and hold the\nrecord button to enter hold to talk mode.");
 
     /**
      * Setup the screen for animation, also create the timer for record/playback
@@ -93,6 +85,8 @@ public class QuestionController {
         shakeTT.setFromX(0);
         shakeTT.setAutoReverse(true);
         shakeTT.setCycleCount(8);
+
+        pttHelp.setAutoHide(true);
 
         // 1 second progress timer
         recordingProgressTimeline = new Timeline(
@@ -112,6 +106,15 @@ public class QuestionController {
         ft.setToValue(0.5);
         ft.setFromValue(0);
         menuConfirmTransition = new ParallelTransition(st, tt, ft);
+
+        // Achievement transition
+        achievementTransition = TransitionFactory.move(achievementPane, 0, -60);
+        achievementTransition.setFromY(0);
+        achievementTransition.setInterpolator(Interpolator.EASE_OUT);
+        FadeTransition ft2 = TransitionFactory.fadeOut(achievementPane);
+        PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
+        pt2.setOnFinished(event -> ft2.play());
+        achievementTransition.setOnFinished(event -> pt2.play());
     }
 
     /**
@@ -146,7 +149,7 @@ public class QuestionController {
                 keyEvent.consume();
             } else if (keyEvent.getCode() == KeyCode.R) {
                 if (!recordBtn.isDisabled()) {
-                    recordBtnPressed();
+                    recordBtnHeld();
                 }
                 keyEvent.consume();
             } else if (keyEvent.getCode() == KeyCode.CAPS) {
@@ -259,6 +262,14 @@ public class QuestionController {
         playHelp.hide();
         checkHelp.hide();
         nextHelp.hide();
+    }
+
+    private void animateAchievement(AchievementView achievement) {
+        achievementPane.setOpacity(1);
+        achievementPane.getChildren().clear();
+        achievementPane.getChildren().setAll(achievement.getNode());
+        achievementPane.setVisible(true);
+        achievementTransition.play();
     }
 
     /**
@@ -376,8 +387,12 @@ public class QuestionController {
      * Handles recording the audio. Disables buttons while recording, makes a recording using util.Record, and activates
      * the progressBar for recording
      */
-    @FXML void recordBtnPressed() {
+    @FXML void recordBtnHeld() {
+        System.out.println("Record called");
         recordHelp.hide();
+        if (Main.showTutorial) {
+            pttHelp.show(recordBtn, -5);
+        }
         answerRecording = new Record();
         playBtn.setDisable(true);
         checkBtn.setDisable(true);
@@ -392,15 +407,29 @@ public class QuestionController {
                 playHelp.show(playBtn, -5);
             }
             recordingProgressBar.setVisible(false);
+            recordingProgressTimeline.stop();
+            pttHelp.hide(); // Hide the push to talk help text
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #F44336;");
         recordingProgressBar.setVisible(true);
-        recordingProgressTimeline.setRate(0.5);
+        recordingProgressTimeline.setRate(1/3.0);
         recordingProgressTimeline.play();
-        answerRecording.record(2000);
+        answerRecording.record(3000); // testing
         recordBtn.setDefaultButton(false);
         checkBtn.setDefaultButton(true);
+    }
+
+    /**
+     * When the record button is released. If it's been more than 1/4sec, treat this as push to talk release
+     */
+    @FXML void recordBtnReleased() {
+        System.out.println("Release called");
+        if (answerRecording.getLength() > 250) {
+            answerRecording.stopRecording();
+            System.out.println("PTT stop called");
+            recordingProgressTimeline.setRate(1000.0/answerRecording.getLength());
+        }
     }
 
     /**
@@ -417,6 +446,12 @@ public class QuestionController {
         checkHelp.hide();
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
+            // TODO: Do actual achievement code here!
+            if (_currentRound.getStreak() > 2 && _currentRound.getStreak() < 5) {
+                animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.CHAIN));
+            } else if (_currentRound.getStreak() == 5) {
+                animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.TROPHY, "+100"));
+            }
         } else {
             answerIncorrect();
         }
@@ -431,11 +466,10 @@ public class QuestionController {
     @FXML void playBtnPressed() {
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #03A9F4;");
         recordingProgressBar.setVisible(true);
-        recordingProgressTimeline.setRate(0.5);
         recordingProgressTimeline.play();
         recordingProgressTimeline.setOnFinished(event -> recordingProgressBar.setVisible(false));
         playBtnPresses++;
-        if (playBtnPresses > 5) playbackEasterEgg(); // activate the easter egg
+        if (playBtnPresses > 25) playbackEasterEgg(); // activate the easter egg
         answerRecording.play();
     }
 

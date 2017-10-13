@@ -21,7 +21,8 @@ public enum Layout {
     CUSTOMGENERATOR("tatai/app/resources/customgenerator.fxml"),
     LEVEL("tatai/app/resources/levelscreen.fxml"),
     LOGINCELL("tatai/app/resources/loginusercell.fxml"),
-    LEADERBOARDCELL("tatai/app/resources/leaderboardcell.fxml");
+    LEADERBOARDCELL("tatai/app/resources/leaderboardcell.fxml"),
+    ACHIEVEMENT("tatai/app/resources/achievementpopup.fxml");
 
     private URL url;
 

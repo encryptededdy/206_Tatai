@@ -10,8 +10,9 @@
 <?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.QuestionController">
    <children>
-      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" layoutX="2.0">
       </ImageView>
+      <Pane fx:id="achievementPane" layoutX="273.0" layoutY="424.0" prefHeight="50.0" prefWidth="258.0" />
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
@@ -69,7 +70,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <JFXButton fx:id="recordBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="275.0" layoutY="16.0" onAction="#recordBtnPressed" onMouseEntered="#recordBtnHover" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
+            <JFXButton fx:id="recordBtn" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="275.0" layoutY="16.0" onMouseEntered="#recordBtnHover" onMousePressed="#recordBtnHeld" onMouseReleased="#recordBtnReleased" prefHeight="39.0" prefWidth="39.0" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" textFill="WHITE" textOverrun="CLIP">
                <font>
                   <Font size="18.0" />
                </font>
