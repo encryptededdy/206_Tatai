@@ -49,24 +49,12 @@ public class QuestionController {
 
     @FXML private MaterialDesignIconView playBtnIcon;
     @FXML private JFXProgressBar recordingProgressBar;
-    @FXML private JFXButton recordBtn;
-    @FXML private JFXButton playBtn;
-    @FXML private JFXButton checkBtn;
-    @FXML private JFXButton menuBtn;
+    @FXML private JFXButton recordBtn, playBtn, checkBtn, menuBtn;
     @FXML private Label questionNumberLabel, questionLabel, resultsLabel, setNameLabel, questionNumberTotalLabel;
-    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents;
-    @FXML private Pane controlsPane;
-    @FXML private Pane tutorialNotif;
-    @FXML private Pane resultsPane;
-    @FXML private Pane qNumPane;
-    @FXML private Pane questionPaneclr;
-    @FXML private Pane questionPaneclrShadow;
-    @FXML private MaterialDesignIconView correctIcon;
-    @FXML private MaterialDesignIconView incorrectIcon;
+    @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents, controlsPane, tutorialNotif, resultsPane, qNumPane, questionPaneclr, questionPaneclrShadow;
+    @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
-    @FXML private ImageView backgroundImage;
-    @FXML private ImageView xpTheme;
-    @FXML private ImageView flyImage;
+    @FXML private ImageView backgroundImage, xpTheme, flyImage;
     @FXML private Pane questionPaneData;
 
     private ParallelTransition menuConfirmTransition;
@@ -146,7 +134,7 @@ public class QuestionController {
                 keyEvent.consume();
             } else if (keyEvent.getCode() == KeyCode.R) {
                 if (!recordBtn.isDisabled()) {
-                    recordBtnPressed();
+                    recordBtnHeld();
                 }
                 keyEvent.consume();
             } else if (keyEvent.getCode() == KeyCode.CAPS) {
@@ -376,7 +364,8 @@ public class QuestionController {
      * Handles recording the audio. Disables buttons while recording, makes a recording using util.Record, and activates
      * the progressBar for recording
      */
-    @FXML void recordBtnPressed() {
+    @FXML void recordBtnHeld() {
+        System.out.println("Record called");
         recordHelp.hide();
         answerRecording = new Record();
         playBtn.setDisable(true);
@@ -392,15 +381,28 @@ public class QuestionController {
                 playHelp.show(playBtn, -5);
             }
             recordingProgressBar.setVisible(false);
+            recordingProgressTimeline.stop();
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #F44336;");
         recordingProgressBar.setVisible(true);
-        recordingProgressTimeline.setRate(0.5);
+        recordingProgressTimeline.setRate(1/3.0);
         recordingProgressTimeline.play();
-        answerRecording.record(2000);
+        answerRecording.record(3000); // testing
         recordBtn.setDefaultButton(false);
         checkBtn.setDefaultButton(true);
+    }
+
+    /**
+     * When the record button is released. If it's been more than 1/4sec, treat this as push to talk release
+     */
+    @FXML void recordBtnReleased() {
+        System.out.println("Release called");
+        if (answerRecording.getLength() > 250) {
+            answerRecording.stopRecording();
+            System.out.println("PTT stop called");
+            recordingProgressTimeline.setRate(1000.0/answerRecording.getLength());
+        }
     }
 
     /**
@@ -431,11 +433,10 @@ public class QuestionController {
     @FXML void playBtnPressed() {
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #03A9F4;");
         recordingProgressBar.setVisible(true);
-        recordingProgressTimeline.setRate(0.5);
         recordingProgressTimeline.play();
         recordingProgressTimeline.setOnFinished(event -> recordingProgressBar.setVisible(false));
         playBtnPresses++;
-        if (playBtnPresses > 5) playbackEasterEgg(); // activate the easter egg
+        if (playBtnPresses > 25) playbackEasterEgg(); // activate the easter egg
         answerRecording.play();
     }
 

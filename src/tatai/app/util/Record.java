@@ -3,7 +3,6 @@ package tatai.app.util;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import tatai.app.Main;
@@ -28,9 +27,11 @@ public class Record {
     private File recordingWav = new File(".tmp/foo.wav");
     private AudioFileFormat.Type fileType = AudioFileFormat.Type.WAVE;
     private TargetDataLine line;
-    private ArrayList<Node> nodeListeners = new ArrayList<Node>();
     private ArrayList<EventHandler<ActionEvent>> recordingeventHandlers = new ArrayList<>();
     private ArrayList<EventHandler<ActionEvent>> playbackeventHandlers = new ArrayList<>();
+
+    private long startTime = 0;
+    private boolean finished = false;
 
     /**
      * Define the Audio recording format (currently setup to match HTK input specifications)
@@ -60,6 +61,7 @@ public class Record {
 
             line = (TargetDataLine) AudioSystem.getLine(info);
             line.open(format);
+            startTime = System.currentTimeMillis();
             line.start();
 
             AudioInputStream audioInputStream = new AudioInputStream(line);
@@ -77,6 +79,7 @@ public class Record {
         line.stop();
         line.close();
         completeRecordingEvent();
+        finished = true;
     }
 
     /**
@@ -99,9 +102,13 @@ public class Record {
 
         Thread startRecording = new Thread(this::start);
 
-        stopRecording.setOnSucceeded(event -> finishRecording());
+        stopRecording.setOnSucceeded(event -> {if (!finished) finishRecording();});
         startRecording.start();
         new Thread(stopRecording).start();
+    }
+
+    public void stopRecording() {
+        if (!finished) finishRecording();
     }
 
     /**
@@ -112,6 +119,19 @@ public class Record {
         MediaPlayer recordingPlayer = new MediaPlayer(recording);
         recordingPlayer.setOnEndOfMedia(this::completePlaybackEvent);
         recordingPlayer.play();
+    }
+
+    /**
+     * Gets the length of the recording so far
+     * @return Length in msec
+     */
+    public int getLength() {
+        if (startTime != 0) {
+            System.out.println((System.currentTimeMillis() - startTime));
+            return (int) (System.currentTimeMillis() - startTime);
+        } else {
+            return 0;
+        }
     }
 
     /**
