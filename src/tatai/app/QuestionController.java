@@ -66,6 +66,7 @@ public class QuestionController {
     private PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
     private PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
     private PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
+    private PopOver pttHelp = PopoverFactory.helpPopOver("Next time, you can also click and hold the\nrecord button to enter hold to talk mode.");
 
     /**
      * Setup the screen for animation, also create the timer for record/playback
@@ -81,6 +82,8 @@ public class QuestionController {
         shakeTT.setFromX(0);
         shakeTT.setAutoReverse(true);
         shakeTT.setCycleCount(8);
+
+        pttHelp.setAutoHide(true);
 
         // 1 second progress timer
         recordingProgressTimeline = new Timeline(
@@ -367,6 +370,9 @@ public class QuestionController {
     @FXML void recordBtnHeld() {
         System.out.println("Record called");
         recordHelp.hide();
+        if (Main.showTutorial) {
+            pttHelp.show(recordBtn, -5);
+        }
         answerRecording = new Record();
         playBtn.setDisable(true);
         checkBtn.setDisable(true);
@@ -382,6 +388,7 @@ public class QuestionController {
             }
             recordingProgressBar.setVisible(false);
             recordingProgressTimeline.stop();
+            pttHelp.hide(); // Hide the push to talk help text
         });
         recordBtn.setStyle("-fx-background-color: #F44336;");
         recordingProgressBar.setStyle("-fx-control-inner-background: #212121; -fx-text-box-border: #212121; -fx-accent: #F44336;");
