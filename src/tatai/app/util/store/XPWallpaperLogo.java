@@ -11,7 +11,7 @@ public class XPWallpaperLogo extends StoreItem {
                 "Faithfully reproduced in Microsoft Paint by Henry Li";
 
         icon = FontAwesomeIcon.IMAGE;
-        cost = 200;
+        cost = 250;
     }
 
     public void applyChanges() {

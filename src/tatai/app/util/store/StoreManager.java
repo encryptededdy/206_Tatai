@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Manages the value store in the
  */
 public class StoreManager {
-    private int balance = 0;
+    private int balance = 500;
 
     private ArrayList<StoreItem> items = new ArrayList<>();
 
@@ -14,6 +14,7 @@ public class StoreManager {
         // Populate items
         items.add(new XPWallpaper());
         items.add(new XPWallpaperLogo());
+        items.add(new AngryFinderWallpaper());
     }
 
     public void credit(int creditAmount) {
