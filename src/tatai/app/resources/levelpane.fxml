@@ -34,12 +34,12 @@
       </Label>
       <JFXButton fx:id="playBtn" buttonType="RAISED" layoutX="20.0" layoutY="175.0" maxWidth="-Infinity" minWidth="-Infinity" onAction="#playBtnPressed" prefWidth="140.0" style="-fx-background-color: #455864;" text="Play" textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font name="Roboto Regular" size="18.0" />
          </font>
       </JFXButton>
       <JFXButton fx:id="playMaoriBtn" buttonType="RAISED" layoutX="175.0" layoutY="175.0" maxWidth="-Infinity" minWidth="-Infinity" onAction="#playMaoriBtnPressed" prefWidth="140.0" style="-fx-background-color: #455864;" text="Play (Maori)" textFill="WHITE">
          <font>
-            <Font size="18.0" />
+            <Font name="Roboto Regular" size="18.0" />
          </font>
       </JFXButton>
    </children>

@@ -20,6 +20,7 @@ public enum Layout {
     PRACTICE("tatai/app/resources/practicescreen.fxml"),
     CUSTOMGENERATOR("tatai/app/resources/customgenerator.fxml"),
     LEVEL("tatai/app/resources/levelscreen.fxml"),
+    LEVELPANE("tatai/app/resources/levelpane.fxml");
     LOGINCELL("tatai/app/resources/loginusercell.fxml"),
     LEADERBOARDCELL("tatai/app/resources/leaderboardcell.fxml"),
     ACHIEVEMENT("tatai/app/resources/achievementpopup.fxml");
