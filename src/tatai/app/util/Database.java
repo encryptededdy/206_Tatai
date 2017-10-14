@@ -1,9 +1,13 @@
 package tatai.app.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import tatai.app.Main;
 import tatai.app.questions.generators.MathGenerator;
 import tatai.app.util.factories.DialogFactory;
+import tatai.app.util.store.SerializationAdapter;
+import tatai.app.util.store.StoreItem;
+import tatai.app.util.store.StoreManager;
 
 import java.sql.*;
 import java.time.Instant;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 public class Database {
     private static Database instance = null;
     private Connection connection;
+
 
     /**
      * Configures the database state
@@ -197,7 +202,7 @@ public class Database {
     }
 
     public void storeStore() {
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).create();
         String serialized = gson.toJson(Main.store);
         PreparedStatement ps = getPreparedStatement("INSERT OR REPLACE INTO tataistore (username, json) VALUES (?, ?)");
         try {
@@ -209,6 +214,19 @@ public class Database {
             DialogFactory.exception("Internal Database error.", "Database Error", e);
         }
         System.out.println("Stored as JSON: "+serialized);
+    }
+
+    public StoreManager getStore() {
+        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).create();
+        ResultSet rs = returnOp("SELECT json FROM tataistore WHERE username = '"+Main.currentUser+"'");
+        try {
+            if (rs.next()) { // If there is a store
+                return gson.fromJson(rs.getString(1), StoreManager.class);
+            }
+        } catch ( Exception e ) {
+            DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
+        }
+        return null;
     }
 
     /**

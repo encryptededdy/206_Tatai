@@ -451,6 +451,7 @@ public class QuestionController {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.CHAIN));
             } else if (_currentRound.getStreak() == 5) {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.TROPHY, "+100"));
+                Main.store.credit(100); // PLACEHOLDER ONLY: Actually implement achievements soon!
             }
         } else {
             answerIncorrect();

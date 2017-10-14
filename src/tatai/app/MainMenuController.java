@@ -134,6 +134,7 @@ public class MainMenuController {
      * Logs out the current users when logout is pressed
      */
     @FXML private void logoutBtnPressed() throws IOException {
+        Main.database.storeStore(); // save store info
         Main.database.stopSession();
         Main.currentUser = null;
         Main.currentSession = 0;

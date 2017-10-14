@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Manages the value store in the
  */
 public class StoreManager {
-    private int balance = 1000;
+    private int balance = 0;
 
     private ArrayList<StoreItem> items = new ArrayList<>();
 

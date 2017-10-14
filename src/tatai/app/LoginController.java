@@ -87,7 +87,11 @@ public class LoginController {
         Main.currentSession = database.startSession(); // start the session
         Main.populateGenerators(); // populate questiongenerators
         Main.netConnection = new NetConnection(); // open a TataiNet session
-        Main.store = new StoreManager();
+        if (database.getStore() == null) { // Get the stored store
+            Main.store = new StoreManager();
+        } else {
+            Main.store = database.getStore();
+        }
         Scene scene = loginBtn.getScene();
         FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();
