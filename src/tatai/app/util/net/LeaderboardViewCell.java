@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Pane;
+import tatai.app.util.Layout;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -51,7 +52,7 @@ public class LeaderboardViewCell extends ListCell<LeaderboardEntry>{
     }
 
     private void loadFXML() {
-        loader = new FXMLLoader(getClass().getResource("../../resources/leaderboardcell.fxml"));
+        loader = Layout.LEADERBOARDCELL.loader();
         loader.setController(this);
         try {
             loader.load();

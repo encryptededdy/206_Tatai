@@ -156,13 +156,13 @@ public class SettingsController {
     @FXML private void unlockAllBtnHoverOn() {
         unlockAllBtn.setText("Clear Data");
         unlockAllBtn.setStyle("-fx-background-color: #F44336;");
-        clearDataButton.setText("Unlock All");
+        clearDataButton.setText("Enable Cheats");
         clearDataButton.setStyle("-fx-background-color: #3F51B5;");
     }
     @FXML private void unlockAllBtnHoverOff() {
         clearDataButton.setText("Clear Data");
         clearDataButton.setStyle("-fx-background-color: #F44336;");
-        unlockAllBtn.setText("Unlock All");
+        unlockAllBtn.setText("Enable Cheats");
         unlockAllBtn.setStyle("-fx-background-color: #3F51B5;");
     }
 

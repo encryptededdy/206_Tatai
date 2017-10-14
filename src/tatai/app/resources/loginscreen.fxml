@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -28,12 +27,7 @@
             </ImageView>
             <Pane fx:id="loginPane" layoutX="1.0" layoutY="195.0" prefHeight="300.0" prefWidth="400.0">
                <children>
-                  <JFXComboBox fx:id="usernameSelector" layoutX="77.0" layoutY="39.0" prefHeight="35.0" prefWidth="247.0" style="-fx-background-color: #FFFFFF;" visibleRowCount="4">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </JFXComboBox>
-                  <Label layoutX="77.0" layoutY="14.0" text="Select User" textFill="WHITE">
+                  <Label layoutX="62.0" layoutY="-11.0" text="Select User" textFill="WHITE">
                      <font>
                         <Font name="Roboto" size="14.0" />
                      </font>
@@ -48,36 +42,7 @@
                         <Font name="Roboto Bold" size="18.0" />
                      </font>
                   </JFXButton>
-                  <Label fx:id="playtimeLabel" layoutX="83.0" layoutY="89.0" text="Playtime (mins)" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="205.0" layoutY="89.0" text="Questions Answered" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="playtimeCounter" alignment="CENTER" layoutX="87.0" layoutY="108.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto" size="36.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="questionsCounter" alignment="CENTER" layoutX="225.0" layoutY="108.0" prefHeight="44.0" prefWidth="89.0" text="00" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto" size="36.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="168.0" layoutY="166.0" text="Last Login" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto" size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lastLog" alignment="CENTER" layoutX="42.0" layoutY="190.0" prefHeight="35.0" prefWidth="317.0" text="0000 Hours Ago" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto" size="24.0" />
-                     </font>
-                  </Label>
+                  <JFXListView fx:id="userList" layoutX="62.0" layoutY="14.0" prefHeight="217.0" prefWidth="277.0" stylesheets="@listviews.css" />
                   <Pane fx:id="newUserModalStart" layoutX="215.0" layoutY="244.0" prefHeight="42.0" prefWidth="110.0" style="-fx-background-color: #424242;" visible="false" />
                   <Pane fx:id="newUserModal" layoutX="35.0" layoutY="3.0" prefHeight="283.0" prefWidth="330.0" style="-fx-background-color: #424242;" visible="false">
                      <children>

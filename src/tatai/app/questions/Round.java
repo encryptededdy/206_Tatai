@@ -14,14 +14,16 @@ import java.util.ArrayList;
  *  @author Edward
  */
 public class Round {
-    private ArrayList<Question> _questions = new ArrayList<>();
-    private int _currentQuestion = -1;
-    private int _roundID;
-    private long _startTime;
-    private QuestionGenerator _roundQuestionGenerator;
+    private ArrayList<Question> questions = new ArrayList<>();
+    private int currentQuestion = -1;
+    private int roundID;
+    private long startTime;
+    private QuestionGenerator roundQuestionGenerator;
     private int _numQuestions;
-    private Integer _score;
+    private Integer score;
     private boolean isCustom;
+
+    private int currentStreak = 0;
 
     /**
      * Constructs a Round
@@ -29,34 +31,27 @@ public class Round {
      * @param numQuestions Number of questions in the round
      */
     public Round(QuestionGenerator generator, int numQuestions) {
-        _roundQuestionGenerator = generator;
+        roundQuestionGenerator = generator;
 
         // Check if this is a custom round
         isCustom = generator.isCustom();
 
         System.out.println("Starting round: "+Main.database.getNextID("roundID", "rounds"));
-        _roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
+        roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
 
         // Write the initial entry in the database for this round
-        String query = "INSERT INTO rounds (roundid, username, date, questionSet, noquestions, nocorrect, isComplete, sessionID) VALUES ("+_roundID+", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+generator.getGeneratorName()+"', "+numQuestions+", 0, 0, "+Main.currentSession+")";
+        String query = "INSERT INTO rounds (roundid, username, date, questionSet, noquestions, nocorrect, isComplete, sessionID) VALUES ("+ roundID +", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+generator.getGeneratorName()+"', "+numQuestions+", 0, 0, "+Main.currentSession+")";
         Main.database.insertOp(query);
 
         // Generates the questions
         for (int i = 0; i < numQuestions; i++) {
-            _questions.add(new Question(generator, _roundID));
+            questions.add(new Question(generator, roundID));
         }
 
         _numQuestions = numQuestions;
 
-        // DEBUG
-        /*
-        for (Question question : _questions) {
-            System.out.println(question.toString() + " Answer: " + question.getAnswer());
-        }
-        */
-
         // Start the clock
-        _startTime = Instant.now().getEpochSecond();
+        startTime = Instant.now().getEpochSecond();
     }
 
     /**
@@ -64,7 +59,7 @@ public class Round {
      * @return boolean representing if there are any questions left
      */
     public boolean hasNext() {
-        return _questions.size() > _currentQuestion + 1;
+        return questions.size() > currentQuestion + 1;
     }
 
     /**
@@ -72,13 +67,13 @@ public class Round {
      */
     public void finish() {
         // Round is complete. Write data.
-        Main.database.insertOp("UPDATE rounds SET isComplete = 1 WHERE roundid = "+_roundID);
-        Main.database.insertOp("UPDATE rounds SET roundlength = "+(Instant.now().getEpochSecond() - _startTime)+" WHERE roundid = "+_roundID);
-        Main.database.insertOp("UPDATE rounds SET score = "+getScore()+" WHERE roundid = "+_roundID);
+        Main.database.insertOp("UPDATE rounds SET isComplete = 1 WHERE roundid = "+ roundID);
+        Main.database.insertOp("UPDATE rounds SET roundlength = "+(Instant.now().getEpochSecond() - startTime)+" WHERE roundid = "+ roundID);
+        Main.database.insertOp("UPDATE rounds SET score = "+getScore()+" WHERE roundid = "+ roundID);
         System.out.println("Calculated score: "+getScore());
 
         // Upload the score
-        if (!isCustom) Main.netConnection.uploadScore(_roundQuestionGenerator.getGeneratorName(), getScore());
+        if (!isCustom) Main.netConnection.uploadScore(roundQuestionGenerator.getGeneratorName(), getScore());
     }
 
     /**
@@ -87,8 +82,23 @@ public class Round {
      * @param answer The answer to be checked
      */
     public boolean checkAnswer(String answer) {
-        // Records statistics
-        return currentQuestion().checkAnswer(answer);
+        // If the answer was right...
+        if (currentQuestion().checkAnswer(answer)) {
+            currentStreak++; // Increase the streak
+            return true;
+        } else {
+            currentStreak = 0; // Reset the streak
+            return false;
+        }
+
+    }
+
+    /**
+     * Gets the length of the current correct questions streak.
+     * @return The length
+     */
+    public int getStreak() {
+        return currentStreak;
     }
 
     /**
@@ -106,7 +116,7 @@ public class Round {
      */
     public String next() {
         if (hasNext()) {
-            _currentQuestion++;
+            currentQuestion++;
             currentQuestion().startClock(); // start the clock!
             return currentQuestion().toString();
         } else {
@@ -114,26 +124,30 @@ public class Round {
         }
     }
 
+    /**
+     * Calculates the score for this round using the scoring algorithm
+     * @return The score for this round
+     */
     public int getScore() {
         // If score is uncalculated, then calculate score.
-        if (_score == null) {
+        if (score == null) {
             // Scoring algorithm: accuracy(%) * (20 - avgQuestionLength) * ((noQuestions + 90)/100)
-            ResultSet correctRS = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE correct = 1 AND roundID = "+_roundID);
-            ResultSet qLengthRS = Main.database.returnOp("SELECT AVG(timeToAnswer) FROM questions WHERE roundID = "+_roundID);
+            ResultSet correctRS = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE correct = 1 AND roundID = "+ roundID);
+            ResultSet qLengthRS = Main.database.returnOp("SELECT AVG(timeToAnswer) FROM questions WHERE roundID = "+ roundID);
             try {
                 correctRS.next();
                 qLengthRS.next();
                 double accuracy = (correctRS.getDouble(1)/_numQuestions)*100; // accuracy in %
                 double lengthScore = Math.max(20 - qLengthRS.getDouble(1), 1); // 20 - avg time or 1
                 // Calculate the score
-                _score = (int)(accuracy * lengthScore * ((_numQuestions + 90)/100));
+                score = (int)(accuracy * lengthScore * ((_numQuestions + 90)/100));
             } catch (SQLException e) {
                 e.printStackTrace();
                 return 0;
             }
-            return _score;
+            return score;
         } else {
-            return _score;
+            return score;
         }
 
     }
@@ -151,7 +165,7 @@ public class Round {
      * @return The number of the current question
      */
     public int questionNumber() {
-        return _currentQuestion+1;
+        return currentQuestion +1;
     }
 
     /**
@@ -159,7 +173,7 @@ public class Round {
      * @return The current question object
      */
     private Question currentQuestion() {
-        return _questions.get(_currentQuestion);
+        return questions.get(currentQuestion);
     }
 
     /**
@@ -167,7 +181,7 @@ public class Round {
      * @return The current round ID
      */
     public int getRoundID() {
-        return _roundID;
+        return roundID;
     }
 
     /**
@@ -175,6 +189,6 @@ public class Round {
      * @return The generator name
      */
     public String getGeneratorName() {
-        return _roundQuestionGenerator.getGeneratorName();
+        return roundQuestionGenerator.getGeneratorName();
     }
 }
