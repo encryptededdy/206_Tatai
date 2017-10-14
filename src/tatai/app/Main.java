@@ -11,6 +11,7 @@ import tatai.app.util.Database;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.net.NetConnection;
+import tatai.app.util.store.StoreManager;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -27,13 +28,14 @@ public class Main extends Application {
     public static Database database;
     public static String currentUser;
     public static int currentSession;
-    static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb1.jpg"));
+    public static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb1.jpg"));
     public static NetConnection netConnection;
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     public static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
     public static Font currentFont;
+    public static StoreManager store;
 
     static { // Static initializer
         // Load fonts

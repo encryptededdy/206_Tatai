@@ -176,6 +176,10 @@ public class MainMenuController {
         switchToToolbar(Layout.CUSTOMGENERATOR);
     }
 
+    @FXML private void storeBtnPressed() throws IOException {
+        switchToToolbar(Layout.STORE);
+    }
+
     /**
      * Animate to a ToolbarController screen
      * @param target The layout to switch to
