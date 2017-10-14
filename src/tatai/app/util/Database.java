@@ -196,6 +196,21 @@ public class Database {
         }
     }
 
+    public void storeStore() {
+        Gson gson = new Gson();
+        String serialized = gson.toJson(Main.store);
+        PreparedStatement ps = getPreparedStatement("INSERT OR REPLACE INTO tataistore (username, json) VALUES (?, ?)");
+        try {
+            ps.setString(1, Main.currentUser);
+            ps.setString(2, serialized);
+            ps.execute();
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+            DialogFactory.exception("Internal Database error.", "Database Error", e);
+        }
+        System.out.println("Stored as JSON: "+serialized);
+    }
+
     /**
      * Creates the tables for the database structure, if they don't already exist.
      */
@@ -245,6 +260,10 @@ public class Database {
                 " setName       TEXT    NOT NULL, " +
                 " json          TEXT    NOT NULL, " +
                 " fromNet     INTEGER)");
+        // Create the tataistore table
+        queries.add("CREATE TABLE IF NOT EXISTS tataistore " +
+                "(username TEXT PRIMARY KEY     NOT NULL," +
+                " json          TEXT     NOT NULL)");
         // Add the default user if it doesn't exist
         queries.add("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('default', "+Instant.now().getEpochSecond()+")");
         try {

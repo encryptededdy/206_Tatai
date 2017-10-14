@@ -65,6 +65,7 @@ public class Main extends Application {
     }
 
     static void onClose() {
+        database.storeStore();
         database.stopSession();
         database.close();
         System.out.println("Application closing!");
