@@ -9,14 +9,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 /**
  * Controls the dashboard statistics screen
@@ -132,8 +130,7 @@ public class DashboardController extends ToolbarController {
      */
     private void populateQuestionSetBar() {
         int max = 100;
-        for (Map.Entry<String, QuestionGenerator> entry : Main.questionGenerators.entrySet()) {
-            String generator = entry.getKey();
+        for (String generator : Main.store.generators.getGeneratorsString()) {
             ResultSet total = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE username = '"+Main.currentUser+"' AND questionSet = '"+generator+"'");
             try {
                 total.next();

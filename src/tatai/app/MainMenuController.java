@@ -39,8 +39,8 @@ public class MainMenuController {
     public void initialize() {
         backgroundImage.setImage(Main.background);
 
-        questionDropDown.getItems().addAll(Main.questionGenerators.keySet());
-        questionDropDown.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
+        questionDropDown.getItems().addAll(Main.store.generators.getGeneratorsString());
+        questionDropDown.setValue(Main.store.generators.getGeneratorsString().iterator().next()); // Automatically selects the first object.
 
         // Setup the quote animation and text
         DevQuotes.generateQuote(devQuote);
@@ -79,7 +79,7 @@ public class MainMenuController {
         Scene scene = playBtn.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(questionDropDown.getValue()); // pass through the selected question set
+        loader.<QuestionController>getController().setQuestionSet(Main.store.generators.getGeneratorFromName(questionDropDown.getValue())); // pass through the selected question set
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
         // Shrink anim

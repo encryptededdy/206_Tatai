@@ -20,7 +20,6 @@ import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.factories.DialogFactory;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 /**
@@ -87,7 +86,7 @@ public class CustomGeneratorController extends ToolbarController {
      * Populates the ListView of Question Sets
      */
     private void populateQuestionSets() {
-        qSetList.setItems(FXCollections.observableArrayList(Main.questionGenerators.keySet()));
+        qSetList.setItems(FXCollections.observableArrayList(Main.store.generators.getGeneratorsString()));
     }
 
     private void hideWorkshop() {
@@ -120,26 +119,14 @@ public class CustomGeneratorController extends ToolbarController {
     }
 
     private void processDelete() {
-        String selected = qSetList.getSelectionModel().getSelectedItem();
-        Main.questionGenerators.remove(selected);
-        PreparedStatement ps = Main.database.getPreparedStatement("DELETE FROM savedSets WHERE username = ? AND setName = ?");
-        try {
-            ps.setString(1, Main.currentUser);
-            ps.setString(2, selected);
-            ps.executeUpdate();
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            DialogFactory.exception("Internal Database error.", "Database Error", e);
-        }
-        populateQuestionSets();
+        int selected = qSetList.getSelectionModel().getSelectedIndex();
+        Main.store.generators.remove(selected);
     }
 
     /**
      * Saves a new Question Set
      */
     @FXML void saveSetBtnPressed() {
-        Gson gson = new Gson();
-        // Gson gson = new GsonBuilder().setPrettyPrinting().create();
         MathGenerator generator = new MathGenerator(
                 Integer.parseInt(highBoundField.getText()),
                 Integer.parseInt(operandMaxField.getText()),
@@ -148,27 +135,12 @@ public class CustomGeneratorController extends ToolbarController {
                 times1Checkbox.isSelected(),
                 maoriCheckbox.isSelected(),
                 true);
-        String generatorJSON = gson.toJson(generator);
-        Main.questionGenerators.put(roundNameField.getText(), generator);
+        Main.store.generators.add(generator);
         populateQuestionSets();
         // Added, now we clear the fields
         highBoundField.setText("");
         operandMaxField.setText("");
         roundNameField.setText("");
-        System.out.println("JSON Output;");
-        System.out.println(generatorJSON);
-        // Save it in the database
-        PreparedStatement ps = Main.database.getPreparedStatement("INSERT INTO savedSets (username, json, setName, fromNet) VALUES (?, ?, ?, ?)");
-        try {
-            ps.setString(1, Main.currentUser);
-            ps.setString(2, generatorJSON);
-            ps.setString(3, generator.getGeneratorName());
-            ps.setBoolean(4, false);
-            ps.executeUpdate();
-        } catch ( Exception e ) {
-                e.printStackTrace();
-                DialogFactory.exception("Internal Database error.", "Database Error", e);
-        }
     }
 
     /**
@@ -193,7 +165,7 @@ public class CustomGeneratorController extends ToolbarController {
             if (workshopGeneratorsName.contains(selected)) {
                 shareBtn.setText("Already Uploaded");
             } else {
-                String generatorJSON = gson.toJson(Main.questionGenerators.get(selected));
+                String generatorJSON = gson.toJson(Main.store.generators.get(qSetList.getSelectionModel().getSelectedIndex()));
                 EventHandler<WorkerStateEvent> onSuccess = event -> shareBtn.setText("Uploaded");
                 EventHandler<WorkerStateEvent> onFail = event -> shareBtn.setText("Error");
                 Main.netConnection.uploadJSON(generatorJSON, "ezTatai_gen_1", onSuccess, onFail);
@@ -234,7 +206,7 @@ public class CustomGeneratorController extends ToolbarController {
         if (item == null) {
             return true;
         }
-        if (Main.questionGenerators.containsKey(item)) {
+        if (Main.store.generators.getGeneratorsString().contains(item)) {
             downloadBtn.setText("Already Downloaded");
             return true;
         } else {
@@ -250,19 +222,7 @@ public class CustomGeneratorController extends ToolbarController {
         MathGenerator gen = workshopGenerators.get(downloadSetList.getSelectionModel().getSelectedIndex());
         Gson gson = new Gson();
         String generatorJSON = gson.toJson(gen);
-        Main.questionGenerators.put(gen.getGeneratorName(), gen);
-        // Save it in the database
-        PreparedStatement ps = Main.database.getPreparedStatement("INSERT INTO savedSets (username, json, setName, fromNet) VALUES (?, ?, ?, ?)");
-        try {
-            ps.setString(1, Main.currentUser);
-            ps.setString(2, generatorJSON);
-            ps.setString(3, gen.getGeneratorName());
-            ps.setBoolean(4, true);
-            ps.executeUpdate();
-        } catch ( Exception e ) {
-            e.printStackTrace();
-            DialogFactory.exception("Internal Database error.", "Database Error", e);
-        }
+        Main.store.generators.add(gen);
         populateQuestionSets();
         hideWorkshop();
     }
@@ -273,9 +233,9 @@ public class CustomGeneratorController extends ToolbarController {
      */
     private boolean checkisCustom() {
         shareBtn.setText("Upload to Workshop");
-        if (qSetList.getSelectionModel().getSelectedItem() != null) {
-            String selected = qSetList.getSelectionModel().getSelectedItem();
-            QuestionGenerator selectedGenerator = Main.questionGenerators.get(selected);
+        if (qSetList.getSelectionModel().getSelectedIndex() != -1) {
+            int index = qSetList.getSelectionModel().getSelectedIndex();
+            QuestionGenerator selectedGenerator = Main.store.generators.get(index);
             return selectedGenerator.isCustom();
         } else {
             return false;
@@ -350,7 +310,7 @@ public class CustomGeneratorController extends ToolbarController {
         } else if (name.length() > 20) {
             nameLabel.setText("Name too long");
             return true;
-        } else if (Main.questionGenerators.containsKey(name)) {
+        } else if (Main.store.generators.getGeneratorsString().contains(name)) {
             nameLabel.setText("Already exists");
             return true;
         } else {

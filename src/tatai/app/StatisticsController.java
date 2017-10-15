@@ -47,8 +47,8 @@ public class StatisticsController {
         unfinishedRounds.disableProperty().bind(roundsToggle.selectedProperty().not());
 
         // Populate question set picker
-        questionSetCombo.getItems().addAll(Main.questionGenerators.keySet());
-        questionSetCombo.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
+        questionSetCombo.getItems().addAll(Main.store.generators.getGeneratorsString());
+        questionSetCombo.setValue(Main.store.generators.getGeneratorsString().iterator().next()); // Automatically selects the first object.
 
         // Add listeners to update the table when selections change
         showType.selectedToggleProperty().addListener((observable, oldValue, newValue) -> updateTable());

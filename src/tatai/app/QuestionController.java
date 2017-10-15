@@ -164,13 +164,11 @@ public class QuestionController {
      * Defines the QuestionSet to be used by this question instance
      * @param questionSet The QuestionSet to use
      */
-    void setQuestionSet(String questionSet) {
-        setNameLabel.setText(questionSet);
-        QuestionGenerator generator;
-        generator = Main.questionGenerators.get(questionSet);
+    void setQuestionSet(QuestionGenerator questionSet) {
+        setNameLabel.setText(questionSet.getGeneratorName());
         noQuestions = 10; // don't hardcode this
         questionNumberTotalLabel.setText("/"+noQuestions);
-        _currentRound = new Round(generator, noQuestions); // TODO: numQuestions shouldn't be hardcoded
+        _currentRound = new Round(questionSet, noQuestions); // TODO: numQuestions shouldn't be hardcoded
         generateQuestion();
     }
 

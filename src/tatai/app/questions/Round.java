@@ -185,10 +185,10 @@ public class Round {
     }
 
     /**
-     * Get the name of the generator used for this round (eg. "Tens Questions"
-     * @return The generator name
+     * Get the the generator used for this round
+     * @return The generator
      */
-    public String getGeneratorName() {
-        return roundQuestionGenerator.getGeneratorName();
+    public QuestionGenerator getGenerator() {
+        return roundQuestionGenerator;
     }
 }

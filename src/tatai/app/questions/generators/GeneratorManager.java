@@ -16,18 +16,80 @@ public class GeneratorManager {
         generators.add(new MathGenerator(20, 12, MathOperator.DIVIDE, "Division", false, false, false,750));
     }
 
+    /**
+     * Gets the array of QuestionGenerators avaliable
+     * @return ArrayList of QuestionGenerator
+     */
     public ArrayList<QuestionGenerator> getGenerators() {
         return generators;
     }
 
+    /**
+     * Gets an array of QuestionGenerators avaliable as a string
+     * @return ArrayList of String
+     */
+    public ArrayList<String> getGeneratorsString() {
+        ArrayList<String> out = new ArrayList<>();
+        for (QuestionGenerator qg : generators) {
+            out.add(qg.getGeneratorName());
+        }
+        return out;
+    }
+
+    /**
+     * Get a QuestionGenerator by name
+     * @param name String: the name of the generator
+     * @return The QuestionGenerator object
+     */
+    public QuestionGenerator getGeneratorFromName(String name) {
+        int index = getGeneratorsString().indexOf(name);
+        return generators.get(index);
+    }
+
+    /**
+     * Gets the next, non-locked, non-custom generator avaliable
+     * @param currentGen The current generator (object)
+     * @return The next generator, or null if no such generator exists
+     */
+    public QuestionGenerator getNextGenerator(QuestionGenerator currentGen) {
+        boolean foundCurrent = false;
+        for (QuestionGenerator qg : generators) {
+            if (foundCurrent && qg.isUnlocked() && !qg.isCustom()) {
+                return qg;
+            }
+            if (qg.getGeneratorName().equals(currentGen.getGeneratorName())) foundCurrent = true;
+        }
+        return null;
+    }
+
+    /**
+     * Add a QuestionGenerator
+     * @param qg The QuestionGenerator object to add
+     */
     public void add(QuestionGenerator qg) {
         generators.add(qg);
     }
 
+    /**
+     * Deletes a QuestionGenerator
+     * @param qg The QuestionGenerator object to remove
+     */
     public void remove(QuestionGenerator qg) {
         generators.remove(qg);
     }
 
+    /**
+     * Deletes a QuestionGenerator
+     * @param index The index of the QuestionGenerator to remove
+     */
+    public void remove(int index) {
+        generators.remove(index);
+    }
+
+    /**
+     * Gets a QuestionGenerator
+     * @param index The index of the QuestionGenerator object to get
+     */
     public QuestionGenerator get(int index) {
         return generators.get(index);
     }

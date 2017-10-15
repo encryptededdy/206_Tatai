@@ -6,7 +6,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import tatai.app.questions.generators.*;
 import tatai.app.util.Database;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.DialogFactory;
@@ -14,7 +13,6 @@ import tatai.app.util.net.NetConnection;
 import tatai.app.util.store.StoreManager;
 
 import java.io.File;
-import java.util.LinkedHashMap;
 
 /**
  * Entry point to the application. Loads resources (fonts, fxml) into fields
@@ -33,7 +31,6 @@ public class Main extends Application {
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
-    public static LinkedHashMap<String, QuestionGenerator> questionGenerators = new LinkedHashMap<>(); // Questions.Generators to be used
     public static Font currentFont;
     public static StoreManager store;
 
@@ -94,25 +91,5 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-    }
-
-    /**
-     * Placeholder method to define the avaliable question generators
-     */
-    public static void populateGenerators() {
-        // Clear existing ones
-        questionGenerators.clear();
-        // Hardcoded, built in ones
-        questionGenerators.put("Numbers", new NumberGenerator());
-        questionGenerators.put("Tens Numbers", new NumberGenerator99());
-        questionGenerators.put("Easy Addition", new MathGenerator(9, 8, MathOperator.ADD, "Easy Addition"));
-        questionGenerators.put("Addition", new MathGenerator(99, 99, MathOperator.ADD, "Addition"));
-        questionGenerators.put("Subtraction", new MathGenerator(99, 99, MathOperator.SUBTRACT, "Subtraction"));
-        questionGenerators.put("Times Tables", new MathGenerator(99, 12, MathOperator.MULTIPLY, "Times Tables", true));
-        questionGenerators.put("Multiplication", new MathGenerator(99, 24, MathOperator.MULTIPLY, "Advanced Multiplication", false));
-        questionGenerators.put("Division", new MathGenerator(20, 12, MathOperator.DIVIDE, "Division"));
-        questionGenerators.put("Division (Maori)", new MathGenerator(20, 12, MathOperator.DIVIDE, "Division", false, true));
-        // Custom ones
-        database.populateGenerators();
     }
 }

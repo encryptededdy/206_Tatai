@@ -38,9 +38,9 @@ public class LevelPaneController {
     }
 
     public void setQuestionGenerators(String generatorName) {
-        _normalNumberGenerator = Main.questionGenerators.get(generatorName);
+        /**_normalNumberGenerator = Main.questionGenerators.get(generatorName);
         System.out.println(Main.questionGenerators.get(generatorName).isCustom());
-        _maoriNumberGenerator = Main.questionGenerators.get(generatorName + " (Maori)");
+        _maoriNumberGenerator = Main.questionGenerators.get(generatorName + " (Maori)");**/
 
         levelNameLabel.setText(generatorName);
     }
@@ -49,7 +49,7 @@ public class LevelPaneController {
         Scene scene = playMaoriBtn.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(_normalNumberGenerator.getGeneratorName());
+       // loader.<QuestionController>getController().setQuestionSet(_normalNumberGenerator.getGeneratorName());
 
         FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent);
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
@@ -60,7 +60,7 @@ public class LevelPaneController {
         Scene scene = playMaoriBtn.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(_maoriNumberGenerator.getGeneratorName());
+        //loader.<QuestionController>getController().setQuestionSet(_maoriNumberGenerator.getGeneratorName());
 
         FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent);
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
