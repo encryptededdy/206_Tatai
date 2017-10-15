@@ -76,9 +76,7 @@ public class MainMenuController {
         FXMLLoader loader = Layout.LEVEL.loader();
         Parent root = loader.load();
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
-        TranslateTransition tt = TransitionFactory.move(mainPane, -600, 0, (int)(Main.transitionDuration*1.5));
-        ft.setOnFinished(event -> tt.play());
-        tt.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
+        ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
         ft.play();
     }
 

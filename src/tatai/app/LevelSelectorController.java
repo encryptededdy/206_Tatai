@@ -1,10 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -26,7 +23,7 @@ public class LevelSelectorController {
     @FXML GridPane levelsGridPane1;
     @FXML GridPane levelsGridPane2;
     @FXML AnchorPane customLevelPane;
-    @FXML Pane mainPane;
+    @FXML Pane mainPane, animInPane;
     @FXML JFXButton prevBtn;
     @FXML JFXButton nextBtn;
 
@@ -35,7 +32,8 @@ public class LevelSelectorController {
 
     public void initialize() {
         backgroundImage.setImage(Main.background);
-        mainPane.setOpacity(0.0);
+        mainPane.setOpacity(0);
+        mainPane.setCache(true);
         paneState = 0;
         prevPaneState = 0;
         recreatePanes();
@@ -50,7 +48,6 @@ public class LevelSelectorController {
             createLevelPane(Main.store.generators.get(1), levelsGridPane1, 1, 0);
             createLevelPane(Main.store.generators.get(2), levelsGridPane1, 0, 1);
             createLevelPane(Main.store.generators.get(3), levelsGridPane1, 1, 1);
-
             createLevelPane(Main.store.generators.get(4), levelsGridPane2, 0, 0);
             createLevelPane(Main.store.generators.get(5), levelsGridPane2, 1, 0);
             createLevelPane(Main.store.generators.get(6), levelsGridPane2, 0, 1);
@@ -63,7 +60,14 @@ public class LevelSelectorController {
     }
 
     public void fadeIn() {
-        TransitionFactory.fadeIn(mainPane).play();
+        Transition mt = TransitionFactory.move(animInPane, 0, -446, Main.transitionDuration*2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
+        st.setToX(2);
+        ParallelTransition pt = new ParallelTransition(mt, st);
+        Transition ft = TransitionFactory.fadeIn(mainPane);
+        pt.setOnFinished(event -> ft.play());
+        ft.setOnFinished(event -> animInPane.setVisible(false));
+        pt.play();
     }
 
     public void prevBtnClicked() throws IOException {

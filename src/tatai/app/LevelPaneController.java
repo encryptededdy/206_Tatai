@@ -53,9 +53,9 @@ public class LevelPaneController {
             lockOverlay.setVisible(false);
             innerData.setEffect(null);
         } else {
-            unlockBtn.setText("Unlock for ฿"+generator.getCost());
+            unlockBtn.setText("Unlock for $"+generator.getCost());
             if (Main.store.getBalance() < generator.getCost()) {
-                unlockBtn.setText("Need ฿"+(generator.getCost()-Main.store.getBalance())+" more");
+                unlockBtn.setText("Need $"+(generator.getCost()-Main.store.getBalance())+" more");
                 unlockBtn.setDisable(true);
             }
         }
