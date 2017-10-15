@@ -7,20 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="650.0" style="-fx-background-color: #3F51B5; -fx-background-radius: 4px;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CustomLevelPaneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="650.0" style="-fx-background-color: #3F51B5; -fx-background-radius: 4px;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CustomLevelPaneController">
    <children>
-      <AnchorPane prefHeight="71.0" prefWidth="650.0" style="-fx-background-color: #303E9F#303E9F#303E9F; -fx-background-radius: 4px 4px 0px 0px;">
+      <AnchorPane prefHeight="55.0" prefWidth="650.0" style="-fx-background-color: #303E9F#303E9F#303E9F; -fx-background-radius: 4px 4px 0px 0px;">
          <children>
-            <Label alignment="CENTER" prefHeight="71.0" prefWidth="650.0" text="Custom Levels" textFill="WHITE">
+            <Label alignment="CENTER" prefHeight="57.0" prefWidth="650.0" text="Custom Levels" textFill="WHITE">
                <font>
-                  <Font name="Roboto Medium" size="45.0" />
+                  <Font name="Roboto Medium" size="30.0" />
                </font>
             </Label>
          </children>
       </AnchorPane>
-      <JFXListView fx:id="customLevelsListView" layoutX="10.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="339.0" prefWidth="310.0" stylesheets="@listviews.css" />
-      <JFXButton fx:id="lvlWorkshopBtn" layoutX="375.0" layoutY="125.0" maxWidth="-Infinity" minWidth="-Infinity" onAction="#lvlWorkshopBtnPressed" prefWidth="220.0" style="-fx-background-color: #5C6BC0;" text="Level Workshop" textFill="WHITE">
+      <JFXListView fx:id="customLevelsListView" layoutX="10.0" layoutY="68.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="352.0" prefWidth="310.0" stylesheets="@listviews.css" />
+      <JFXButton fx:id="lvlWorkshopBtn" layoutX="375.0" layoutY="83.0" maxWidth="-Infinity" minWidth="-Infinity" onAction="#lvlWorkshopBtnPressed" prefWidth="220.0" style="-fx-background-color: #5C6BC0;" text="Level Editor" textFill="WHITE">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="COG" size="24" />
          </graphic>
@@ -28,7 +27,7 @@
             <Font size="20.0" />
          </font>
       </JFXButton>
-      <JFXButton fx:id="playBtn" layoutX="375.0" layoutY="342.0" onAction="#playBtnPressed" prefWidth="220.0" style="-fx-background-color: #5C6BC0;" text="Play" textFill="WHITE">
+      <JFXButton fx:id="playBtn" layoutX="375.0" layoutY="359.0" onAction="#playBtnPressed" prefWidth="220.0" style="-fx-background-color: #5C6BC0;" text="Play" textFill="WHITE">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLAY" size="24" />
          </graphic>
@@ -36,5 +35,10 @@
             <Font size="20.0" />
          </font>
       </JFXButton>
+      <Label layoutX="338.0" layoutY="134.0" prefHeight="67.0" prefWidth="295.0" text="Use the Level Editor to create and manage your own math levels and also download other user-created levels from the Tātai Workshop" textAlignment="CENTER" textFill="#ffffffcd" wrapText="true">
+         <font>
+            <Font name="Roboto" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

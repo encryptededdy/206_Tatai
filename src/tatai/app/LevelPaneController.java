@@ -1,6 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -8,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
@@ -16,40 +16,46 @@ import tatai.app.util.factories.TransitionFactory;
 import java.io.IOException;
 
 public class LevelPaneController {
-    @FXML JFXButton playBtn;
+    @FXML JFXButton playBtn, bigPlayBtn;
     @FXML JFXButton playMaoriBtn;
     @FXML Label captionLabel;
     @FXML Label levelNameLabel;
-    @FXML AnchorPane bronzePane;
-    @FXML AnchorPane silverPane;
-    @FXML AnchorPane goldPane;
+    @FXML FontAwesomeIconView bronze;
+    @FXML FontAwesomeIconView silver;
+    @FXML FontAwesomeIconView gold;
 
     private Node levelSelectorParent;
 
-    private QuestionGenerator _normalNumberGenerator;
-    private QuestionGenerator _maoriNumberGenerator;
+    private QuestionGenerator generator;
 
     public void initialize() {
 
     }
 
-    public void setParentNode(Node parent) {
+    void setParentNode(Node parent) {
         levelSelectorParent = parent;
     }
 
-    public void setQuestionGenerators(String generatorName) {
-        /**_normalNumberGenerator = Main.questionGenerators.get(generatorName);
-        System.out.println(Main.questionGenerators.get(generatorName).isCustom());
-        _maoriNumberGenerator = Main.questionGenerators.get(generatorName + " (Maori)");**/
+    void setQuestionGenerators(QuestionGenerator generator) {
+        this.generator = generator;
+        if (!generator.supportsMaori()) { // If Maori is not supported
+            bigPlayBtn.setVisible(true);
+        }
+        levelNameLabel.setText(generator.getGeneratorName());
+        captionLabel.setText(generator.getDescription());
 
-        levelNameLabel.setText(generatorName);
+        // Disable the trophys until we know what to do with them
+        bronze.setOpacity(0.2);
+        silver.setOpacity(0.2);
+        gold.setOpacity(0.2);
     }
 
     public void playBtnPressed() throws IOException {
         Scene scene = playMaoriBtn.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-       // loader.<QuestionController>getController().setQuestionSet(_normalNumberGenerator.getGeneratorName());
+        generator.setMaori(false);
+        loader.<QuestionController>getController().setQuestionSet(generator);
 
         FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent);
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
@@ -60,7 +66,8 @@ public class LevelPaneController {
         Scene scene = playMaoriBtn.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-        //loader.<QuestionController>getController().setQuestionSet(_maoriNumberGenerator.getGeneratorName());
+        generator.setMaori(true);
+        loader.<QuestionController>getController().setQuestionSet(generator);
 
         FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent);
         ft.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});

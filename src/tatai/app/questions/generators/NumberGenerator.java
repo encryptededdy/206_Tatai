@@ -35,6 +35,8 @@ public class NumberGenerator implements QuestionGenerator {
     // Setting Maori does nothing, as we don't support it
     public void setMaori(boolean maori) {};
 
+    public String getDescription() {return "Random numbers from tahi to iwa";}
+
     public boolean isUnlocked() {return true; }
 
     public boolean unlock() {return false; }

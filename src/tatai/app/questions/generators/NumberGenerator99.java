@@ -35,6 +35,8 @@ public class NumberGenerator99 implements QuestionGenerator {
     // Setting Maori does nothing, as we don't support it
     public void setMaori(boolean maori) {};
 
+    public String getDescription() {return "Random numbers from 1 to 99";}
+
     public boolean isUnlocked() {return true; }
 
     public boolean unlock() {return false; }

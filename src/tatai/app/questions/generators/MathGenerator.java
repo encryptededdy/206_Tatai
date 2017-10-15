@@ -23,6 +23,8 @@ public class MathGenerator implements QuestionGenerator {
     private int cost = 0;
     private boolean purchased = false;
 
+    private String description = "default";
+
     private boolean custom;
 
     private final int generatorMax = 99; // The biggest number that is allowed to appear in an equation
@@ -74,7 +76,7 @@ public class MathGenerator implements QuestionGenerator {
      * @param custom Whether this generator is user-created (custom) or built in (not custom)
      */
     public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori, boolean custom) {
-        this(highBound, operandMax, operator, name, allowMultiplyByOne, inMaori, custom, 0);
+        this(highBound, operandMax, operator, name, allowMultiplyByOne, inMaori, custom, 0, "No Description");
     }
 
     /**
@@ -88,7 +90,7 @@ public class MathGenerator implements QuestionGenerator {
      * @param custom Whether this generator is user-created (custom) or built in (not custom)
      * @param cost The cost of this generator
      */
-    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori, boolean custom, int cost) {
+    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori, boolean custom, int cost, String description) {
         this.highBound = highBound;
         this.operandMax = operandMax;
         this.operator = operator;
@@ -97,6 +99,7 @@ public class MathGenerator implements QuestionGenerator {
         this.inMaori = inMaori;
         this.custom = custom;
         this.cost = cost;
+        this.description = description;
         // A few checks to prevent against bad inputs
         if (operator == MathOperator.SUBTRACT && operandMax < highBound) System.err.println("Warning: Range unreachable");
     }
@@ -206,6 +209,8 @@ public class MathGenerator implements QuestionGenerator {
     };
 
     public boolean isUnlocked() {return purchased; }
+
+    public String getDescription() {return description; }
 
     public boolean unlock() {
         if (!purchased && Main.store.debit(cost)) {

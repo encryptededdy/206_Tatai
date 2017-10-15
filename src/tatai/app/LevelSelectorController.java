@@ -1,21 +1,17 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.transform.Scale;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Layout;
@@ -42,15 +38,15 @@ public class LevelSelectorController {
         prevPaneState = 0;
 
         try {
-            createLevelPane("Numbers", levelsGridPane1, 0, 0);
-            createLevelPane("Tens Numbers", levelsGridPane1, 1, 0);
-            createLevelPane("Easy Addition", levelsGridPane1, 0, 1);
-            createLevelPane("Addition", levelsGridPane1, 1, 1);
+            createLevelPane(Main.store.generators.get(0), levelsGridPane1, 0, 0);
+            createLevelPane(Main.store.generators.get(1), levelsGridPane1, 1, 0);
+            createLevelPane(Main.store.generators.get(2), levelsGridPane1, 0, 1);
+            createLevelPane(Main.store.generators.get(3), levelsGridPane1, 1, 1);
 
-            createLevelPane("Subtraction", levelsGridPane2, 0, 0);
-            createLevelPane("Times Tables", levelsGridPane2, 1, 0);
-            createLevelPane("Multiplication", levelsGridPane2, 0, 1);
-            createLevelPane("Division", levelsGridPane2, 1, 1);
+            createLevelPane(Main.store.generators.get(4), levelsGridPane2, 0, 0);
+            createLevelPane(Main.store.generators.get(5), levelsGridPane2, 1, 0);
+            createLevelPane(Main.store.generators.get(6), levelsGridPane2, 0, 1);
+            createLevelPane(Main.store.generators.get(7), levelsGridPane2, 1, 1);
 
             createCustomLevelPane();
         } catch (IOException iox) {
@@ -78,11 +74,10 @@ public class LevelSelectorController {
         updatePanesLocation();
     }
 
-    private void createLevelPane(String questionGenerator, GridPane gridPane, int x, int y) throws IOException {
+    private void createLevelPane(QuestionGenerator questionGenerator, GridPane gridPane, int x, int y) throws IOException {
         FXMLLoader loader = Layout.LEVELPANE.loader();
         Parent pane = loader.load();
         loader.<LevelPaneController>getController().setQuestionGenerators(questionGenerator);
-        System.out.println(questionGenerator);
         loader.<LevelPaneController>getController().setParentNode(mainPane);
         GridPane.setConstraints(pane, x, y);
         GridPane.setMargin(pane, new Insets(5, 5, 5, 5));

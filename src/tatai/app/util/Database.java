@@ -184,18 +184,22 @@ public class Database {
     }
 
     public void storeStore() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).create();
-        String serialized = gson.toJson(Main.store);
-        PreparedStatement ps = getPreparedStatement("INSERT OR REPLACE INTO tataistore (username, json) VALUES (?, ?)");
-        try {
-            ps.setString(1, Main.currentUser);
-            ps.setString(2, serialized);
-            ps.execute();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-            DialogFactory.exception("Internal Database error.", "Database Error", e);
+        if (Main.currentUser != null) {
+            Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).create();
+            String serialized = gson.toJson(Main.store);
+            PreparedStatement ps = getPreparedStatement("INSERT OR REPLACE INTO tataistore (username, json) VALUES (?, ?)");
+            try {
+                ps.setString(1, Main.currentUser);
+                ps.setString(2, serialized);
+                ps.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                DialogFactory.exception("Internal Database error.", "Database Error", e);
+            }
+            System.out.println("Stored as JSON: " + serialized);
+        } else {
+            System.out.println("No login, didn't store anything.");
         }
-        System.out.println("Stored as JSON: "+serialized);
     }
 
     public StoreManager getStore() {

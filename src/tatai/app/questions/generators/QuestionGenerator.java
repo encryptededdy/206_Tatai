@@ -25,6 +25,12 @@ public interface QuestionGenerator {
     String getGeneratorName();
 
     /**
+     * Gets the description of this generator
+     * @return String description
+     */
+    String getDescription();
+
+    /**
      * Checks whether this generator is user created. If so, high scores cannot be shared
      * @return Whether the generator is custom
      */

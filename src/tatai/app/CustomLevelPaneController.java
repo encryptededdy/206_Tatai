@@ -3,20 +3,17 @@ package tatai.app;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import javafx.animation.FadeTransition;
-import javafx.animation.ScaleTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.util.Duration;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
 public class CustomLevelPaneController {
     @FXML JFXListView<String> customLevelsListView;
@@ -30,10 +27,10 @@ public class CustomLevelPaneController {
     }
 
     private void populateCustomLevelsList() {
-        Set<String> questionGeneratorNames = Main.questionGenerators.keySet();
-        for (String s : questionGeneratorNames) {
-            if (Main.questionGenerators.get(s).isCustom()) {
-                customLevelsListView.getItems().add(s);
+        ArrayList<QuestionGenerator> questionGeneratorNames = Main.store.generators.getGenerators();
+        for (QuestionGenerator gen : questionGeneratorNames) {
+            if (gen.isCustom()) {
+                customLevelsListView.getItems().add(gen.getGeneratorName());
             }
         }
         customLevelsListView.getSelectionModel().selectFirst();
@@ -48,7 +45,7 @@ public class CustomLevelPaneController {
         String customLevelName = customLevelsListView.getSelectionModel().getSelectedItem();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(customLevelName);
+        loader.<QuestionController>getController().setQuestionSet(Main.store.generators.getGeneratorFromName(customLevelName));
 
         Scene scene = playBtn.getScene();
         FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent);
