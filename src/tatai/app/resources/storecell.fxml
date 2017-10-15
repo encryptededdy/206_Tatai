@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="nameLabel" layoutX="85.0" layoutY="7.0" prefHeight="30.0" prefWidth="410.0" text="Bliss Wallpaper w/Logo" textFill="WHITE">
+         <font>
+            <Font name="Roboto Bold" size="18.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView fx:id="icon" fill="WHITE" glyphName="TROPHY" layoutX="19.0" layoutY="52.0" size="42" text="" visible="false" />
+      <Label fx:id="descLabel" layoutX="85.0" layoutY="33.0" prefHeight="60.0" prefWidth="429.0" text="Change your background image to the famous default wallpaper from Microsoft Windows XP. Includes &quot;Windows xD&quot; logo. Faithfully reproduced in Microsoft Paint by Henry Li" textFill="WHITE" wrapText="true">
+         <font>
+            <Font name="Roboto" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="costLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="2.0" layoutY="60.0" prefHeight="30.0" prefWidth="72.0" text="420" textAlignment="CENTER" textFill="WHITE" visible="false">
+         <font>
+            <Font name="Roboto Bold" size="18.0" />
+         </font>
+      </Label>
+      <FontAwesomeIconView fx:id="ownedIcon" fill="#4caf50" glyphName="CHECK" layoutX="19.0" layoutY="67.0" size="50" />
+   </children>
+</Pane>

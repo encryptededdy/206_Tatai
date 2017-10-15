@@ -54,9 +54,7 @@ public class CompleteScreenController {
     @FXML private VBox roundStatsVBox;
     @FXML private ImageView backgroundImage;
 
-    // Hacky variables for next round logic
-    private String _nextGeneratorName;
-    private boolean _nextRoundAvailable;
+    QuestionGenerator nextGenerator;
 
     /**
      * Setup javafx objects to be animated in.
@@ -157,8 +155,7 @@ public class CompleteScreenController {
         Scene scene = replayBtn.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
-        String currentGeneratorName = _mostRecentRound.getGeneratorName();
-        loader.<QuestionController>getController().setQuestionSet(currentGeneratorName);
+        loader.<QuestionController>getController().setQuestionSet(_mostRecentRound.getGenerator());
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
@@ -178,7 +175,7 @@ public class CompleteScreenController {
         Parent root = loader.load();
 
 
-        loader.<QuestionController>getController().setQuestionSet(_nextGeneratorName);
+        loader.<QuestionController>getController().setQuestionSet(nextGenerator);
         // Fade out
         FadeTransition ft = TransitionFactory.fadeOut(mainPane);
         ft.setOnFinished(event1 -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();}); // switch scenes when fade complete
@@ -193,13 +190,11 @@ public class CompleteScreenController {
      */
     void setMostRecentRound(Round round) {
         _mostRecentRound = round;
-        _nextGeneratorName = getNextRoundName(round);
 
-        _nextRoundAvailable = _nextGeneratorName != null;
-
-        if (!_nextRoundAvailable) {
-            System.out.println("Disabling button");
+        if (Main.store.generators.getNextGenerator(round.getGenerator()) == null) {
             nextRoundBtn.setDisable(true);
+        } else {
+            nextGenerator = Main.store.generators.getNextGenerator(round.getGenerator());
         }
         yourScoreLabel.setText("Your Score: " + Integer.toString(_mostRecentRound.getScore()));
         if (_mostRecentRound.getScore() < 200) yourScoreLabel.setVisible(false);
@@ -247,39 +242,4 @@ public class CompleteScreenController {
         }
     }
 
-    /**
-     * Determines the name of the next round if there is one based on the LinkedHashMap of questionGenerators in Main
-     * and the Round object of the most recent round.
-     * @param mostRecentRound The round just prior to the next round to be found
-     * @return The next round
-     */
-    private String getNextRoundName(Round mostRecentRound) {
-        String currentGeneratorName = mostRecentRound.getGeneratorName();
-        boolean isCurrentGenerator = false;
-        for (QuestionGenerator qg : Main.questionGenerators.values()) {
-            if (isCurrentGenerator) {
-                System.out.println("Found next generator: "+qg.getGeneratorName());
-                return qg.getGeneratorName();
-            }
-            if (qg.getGeneratorName().equals(currentGeneratorName)) {
-                isCurrentGenerator = true;
-            }
-        }
-        // Not sure what was happening here... but just use an enhanced forloop
-        /*
-        Iterator it = Main.questionGenerators.entrySet().iterator();
-        boolean isCurrentGenerator = false;
-        while (it.hasNext()) {
-            Map.Entry<String, QuestionGenerator> entry = (Map.Entry)it.next();
-            QuestionGenerator qg = entry.getValue();
-            if (isCurrentGenerator) {
-                System.out.println("Found next generator: "+qg.getGeneratorName());
-                return qg.getGeneratorName();
-            }
-            if (qg.getGeneratorName().equals(currentGeneratorName)) {
-                isCurrentGenerator = true;
-            }
-        }*/
-        return null;
-    }
 }

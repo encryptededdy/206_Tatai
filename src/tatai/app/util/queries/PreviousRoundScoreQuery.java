@@ -1,14 +1,9 @@
 package tatai.app.util.queries;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
@@ -17,7 +12,6 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import tatai.app.Main;
 
 import java.sql.ResultSet;
@@ -41,7 +35,7 @@ public class PreviousRoundScoreQuery extends Query {
      * query.
      */
     public void execute() {
-        XYChart.Series<String, Integer> recentScoresSeries = new XYChart.Series();
+        XYChart.Series<String, Integer> recentScoresSeries = new XYChart.Series<>();
 
         Task<Void> task = new Task<Void>() {
             @Override

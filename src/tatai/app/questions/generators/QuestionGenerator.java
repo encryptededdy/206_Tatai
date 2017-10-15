@@ -29,4 +29,14 @@ public interface QuestionGenerator {
      * @return Whether the generator is custom
      */
     boolean isCustom();
+
+    boolean supportsMaori();
+
+    void setMaori(boolean maori);
+
+    boolean isUnlocked();
+
+    boolean unlock();
+
+    int getCost();
 }

@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.NetConnection;
+import tatai.app.util.store.StoreManager;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -84,8 +85,13 @@ public class LoginController {
     @FXML void loginBtnPressed() throws IOException {
         Main.currentUser = userList.getSelectionModel().getSelectedItem(); // write the username
         Main.currentSession = database.startSession(); // start the session
-        Main.populateGenerators(); // populate questiongenerators
+        //Main.populateGenerators(); // populate questiongenerators
         Main.netConnection = new NetConnection(); // open a TataiNet session
+        if (database.getStore() == null) { // Get the stored store
+            Main.store = new StoreManager();
+        } else {
+            Main.store = database.getStore();
+        }
         Scene scene = loginBtn.getScene();
         FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();

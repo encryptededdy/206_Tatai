@@ -1,9 +1,13 @@
 package tatai.app.util;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import tatai.app.Main;
-import tatai.app.questions.generators.MathGenerator;
+import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.factories.DialogFactory;
+import tatai.app.util.store.SerializationAdapter;
+import tatai.app.util.store.StoreItem;
+import tatai.app.util.store.StoreManager;
 
 import java.sql.*;
 import java.time.Instant;
@@ -18,6 +22,7 @@ import java.util.ArrayList;
 public class Database {
     private static Database instance = null;
     private Connection connection;
+
 
     /**
      * Configures the database state
@@ -178,22 +183,32 @@ public class Database {
         return output;
     }
 
-    /**
-     * Populates the list of questiongenerators with those from the Database
-     */
-    public void populateGenerators() {
-        Gson gson = new Gson();
-        PreparedStatement ps = getPreparedStatement("SELECT json FROM savedSets WHERE username = ?");
+    public void storeStore() {
+        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).create();
+        String serialized = gson.toJson(Main.store);
+        PreparedStatement ps = getPreparedStatement("INSERT OR REPLACE INTO tataistore (username, json) VALUES (?, ?)");
         try {
             ps.setString(1, Main.currentUser);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                MathGenerator generator = gson.fromJson(rs.getString(1), MathGenerator.class);
-                Main.questionGenerators.put(generator.getGeneratorName(), generator);
+            ps.setString(2, serialized);
+            ps.execute();
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+            DialogFactory.exception("Internal Database error.", "Database Error", e);
+        }
+        System.out.println("Stored as JSON: "+serialized);
+    }
+
+    public StoreManager getStore() {
+        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).create();
+        ResultSet rs = returnOp("SELECT json FROM tataistore WHERE username = '"+Main.currentUser+"'");
+        try {
+            if (rs.next()) { // If there is a store
+                return gson.fromJson(rs.getString(1), StoreManager.class);
             }
         } catch ( Exception e ) {
             DialogFactory.exception("Unable to connect to database. Close any other instances of the application and try again.", "Database Error", e);
         }
+        return null;
     }
 
     /**
@@ -245,6 +260,10 @@ public class Database {
                 " setName       TEXT    NOT NULL, " +
                 " json          TEXT    NOT NULL, " +
                 " fromNet     INTEGER)");
+        // Create the tataistore table
+        queries.add("CREATE TABLE IF NOT EXISTS tataistore " +
+                "(username TEXT PRIMARY KEY     NOT NULL," +
+                " json          TEXT     NOT NULL)");
         // Add the default user if it doesn't exist
         queries.add("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('default', "+Instant.now().getEpochSecond()+")");
         try {

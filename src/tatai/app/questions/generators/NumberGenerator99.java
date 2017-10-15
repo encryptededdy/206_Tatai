@@ -28,4 +28,16 @@ public class NumberGenerator99 implements QuestionGenerator {
 
     // Not a custom level
     public boolean isCustom() { return false; };
+
+    // Doesn't support maori
+    public boolean supportsMaori() {return false; }
+
+    // Setting Maori does nothing, as we don't support it
+    public void setMaori(boolean maori) {};
+
+    public boolean isUnlocked() {return true; }
+
+    public boolean unlock() {return false; }
+
+    public int getCost() {return 0; }
 }

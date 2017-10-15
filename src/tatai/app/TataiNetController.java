@@ -31,8 +31,8 @@ public class TataiNetController extends ToolbarController {
      */
     public void initialize() {
         super.initialize();
-        scoreboardComboGameMode.getItems().addAll(Main.questionGenerators.keySet());
-        scoreboardComboGameMode.setValue(Main.questionGenerators.keySet().iterator().next()); // Automatically selects the first object.
+        scoreboardComboGameMode.getItems().addAll(Main.store.generators.getGeneratorsString());
+        scoreboardComboGameMode.setValue(Main.store.generators.getGeneratorsString().iterator().next()); // Automatically selects the first object.
         scoreboardComboGameMode.valueProperty().addListener((observable, oldValue, newValue) -> populateLeaderboard());
         // Sets up the listview's cellfactory
         leaderboardList.setCellFactory(param -> new LeaderboardViewCell());

@@ -88,6 +88,14 @@
                         <Font name="Roboto Bold" size="16.0" />
                      </font>
                   </JFXButton>
+                  <JFXButton fx:id="storeBtn" cancelButton="true" layoutX="20.0" layoutY="450.0" onAction="#storeBtnPressed" onContextMenuRequested="#closeApplicationRight" prefHeight="35.0" prefWidth="40.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;" text=" ">
+                     <font>
+                        <Font size="1.0" />
+                     </font>
+                     <graphic>
+                        <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_CART" size="20" />
+                     </graphic>
+                  </JFXButton>
                </children>
             </Pane>
          </children>
