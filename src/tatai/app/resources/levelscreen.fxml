@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.LevelSelectorController">
+<Pane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.LevelSelectorController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
          <image>
@@ -56,7 +56,7 @@
                <children>
                   <AnchorPane layoutX="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="650.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefWidth="650.0" style="-fx-background-color: #333333aa; -fx-background-radius: 0px 0px 4px 4px;" text="Round Select" textAlignment="CENTER" textFill="WHITE">
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-75.0" maxWidth="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="54.0" prefWidth="800.0" style="-fx-background-color: #333333aa; -fx-background-radius: 0px 0px 4px 4px;" text="Round Select" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="Roboto Medium" size="36.0" />
                            </font>

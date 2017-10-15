@@ -39,9 +39,6 @@ public class MainMenuController {
     public void initialize() {
         backgroundImage.setImage(Main.background);
 
-        questionDropDown.getItems().addAll(Main.store.generators.getGeneratorsString());
-        questionDropDown.setValue(Main.store.generators.getGeneratorsString().iterator().next()); // Automatically selects the first object.
-
         // Setup the quote animation and text
         DevQuotes.generateQuote(devQuote);
     }
@@ -49,7 +46,7 @@ public class MainMenuController {
     @FXML private ImageView backgroundImage;
     @FXML private JFXComboBox<String> questionDropDown;
     @FXML private Pane mainPane, mainDataPane;
-    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, playBtn, editBtn, practiceBtn;
+    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, practiceBtn;
     @FXML private Rectangle fadeBox;
     @FXML private Label devQuote;
 
@@ -70,30 +67,6 @@ public class MainMenuController {
         TransitionFactory.fadeIn(mainDataPane).play();
     }
 
-    /**
-     * Switches scenes to begin the game (loads questionscreen.fxml) and passes the QuestionController the Question
-     * set to be used (from questionDropDown)
-     */
-    @FXML private void playBtnPressed() throws IOException {
-        // Load the new scene
-        Scene scene = playBtn.getScene();
-        FXMLLoader loader = Layout.QUESTION.loader();
-        Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(Main.store.generators.getGeneratorFromName(questionDropDown.getValue())); // pass through the selected question set
-        // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
-        // Shrink anim
-        ScaleTransition st = new ScaleTransition(Duration.millis((int)(Main.transitionDuration*1.5)), mainPane);
-        st.setToY(0.544);
-        st.setToX(1.025);
-        // Move anim
-        TranslateTransition tt = TransitionFactory.move(mainPane, 0, (int)(-73*0.544), (int)(Main.transitionDuration*1.5));
-        ParallelTransition pt = new ParallelTransition(st, tt);
-        ft.setOnFinished(event1 -> pt.play()); // play the shrink anim when fade finished
-        pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
-        ft.play();
-    }
-
     @FXML private void practiceBtnPressed() throws IOException {
         switchToToolbar(Layout.PRACTICE);
     }
@@ -103,7 +76,9 @@ public class MainMenuController {
         FXMLLoader loader = Layout.LEVEL.loader();
         Parent root = loader.load();
         FadeTransition ft = TransitionFactory.fadeOut(mainDataPane, (int)(Main.transitionDuration*0.5));
-        ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
+        TranslateTransition tt = TransitionFactory.move(mainPane, -600, 0, (int)(Main.transitionDuration*1.5));
+        ft.setOnFinished(event -> tt.play());
+        tt.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeIn();});
         ft.play();
     }
 
@@ -171,10 +146,6 @@ public class MainMenuController {
 
     @FXML private void netBtnPressed() throws IOException {
         switchToToolbar(Layout.TATAINET);
-    }
-
-    @FXML private void editBtnPressed() throws IOException {
-        switchToToolbar(Layout.CUSTOMGENERATOR);
     }
 
     @FXML private void storeBtnPressed() throws IOException {

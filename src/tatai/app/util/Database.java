@@ -257,13 +257,6 @@ public class Database {
                 " username      TEXT    NOT NULL, " +
                 " date          INTEGER NOT NULL, " +
                 " sessionlength INTEGER)");
-        // Create the savedSets table
-        queries.add("CREATE TABLE IF NOT EXISTS savedSets " +
-                "(setID INTEGER PRIMARY KEY AUTOINCREMENT    NOT NULL," +
-                " username      TEXT    NOT NULL, " +
-                " setName       TEXT    NOT NULL, " +
-                " json          TEXT    NOT NULL, " +
-                " fromNet     INTEGER)");
         // Create the tataistore table
         queries.add("CREATE TABLE IF NOT EXISTS tataistore " +
                 "(username TEXT PRIMARY KEY     NOT NULL," +
