@@ -23,7 +23,8 @@ public enum Layout {
     LEVELPANE("tatai/app/resources/levelpane.fxml"),
     LOGINCELL("tatai/app/resources/loginusercell.fxml"),
     LEADERBOARDCELL("tatai/app/resources/leaderboardcell.fxml"),
-    ACHIEVEMENT("tatai/app/resources/achievementpopup.fxml");
+    ACHIEVEMENT("tatai/app/resources/achievementpopup.fxml"),
+    CUSTOMLEVELPANE("tatai/app/resources/customlevelspane.fxml");
 
     private URL url;
 
