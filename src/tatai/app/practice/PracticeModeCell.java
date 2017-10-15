@@ -14,6 +14,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.PracticeModeController;
+import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
 
@@ -68,7 +69,7 @@ public class PracticeModeCell extends ListCell<Integer> {
     }
 
     private void loadFXML() {
-        loader = new FXMLLoader(getClass().getResource("../resources/practicemodecell.fxml"));
+        loader = Layout.PRACTICECELL.loader();
         loader.setController(this);
         try {
             loader.load();
