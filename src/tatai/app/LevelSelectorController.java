@@ -38,7 +38,13 @@ public class LevelSelectorController {
         mainPane.setOpacity(0.0);
         paneState = 0;
         prevPaneState = 0;
+        recreatePanes();
+    }
 
+    void recreatePanes() {
+        levelsGridPane1.getChildren().clear();
+        levelsGridPane2.getChildren().clear();
+        customLevelPane.getChildren().clear();
         try {
             createLevelPane(Main.store.generators.get(0), levelsGridPane1, 0, 0);
             createLevelPane(Main.store.generators.get(1), levelsGridPane1, 1, 0);
@@ -88,7 +94,7 @@ public class LevelSelectorController {
     private void createLevelPane(QuestionGenerator questionGenerator, GridPane gridPane, int x, int y) throws IOException {
         FXMLLoader loader = Layout.LEVELPANE.loader();
         Parent pane = loader.load();
-        loader.<LevelPaneController>getController().setQuestionGenerators(questionGenerator);
+        loader.<LevelPaneController>getController().setQuestionGenerators(questionGenerator, this);
         loader.<LevelPaneController>getController().setParentNode(mainPane);
         GridPane.setConstraints(pane, x, y);
         GridPane.setMargin(pane, new Insets(5, 5, 5, 5));
