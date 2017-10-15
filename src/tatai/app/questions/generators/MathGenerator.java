@@ -1,5 +1,6 @@
 package tatai.app.questions.generators;
 
+import tatai.app.Main;
 import tatai.app.util.Translator;
 
 import java.util.Random;
@@ -18,6 +19,9 @@ public class MathGenerator implements QuestionGenerator {
     private String name;
     private boolean allowMultiplyByOne;
     private boolean inMaori;
+
+    private int cost = 0;
+    private boolean purchased = false;
 
     private boolean custom;
 
@@ -70,6 +74,21 @@ public class MathGenerator implements QuestionGenerator {
      * @param custom Whether this generator is user-created (custom) or built in (not custom)
      */
     public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori, boolean custom) {
+        this(highBound, operandMax, operator, name, allowMultiplyByOne, inMaori, custom, 0);
+    }
+
+    /**
+     * Instantiate a MathGenerator with specifications governing the questions to be generated
+     * @param highBound The highest number (answer) to be generated
+     * @param operandMax The maximum value of any operand
+     * @param operator The operator to use (ADD, SUBTRACT, DIVIDE, MULTIPLY)
+     * @param name The name to name this generator
+     * @param allowMultiplyByOne Whether to allow multiply by 1 questions (optional)
+     * @param inMaori Whether to generate the question in Maori
+     * @param custom Whether this generator is user-created (custom) or built in (not custom)
+     * @param cost The cost of this generator
+     */
+    public MathGenerator(int highBound, int operandMax, MathOperator operator, String name, boolean allowMultiplyByOne, boolean inMaori, boolean custom, int cost) {
         this.highBound = highBound;
         this.operandMax = operandMax;
         this.operator = operator;
@@ -77,6 +96,7 @@ public class MathGenerator implements QuestionGenerator {
         this.allowMultiplyByOne = allowMultiplyByOne;
         this.inMaori = inMaori;
         this.custom = custom;
+        this.cost = cost;
         // A few checks to prevent against bad inputs
         if (operator == MathOperator.SUBTRACT && operandMax < highBound) System.err.println("Warning: Range unreachable");
     }
@@ -176,5 +196,26 @@ public class MathGenerator implements QuestionGenerator {
     }
 
     public boolean isCustom() { return custom; };
+
+    // Supports maori
+    public boolean supportsMaori() {return true; }
+
+    // Setting Maori mode
+    public void setMaori(boolean maori) {
+        inMaori = maori;
+    };
+
+    public boolean isUnlocked() {return purchased; }
+
+    public boolean unlock() {
+        if (!purchased && Main.store.debit(cost)) {
+            purchased = true;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public int getCost() {return cost; }
 
 }

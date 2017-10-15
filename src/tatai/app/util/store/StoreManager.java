@@ -3,7 +3,7 @@ package tatai.app.util.store;
 import java.util.ArrayList;
 
 /**
- * Manages the value store in the
+ * Manages the monetery balance and also items unlocked in the store
  */
 public class StoreManager {
     private int balance = 500;
@@ -17,12 +17,21 @@ public class StoreManager {
         items.add(new AngryFinderWallpaper());
     }
 
+    /**
+     * Credit the bcoin balance
+     * @param creditAmount Amount to credit
+     */
     public void credit(int creditAmount) {
         balance += creditAmount;
         System.out.println("Store was credited: "+creditAmount);
     }
 
-    boolean debit(int debitAmount) {
+    /**
+     * Debit the bcoin
+     * @param debitAmount Amount to debit
+     * @return Whether the debit was completed successfully
+     */
+    public boolean debit(int debitAmount) {
         if (debitAmount <= balance) {
             System.out.println("Store was debited: "+debitAmount);
             balance -= debitAmount;
@@ -32,10 +41,18 @@ public class StoreManager {
         }
     }
 
+    /**
+     * Gets the current bcoin balance
+     * @return The current bcoin balance
+     */
     public int getBalance() {
         return balance;
     }
 
+    /**
+     * Gets the list of StoreItems supported by the store
+     * @return ArrayList of StoreItems
+     */
     public ArrayList<StoreItem> getItems() {
         return items;
     }
