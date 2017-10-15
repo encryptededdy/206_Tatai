@@ -1,6 +1,7 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
+import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.ScaleTransition;
 import javafx.animation.TranslateTransition;
@@ -8,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -58,10 +60,19 @@ public class LevelSelectorController {
         TransitionFactory.fadeIn(mainPane).play();
     }
 
-    public void prevBtnClicked() {
+    public void prevBtnClicked() throws IOException {
         prevPaneState = paneState;
         if (paneState > 0) {
             paneState--;
+        } else {
+            // Switch back to the main Menu
+            FadeTransition ft = TransitionFactory.fadeOut(mainPane);
+            Scene scene = prevBtn.getScene();
+            FXMLLoader loader = Layout.MAINMENU.loader();
+            Parent root = loader.load();
+            loader.<MainMenuController>getController().setupFade(false);
+            ft.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
+            ft.play();
         }
         updatePanesLocation();
     }
