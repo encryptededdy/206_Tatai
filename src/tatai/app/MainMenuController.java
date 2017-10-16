@@ -12,10 +12,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import tatai.app.util.DevQuotes;
@@ -33,22 +33,42 @@ import java.io.IOException;
  */
 public class MainMenuController {
 
+    @FXML private JFXButton levelBtn;
+    @FXML private ImageView backgroundImage, frontImg, backImg;
+    @FXML private JFXComboBox<String> questionDropDown;
+    @FXML private Pane mainPane, mainDataPane;
+    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, practiceBtn;
+    @FXML private Label devQuote;
+
     /**
      * Populates the questionDropDown with the questionGenerators stored in Main. Preselects the first option
      */
     public void initialize() {
         backgroundImage.setImage(Main.background);
+        frontImg.setImage(Main.parralaxFront);
+        backImg.setImage(Main.parralaxBack);
 
         // Setup the quote animation and text
         DevQuotes.generateQuote(devQuote);
+
+        // Configure parallax mode
+        if (Main.parallaxMode) {
+            frontImg.setVisible(true);
+            backImg.setVisible(true);
+            backgroundImage.getParent().addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+                //System.out.printf("x: %f, y: %f\n", event.getSceneX(), event.getSceneY());
+                double scale = 0.02;
+                double backScale = 0.004;
+                frontImg.setTranslateX((-event.getSceneX() - 400) * scale);
+                frontImg.setTranslateY((-event.getSceneY() - 250) * scale);
+                backImg.setTranslateX((-event.getSceneX() - 400) * backScale);
+                backImg.setTranslateY((-event.getSceneY() - 250) * backScale);
+            });
+        } else {
+            frontImg.setVisible(false);
+            backImg.setVisible(false);
+        }
     }
-    @FXML private JFXButton levelBtn;
-    @FXML private ImageView backgroundImage;
-    @FXML private JFXComboBox<String> questionDropDown;
-    @FXML private Pane mainPane, mainDataPane;
-    @FXML private JFXButton statisticsBtn, logoutBtn, closeBtn, netBtn, settingsBtn, practiceBtn;
-    @FXML private Rectangle fadeBox;
-    @FXML private Label devQuote;
 
     /**
      * These classes set up transitions INTO MainMenuController;

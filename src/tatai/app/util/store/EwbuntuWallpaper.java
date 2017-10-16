@@ -15,6 +15,7 @@ public class EwbuntuWallpaper extends StoreItem {
 
     public void applyChanges() {
         if (purchased) {
+            Main.parallaxMode = false;
             String imageFile = "tatai/app/resources/ewbuntu.png";
             Main.background = new Image(Main.class.getClassLoader().getResourceAsStream(imageFile));
         }
