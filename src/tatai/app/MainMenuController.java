@@ -131,15 +131,11 @@ public class MainMenuController {
     /**
      * Easter egg when you right click the close button... shhh!
      */
-    @FXML private void closeApplicationRight() {
-        Stage mainStage = (Stage) closeBtn.getScene().getWindow();
+    @FXML private void closeApplicationRight() throws IOException {
         Media sound = new Media(getClass().getResource("resources/shutdown.wav").toString());
         MediaPlayer player = new MediaPlayer(sound);
-        FadeTransition ft = new FadeTransition(Duration.millis(3200), fadeBox);
-        ft.setToValue(1);
-        ft.play();
-        fadeBox.setVisible(true);
         player.play();
+        logoutBtnPressed();
     }
 
     @FXML private void netBtnPressed() throws IOException {
@@ -148,6 +144,10 @@ public class MainMenuController {
 
     @FXML private void storeBtnPressed() throws IOException {
         switchToToolbar(Layout.STORE);
+    }
+
+    @FXML private void achievementsBtnPressed() {
+        // TODO: Do the achievements screen
     }
 
     /**

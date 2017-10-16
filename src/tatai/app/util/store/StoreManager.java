@@ -20,6 +20,9 @@ public class StoreManager {
         items.add(new XPWallpaper());
         items.add(new XPWallpaperLogo());
         items.add(new AngryFinderWallpaper());
+        items.add(new EwbuntuWallpaper());
+        items.add(new Beta1Wallpaper());
+        items.add(new Beta2Wallpaper());
     }
 
     /**

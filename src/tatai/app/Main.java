@@ -26,7 +26,7 @@ public class Main extends Application {
     public static Database database;
     public static String currentUser;
     public static int currentSession;
-    public static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb1.jpg"));
+    public static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb2.jpg"));
     public static NetConnection netConnection;
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
