@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Manages the monetery balance and also items unlocked in the store
  */
 public class StoreManager {
-    private int balance = 500;
+    private int balance = 1000;
 
     private ArrayList<StoreItem> items = new ArrayList<>();
 

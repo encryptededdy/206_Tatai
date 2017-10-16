@@ -65,7 +65,7 @@ public class QuestionController {
     private Timeline recordingProgressTimeline;
 
     // Help Popups
-    private PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nYou can also press [ENTER] or [R] to record");
+    private PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nYou can also press [R] to record");
     private PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
     private PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
     private PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
