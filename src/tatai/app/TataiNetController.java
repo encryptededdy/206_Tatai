@@ -1,23 +1,28 @@
 package tatai.app;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.jfoenix.controls.*;
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import tatai.app.questions.generators.FixedGenerator;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Layout;
+import tatai.app.util.factories.DialogFactory;
+import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.LeaderboardEntry;
 import tatai.app.util.net.LeaderboardViewCell;
-import tatai.app.util.store.SerializationAdapter;
 
 import java.io.IOException;
 
@@ -26,7 +31,7 @@ public class TataiNetController extends ToolbarController {
     @FXML private Pane controls, signUpPane, gameIDPane;
     @FXML private JFXListView<LeaderboardEntry> leaderboardList;
     @FXML private JFXComboBox<String> scoreboardComboGameMode, newGameModeCombo;
-    @FXML private Label usernameInstructions, usernameLabel, gameIDLabel;
+    @FXML private Label usernameInstructions, usernameLabel, gameIDLabel, joinErrorLabel;
     @FXML private ProgressIndicator leaderboardProgress;
     @FXML private JFXTextField usernameField, gameIDBox;
     @FXML private JFXButton registerBtn, joinGameBtn, newGameBtn;
@@ -92,12 +97,13 @@ public class TataiNetController extends ToolbarController {
 
     @FXML private void newGameBtnPressed() throws IOException {
         // TODO: Disable PrettyPrinting when done
-        Gson gson = new GsonBuilder().registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).setPrettyPrinting().create();
+        Gson gson = new Gson();
         QuestionGenerator selectedGenerator = Main.store.generators.getGeneratorFromName(newGameModeCombo.getValue());
-        QuestionGenerator roundGenerator = new FixedGenerator(selectedGenerator, 10); // fixedgenerator to use
+        FixedGenerator roundGenerator = new FixedGenerator(selectedGenerator, 10); // fixedgenerator to use
         String json = gson.toJson(roundGenerator);
         System.out.println(json);
         gameIDPane.setVisible(true);
+        newGameBtn.setDisable(true);
         // Upload this to the JSON
         Task<Integer> roundUpload = new Task<Integer>() {
             @Override
@@ -106,14 +112,11 @@ public class TataiNetController extends ToolbarController {
             }
         };
 
-        roundUpload.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
-            @Override
-            public void handle(WorkerStateEvent event) {
-                if (roundUpload.getValue() < 0) {
-                    gameIDLabel.setText("Error");
-                } else {
-                    gameIDLabel.setText(roundUpload.getValue().toString());
-                }
+        roundUpload.setOnSucceeded(event -> {
+            if (roundUpload.getValue() < 0) {
+                gameIDLabel.setText("Error");
+            } else {
+                gameIDLabel.setText(roundUpload.getValue().toString());
             }
         });
 
@@ -131,7 +134,41 @@ public class TataiNetController extends ToolbarController {
     }
 
     @FXML private void joinGameBtnPressed() {
-        // TODO
+        int id = Integer.parseInt(gameIDBox.getText());
+        Task<JsonObject> joinRound = new Task<JsonObject>() {
+            @Override
+            protected JsonObject call() throws Exception {
+                return Main.netConnection.joinRound(id);
+            }
+        };
+
+        joinRound.setOnSucceeded(event -> {
+            JsonObject json = joinRound.getValue();
+            if (json == null || json.isJsonNull() ) {
+                joinErrorLabel.setText("Network Error");
+            } else if (!json.get("started").getAsBoolean()) {
+                joinErrorLabel.setText("Invalid ID");
+            } else {
+                System.out.println("Starting game with "+json.get("host").getAsString());
+                Gson gson = new Gson();
+                FixedGenerator generator = gson.fromJson(json.get("json"), FixedGenerator.class);
+                // start the game
+                Scene scene = newGameBtn.getScene();
+                FXMLLoader loader = Layout.QUESTION.loader();
+                try {
+                    Parent root = loader.load();
+                    loader.<QuestionController>getController().setQuestionSet(generator);
+                    FadeTransition ft = TransitionFactory.fadeOut(dataPane);
+                    ft.setOnFinished((ActionEvent event2) -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
+                    ft.play();
+                } catch (IOException e) {
+                    DialogFactory.exception("FXML Load error", "FXML Load Failed", e);
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        new Thread(joinRound).start();
     }
 
     /**

@@ -142,6 +142,22 @@ public class NetConnection {
         return -1;
     }
 
+    public JsonObject joinRound(int id) {
+        try {
+            String result = Request.Post(host+"joinRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("roundID", Integer.toString(id))
+                            .build())
+                    .execute()
+                    .returnContent().toString();
+            return new JsonParser().parse(result).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<LeaderboardEntry> getLeaderboard(String gamemode) {
         try {
             String result = Request.Post(host + "getHighScores.php")
