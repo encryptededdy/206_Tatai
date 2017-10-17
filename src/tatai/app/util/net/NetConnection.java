@@ -125,6 +125,23 @@ public class NetConnection {
         new Thread(uploadTask).start();
     }
 
+    public int startRound(String json) {
+        try {
+            String result = Request.Post(host+"startRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("questionset", json)
+                            .build())
+                    .execute()
+                    .returnContent().toString();
+            JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+            return jsonObject.get("id").getAsInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
     public ArrayList<LeaderboardEntry> getLeaderboard(String gamemode) {
         try {
             String result = Request.Post(host + "getHighScores.php")
