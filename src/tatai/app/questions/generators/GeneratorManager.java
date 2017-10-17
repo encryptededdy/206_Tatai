@@ -31,7 +31,7 @@ public class GeneratorManager {
     }
 
     /**
-     * Gets an array of QuestionGenerators avaliable as a string
+     * Gets an array of QuestionGenerators available as a string
      * @return ArrayList of String
      */
     public ArrayList<String> getGeneratorsString() {
@@ -40,6 +40,25 @@ public class GeneratorManager {
             out.add(qg.getGeneratorName());
         }
         return out;
+    }
+
+    /**
+     * Gets an array of QuestionGenerators available as a string
+     * @param defaultOnly Only return the non-custom entries
+     * @return ArrayList of String
+     */
+    public ArrayList<String> getGeneratorsString(boolean defaultOnly) {
+        if (!defaultOnly) {
+            return getGeneratorsString();
+        } else {
+            ArrayList<String> out = new ArrayList<>();
+            for (QuestionGenerator qg : generators) {
+                if (!qg.isCustom()) {
+                    out.add(qg.getGeneratorName());
+                }
+            }
+            return out;
+        }
     }
 
     /**

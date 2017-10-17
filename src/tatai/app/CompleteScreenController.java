@@ -191,7 +191,7 @@ public class CompleteScreenController {
     void setMostRecentRound(Round round) {
         _mostRecentRound = round;
 
-        if (Main.store.generators.getNextGenerator(round.getGenerator()) == null) {
+        if ((Main.store.generators.getNextGenerator(round.getGenerator()) == null) || round.getGenerator().isCustom()) {
             nextRoundBtn.setDisable(true);
         } else {
             nextGenerator = Main.store.generators.getNextGenerator(round.getGenerator());

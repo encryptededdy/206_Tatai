@@ -54,6 +54,30 @@ public class Round {
         startTime = Instant.now().getEpochSecond();
     }
 
+    public Round(QuestionGenerator generator, int numQuestions, ArrayList<Question> questions) {
+        roundQuestionGenerator = generator;
+
+        // Check if this is a custom round
+        isCustom = generator.isCustom();
+
+        System.out.println("Starting round: "+Main.database.getNextID("roundID", "rounds"));
+        roundID = Main.database.getNextID("roundID", "rounds"); // Store ID of current round
+
+        // Write the initial entry in the database for this round
+        String query = "INSERT INTO rounds (roundid, username, date, questionSet, noquestions, nocorrect, isComplete, sessionID) VALUES ("+ roundID +", '"+Main.currentUser+"', "+ Instant.now().getEpochSecond()+", '"+generator.getGeneratorName()+"', "+numQuestions+", 0, 0, "+Main.currentSession+")";
+        Main.database.insertOp(query);
+
+        // Generates the questions
+        for (int i = 0; i < numQuestions; i++) {
+            questions.add(new Question(generator, roundID));
+        }
+
+        _numQuestions = numQuestions;
+
+        // Start the clock
+        startTime = Instant.now().getEpochSecond();
+    }
+
     /**
      * Checks whether there are any questions left in the round
      * @return boolean representing if there are any questions left
