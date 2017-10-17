@@ -9,18 +9,11 @@
 <?import javafx.scene.text.*?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
    <children>
-      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
-      </ImageView>
-      <ImageView fx:id="backImg" fitHeight="550.0" fitWidth="850.0" layoutX="-25.0" layoutY="-15.0" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@aucklandParallax/back.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="frontImg" fitHeight="600.0" fitWidth="1000.0" layoutX="-80.0" layoutY="-50.0" preserveRatio="true" visible="false">
-         <image>
-            <Image url="@aucklandParallax/front.png" />
-         </image>
-      </ImageView>
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0"/>
+      <ImageView fx:id="backImg" fitHeight="550.0" fitWidth="850.0" layoutX="-25.0" layoutY="-15.0" preserveRatio="true"
+                 visible="false"/>
+      <ImageView fx:id="frontImg" fitHeight="600.0" fitWidth="1000.0" layoutX="-80.0" layoutY="-50.0"
+                 preserveRatio="true" visible="false"/>
       <JFXButton fx:id="logoutBtn" cancelButton="true" layoutX="710.0" layoutY="452.0" onAction="#logoutBtnPressed" onContextMenuRequested="#closeApplicationRight" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="SIGN_OUT" size="20.0" />

@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.TataiNetController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
@@ -42,6 +49,23 @@
                </Label>
                <JFXComboBox fx:id="scoreboardComboGameMode" layoutX="173.0" layoutY="76.0" prefHeight="29.0" prefWidth="176.0" stylesheets="@statistics.css" />
                <ProgressIndicator fx:id="leaderboardProgress" layoutX="151.0" layoutY="269.0" prefHeight="53.0" prefWidth="57.0" style="-fx-progress-color: white;" visible="false" />
+               <Label layoutX="384.0" layoutY="79.0" text="Challenge Mode" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </Label>
+               <JFXButton fx:id="newGame" layoutX="627.0" layoutY="125.0" prefHeight="28.0" prefWidth="147.0" style="-fx-background-color: #3F51B5;" text="New Game" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </JFXButton>
+               <JFXComboBox fx:id="newGameModeCombo" layoutX="384.0" layoutY="122.0" prefHeight="42.0" prefWidth="219.0" stylesheets="@statistics.css" />
+               <JFXButton fx:id="newGame1" layoutX="627.0" layoutY="220.0" prefHeight="28.0" prefWidth="147.0" style="-fx-background-color: #3F51B5;" text="Join Game" textFill="WHITE">
+                  <font>
+                     <Font name="Roboto Medium" size="18.0" />
+                  </font>
+               </JFXButton>
+               <JFXTextField layoutX="382.0" layoutY="220.0" prefHeight="35.0" prefWidth="229.0" style="-fx-text-fill: white; -fx-font: 20 &quot;Roboto Medium&quot;;" text="Enter Game ID" />
          </children>
       </Pane>
          <effect>

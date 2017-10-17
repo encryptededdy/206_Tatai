@@ -57,7 +57,7 @@ public class MainMenuController {
             backImg.setVisible(true);
             backgroundImage.getParent().addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
                 //System.out.printf("x: %f, y: %f\n", event.getSceneX(), event.getSceneY());
-                double scale = 0.02;
+                double scale = 0.015;
                 double backScale = 0.004;
                 frontImg.setTranslateX((-event.getSceneX() - 400) * scale);
                 frontImg.setTranslateY((-event.getSceneY() - 250) * scale);

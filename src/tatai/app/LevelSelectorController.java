@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -19,24 +20,45 @@ import tatai.app.util.factories.TransitionFactory;
 import java.io.IOException;
 
 public class LevelSelectorController {
-    @FXML ImageView backgroundImage;
-    @FXML GridPane levelsGridPane1;
-    @FXML GridPane levelsGridPane2;
-    @FXML AnchorPane customLevelPane;
-    @FXML Pane mainPane, animInPane;
-    @FXML JFXButton prevBtn;
-    @FXML JFXButton nextBtn;
+    @FXML private ImageView backgroundImage, frontImg, backImg;
+    @FXML private GridPane levelsGridPane1;
+    @FXML private GridPane levelsGridPane2;
+    @FXML private AnchorPane customLevelPane;
+    @FXML private Pane mainPane, animInPane;
+    @FXML private JFXButton prevBtn;
+    @FXML private JFXButton nextBtn;
 
     private int prevPaneState;
     private int paneState;
 
     public void initialize() {
         backgroundImage.setImage(Main.background);
+        frontImg.setImage(Main.parralaxFront);
+        backImg.setImage(Main.parralaxBack);
+
         mainPane.setOpacity(0);
         mainPane.setCache(true);
         paneState = 0;
         prevPaneState = 0;
         recreatePanes();
+
+        // Configure parallax mode
+        if (Main.parallaxMode) {
+            frontImg.setVisible(true);
+            backImg.setVisible(true);
+            backgroundImage.getParent().addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+                //System.out.printf("x: %f, y: %f\n", event.getSceneX(), event.getSceneY());
+                double scale = 0.015;
+                double backScale = 0.004;
+                frontImg.setTranslateX((-event.getSceneX() - 400) * scale);
+                frontImg.setTranslateY((-event.getSceneY() - 250) * scale);
+                backImg.setTranslateX((-event.getSceneX() - 400) * backScale);
+                backImg.setTranslateY((-event.getSceneY() - 250) * backScale);
+            });
+        } else {
+            frontImg.setVisible(false);
+            backImg.setVisible(false);
+        }
     }
 
     void recreatePanes() {
