@@ -142,6 +142,25 @@ public class NetConnection {
         return -1;
     }
 
+    public boolean waitRound(int id) {
+        try {
+            System.out.println("Start wait");
+            String result = Request.Post(host+"waitRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("roundID", Integer.toString(id))
+                            .build())
+                    .socketTimeout(90000)
+                    .execute()
+                    .returnContent().toString();
+            System.out.println("Wait done");
+            return new JsonParser().parse(result).getAsJsonObject().get("started").getAsBoolean();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public JsonObject joinRound(int id) {
         try {
             String result = Request.Post(host+"joinRound.php")

@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXProgressBar?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.TataiNetController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
@@ -61,7 +68,6 @@
                <JFXTextField fx:id="gameIDBox" layoutX="382.0" layoutY="220.0" prefHeight="35.0" prefWidth="229.0" promptText="Enter Game ID" style="-fx-text-fill: white; -fx-font: 20 &quot;Roboto Medium&quot;;" />
                <Pane fx:id="gameIDPane" layoutX="375.0" layoutY="196.0" prefHeight="277.0" prefWidth="404.0" style="-fx-background-color: #212121;" visible="false">
                   <children>
-                     <ProgressIndicator layoutX="56.0" layoutY="193.0" prefHeight="53.0" prefWidth="72.0" style="-fx-progress-color: white;" />
                      <Label layoutX="46.0" layoutY="23.0" text="Share this game ID with your opponent" textFill="WHITE">
                         <font>
                            <Font name="Roboto Medium" size="18.0" />
@@ -72,11 +78,12 @@
                            <Font name="Roboto Medium" size="78.0" />
                         </font>
                      </Label>
-                     <Label layoutX="146.0" layoutY="208.0" prefHeight="23.0" prefWidth="219.0" text="Waiting for your opponent" textFill="WHITE">
+                     <Label layoutX="93.0" layoutY="220.0" prefHeight="23.0" prefWidth="219.0" text="Waiting for your opponent" textFill="WHITE">
                         <font>
                            <Font name="Roboto Medium" size="18.0" />
                         </font>
                      </Label>
+                     <JFXProgressBar fx:id="waitProgress" layoutX="57.0" layoutY="255.0" prefHeight="8.0" prefWidth="289.0" progress="1.0" />
                   </children>
                </Pane>
                <Label fx:id="joinErrorLabel" layoutX="386.0" layoutY="265.0" prefHeight="18.0" prefWidth="289.0" textFill="RED">

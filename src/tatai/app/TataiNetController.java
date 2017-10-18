@@ -4,6 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.*;
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -16,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import tatai.app.questions.generators.FixedGenerator;
 import tatai.app.questions.generators.QuestionGenerator;
 import tatai.app.util.Layout;
@@ -25,6 +29,7 @@ import tatai.app.util.net.LeaderboardEntry;
 import tatai.app.util.net.LeaderboardViewCell;
 
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TataiNetController extends ToolbarController {
 
@@ -35,9 +40,9 @@ public class TataiNetController extends ToolbarController {
     @FXML private ProgressIndicator leaderboardProgress;
     @FXML private JFXTextField usernameField, gameIDBox;
     @FXML private JFXButton registerBtn, joinGameBtn, newGameBtn;
-    @FXML private JFXProgressBar registerProgress;
+    @FXML private JFXProgressBar registerProgress, waitProgress;
 
-
+    private Timeline clientWait;
     private ObservableList<LeaderboardEntry> leaderboard;
 
     /**
@@ -66,6 +71,12 @@ public class TataiNetController extends ToolbarController {
         } else {
             usernameLabel.setText("Logged in: "+Main.netConnection.getUsername());
         }
+        // Client wait bar
+        clientWait = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(waitProgress.progressProperty(), 1)),
+                new KeyFrame(Duration.seconds(60), new KeyValue(waitProgress.progressProperty(), 0))
+        );
+        clientWait.setOnFinished(event -> gameIDPane.setVisible(false));
     }
 
     private void populateLeaderboard() {
@@ -104,6 +115,17 @@ public class TataiNetController extends ToolbarController {
         System.out.println(json);
         gameIDPane.setVisible(true);
         newGameBtn.setDisable(true);
+
+        // Prepare game start
+        Scene scene = newGameBtn.getScene();
+        FXMLLoader loader = Layout.QUESTION.loader();
+        Parent root = loader.load();
+        loader.<QuestionController>getController().setQuestionSet(roundGenerator);
+        FadeTransition ft = TransitionFactory.fadeOut(dataPane);
+        ft.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
+        AtomicInteger id = new AtomicInteger();
+        clientWait.play();
+
         // Upload this to the JSON
         Task<Integer> roundUpload = new Task<Integer>() {
             @Override
@@ -112,29 +134,49 @@ public class TataiNetController extends ToolbarController {
             }
         };
 
+        // This tasks waits for the other user to start
+        Task<Boolean> roundWait = new Task<Boolean>() {
+            @Override
+            protected Boolean call() {
+                try {
+                    return Main.netConnection.waitRound(id.get());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        };
+
+        roundWait.setOnSucceeded(event -> {
+            if (roundWait.getValue()) {
+                ft.play();
+            } else {
+                gameIDLabel.setText("Error");
+            }
+        });
+
         roundUpload.setOnSucceeded(event -> {
             if (roundUpload.getValue() < 0) {
                 gameIDLabel.setText("Error");
             } else {
                 gameIDLabel.setText(roundUpload.getValue().toString());
+                id.set(roundUpload.getValue());
+                new Thread(roundWait).start();
             }
         });
 
         new Thread(roundUpload).start();
-
-        /*
-        Scene scene = newGameBtn.getScene();
-        FXMLLoader loader = Layout.QUESTION.loader();
-        Parent root = loader.load();
-        loader.<QuestionController>getController().setQuestionSet(roundGenerator);
-        FadeTransition ft = TransitionFactory.fadeOut(dataPane);
-        ft.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
-        ft.play();
-        */
     }
 
     @FXML private void joinGameBtnPressed() {
-        int id = Integer.parseInt(gameIDBox.getText());
+        int id;
+        try {
+            id = Integer.parseInt(gameIDBox.getText());
+        } catch (NumberFormatException e) {
+            joinErrorLabel.setText("Invalid ID");
+            return;
+        }
+
         Task<JsonObject> joinRound = new Task<JsonObject>() {
             @Override
             protected JsonObject call() throws Exception {
