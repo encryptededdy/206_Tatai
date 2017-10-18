@@ -21,7 +21,7 @@ if (isset($_POST['username']) && isset($_POST['authID']) && isset($_POST['roundI
     if (mysqli_num_rows($result) > 0) {
         // The user does exist and we're authenticated, so try to join the round
         $count = 0;
-        while ($count < 30) {
+        while ($count < 60) {
             if ($result2 = $conn->query("SELECT started FROM challenge WHERE id='$roundid'")) {
                 if (mysqli_num_rows($result2) > 0) {
                     // Round found
@@ -31,7 +31,7 @@ if (isset($_POST['username']) && isset($_POST['authID']) && isset($_POST['roundI
                         exit(json_encode(array('status' => "OK", 'started' => true)));
                     } else {
                         // otherwise...
-                        sleep(2);
+                        sleep(1);
                         $count++;
                     }
                 } else {
