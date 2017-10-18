@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.PracticeModeController;
@@ -27,13 +29,14 @@ public class PracticeModeCell extends ListCell<Integer> {
     @FXML private Label answerLabel;
     @FXML private MaterialDesignIconView correctIcon;
     @FXML private MaterialDesignIconView incorrectIcon;
-    @FXML private JFXButton recordBtn;
+    @FXML private JFXButton recordBtn, listenBtn;
     @FXML private ProgressIndicator recordingProgress;
 
     private int number = 0;
     private FXMLLoader loader;
     private String answer;
     private PracticeModeController controller;
+    private Media audio;
 
     public PracticeModeCell(PracticeModeController controller) {
         this.controller = controller;
@@ -56,6 +59,13 @@ public class PracticeModeCell extends ListCell<Integer> {
                 incorrectIcon.setVisible(false);
                 recordingProgress.setVisible(false);
                 number = entry;
+                try {
+                    audio = new Media(getClass().getClassLoader().getResource("tatai/app/resources/recordings/"+number+".wav").toString());
+                    listenBtn.setVisible(true);
+                } catch (NullPointerException e) {
+                    // Audio not found...
+                    listenBtn.setVisible(false);
+                }
             }
 
             numberLabel.setText(entry.toString());
@@ -105,6 +115,10 @@ public class PracticeModeCell extends ListCell<Integer> {
         recordBtn.setDisable(true);
         recordingProgressTimeline.play();
         answerRecording.record(2000);
+    }
+
+    @FXML void listenBtnPressed() {
+        new MediaPlayer(audio).play();
     }
 
     private void checkAnswer(String recordedAnswer) {
