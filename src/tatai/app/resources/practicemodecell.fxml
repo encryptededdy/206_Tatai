@@ -14,7 +14,7 @@
             <Font name="Roboto Bold" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="answerLabel" layoutX="89.0" onMouseEntered="#answerLabelClickStart" onMouseExited="#answerLabelClickEnd" prefHeight="40.0" prefWidth="265.0" text="Hover for answer" textFill="GREY">
+      <Label fx:id="answerLabel" layoutX="89.0" onMouseEntered="#answerLabelClickStart" onMouseExited="#answerLabelClickEnd" prefHeight="40.0" prefWidth="253.0" text="Hover for answer" textFill="GREY">
          <font>
             <Font name="Roboto" size="18.0" />
          </font>
@@ -30,5 +30,13 @@
          </graphic>
       </JFXButton>
       <ProgressIndicator fx:id="recordingProgress" layoutX="473.0" layoutY="4.0" prefHeight="33.0" prefWidth="34.0" progress="0.0" stylesheets="@practicemode.css" />
+      <JFXButton fx:id="listenBtn" defaultButton="true" ellipsisString="" layoutX="357.0" layoutY="4.0" onAction="#listenBtnPressed" prefHeight="33.0" prefWidth="50.0" ripplerFill="WHITE" style="-fx-background-color: #414141;" textFill="WHITE" textOverrun="CLIP">
+         <font>
+            <Font size="1.0" />
+         </font>
+         <graphic>
+            <MaterialDesignIconView fill="WHITE" glyphName="PLAY" size="24" textAlignment="CENTER" wrappingWidth="28.0" />
+         </graphic>
+      </JFXButton>
    </children>
 </Pane>

@@ -1,8 +1,11 @@
 package tatai.app;
 
+import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import javafx.animation.*;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,6 +56,15 @@ public class CompleteScreenController {
     @FXML private VBox graphVBox;
     @FXML private VBox roundStatsVBox;
     @FXML private ImageView backgroundImage;
+    @FXML private Pane challengeResultsPane;
+    @FXML private Label resultText;
+    @FXML private Label otherUserNameText;
+    @FXML private Label yourScore;
+    @FXML private Label theirScore;
+    @FXML private JFXProgressBar countdownBar;
+    @FXML private JFXButton closeChallenge;
+
+    private Timeline resultsWaitBar;
 
     QuestionGenerator nextGenerator;
 
@@ -72,6 +84,67 @@ public class CompleteScreenController {
         roundStatsPane.setLayoutY(500);
         graphVBox.setOpacity(0);
         graphVBox.setMouseTransparent(true);
+
+        // Client wait bar
+        resultsWaitBar = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(countdownBar.progressProperty(), 1)),
+                new KeyFrame(Duration.seconds(60), new KeyValue(countdownBar.progressProperty(), 0))
+        );
+    }
+
+    void netMode(int id) {
+        int score = _mostRecentRound.getScore();
+        resultsWaitBar.play();
+        yourScore.setText(Integer.toString(score));
+        challengeResultsPane.setVisible(true);
+
+        Task<JsonObject> resultsWait = new Task<JsonObject>() {
+            @Override
+            protected JsonObject call() {
+                try {
+                    return Main.netConnection.finishRound(id, score);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        };
+
+        resultsWait.setOnSucceeded(event -> {
+            JsonObject result = resultsWait.getValue();
+            if (result == null) {
+                resultText.setText("Connection Error");
+                resultsWaitBar.stop();
+            } else {
+                // Parse the JSON
+                if (result.get("finished").getAsBoolean()) {
+                    // We're finished
+                    countdownBar.setVisible(false);
+                    otherUserNameText.setText(result.get("otherUser").getAsString()+"'s Score");
+                    int otherScore = result.get("otherScore").getAsInt();
+                    theirScore.setText(Integer.toString(otherScore));
+
+                    if (score < otherScore) {
+                        resultText.setText("You Lost!");
+                        resultText.setStyle("-fx-background-color: #F44336");
+                    } else if (score > otherScore) {
+                        resultText.setText("You Won!");
+                        resultText.setStyle("-fx-background-color: #4CAF50");
+                    } else {
+                        resultText.setText("Draw!");
+                    }
+
+                } else {
+                    // Error :(
+                    resultText.setText("Connection Error");
+                    resultsWaitBar.stop();
+                }
+            }
+        });
+
+        new Thread(resultsWait).start();
+
+        // TODO: Upload the score and long poll for response
     }
 
     /**
@@ -146,6 +219,13 @@ public class CompleteScreenController {
     }
 
     /**
+     * Hide the challenge results pane
+     */
+    @FXML void closeChallengePressed() {
+        challengeResultsPane.setVisible(false);
+    }
+
+    /**
      * Determines the name of the round type just played and changes scene to a new instance of question screen
      * with a question generator of the same type (after the appropriate elements fade out)
      * @throws IOException
@@ -191,20 +271,22 @@ public class CompleteScreenController {
     void setMostRecentRound(Round round) {
         _mostRecentRound = round;
 
-        if (Main.store.generators.getNextGenerator(round.getGenerator()) == null) {
+        if ((Main.store.generators.getNextGenerator(round.getGenerator()) == null) || round.getGenerator().isCustom()) {
             nextRoundBtn.setDisable(true);
         } else {
             nextGenerator = Main.store.generators.getNextGenerator(round.getGenerator());
         }
         yourScoreLabel.setText("Your Score: " + Integer.toString(_mostRecentRound.getScore()));
         if (_mostRecentRound.getScore() < 200) yourScoreLabel.setVisible(false);
+        executeRecentRoundQuery();
+        executePreviousRoundScoreQuery();
     }
 
     /**
      * constructs and executes a MostRecentRoundQuery which queries the database for information about the most recent round
      * and then updates the results table stats label etc with stats about the most recent round.
      */
-    void executeRecentRoundQuery () {
+    private void executeRecentRoundQuery () {
         MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, nextRoundBtn, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
@@ -213,7 +295,7 @@ public class CompleteScreenController {
      * constructs and executes a PreviousRoundScoreQuery which queries the database for information about the scores for the
      * 10 most recent rounds and updates the pastRoundScoresBarChart with that data.
      */
-    void executePreviousRoundScoreQuery() {
+    private void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }

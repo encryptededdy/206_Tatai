@@ -23,6 +23,9 @@ public class StoreManager {
         items.add(new EwbuntuWallpaper());
         items.add(new Beta1Wallpaper());
         items.add(new Beta2Wallpaper());
+        items.add(new AucklandParallax());
+        items.add(new SpaceParallax());
+        items.add(new MtCookParallax());
     }
 
     /**

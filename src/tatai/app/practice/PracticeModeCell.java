@@ -18,6 +18,9 @@ import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.IOException;
 
 public class PracticeModeCell extends ListCell<Integer> {
@@ -27,13 +30,14 @@ public class PracticeModeCell extends ListCell<Integer> {
     @FXML private Label answerLabel;
     @FXML private MaterialDesignIconView correctIcon;
     @FXML private MaterialDesignIconView incorrectIcon;
-    @FXML private JFXButton recordBtn;
+    @FXML private JFXButton recordBtn, listenBtn;
     @FXML private ProgressIndicator recordingProgress;
 
     private int number = 0;
     private FXMLLoader loader;
     private String answer;
     private PracticeModeController controller;
+    private Clip audio;
 
     public PracticeModeCell(PracticeModeController controller) {
         this.controller = controller;
@@ -56,6 +60,15 @@ public class PracticeModeCell extends ListCell<Integer> {
                 incorrectIcon.setVisible(false);
                 recordingProgress.setVisible(false);
                 number = entry;
+                try {
+                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("tatai/app/resources/recordings/"+number+".wav"));
+                    audio = AudioSystem.getClip();
+                    audio.open(audioIn);
+                    listenBtn.setVisible(true);
+                } catch (Exception e) {
+                    // Audio not found...
+                    listenBtn.setVisible(false);
+                }
             }
 
             numberLabel.setText(entry.toString());
@@ -105,6 +118,11 @@ public class PracticeModeCell extends ListCell<Integer> {
         recordBtn.setDisable(true);
         recordingProgressTimeline.play();
         answerRecording.record(2000);
+    }
+
+    @FXML void listenBtnPressed() {
+        audio.setMicrosecondPosition(0);
+        audio.start();
     }
 
     private void checkAnswer(String recordedAnswer) {

@@ -21,6 +21,10 @@
             <Image url="@bkgndb1.jpg" />
          </image>
       </ImageView>
+      <ImageView fx:id="backImg" fitHeight="550.0" fitWidth="850.0" layoutX="-25.0" layoutY="-15.0" preserveRatio="true"
+                 visible="false"/>
+      <ImageView fx:id="frontImg" fitHeight="600.0" fitWidth="1000.0" layoutX="-80.0" layoutY="-50.0"
+                 preserveRatio="true" visible="false"/>
       <Pane fx:id="animInPane" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
