@@ -57,6 +57,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         startupCheck();
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/simpleicon.png")));
         Parent root = Layout.LOGIN.loader().load();
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize

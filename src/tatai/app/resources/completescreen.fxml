@@ -165,7 +165,7 @@
             <DropShadow radius="9.75" width="20.0" />
          </effect>
          <children>
-            <Label fx:id="resultText" alignment="CENTER" layoutX="60.0" layoutY="26.0" prefHeight="44.0" prefWidth="530.0" text="Waiting for your opponent..." textFill="WHITE">
+            <Label fx:id="resultText" alignment="CENTER" layoutX="1.0" prefHeight="78.0" prefWidth="650.0" text="Waiting for your opponent..." textFill="WHITE">
                <font>
                   <Font name="Roboto Medium" size="36.0" />
                </font>

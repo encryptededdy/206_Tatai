@@ -126,8 +126,10 @@ public class CompleteScreenController {
 
                     if (score < otherScore) {
                         resultText.setText("You Lost!");
+                        resultText.setStyle("-fx-background-color: #F44336");
                     } else if (score > otherScore) {
                         resultText.setText("You Won!");
+                        resultText.setStyle("-fx-background-color: #4CAF50");
                     } else {
                         resultText.setText("Draw!");
                     }
