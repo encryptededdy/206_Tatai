@@ -30,11 +30,12 @@ import java.io.IOException;
  * Controller class for the complete screen which comes after a round is completed.
  *
  * @author Zach Huxford
+ * @author Edward
  */
 
 public class CompleteScreenController {
 
-    Round _mostRecentRound;
+    private Round _mostRecentRound;
     @FXML private JFXButton menuBtn;
     @FXML private JFXButton roundStatsBtn;
     @FXML private JFXButton replayBtn;
@@ -66,7 +67,7 @@ public class CompleteScreenController {
 
     private Timeline resultsWaitBar;
 
-    QuestionGenerator nextGenerator;
+    private QuestionGenerator nextGenerator;
 
     /**
      * Setup javafx objects to be animated in.
@@ -93,6 +94,8 @@ public class CompleteScreenController {
     }
 
     void netMode(int id) {
+        replayBtn.setDisable(true);
+        nextRoundBtn.setDisable(true);
         int score = _mostRecentRound.getScore();
         resultsWaitBar.play();
         yourScore.setText(Integer.toString(score));
