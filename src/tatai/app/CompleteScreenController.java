@@ -74,6 +74,10 @@ public class CompleteScreenController {
         graphVBox.setMouseTransparent(true);
     }
 
+    void netMode(int id) {
+        // TODO
+    }
+
     /**
      * fades in all of the javafx objects once the scene has been changed to the complete screen.
      */
@@ -198,13 +202,15 @@ public class CompleteScreenController {
         }
         yourScoreLabel.setText("Your Score: " + Integer.toString(_mostRecentRound.getScore()));
         if (_mostRecentRound.getScore() < 200) yourScoreLabel.setVisible(false);
+        executeRecentRoundQuery();
+        executePreviousRoundScoreQuery();
     }
 
     /**
      * constructs and executes a MostRecentRoundQuery which queries the database for information about the most recent round
      * and then updates the results table stats label etc with stats about the most recent round.
      */
-    void executeRecentRoundQuery () {
+    private void executeRecentRoundQuery () {
         MostRecentRoundQuery mrrq = new MostRecentRoundQuery(scoreLabel, scoreMessageLabel, resultsTable, statLabelAverage, statLabelAverageNo, statLabelOverall, statLabelOverallNo, nextRoundBtn, _mostRecentRound.getRoundID());
         mrrq.execute();
     }
@@ -213,7 +219,7 @@ public class CompleteScreenController {
      * constructs and executes a PreviousRoundScoreQuery which queries the database for information about the scores for the
      * 10 most recent rounds and updates the pastRoundScoresBarChart with that data.
      */
-    void executePreviousRoundScoreQuery() {
+    private void executePreviousRoundScoreQuery() {
         PreviousRoundScoreQuery prsq = new PreviousRoundScoreQuery(pastRoundScoresBarChart);
         prsq.execute();
     }

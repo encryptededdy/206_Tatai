@@ -149,6 +149,7 @@ public class TataiNetController extends ToolbarController {
 
         roundWait.setOnSucceeded(event -> {
             if (roundWait.getValue()) {
+                loader.<QuestionController>getController().enableNet(id.get());
                 ft.play();
             } else {
                 gameIDLabel.setText("Error");
@@ -200,6 +201,7 @@ public class TataiNetController extends ToolbarController {
                 try {
                     Parent root = loader.load();
                     loader.<QuestionController>getController().setQuestionSet(generator);
+                    loader.<QuestionController>getController().enableNet(id);
                     FadeTransition ft = TransitionFactory.fadeOut(dataPane);
                     ft.setOnFinished((ActionEvent event2) -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
                     ft.play();

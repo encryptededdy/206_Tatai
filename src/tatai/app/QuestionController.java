@@ -57,10 +57,12 @@ public class QuestionController {
     @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
     @FXML private ImageView backgroundImage, xpTheme, flyImage;
-    @FXML private Pane questionPaneData;
+    @FXML private Pane questionPaneData, challengePane;
 
     private ParallelTransition menuConfirmTransition;
     private TranslateTransition achievementTransition;
+
+    private int netModeID;
 
     private Timeline recordingProgressTimeline;
 
@@ -160,6 +162,12 @@ public class QuestionController {
         });
     }
 
+    void enableNet(int id) {
+        netModeID = id;
+        System.out.println("Online Game, ID: "+id);
+        challengePane.setVisible(true);
+    }
+
     /**
      * Defines the QuestionSet to be used by this question instance
      * @param questionSet The QuestionSet to use
@@ -233,8 +241,7 @@ public class QuestionController {
             try {
                 Parent root = loader.load();
                 loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
-                loader.<CompleteScreenController>getController().executeRecentRoundQuery();
-                loader.<CompleteScreenController>getController().executePreviousRoundScoreQuery();
+                loader.<CompleteScreenController>getController().netMode(netModeID);
                 // Fade out
                 FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
                 FadeTransition ft1 = TransitionFactory.fadeOut(questionLabel);
