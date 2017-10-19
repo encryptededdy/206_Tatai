@@ -11,8 +11,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.Pane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.PracticeModeController;
@@ -20,6 +18,9 @@ import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import java.io.IOException;
 
 public class PracticeModeCell extends ListCell<Integer> {
@@ -36,7 +37,7 @@ public class PracticeModeCell extends ListCell<Integer> {
     private FXMLLoader loader;
     private String answer;
     private PracticeModeController controller;
-    private Media audio;
+    private Clip audio;
 
     public PracticeModeCell(PracticeModeController controller) {
         this.controller = controller;
@@ -60,9 +61,11 @@ public class PracticeModeCell extends ListCell<Integer> {
                 recordingProgress.setVisible(false);
                 number = entry;
                 try {
-                    audio = new Media(getClass().getClassLoader().getResource("tatai/app/resources/recordings/"+number+".wav").toString());
+                    AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource("tatai/app/resources/recordings/"+number+".wav"));
+                    audio = AudioSystem.getClip();
+                    audio.open(audioIn);
                     listenBtn.setVisible(true);
-                } catch (NullPointerException e) {
+                } catch (Exception e) {
                     // Audio not found...
                     listenBtn.setVisible(false);
                 }
@@ -118,7 +121,8 @@ public class PracticeModeCell extends ListCell<Integer> {
     }
 
     @FXML void listenBtnPressed() {
-        new MediaPlayer(audio).play();
+        audio.setMicrosecondPosition(0);
+        audio.start();
     }
 
     private void checkAnswer(String recordedAnswer) {

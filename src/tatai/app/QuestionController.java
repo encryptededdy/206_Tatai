@@ -63,6 +63,7 @@ public class QuestionController {
     private TranslateTransition achievementTransition;
 
     private int netModeID;
+    private boolean netMode = false;
 
     private Timeline recordingProgressTimeline;
 
@@ -163,6 +164,7 @@ public class QuestionController {
     }
 
     void enableNet(int id) {
+        netMode = true;
         netModeID = id;
         System.out.println("Online Game, ID: "+id);
         challengePane.setVisible(true);
@@ -241,7 +243,9 @@ public class QuestionController {
             try {
                 Parent root = loader.load();
                 loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
-                loader.<CompleteScreenController>getController().netMode(netModeID);
+                if (netMode) {
+                    loader.<CompleteScreenController>getController().netMode(netModeID);
+                }
                 // Fade out
                 FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
                 FadeTransition ft1 = TransitionFactory.fadeOut(questionLabel);
