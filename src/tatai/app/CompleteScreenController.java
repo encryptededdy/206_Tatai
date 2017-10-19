@@ -1,8 +1,11 @@
 package tatai.app;
 
+import com.google.gson.JsonObject;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import javafx.animation.*;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -53,6 +56,15 @@ public class CompleteScreenController {
     @FXML private VBox graphVBox;
     @FXML private VBox roundStatsVBox;
     @FXML private ImageView backgroundImage;
+    @FXML private Pane challengeResultsPane;
+    @FXML private Label resultText;
+    @FXML private Label otherUserNameText;
+    @FXML private Label yourScore;
+    @FXML private Label theirScore;
+    @FXML private JFXProgressBar countdownBar;
+    @FXML private JFXButton closeChallenge;
+
+    private Timeline resultsWaitBar;
 
     QuestionGenerator nextGenerator;
 
@@ -72,10 +84,65 @@ public class CompleteScreenController {
         roundStatsPane.setLayoutY(500);
         graphVBox.setOpacity(0);
         graphVBox.setMouseTransparent(true);
+
+        // Client wait bar
+        resultsWaitBar = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(countdownBar.progressProperty(), 1)),
+                new KeyFrame(Duration.seconds(60), new KeyValue(countdownBar.progressProperty(), 0))
+        );
     }
 
     void netMode(int id) {
-        // TODO
+        int score = _mostRecentRound.getScore();
+        resultsWaitBar.play();
+        yourScore.setText(Integer.toString(score));
+        challengeResultsPane.setVisible(true);
+
+        Task<JsonObject> resultsWait = new Task<JsonObject>() {
+            @Override
+            protected JsonObject call() {
+                try {
+                    return Main.netConnection.finishRound(id, score);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            }
+        };
+
+        resultsWait.setOnSucceeded(event -> {
+            JsonObject result = resultsWait.getValue();
+            if (result == null) {
+                resultText.setText("Connection Error");
+                resultsWaitBar.stop();
+            } else {
+                // Parse the JSON
+                if (result.get("finished").getAsBoolean()) {
+                    // We're finished
+                    countdownBar.setVisible(false);
+                    otherUserNameText.setText(result.get("otherUser").getAsString()+"'s Score");
+                    int otherScore = result.get("otherScore").getAsInt();
+                    theirScore.setText(Integer.toString(otherScore));
+
+                    if (score < otherScore) {
+                        resultText.setText("You Lost!");
+                    } else if (score > otherScore) {
+                        resultText.setText("You Won!");
+                    } else {
+                        resultText.setText("Draw!");
+                    }
+
+                } else {
+                    // Error :(
+                    resultText.setText("Connection Error");
+                    resultsWaitBar.stop();
+                }
+            }
+        });
+
+        new Thread(resultsWait).start();
+
+        // TODO: Upload the score and long poll for response
     }
 
     /**
@@ -147,6 +214,13 @@ public class CompleteScreenController {
             tt.play();
             TransitionFactory.fadeOut(roundStatsPane).play();
         }
+    }
+
+    /**
+     * Hide the challenge results pane
+     */
+    @FXML void closeChallengePressed() {
+        challengeResultsPane.setVisible(false);
     }
 
     /**

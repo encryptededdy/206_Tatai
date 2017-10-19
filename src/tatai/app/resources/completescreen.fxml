@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
 <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CompleteScreenController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
@@ -153,6 +158,44 @@
                   </BarChart>
                </children>
             </VBox>
+         </children>
+      </Pane>
+      <Pane fx:id="challengeResultsPane" layoutX="75.0" layoutY="15.0" prefHeight="399.0" prefWidth="650.0" style="-fx-background-color: #212121;" visible="false">
+         <effect>
+            <DropShadow radius="9.75" width="20.0" />
+         </effect>
+         <children>
+            <Label fx:id="resultText" alignment="CENTER" layoutX="60.0" layoutY="26.0" prefHeight="44.0" prefWidth="530.0" text="Waiting for your opponent..." textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="36.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="146.0" prefHeight="44.0" prefWidth="280.0" text="Your Score" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="otherUserNameText" alignment="CENTER" layoutX="357.0" layoutY="146.0" prefHeight="44.0" prefWidth="280.0" text="Waiting for your opponent..." textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="yourScore" alignment="CENTER" layoutX="61.0" layoutY="196.0" prefHeight="44.0" prefWidth="186.0" text="..." textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="48.0" />
+               </font>
+            </Label>
+            <Label fx:id="theirScore" alignment="CENTER" layoutX="404.0" layoutY="196.0" prefHeight="44.0" prefWidth="186.0" text="..." textFill="WHITE">
+               <font>
+                  <Font name="Roboto Medium" size="48.0" />
+               </font>
+            </Label>
+            <JFXProgressBar fx:id="countdownBar" layoutX="60.0" layoutY="88.0" prefHeight="13.0" prefWidth="530.0" progress="1.0" />
+            <JFXButton fx:id="closeChallenge" buttonType="RAISED" defaultButton="true" ellipsisString="" layoutX="264.0" layoutY="350.0" maxWidth="121.32" minWidth="121.32" onAction="#closeChallengePressed" prefWidth="121.32" ripplerFill="WHITE" style="-fx-background-color: #3F51B5;" text="Close" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="Roboto Medium" size="18.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
       <Pane fx:id="questionPaneclrShadow" layoutX="196.0" layoutY="73.0" opacity="0.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #212121;" visible="false">

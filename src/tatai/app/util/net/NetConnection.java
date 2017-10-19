@@ -161,6 +161,26 @@ public class NetConnection {
         }
     }
 
+    public JsonObject finishRound(int id, int score) {
+        try {
+            System.out.println("Upload score; waiting for round finish");
+            String result = Request.Post(host+"finishRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("roundID", Integer.toString(id))
+                            .add("score", Integer.toString(score))
+                            .build())
+                    .socketTimeout(90000)
+                    .execute()
+                    .returnContent().toString();
+            System.out.println("Got result!");
+            return new JsonParser().parse(result).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public JsonObject joinRound(int id) {
         try {
             String result = Request.Post(host+"joinRound.php")
