@@ -24,7 +24,7 @@
             <FontAwesomeIconView fill="WHITE" glyphName="COG" size="20.0" />
          </graphic>
       </JFXButton>
-      <Pane fx:id="mainPane" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;">
+      <Pane fx:id="mainPane" cache="true" cacheHint="SCALE" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;">
          <children>
             <Pane fx:id="mainDataPane" prefHeight="500.0" prefWidth="400.0">
                <children>

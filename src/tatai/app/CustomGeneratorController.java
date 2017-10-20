@@ -113,7 +113,7 @@ public class CustomGeneratorController extends ToolbarController {
             FXMLLoader loader = Layout.LEVEL.loader();
             Parent root = loader.load();
             // Fade out items
-            FadeTransition ft = TransitionFactory.fadeOut(dataPane, Main.transitionDuration);
+            FadeTransition ft = TransitionFactory.fadeOut(dataPane);
             ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeInWithoutMenu();});
             // animate
             ft.play();

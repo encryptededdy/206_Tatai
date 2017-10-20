@@ -8,6 +8,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -36,6 +38,7 @@ public class LevelSelectorController {
         frontImg.setImage(Main.parralaxFront);
         backImg.setImage(Main.parralaxBack);
 
+        prevBtn.setDisable(true);
         mainPane.setOpacity(0);
         mainPane.setCache(true);
         paneState = 0;
@@ -59,6 +62,21 @@ public class LevelSelectorController {
             frontImg.setVisible(false);
             backImg.setVisible(false);
         }
+
+        // Setup KB shortcuts
+        backgroundImage.getParent().addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.LEFT) {
+                if (!prevBtn.isDisabled()) {
+                    prevBtnPressed();
+                }
+                keyEvent.consume();
+            } else if (keyEvent.getCode() == KeyCode.RIGHT) {
+                if (!nextBtn.isDisabled()) {
+                    nextBtnPressed();
+                }
+                keyEvent.consume();
+            }
+        });
     }
 
     void recreatePanes() {
@@ -97,29 +115,53 @@ public class LevelSelectorController {
      * Fade in without animating the main menu item
      */
     public void fadeInWithoutMenu() {
-        Transition ft = TransitionFactory.fadeIn(mainPane);
+        animInPane.setVisible(false);
+        TransitionFactory.fadeIn(mainPane, Main.transitionDuration*2).play();
+        // Setup the pane animInPane correctly for transition out
+        Transition mt = TransitionFactory.move(animInPane, 0, -446, Main.transitionDuration*2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
+        st.setToX(2);
+        ParallelTransition pt = new ParallelTransition(mt, st);
+        pt.play();
+    }
+
+    @FXML private void backBtnPressed() throws IOException {
+        // Switch back to the main Menu
+        animInPane.setVisible(true);
+        Transition mt = TransitionFactory.move(animInPane, 0, 446, Main.transitionDuration*2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
+        st.setToX(1);
+        ParallelTransition pt = new ParallelTransition(mt, st);
+        Scene scene = prevBtn.getScene();
+        FXMLLoader loader = Layout.MAINMENU.loader();
+        Parent root = loader.load();
+        loader.<MainMenuController>getController().setupFade(false);
+        pt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
+        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
+        ft.setOnFinished(event -> pt.play());
         ft.play();
     }
 
-    public void prevBtnClicked() throws IOException {
+    public void prevBtnPressed() {
         prevPaneState = paneState;
         if (paneState > 0) {
             paneState--;
-        } else {
-            // Switch back to the main Menu
-            FadeTransition ft = TransitionFactory.fadeOut(mainPane);
-            Scene scene = prevBtn.getScene();
-            FXMLLoader loader = Layout.MAINMENU.loader();
-            Parent root = loader.load();
-            loader.<MainMenuController>getController().setupFade(false);
-            ft.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
-            ft.play();
+            System.out.println(paneState);
+            if (paneState == 0) {
+                prevBtn.setDisable(true);
+            }
+            nextBtn.setDisable(false);
         }
         updatePanesLocation();
     }
 
-    public void nextBtnClicked() {
+    public void nextBtnPressed() {
         prevPaneState = paneState;
+        System.out.println(paneState);
+        if (paneState == 1) {
+            nextBtn.setDisable(true);
+        }
+        prevBtn.setDisable(false);
         if (paneState < 2) {
             paneState++;
         }
