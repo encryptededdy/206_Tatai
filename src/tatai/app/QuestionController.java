@@ -22,7 +22,11 @@ import javafx.util.Duration;
 import org.controlsfx.control.PopOver;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.AchievementView;
+import tatai.app.util.Achievements.Achievement;
+import tatai.app.util.Achievements.AchievementManager;
+import tatai.app.util.Achievements.AchievementView;
+import tatai.app.util.Achievements.TrophyAchievement;
+import tatai.app.util.DisplaysAchievements;
 import tatai.app.util.Layout;
 import tatai.app.util.Record;
 import tatai.app.util.Translator;
@@ -30,6 +34,7 @@ import tatai.app.util.factories.PopoverFactory;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Random;
 
 /**
@@ -38,7 +43,7 @@ import java.util.Random;
  * @author Edward
  * @author Zach
  */
-public class QuestionController {
+public class QuestionController implements DisplaysAchievements {
 
     private Round _currentRound;
     private Record answerRecording;
@@ -262,7 +267,7 @@ public class QuestionController {
         nextHelp.hide();
     }
 
-    private void animateAchievement(AchievementView achievement) {
+    public void animateAchievement(AchievementView achievement) {
         achievementPane.setOpacity(1);
         achievementPane.getChildren().clear();
         achievementPane.getChildren().setAll(achievement.getNode());
@@ -444,13 +449,47 @@ public class QuestionController {
         checkHelp.hide();
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
-            // TODO: Do actual achievement code here!
+
+            // STREAK CODE
             if (_currentRound.getStreak() > 2 && _currentRound.getStreak() < 5) {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.CHAIN));
             } else if (_currentRound.getStreak() == 5) {
-                animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.TROPHY, "+100"));
-                Main.store.credit(100); // PLACEHOLDER ONLY: Actually implement achievements soon!
+                animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.FIRE, "+100"));
             }
+
+            // ACHIEVEMENTS CODE
+            try {
+
+                String generatorName = _currentRound.getGenerator().getGeneratorName();
+                int correctAnswers = TrophyAchievement.getCorrectAnswers(_currentRound.getGenerator());
+                int goldThreshold = TrophyAchievement.getGoldScore();
+                int silverThreshold = TrophyAchievement.getSilverScore();
+                int bronzeThreshold = TrophyAchievement.getBronzeScore();
+
+                AchievementManager achievementManager = Main.store.achievements;
+                Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
+                Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
+                Achievement goldAchievement = achievementManager.getAchievements().get(generatorName + " - Gold");
+
+                if (correctAnswers >= goldThreshold && !goldAchievement.isCompleted()) { // GOLD
+                    Main.store.achievements.getAchievements().get(generatorName + " - Gold").setCompleted(this, achievementPane);
+                }
+                if (correctAnswers >= silverThreshold && !silverAchievement.isCompleted()) {
+                    Main.store.achievements.getAchievements().get(generatorName + " - Silver").setCompleted(this, achievementPane);
+                }
+                if (correctAnswers >= bronzeThreshold && !bronzeAchievement.isCompleted()) {
+                    Main.store.achievements.getAchievements().get(generatorName + " - Bronze").setCompleted(this, achievementPane);
+                }
+            } catch (SQLException sqle) {
+                sqle.printStackTrace();
+            }
+            try {
+                int correctAnswers = TrophyAchievement.getCorrectAnswers(_currentRound.getGenerator());
+
+            } catch (SQLException sqle) {
+                sqle.printStackTrace();
+            }
+
         } else {
             answerIncorrect();
         }
@@ -586,5 +625,10 @@ public class QuestionController {
             label.setStyle("-fx-font: 30 \"Roboto Bold\";");
         }
         label.setText(text);
+    }
+
+    @FXML void achievementBtnPressed() {
+        Achievement achievement = new Achievement("test achievement", "yea this is a test");
+        achievement.setCompleted(this, achievementPane);
     }
 }

@@ -11,10 +11,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Achievements.Achievement;
+import tatai.app.util.Achievements.AchievementManager;
+import tatai.app.util.Achievements.TrophyAchievement;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class LevelPaneController {
     @FXML JFXButton playBtn, bigPlayBtn, unlockBtn, playMaoriBtn;
@@ -32,8 +36,9 @@ public class LevelPaneController {
 
     private QuestionGenerator generator;
 
-    public void initialize() {
+    private AchievementManager achievementManager;
 
+    public void initialize() {
     }
 
     void setParentNode(Node parent) {
@@ -61,9 +66,25 @@ public class LevelPaneController {
         }
 
         // Disable the trophys until we know what to do with them
+        achievementManager = Main.store.achievements;
+        String generatorName = generator.getGeneratorName();
+        Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
+        Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
+        Achievement goldAchievement = achievementManager.getAchievements().get(generatorName + " - Gold");
+
         bronze.setOpacity(0.2);
         silver.setOpacity(0.2);
         gold.setOpacity(0.2);
+
+        if (bronzeAchievement.isCompleted()) {
+            bronze.setOpacity(1);
+        }
+        if (silverAchievement.isCompleted()) {
+            silver.setOpacity(1);
+        }
+        if (goldAchievement.isCompleted()) {
+            gold.setOpacity(1);
+        }
     }
 
     @FXML

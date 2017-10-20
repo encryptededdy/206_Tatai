@@ -1,4 +1,4 @@
-package tatai.app.util;
+package tatai.app.util.Achievements;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import tatai.app.util.Layout;
 
 import java.io.IOException;
 

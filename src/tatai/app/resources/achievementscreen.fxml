@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXRippler?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StoreController">
+   <children>
+      <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
+      <Pane fx:id="backgroundPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
+      <Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <Pane fx:id="controls" prefHeight="60.0" prefWidth="800.0" style="-fx-background-color: #3F51B5;">
+               <children>
+                  <JFXRippler ripplerFill="white">
+                     <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="60.0" prefWidth="72.0">
+                        <children>
+                           <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
+                        </children>
+                     </Pane>
+                  </JFXRippler>
+                  <Label layoutX="323.0" layoutY="16.0" text="Achievements" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Medium" size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+               <JFXListView fx:id="storeItemList" layoutX="255.0" layoutY="60.0" prefHeight="440.0" prefWidth="545.0" stylesheets="@listviews.css" />
+               <Pane fx:id="sidePane" layoutY="60.0" prefHeight="440.0" prefWidth="255.0" style="-fx-background-color: #151515;">
+                  <children>
+                     <Label layoutX="36.0" layoutY="14.0" text="Achievement Progress" textFill="WHITE">
+                        <font>
+                           <Font name="Roboto Medium" size="18.0" />
+                        </font>
+                     </Label>
+                     <Label fx:id="balanceLabel" alignment="CENTER" layoutX="64.0" layoutY="41.0" prefHeight="52.0" prefWidth="125.0" text="10/25" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="Roboto Medium" size="42.0" />
+                        </font>
+                     </Label>
+                     <JFXButton fx:id="purchaseBtn" buttonType="RAISED" layoutX="40.0" layoutY="326.0" onAction="#purchaseBtnPressed" prefHeight="35.0" prefWidth="175.0" style="-fx-background-color: #3F51B5;" text="Purchase" textFill="WHITE">
+                        <font>
+                           <Font name="Roboto" size="18.0" />
+                        </font>
+                     </JFXButton>
+                     <JFXButton fx:id="applyBtn" buttonType="RAISED" layoutX="40.0" layoutY="376.0" onAction="#applyBtnPressed" prefHeight="35.0" prefWidth="175.0" style="-fx-background-color: #3F51B5;" text="Apply Item" textFill="WHITE">
+                        <font>
+                           <Font name="Roboto" size="18.0" />
+                        </font>
+                     </JFXButton>
+                  </children></Pane>
+         </children>
+      </Pane>
+         <effect>
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
+         </effect>
+      </Pane>
+   </children>
+</Pane>
