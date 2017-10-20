@@ -8,6 +8,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.layout.Pane;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
@@ -15,6 +17,7 @@ import tatai.app.util.factories.TransitionFactory;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalTime;
 
 /**
  * Controls the dashboard statistics screen
@@ -24,8 +27,9 @@ import java.sql.SQLException;
 
 public class DashboardController extends ToolbarController {
 
-    @FXML private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial;
+    @FXML private Tile accuracyTile, answerTime, roundScore, questionSetBar, roundLength, triesRadial, totalTime;
     @FXML private Pane advBtn, noDataErrorPane;
+    @FXML private LineChart<String, Number> questionScoreChart;
 
     /**
      * Sets up the dashboard for fade in, and populates all dashboard fields
@@ -42,11 +46,12 @@ public class DashboardController extends ToolbarController {
         if (hasCompletedRound()) {
             populateAccuracyTile();
             populateTTAnswerTile();
-            populateRoundScoreGraph();
-            //populateTime();
+            populateRoundAccuracyGraph();
+            populateTime();
             populateTriesBar();
             populateQuestionSetBar();
             populateRoundLength();
+            populateRoundScoreGraph();
         } else {
             noDataErrorPane.setVisible(true);
         }
@@ -96,22 +101,20 @@ public class DashboardController extends ToolbarController {
         }
     }
 
-    /*
     private void populateTime() {
         ResultSet avg = Main.database.returnOp("SELECT SUM(roundlength) FROM rounds WHERE username = '"+Main.currentUser+"'");
         try {
             avg.next();
-            timeTile.setDuration(LocalTime.ofSecondOfDay(avg.getLong(1)));
+            totalTime.setDuration(LocalTime.ofSecondOfDay(avg.getLong(1)));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    */
 
     /**
-     * Populates the graph of the last 20 scores along with the current score
+     * Populates the graph of the last 20 accuracies along with the current score
      */
-    private void populateRoundScoreGraph() {
+    private void populateRoundAccuracyGraph() {
         ResultSet data = Main.database.returnOp("SELECT noquestions, nocorrect FROM (SELECT noquestions, nocorrect, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 20) as output ORDER BY output.roundID ASC");
         ResultSet latest = Main.database.returnOp("SELECT noquestions, nocorrect FROM rounds WHERE username = '"+ Main.currentUser+"' AND isComplete = 1 ORDER BY roundID DESC LIMIT 1");
         try {
@@ -124,6 +127,30 @@ public class DashboardController extends ToolbarController {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Populates the graph of the last 20 scores along with the current score
+     */
+    private void populateRoundScoreGraph() {
+        ResultSet data = Main.database.returnOp("SELECT score FROM (SELECT score, roundID FROM rounds WHERE username = '"+ Main.currentUser+"' AND score IS NOT NULL ORDER BY roundID DESC LIMIT 50) as output ORDER BY output.roundID ASC");
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        try {
+            int i = 1;
+            while (data.next()) {
+                series.getData().add(new XYChart.Data<>(Integer.toString(i), data.getInt(1)));
+                i++;
+                System.out.println("Adding: "+data.getInt(1));
+                //roundScore.addChartData(new ChartData(((data.getDouble(2)/data.getDouble(1))*100)));
+            }
+            questionScoreChart.getXAxis().setVisible(false);
+            questionScoreChart.setLegendVisible(false);
+            questionScoreChart.setCreateSymbols(false);
+            questionScoreChart.getData().add(series);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * Populates the bar graph of the number of questions answered per question set.
