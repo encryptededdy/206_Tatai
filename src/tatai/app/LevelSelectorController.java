@@ -82,6 +82,7 @@ public class LevelSelectorController {
     }
 
     public void fadeIn() {
+        animInPane.setVisible(true);
         Transition mt = TransitionFactory.move(animInPane, 0, -446, Main.transitionDuration*2);
         ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
         st.setToX(2);
@@ -90,6 +91,14 @@ public class LevelSelectorController {
         pt.setOnFinished(event -> ft.play());
         ft.setOnFinished(event -> animInPane.setVisible(false));
         pt.play();
+    }
+
+    /**
+     * Fade in without animating the main menu item
+     */
+    public void fadeInWithoutMenu() {
+        Transition ft = TransitionFactory.fadeIn(mainPane);
+        ft.play();
     }
 
     public void prevBtnClicked() throws IOException {
