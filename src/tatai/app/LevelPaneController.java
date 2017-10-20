@@ -11,14 +11,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import tatai.app.questions.generators.QuestionGenerator;
-import tatai.app.util.Achievements.Achievement;
-import tatai.app.util.Achievements.AchievementManager;
-import tatai.app.util.Achievements.TrophyAchievement;
+import tatai.app.util.achievements.Achievement;
+import tatai.app.util.achievements.AchievementManager;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 public class LevelPaneController {
     @FXML JFXButton playBtn, bigPlayBtn, unlockBtn, playMaoriBtn;

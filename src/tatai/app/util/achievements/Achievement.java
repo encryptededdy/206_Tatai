@@ -1,7 +1,8 @@
-package tatai.app.util.Achievements;
+package tatai.app.util.achievements;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import tatai.app.Main;
 import tatai.app.util.DisplaysAchievements;
 
@@ -102,6 +103,25 @@ public class Achievement {
         AchievementView av = new AchievementView(_name, _icon, Integer.toString(_reward));
         achievementPane.getChildren().add(av.getNode());
         screen.animateAchievement(av);
+    }
 
+    public String getName() {
+        return _name;
+    }
+
+    public FontAwesomeIcon getIcon() {
+        return _icon;
+    }
+
+    public String getDescription() {
+        return  _description;
+    }
+
+    public int getReward() {
+        return _reward;
+    }
+
+    public Color getColor() {
+        return Color.GREEN;
     }
 }

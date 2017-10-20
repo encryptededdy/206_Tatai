@@ -1,4 +1,4 @@
-package tatai.app.util.Achievements;
+package tatai.app.util.achievements;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;

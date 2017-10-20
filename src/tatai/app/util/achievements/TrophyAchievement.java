@@ -1,5 +1,6 @@
-package tatai.app.util.Achievements;
+package tatai.app.util.achievements;
 
+import javafx.scene.paint.Color;
 import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
 
@@ -8,29 +9,44 @@ import java.sql.SQLException;
 
 public class TrophyAchievement extends Achievement {
     // SCORE THRESHOLDS FOR GETTNG THE TROPHY ACHIEVEMENTS;
-    private static int bronzeScore = 5;
-    private static int silverScore = 10;
-    private static int goldScore = 15;
+    private static int bronzeScore = 15;
+    private static int silverScore = 30;
+    private static int goldScore = 60;
+
+    private static int bronzeReward = 300;
+    private static int silverReward = 400;
+    private static int goldReward = 500;
+
+    private static Color bronzeColor = Color.web("#965a38");
+    private static Color silverColor = Color.web("#a8a8a8");
+    private static Color goldColor = Color.web("#c98910");
+
+    private String _rank;
 
     public TrophyAchievement(String name, String rank, String description, int reward, int completed, String completionMessage) {
         super(name + " - " + rank, description, reward, completed, "TROPHY", completionMessage);
+        _rank = rank;
     }
 
-    public TrophyAchievement(String name, String rank, String description) {
-        super(name + " - " + rank, description, 0, 0, "TROPHY", description);
+    public TrophyAchievement(String name, String rank, String description, int reward) {
+        super(name + " - " + rank, description, reward, 0, "TROPHY", description);
+        _rank = rank;
     }
 
     public static int getBronzeScore() {
         return bronzeScore;
     }
+    public static int getBronzeReward() { return  bronzeReward; }
 
     public static int getSilverScore() {
         return silverScore;
     }
+    public static int getSilverReward() { return silverReward; }
 
     public static int getGoldScore() {
         return goldScore;
     }
+    public static int getGoldReward() { return goldReward; }
 
     public static int getCorrectAnswers(QuestionGenerator qg) throws SQLException {
         String qgName = qg.getGeneratorName();
@@ -40,6 +56,23 @@ public class TrophyAchievement extends Achievement {
         return rs.getInt(1);
     }
 
+    public String getRank() { return _rank; }
+
+    @Override
+    public Color getColor() {
+        if (_rank.equals("Bronze")) {
+            return bronzeColor;
+        } else if (_rank.equals("Silver")) {
+            return silverColor;
+        } else if (_rank.equals("Gold")) {
+            return goldColor;
+        } else {
+            return Color.WHITE;
+        }
+    }
+
+
+    /*
     public static boolean isBronzeInDB(QuestionGenerator qg) throws SQLException {
         String qgName = qg.getGeneratorName();
         String achievementName = qgName + " - Bronze";
@@ -68,5 +101,5 @@ public class TrophyAchievement extends Achievement {
         ResultSet rs = Main.database.returnOp(SQLQuery);
         System.out.println(rs.getInt(1));
         return rs.getInt(1) == 1;
-    }
+    } */
 }

@@ -1,7 +1,7 @@
 package tatai.app.util.store;
 
 import tatai.app.questions.generators.GeneratorManager;
-import tatai.app.util.Achievements.AchievementManager;
+import tatai.app.util.achievements.AchievementManager;
 
 import java.util.ArrayList;
 

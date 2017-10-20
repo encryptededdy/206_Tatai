@@ -152,6 +152,10 @@ public class MainMenuController {
         switchToToolbar(Layout.STORE);
     }
 
+    @FXML private void achievementsBtnPressed() throws IOException {
+        switchToToolbar(Layout.ACHIEVEMENTSCREEN);
+    }
+
     /**
      * Animate to a ToolbarController screen
      * @param target The layout to switch to
