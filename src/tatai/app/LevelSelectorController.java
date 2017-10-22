@@ -126,7 +126,6 @@ public class LevelSelectorController {
         for (Node node : nodes) {
             // If it isn't the excluded node, fade it out too
              if (node != excludedNode) {
-                 System.out.println("Added node");
                  pt.getChildren().add(TransitionFactory.fadeOut(node, Main.transitionDuration*2));
              }
         }

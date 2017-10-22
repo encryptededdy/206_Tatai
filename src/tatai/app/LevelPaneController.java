@@ -78,8 +78,16 @@ public class LevelPaneController {
     }
 
     public void playBtnPressed() throws IOException {
+        switchScene(false);
+    }
+
+    public void playMaoriBtnPressed() throws IOException {
+        switchScene(true);
+    }
+
+    private void switchScene(boolean maori) throws IOException {
         pane.toFront();
-        generator.setMaori(false);
+        generator.setMaori(maori);
         ParallelTransition pt = fadeAnimate();
         Scene scene = pane.getScene();
         FXMLLoader loader = Layout.QUESTION.loader();
@@ -87,10 +95,6 @@ public class LevelPaneController {
         loader.<QuestionController>getController().setQuestionSet(generator);
         pt.setOnFinished(event -> {scene.setRoot(root); loader.<QuestionController>getController().fadeIn();});
         pt.play();
-    }
-
-    public void playMaoriBtnPressed() throws IOException {
-
     }
 
     private ParallelTransition fadeAnimate() {
