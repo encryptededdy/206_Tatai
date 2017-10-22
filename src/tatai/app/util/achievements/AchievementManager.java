@@ -4,28 +4,41 @@ import tatai.app.questions.generators.GeneratorManager;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class AchievementManager {
-    private Hashtable<String, Achievement> achievements;
+    private LinkedHashMap<String, Achievement> achievements;
 
     public AchievementManager(GeneratorManager generators) {
-        achievements = new Hashtable<String, Achievement>();
+        achievements = new LinkedHashMap<String, Achievement>();
         for (int i = 0; i < generators.getGenerators().size(); i++) {
             String name = generators.getGenerators().get(i).getGeneratorName();
             String bronzeName = name + " - Bronze";
             String silverName = name + " - Silver";
             String goldName = name + " - Gold";
             achievements.put(bronzeName, new TrophyAchievement(name, "Bronze",
-                    "yay b emoji achieved!", TrophyAchievement.getBronzeReward(), TrophyAchievement.getBronzeColor()));
+                    "Answered 15 correct questions for the " + name + " questions.", TrophyAchievement.getBronzeReward(), TrophyAchievement.getBronzeColor()));
             achievements.put(silverName, new TrophyAchievement(name, "Silver",
-                    "yay deet achieved!", TrophyAchievement.getSilverReward(), TrophyAchievement.getSilverColor()));
+                    "Answered 30 correct questions for the " + name + " questions.", TrophyAchievement.getSilverReward(), TrophyAchievement.getSilverColor()));
             achievements.put(goldName, new TrophyAchievement(name, "Gold",
-                    "deet", TrophyAchievement.getGoldReward(), TrophyAchievement.getGoldColor()));
+                    "Answered 60 correct questions for the " + name + " questions.", TrophyAchievement.getGoldReward(), TrophyAchievement.getGoldColor()));
         }
     }
 
-    public Hashtable<String, Achievement> getAchievements() {return achievements;}
+    public LinkedHashMap<String, Achievement> getAchievements() {return achievements;}
+
+    public int numberOfAchievements() {return achievements.size(); }
+
+    public int numberOfCompletedAchievements() {
+        int count = 0;
+        for (Achievement achievement : getAchievementsArrayList()) {
+            if (achievement.isCompleted()) {
+                count++;
+            }
+        }
+        return count;
+    }
 
 
     public ArrayList<Achievement> getAchievementsArrayList() {

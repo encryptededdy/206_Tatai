@@ -27,35 +27,15 @@ public class AchievementsController extends ToolbarController {
         storeItemList.getSelectionModel().selectFirst();
         update();
         storeItemList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            //checkApplyable();
-            //checkPurchasable();
         });
+        
+        String completedAchievements = Integer.toString(Main.achievementManager.numberOfCompletedAchievements());
+        String totalAchievements = Integer.toString(Main.achievementManager.numberOfAchievements());
+        balanceLabel.setText(completedAchievements + "/" + totalAchievements);
     }
 
     private void update() {
         storeItemList.refresh();
-        //checkPurchasable();
-        //checkApplyable();
         balanceLabel.setText(Integer.toString(Main.store.getBalance()));
     }
-
-    /*
-    @FXML void applyBtnPressed() {
-        storeItemList.getSelectionModel().getSelectedItem().applyChanges();
-        update();
-        applyBtn.setDisable(true);
-    }
-
-    @FXML void purchaseBtnPressed() {
-        storeItemList.getSelectionModel().getSelectedItem().purchase();
-        update();
-    }
-
-    private void checkPurchasable() {
-        purchaseBtn.setDisable(!storeItemList.getSelectionModel().getSelectedItem().isPurchaseable());
-    }
-
-    private void checkApplyable() {
-        applyBtn.setDisable(!storeItemList.getSelectionModel().getSelectedItem().isPurchased());
-    }*/
 }

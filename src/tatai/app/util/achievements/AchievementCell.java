@@ -41,8 +41,8 @@ public class AchievementCell extends ListCell<Achievement> {
             nameLabel.setText(achievement.getName());
             icon.setIcon(achievement.getIcon());
             descLabel.setText(achievement.getDescription());
-            //icon.setFill(achievement.getColor());
             icon.setFill(achievement.getColor());
+
             if (!achievement.isCompleted()) {
                 ownedIcon.setVisible(false);
                 costLabel.setVisible(true);
