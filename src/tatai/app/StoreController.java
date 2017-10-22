@@ -38,6 +38,7 @@ public class StoreController extends ToolbarController {
 
     @FXML void applyBtnPressed() {
         storeItemList.getSelectionModel().getSelectedItem().applyChanges();
+        Main.store.lastApplied = storeItemList.getSelectionModel().getSelectedItem();
         update();
         applyBtn.setDisable(true);
     }

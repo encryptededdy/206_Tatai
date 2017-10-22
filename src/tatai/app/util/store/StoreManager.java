@@ -27,6 +27,18 @@ public class StoreManager {
         items.add(new AucklandParallax());
         items.add(new SpaceParallax());
         items.add(new MtCookParallax());
+        lastApplied = items.get(5);
+        restoreItem();
+    }
+
+    public StoreItem lastApplied;
+
+    public void restoreItem() {
+        if (lastApplied != null) {
+            lastApplied.applyChanges();
+        } else {
+            items.get(5).applyChanges();
+        }
     }
 
     /**

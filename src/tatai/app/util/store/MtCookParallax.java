@@ -10,7 +10,7 @@ public class MtCookParallax extends StoreItem {
         itemdescription = "A photo from the slops of Aoraki / Mt Cook. Supports Parallax effect (beta).";
 
         icon = FontAwesomeIcon.MAP_ALT;
-        cost = 0;
+        cost = 700;
     }
 
     public void applyChanges() {

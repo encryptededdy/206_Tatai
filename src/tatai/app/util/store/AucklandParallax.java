@@ -10,7 +10,7 @@ public class AucklandParallax extends StoreItem {
         itemdescription = "A satellite image of Auckland's CBD, with moving clouds. Supports Parallax effect (beta).";
 
         icon = FontAwesomeIcon.MAP_ALT;
-        cost = 0;
+        cost = 500;
     }
 
     public void applyChanges() {

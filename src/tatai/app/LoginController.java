@@ -92,6 +92,7 @@ public class LoginController {
             Main.store = new StoreManager();
         } else {
             Main.store = database.getStore();
+            Main.store.restoreItem();
         }
         Main.achievementManager = new AchievementManager(Main.store.generators);
         Scene scene = loginBtn.getScene();

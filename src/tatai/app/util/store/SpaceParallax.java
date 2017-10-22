@@ -10,7 +10,7 @@ public class SpaceParallax extends StoreItem {
         itemdescription = "The South Island of New Zealand as seen from the International Space Station. Supports Parallax effect (beta).";
 
         icon = FontAwesomeIcon.MAP_ALT;
-        cost = 0;
+        cost = 700;
     }
 
     public void applyChanges() {
