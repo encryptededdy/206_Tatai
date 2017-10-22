@@ -139,8 +139,6 @@ public class DashboardController extends ToolbarController {
             while (data.next()) {
                 series.getData().add(new XYChart.Data<>(Integer.toString(i), data.getInt(1)));
                 i++;
-                System.out.println("Adding: "+data.getInt(1));
-                //roundScore.addChartData(new ChartData(((data.getDouble(2)/data.getDouble(1))*100)));
             }
             questionScoreChart.getXAxis().setVisible(false);
             questionScoreChart.setLegendVisible(false);

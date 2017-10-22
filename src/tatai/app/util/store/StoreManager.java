@@ -1,7 +1,6 @@
 package tatai.app.util.store;
 
 import tatai.app.questions.generators.GeneratorManager;
-import tatai.app.util.achievements.AchievementManager;
 
 import java.util.ArrayList;
 
@@ -9,7 +8,7 @@ import java.util.ArrayList;
  * Manages the monetery balance and also items unlocked in the store
  */
 public class StoreManager {
-    private int balance = 1000;
+    private int balance = 0;
 
     private ArrayList<StoreItem> items = new ArrayList<>();
 
@@ -28,6 +27,18 @@ public class StoreManager {
         items.add(new AucklandParallax());
         items.add(new SpaceParallax());
         items.add(new MtCookParallax());
+        lastApplied = items.get(5);
+        restoreItem();
+    }
+
+    public StoreItem lastApplied;
+
+    public void restoreItem() {
+        if (lastApplied != null) {
+            lastApplied.applyChanges();
+        } else {
+            items.get(5).applyChanges();
+        }
     }
 
     /**

@@ -65,6 +65,10 @@ public class SettingsController {
             longerAnimCheckbox.setDisable(true);
         }
         enableTutorialCheckbox.setSelected(Main.showTutorial);
+        // Set online username
+        if (Main.netConnection.getUsername() != null) {
+            onlineUsername.setText("Net: "+Main.netConnection.getUsername());
+        }
         // Setup the page change transition
         _frontPane = gameSettingsPane;
         ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration), animImage);

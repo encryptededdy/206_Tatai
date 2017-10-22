@@ -6,11 +6,11 @@ import tatai.app.Main;
 
 public class AucklandParallax extends StoreItem {
     AucklandParallax() {
-        itemname = "TEST: Auckland Satellite Parallax Wallpaper";
-        itemdescription = "Test parallax image";
+        itemname = "Auckland Satellite Parallax Wallpaper";
+        itemdescription = "A satellite image of Auckland's CBD, with moving clouds. Supports Parallax effect (beta).";
 
         icon = FontAwesomeIcon.MAP_ALT;
-        cost = 0;
+        cost = 500;
     }
 
     public void applyChanges() {
