@@ -53,6 +53,7 @@ public class AchievementCell extends ListCell<Achievement> {
                 ownedIcon.setVisible(false);
                 costLabel.setVisible(true);
                 icon.setVisible(true);
+                icon.setOpacity(1);
             }
 
             setText(null);

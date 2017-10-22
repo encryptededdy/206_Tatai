@@ -14,7 +14,7 @@
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" layoutX="2.0">
       </ImageView>
-      <Pane fx:id="achievementPane" layoutX="150.0" layoutY="424.0" prefHeight="50.0" prefWidth="500.0" />
+      <Pane fx:id="achievementPane" layoutX="273.0" layoutY="424.0" prefHeight="50.0" prefWidth="258.0" />
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>
             <DropShadow height="40.0" radius="19.5" width="40.0" />
