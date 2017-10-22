@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="dataPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="nameLabel" layoutX="85.0" layoutY="7.0" prefHeight="30.0" prefWidth="410.0" text="Bliss Wallpaper w/Logo" textFill="WHITE">
          <font>
@@ -13,7 +13,7 @@
          </font>
       </Label>
       <FontAwesomeIconView fx:id="icon" fill="WHITE" glyphName="TROPHY" layoutX="19.0" layoutY="52.0" size="42" text="" visible="false" />
-      <Label fx:id="descLabel" layoutX="85.0" layoutY="33.0" prefHeight="60.0" prefWidth="423.0" text="Change your background image to the famous default wallpaper from Microsoft Windows XP. Includes &quot;Windows xD&quot; logo. Faithfully reproduced in Microsoft Paint by Henry Li" textFill="WHITE" wrapText="true">
+      <Label fx:id="descLabel" layoutX="85.0" layoutY="33.0" prefHeight="60.0" prefWidth="420.0" text="Change your background image to the famous default wallpaper from Microsoft Windows XP. Includes &quot;Windows xD&quot; logo. Faithfully reproduced in Microsoft Paint by Henry Li" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Roboto" size="14.0" />
          </font>
