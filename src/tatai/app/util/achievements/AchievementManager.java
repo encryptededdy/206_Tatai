@@ -16,9 +16,12 @@ public class AchievementManager {
             String bronzeName = name + " - Bronze";
             String silverName = name + " - Silver";
             String goldName = name + " - Gold";
-            achievements.put(bronzeName, new TrophyAchievement(name, "Bronze", "yay bronze achieved!", TrophyAchievement.getBronzeReward()));
-            achievements.put(silverName, new TrophyAchievement(name, "Silver", "yay silver achieved!", TrophyAchievement.getSilverReward()));
-            achievements.put(goldName, new TrophyAchievement(name, "Gold", "yay gold achieved!", TrophyAchievement.getGoldReward()));
+            achievements.put(bronzeName, new TrophyAchievement(name, "Bronze",
+                    "yay b emoji achieved!", TrophyAchievement.getBronzeReward(), TrophyAchievement.getBronzeColor()));
+            achievements.put(silverName, new TrophyAchievement(name, "Silver",
+                    "yay deet achieved!", TrophyAchievement.getSilverReward(), TrophyAchievement.getSilverColor()));
+            achievements.put(goldName, new TrophyAchievement(name, "Gold",
+                    "deet", TrophyAchievement.getGoldReward(), TrophyAchievement.getGoldColor()));
         }
     }
 

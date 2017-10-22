@@ -16,15 +16,18 @@ public class Achievement {
     private String _description;
     private int _reward;
     private int _completed;
-    private FontAwesomeIcon _icon;
+    protected FontAwesomeIcon _icon;
+    public Color _iconColor;
     private String _completionMessage;
 
-    public Achievement(String name, String description, int reward, int completed, String iconName, String completionMessage) {
+    public Achievement(String name, String description, int reward, int completed, String iconName, Color iconColor, String completionMessage) {
         _name = name;
         _description = description;
         _reward = reward;
         _completed = completed;
         _icon = FontAwesomeIcon.valueOf(iconName);
+        _iconColor = iconColor;
+        System.out.println(_iconColor);
         _completionMessage = completionMessage;
         try {
             if (inDB()) {
@@ -38,7 +41,7 @@ public class Achievement {
     }
 
     public Achievement(String name, String description) {
-        this(name, description, 0, 0, "TROPHY", description);
+        this(name, description, 0, 0, "TROPHY", Color.WHITE, description);
     }
 
     public boolean isCompleted() {
@@ -46,25 +49,39 @@ public class Achievement {
     }
 
     private void updateDB() {
-        PreparedStatement ps = Main.database.getPreparedStatement("INSERT INTO achievements (name, username, description, completed, date, reward, iconname, message)" +
-                " VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement ps1 = Main.database.getPreparedStatement("INSERT OR IGNORE INTO achievements VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
         try {
-            ps.setString(1, _name);
-            ps.setString(2, Main.currentUser);
-            ps.setString(3, _description);
-            ps.setInt(4, _completed);
-            ps.setLong(5, Instant.now().getEpochSecond());
-            ps.setInt(6, _reward);
-            ps.setString(7, _icon.name());
-            ps.setString(8, _completionMessage);
-            ps.executeUpdate();
+            ps1.setString(1, _name);
+            ps1.setString(2, Main.currentUser);
+            ps1.setString(3, _description);
+            ps1.setInt(4, _completed);
+            ps1.setLong(5, Instant.now().getEpochSecond());
+            ps1.setInt(6, _reward);
+            ps1.setString(7, _icon.name());
+            ps1.setString(8, _completionMessage);
+
+            ps1.executeUpdate();
         } catch (SQLException sqle) {
             sqle.printStackTrace();
         }
+        PreparedStatement ps2 = Main.database.getPreparedStatement("UPDATE achievements SET completed = ?, date = ? WHERE name LIKE ? AND username LIKE ?");
+        try {
+            ps2.setInt(1, _completed);
+            ps2.setLong(2, Instant.now().getEpochSecond());
+
+            ps2.setString(3, _name);
+            ps2.setString(4, Main.currentUser);
+            ps2.executeUpdate();
+        } catch (SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
     }
 
     private boolean inDB() throws SQLException {
         String SQLQuery = "SELECT COUNT(name) FROM achievements WHERE username = '" + Main.currentUser + "' AND name = '" + _name + "'";
+        System.out.println("name: " + _name);
         ResultSet rs = Main.database.returnOp(SQLQuery);
         return rs.getBoolean(1);
     }
@@ -114,7 +131,7 @@ public class Achievement {
     }
 
     public String getDescription() {
-        return  _description;
+        System.out.println(_description); return  _description;
     }
 
     public int getReward() {
@@ -122,6 +139,6 @@ public class Achievement {
     }
 
     public Color getColor() {
-        return Color.GREEN;
+        return _iconColor;
     }
 }

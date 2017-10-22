@@ -466,19 +466,19 @@ public class QuestionController implements DisplaysAchievements {
                 int silverThreshold = TrophyAchievement.getSilverScore();
                 int bronzeThreshold = TrophyAchievement.getBronzeScore();
 
-                AchievementManager achievementManager = Main.store.achievements;
+                AchievementManager achievementManager = Main.achievementManager;
                 Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
                 Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
                 Achievement goldAchievement = achievementManager.getAchievements().get(generatorName + " - Gold");
 
                 if (correctAnswers >= goldThreshold && !goldAchievement.isCompleted()) { // GOLD
-                    Main.store.achievements.getAchievements().get(generatorName + " - Gold").setCompleted(this, achievementPane);
+                    achievementManager.getAchievements().get(generatorName + " - Gold").setCompleted(this, achievementPane);
                 }
                 if (correctAnswers >= silverThreshold && !silverAchievement.isCompleted()) {
-                    Main.store.achievements.getAchievements().get(generatorName + " - Silver").setCompleted(this, achievementPane);
+                    achievementManager.getAchievements().get(generatorName + " - Silver").setCompleted(this, achievementPane);
                 }
                 if (correctAnswers >= bronzeThreshold && !bronzeAchievement.isCompleted()) {
-                    Main.store.achievements.getAchievements().get(generatorName + " - Bronze").setCompleted(this, achievementPane);
+                    achievementManager.getAchievements().get(generatorName + " - Bronze").setCompleted(this, achievementPane);
                 }
             } catch (SQLException sqle) {
                 sqle.printStackTrace();

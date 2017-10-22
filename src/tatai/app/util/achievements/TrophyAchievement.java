@@ -23,13 +23,13 @@ public class TrophyAchievement extends Achievement {
 
     private String _rank;
 
-    public TrophyAchievement(String name, String rank, String description, int reward, int completed, String completionMessage) {
-        super(name + " - " + rank, description, reward, completed, "TROPHY", completionMessage);
+    public TrophyAchievement(String name, String rank, String description, int reward, int completed, Color iconColor, String completionMessage) {
+        super(name + " - " + rank, description, reward, completed, "TROPHY", iconColor, completionMessage);
         _rank = rank;
     }
 
-    public TrophyAchievement(String name, String rank, String description, int reward) {
-        super(name + " - " + rank, description, reward, 0, "TROPHY", description);
+    public TrophyAchievement(String name, String rank, String description, int reward, Color iconColor) {
+        super(name + " - " + rank, description, reward, 0, "TROPHY", iconColor, description);
         _rank = rank;
     }
 
@@ -37,16 +37,19 @@ public class TrophyAchievement extends Achievement {
         return bronzeScore;
     }
     public static int getBronzeReward() { return  bronzeReward; }
+    public static Color getBronzeColor() { return bronzeColor; }
 
     public static int getSilverScore() {
         return silverScore;
     }
     public static int getSilverReward() { return silverReward; }
+    public static Color getSilverColor() { return  silverColor; }
 
     public static int getGoldScore() {
         return goldScore;
     }
     public static int getGoldReward() { return goldReward; }
+    public static Color getGoldColor() { return goldColor; }
 
     public static int getCorrectAnswers(QuestionGenerator qg) throws SQLException {
         String qgName = qg.getGeneratorName();
@@ -57,20 +60,6 @@ public class TrophyAchievement extends Achievement {
     }
 
     public String getRank() { return _rank; }
-
-    @Override
-    public Color getColor() {
-        if (_rank.equals("Bronze")) {
-            return bronzeColor;
-        } else if (_rank.equals("Silver")) {
-            return silverColor;
-        } else if (_rank.equals("Gold")) {
-            return goldColor;
-        } else {
-            return Color.WHITE;
-        }
-    }
-
 
     /*
     public static boolean isBronzeInDB(QuestionGenerator qg) throws SQLException {

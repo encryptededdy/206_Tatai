@@ -23,7 +23,7 @@ public class AchievementsController extends ToolbarController {
     public void initialize() {
         super.initialize();
         storeItemList.setCellFactory(param -> new AchievementCell());
-        storeItemList.setItems(FXCollections.observableArrayList(Main.store.achievements.getAchievementsArrayList()));
+        storeItemList.setItems(FXCollections.observableArrayList(Main.achievementManager.getAchievementsArrayList()));
         storeItemList.getSelectionModel().selectFirst();
         update();
         storeItemList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
