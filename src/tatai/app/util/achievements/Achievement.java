@@ -27,7 +27,6 @@ public class Achievement {
         _completed = completed;
         _icon = FontAwesomeIcon.valueOf(iconName);
         _iconColor = iconColor;
-        System.out.println(_iconColor);
         _completionMessage = completionMessage;
         try {
             if (inDB()) {
@@ -81,7 +80,6 @@ public class Achievement {
 
     private boolean inDB() throws SQLException {
         String SQLQuery = "SELECT COUNT(name) FROM achievements WHERE username = '" + Main.currentUser + "' AND name = '" + _name + "'";
-        System.out.println("name: " + _name);
         ResultSet rs = Main.database.returnOp(SQLQuery);
         return rs.getBoolean(1);
     }
@@ -130,9 +128,7 @@ public class Achievement {
         return _icon;
     }
 
-    public String getDescription() {
-        System.out.println(_description); return  _description;
-    }
+    public String getDescription() {return  _description; }
 
     public int getReward() {
         return _reward;
