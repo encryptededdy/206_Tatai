@@ -6,8 +6,8 @@ import tatai.app.Main;
 
 public class MtCookParallax extends StoreItem {
     MtCookParallax() {
-        itemname = "TEST: MtCook Parallax Wallpaper";
-        itemdescription = "Test parallax image";
+        itemname = "Aoraki Mt Cook Parallax Wallpaper";
+        itemdescription = "A photo from the slops of Aoraki / Mt Cook. Supports Parallax effect (beta).";
 
         icon = FontAwesomeIcon.MAP_ALT;
         cost = 0;

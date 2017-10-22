@@ -6,8 +6,8 @@ import tatai.app.Main;
 
 public class SpaceParallax extends StoreItem {
     SpaceParallax() {
-        itemname = "TEST: NZ from Space Parallax Wallpaper";
-        itemdescription = "Test parallax image 2";
+        itemname = "NZ from Space Parallax Wallpaper";
+        itemdescription = "The South Island of New Zealand as seen from the International Space Station. Supports Parallax effect (beta).";
 
         icon = FontAwesomeIcon.MAP_ALT;
         cost = 0;

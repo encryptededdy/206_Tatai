@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #424242;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.MainMenuController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
       <ImageView fx:id="backImg" fitHeight="550.0" fitWidth="850.0" layoutX="-25.0" layoutY="-15.0" preserveRatio="true" visible="false" />
@@ -66,7 +66,7 @@
                         <FontAwesomeIconView fill="WHITE" glyphName="SHOPPING_CART" size="20" />
                      </graphic>
                   </JFXButton>
-                  <JFXButton fx:id="achievementsBtn" cancelButton="true" disable="true" layoutX="333.0" layoutY="441.0" onAction="#achievementsBtnPressed" onContextMenuRequested="#closeApplicationRight" prefHeight="35.0" prefWidth="35.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;" textFill="WHITE">
+                  <JFXButton fx:id="achievementsBtn" cancelButton="true" layoutX="333.0" layoutY="441.0" onAction="#achievementsBtnPressed" onContextMenuRequested="#closeApplicationRight" prefHeight="35.0" prefWidth="35.0" ripplerFill="#dad0d0" style="-fx-background-color: #3F51B5;" textFill="WHITE">
                      <font>
                         <Font name="Roboto Bold" size="1.0" />
                      </font>
