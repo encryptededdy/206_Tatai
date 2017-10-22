@@ -13,6 +13,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.achievements.Achievement;
+import tatai.app.util.achievements.AchievementManager;
 import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
@@ -34,8 +36,9 @@ public class LevelPaneController {
 
     private QuestionGenerator generator;
 
-    public void initialize() {
+    private AchievementManager achievementManager;
 
+    public void initialize() {
     }
 
     void setLocation(int x, int y) {
@@ -64,9 +67,25 @@ public class LevelPaneController {
         }
 
         // Disable the trophys until we know what to do with them
+        achievementManager = Main.achievementManager;
+        String generatorName = generator.getGeneratorName();
+        Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
+        Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
+        Achievement goldAchievement = achievementManager.getAchievements().get(generatorName + " - Gold");
+
         bronze.setOpacity(0.2);
         silver.setOpacity(0.2);
         gold.setOpacity(0.2);
+
+        if (bronzeAchievement.isCompleted()) {
+            bronze.setOpacity(1);
+        }
+        if (silverAchievement.isCompleted()) {
+            silver.setOpacity(1);
+        }
+        if (goldAchievement.isCompleted()) {
+            gold.setOpacity(1);
+        }
     }
 
     @FXML

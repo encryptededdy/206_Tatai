@@ -8,6 +8,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import tatai.app.util.Database;
 import tatai.app.util.Layout;
+import tatai.app.util.achievements.AchievementManager;
 import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.net.NetConnection;
 import tatai.app.util.store.StoreManager;
@@ -39,6 +40,7 @@ public class Main extends Application {
     public static final boolean isWindows = System.getProperty("os.name").startsWith("Windows"); // Used to get the correct HTK command
     public static Font currentFont;
     public static StoreManager store;
+    public static AchievementManager achievementManager;
 
     static { // Static initializer
         // Load fonts
