@@ -5,6 +5,8 @@ import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -20,13 +22,15 @@ import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LevelSelectorController {
     @FXML private ImageView backgroundImage, frontImg, backImg;
     @FXML private GridPane levelsGridPane1;
     @FXML private GridPane levelsGridPane2;
     @FXML private AnchorPane customLevelPane;
-    @FXML private Pane mainPane, animInPane;
+    @FXML private Pane mainPane, animInPane, questionPaneclr;
+    @FXML private Group mainControls;
     @FXML private JFXButton prevBtn;
     @FXML private JFXButton nextBtn;
 
@@ -111,10 +115,28 @@ public class LevelSelectorController {
         pt.play();
     }
 
+    ParallelTransition fadeOutOtherCards(Node excludedNode) {
+        // Fade out the controls
+        FadeTransition ctrl = TransitionFactory.fadeOut(mainControls, Main.transitionDuration*2);
+        ParallelTransition pt = new ParallelTransition(ctrl);
+        ArrayList<Node> nodes = new ArrayList<>();
+        // Get all of the nodes inside the gridpanes
+        nodes.addAll(levelsGridPane1.getChildren());
+        nodes.addAll(levelsGridPane2.getChildren());
+        for (Node node : nodes) {
+            // If it isn't the excluded node, fade it out too
+             if (node != excludedNode) {
+                 System.out.println("Added node");
+                 pt.getChildren().add(TransitionFactory.fadeOut(node, Main.transitionDuration*2));
+             }
+        }
+        return pt;
+    }
+
     /**
      * Fade in without animating the main menu item
      */
-    public void fadeInWithoutMenu() {
+    void fadeInWithoutMenu() {
         animInPane.setVisible(false);
         TransitionFactory.fadeIn(mainPane, Main.transitionDuration*2).play();
         // Setup the pane animInPane correctly for transition out
@@ -172,7 +194,7 @@ public class LevelSelectorController {
         FXMLLoader loader = Layout.LEVELPANE.loader();
         Parent pane = loader.load();
         loader.<LevelPaneController>getController().setQuestionGenerators(questionGenerator, this);
-        loader.<LevelPaneController>getController().setParentNode(mainPane);
+        loader.<LevelPaneController>getController().setLocation(x, y);
         GridPane.setConstraints(pane, x, y);
         GridPane.setMargin(pane, new Insets(5, 5, 5, 5));
         gridPane.getChildren().add(pane);

@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXRippler?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -52,43 +53,47 @@
                 <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="70.0">
+            <Group fx:id="mainControls" layoutX="-10.0">
                <children>
-                  <JFXButton fx:id="prevBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#prevBtnPressed" prefHeight="60.0" prefWidth="60.0" ripplerFill="#000000ea" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="30" textAlignment="CENTER" wrappingWidth="30.0" />
-                     </graphic>
-                  </JFXButton>
+                  <AnchorPane layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="70.0">
+                     <children>
+                        <JFXButton fx:id="prevBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#prevBtnPressed" prefHeight="60.0" prefWidth="60.0" ripplerFill="#000000ea" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="30" textAlignment="CENTER" wrappingWidth="30.0" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="740.0" prefHeight="500.0" prefWidth="70.0">
+                     <children>
+                        <JFXButton fx:id="nextBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#nextBtnPressed" prefHeight="60.0" prefWidth="60.0" ripplerFill="TRANSPARENT" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_RIGHT" size="30" textAlignment="CENTER" wrappingWidth="45.0" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+                  <Pane layoutX="10.0" prefHeight="54.0" prefWidth="800.0" style="-fx-background-color: #212121; -fx-background-radius: 0px 0px 4px 4px;">
+                     <children>
+                        <JFXRippler ripplerFill="white">
+                           <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="54.0" prefWidth="72.0">
+                              <children>
+                                 <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
+                              </children>
+                           </Pane>
+                        </JFXRippler>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="165.0" layoutY="3.0" maxWidth="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="54.0" prefWidth="471.0" style="-fx-background-radius: 0px 0px 4px 4px;" text="Round Select" textAlignment="CENTER" textFill="WHITE">
+                           <font>
+                              <Font name="Roboto Medium" size="30.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
-            </AnchorPane>
-            <AnchorPane layoutX="730.0" prefHeight="500.0" prefWidth="70.0">
-               <children>
-                  <JFXButton fx:id="nextBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#nextBtnPressed" prefHeight="60.0" prefWidth="60.0" ripplerFill="TRANSPARENT" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_RIGHT" size="30" textAlignment="CENTER" wrappingWidth="45.0" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-            <Pane prefHeight="54.0" prefWidth="800.0" style="-fx-background-color: #212121; -fx-background-radius: 0px 0px 4px 4px;">
-               <children>
-                  <JFXRippler ripplerFill="white">
-                     <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="54.0" prefWidth="72.0">
-                        <children>
-                           <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
-                        </children>
-                     </Pane>
-                  </JFXRippler>
-                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="165.0" layoutY="3.0" maxWidth="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="54.0" prefWidth="471.0" style="-fx-background-radius: 0px 0px 4px 4px;" text="Round Select" textAlignment="CENTER" textFill="WHITE">
-                     <font>
-                        <Font name="Roboto Medium" size="30.0" />
-                     </font>
-                     <padding>
-                        <Insets bottom="5.0" top="5.0" />
-                     </padding>
-                  </Label>
-               </children>
-            </Pane>
+            </Group>
          </children>
       </Pane>
    </children>

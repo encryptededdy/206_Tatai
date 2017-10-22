@@ -155,7 +155,7 @@ public class Round {
     public int getScore() {
         // If score is uncalculated, then calculate score.
         if (score == null) {
-            // Scoring algorithm: accuracy(%) * (20 - avgQuestionLength) * ((noQuestions + 90)/100)
+            // Scoring algorithm: accuracy(%) * MAX((20 - avgQuestionLength), 1) * ((noQuestions + 90)/100)
             ResultSet correctRS = Main.database.returnOp("SELECT COUNT(*) FROM questions WHERE correct = 1 AND roundID = "+ roundID);
             ResultSet qLengthRS = Main.database.returnOp("SELECT AVG(timeToAnswer) FROM questions WHERE roundID = "+ roundID);
             try {

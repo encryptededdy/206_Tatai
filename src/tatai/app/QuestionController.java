@@ -125,7 +125,7 @@ public class QuestionController {
      * played.
      */
     void fadeIn() {
-        FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr);
+        FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr, Main.transitionDuration*2);
         clrTransition.setOnFinished(event -> questionPaneclr.setVisible(false));
         TranslateTransition controlsTransition = TransitionFactory.move(controlsPane, 0, -71);
         if (Main.showTutorial) {
@@ -163,6 +163,10 @@ public class QuestionController {
         });
     }
 
+    /**
+     * Marks the game as a TataiNet game
+     * @param id The TataiNet Game ID
+     */
     void enableNet(int id) {
         netMode = true;
         netModeID = id;
