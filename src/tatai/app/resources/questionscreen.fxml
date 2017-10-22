@@ -14,6 +14,8 @@
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
       </ImageView>
+      <ImageView fx:id="backImg" fitHeight="550.0" fitWidth="850.0" layoutX="-25.0" layoutY="-15.0" preserveRatio="true" visible="false" />
+      <ImageView fx:id="frontImg" fitHeight="600.0" fitWidth="1000.0" layoutX="-80.0" layoutY="-50.0" preserveRatio="true" visible="false" />
       <Pane fx:id="achievementPane" layoutX="273.0" layoutY="424.0" prefHeight="50.0" prefWidth="258.0" />
       <Pane fx:id="questionPane" layoutX="196.0" layoutY="73.0" prefHeight="272.0" prefWidth="410.0" style="-fx-background-color: #FFFFFF;">
          <effect>

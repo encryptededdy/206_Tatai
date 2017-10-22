@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
@@ -61,6 +62,7 @@ public class QuestionController implements DisplaysAchievements {
     @FXML private Pane questionPane, confirmPane, menuBtnCover, darkenContents, controlsPane, tutorialNotif, resultsPane, qNumPane, questionPaneclr, questionPaneclrShadow, achievementPane;
     @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
+    @FXML private ImageView frontImg, backImg;
     @FXML private ImageView backgroundImage, xpTheme, flyImage;
     @FXML private Pane questionPaneData, challengePane;
 
@@ -84,6 +86,9 @@ public class QuestionController implements DisplaysAchievements {
      */
     public void initialize() {
         backgroundImage.setImage(Main.background);
+        frontImg.setImage(Main.parralaxFront);
+        backImg.setImage(Main.parralaxBack);
+
         // Setup for the transition
         //questionPane.setOpacity(0);
         controlsPane.setLayoutY(500);
@@ -123,6 +128,24 @@ public class QuestionController implements DisplaysAchievements {
         PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
         pt2.setOnFinished(event -> ft2.play());
         achievementTransition.setOnFinished(event -> pt2.play());
+
+        // Configure parallax mode
+        if (Main.parallaxMode) {
+            frontImg.setVisible(true);
+            backImg.setVisible(true);
+            backgroundImage.getParent().addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+                //System.out.printf("x: %f, y: %f\n", event.getSceneX(), event.getSceneY());
+                double scale = 0.015;
+                double backScale = 0.004;
+                frontImg.setTranslateX((-event.getSceneX() - 400) * scale);
+                frontImg.setTranslateY((-event.getSceneY() - 250) * scale);
+                backImg.setTranslateX((-event.getSceneX() - 400) * backScale);
+                backImg.setTranslateY((-event.getSceneY() - 250) * backScale);
+            });
+        } else {
+            frontImg.setVisible(false);
+            backImg.setVisible(false);
+        }
     }
 
     /**
