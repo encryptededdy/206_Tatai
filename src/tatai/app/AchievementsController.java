@@ -28,7 +28,7 @@ public class AchievementsController extends ToolbarController {
         update();
         storeItemList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
-        
+
         String completedAchievements = Integer.toString(Main.achievementManager.numberOfCompletedAchievements());
         String totalAchievements = Integer.toString(Main.achievementManager.numberOfAchievements());
         balanceLabel.setText(completedAchievements + "/" + totalAchievements);
