@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Manages the monetery balance and also items unlocked in the store
  */
 public class StoreManager {
-    private int balance = 500;
+    private int balance = 1000;
 
     private ArrayList<StoreItem> items = new ArrayList<>();
 
@@ -22,6 +22,12 @@ public class StoreManager {
         items.add(new XPWallpaper());
         items.add(new XPWallpaperLogo());
         items.add(new AngryFinderWallpaper());
+        items.add(new EwbuntuWallpaper());
+        items.add(new Beta1Wallpaper());
+        items.add(new Beta2Wallpaper());
+        items.add(new AucklandParallax());
+        items.add(new SpaceParallax());
+        items.add(new MtCookParallax());
     }
 
     /**

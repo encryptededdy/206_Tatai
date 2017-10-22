@@ -16,6 +16,7 @@ public class XPWallpaperLogo extends StoreItem {
 
     public void applyChanges() {
         if (purchased) {
+            Main.parallaxMode = false;
             String imageFile = "tatai/app/resources/blissLogo.png";
             Main.background = new Image(Main.class.getClassLoader().getResourceAsStream(imageFile));
         }

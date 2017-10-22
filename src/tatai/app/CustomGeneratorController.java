@@ -2,6 +2,7 @@ package tatai.app;
 
 import com.google.gson.Gson;
 import com.jfoenix.controls.*;
+import javafx.animation.FadeTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -9,6 +10,9 @@ import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextFormatter;
@@ -17,7 +21,9 @@ import javafx.scene.layout.StackPane;
 import tatai.app.questions.generators.MathGenerator;
 import tatai.app.questions.generators.MathOperator;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.Layout;
 import tatai.app.util.factories.DialogFactory;
+import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -102,7 +108,15 @@ public class CustomGeneratorController extends ToolbarController {
         if (tataiWorkshopPane.isVisible()) {
             hideWorkshop();
         } else {
-            super.backBtnPressed();
+            // Override the screen to switch to
+            Scene scene = backBtn.getScene();
+            FXMLLoader loader = Layout.LEVEL.loader();
+            Parent root = loader.load();
+            // Fade out items
+            FadeTransition ft = TransitionFactory.fadeOut(dataPane);
+            ft.setOnFinished(event -> {scene.setRoot(root); loader.<LevelSelectorController>getController().fadeInWithoutMenu();});
+            // animate
+            ft.play();
         }
     }
 

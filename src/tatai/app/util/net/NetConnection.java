@@ -125,6 +125,78 @@ public class NetConnection {
         new Thread(uploadTask).start();
     }
 
+    public int startRound(String json) {
+        try {
+            String result = Request.Post(host+"startRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("questionset", json)
+                            .build())
+                    .execute()
+                    .returnContent().toString();
+            JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
+            return jsonObject.get("id").getAsInt();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public boolean waitRound(int id) {
+        try {
+            System.out.println("Start wait");
+            String result = Request.Post(host+"waitRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("roundID", Integer.toString(id))
+                            .build())
+                    .socketTimeout(90000)
+                    .execute()
+                    .returnContent().toString();
+            System.out.println("Wait done");
+            return new JsonParser().parse(result).getAsJsonObject().get("started").getAsBoolean();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public JsonObject finishRound(int id, int score) {
+        try {
+            System.out.println("Upload score; waiting for round finish");
+            String result = Request.Post(host+"finishRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("roundID", Integer.toString(id))
+                            .add("score", Integer.toString(score))
+                            .build())
+                    .socketTimeout(90000)
+                    .execute()
+                    .returnContent().toString();
+            System.out.println("Got result!");
+            return new JsonParser().parse(result).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public JsonObject joinRound(int id) {
+        try {
+            String result = Request.Post(host+"joinRound.php")
+                    .bodyForm(Form.form().add("authID", onlineAuthID)
+                            .add("username", onlineName)
+                            .add("roundID", Integer.toString(id))
+                            .build())
+                    .execute()
+                    .returnContent().toString();
+            return new JsonParser().parse(result).getAsJsonObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public ArrayList<LeaderboardEntry> getLeaderboard(String gamemode) {
         try {
             String result = Request.Post(host + "getHighScores.php")

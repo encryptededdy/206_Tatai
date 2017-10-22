@@ -27,7 +27,13 @@ public class Main extends Application {
     public static Database database;
     public static String currentUser;
     public static int currentSession;
-    public static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb1.jpg"));
+
+    // Background images
+    public static boolean parallaxMode = false;
+    public static Image background = new Image(Main.class.getResourceAsStream("resources/bkgndb2.jpg"));
+    public static Image parralaxFront;
+    public static Image parralaxBack;
+
     public static NetConnection netConnection;
     public static boolean showTutorial = true;
     public static int transitionDuration = 200;
@@ -53,6 +59,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         startupCheck();
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("resources/simpleicon.png")));
         Parent root = Layout.LOGIN.loader().load();
         primaryStage.setTitle("Tatai");
         primaryStage.setResizable(false); // please don't resize

@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXRippler?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,16 +16,23 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.LevelSelectorController">
+<Pane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.LevelSelectorController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0">
          <image>
             <Image url="@bkgndb1.jpg" />
          </image>
       </ImageView>
+      <ImageView fx:id="backImg" fitHeight="550.0" fitWidth="850.0" layoutX="-25.0" layoutY="-15.0" preserveRatio="true" visible="false" />
+      <ImageView fx:id="frontImg" fitHeight="600.0" fitWidth="1000.0" layoutX="-80.0" layoutY="-50.0" preserveRatio="true" visible="false" />
+      <Pane fx:id="animInPane" cache="true" cacheHint="SCALE" layoutX="200.0" prefHeight="500.0" prefWidth="400.0" style="-fx-background-color: #212121;" visible="false">
+         <effect>
+            <DropShadow height="40.0" radius="19.5" width="40.0" />
+         </effect>
+      </Pane>
       <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #42424200;">
          <children>
-            <GridPane fx:id="levelsGridPane2" layoutX="800.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="660.0">
+            <GridPane fx:id="levelsGridPane2" cache="true" cacheHint="SPEED" layoutX="800.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="660.0">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -32,8 +42,8 @@
                   <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
                </rowConstraints>
             </GridPane>
-            <AnchorPane fx:id="customLevelPane" layoutX="800.0" layoutY="60.0" prefHeight="440.0" prefWidth="660.0" />
-            <GridPane fx:id="levelsGridPane1" layoutX="70.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="660.0">
+            <AnchorPane fx:id="customLevelPane" cache="true" cacheHint="SPEED" layoutX="800.0" layoutY="60.0" prefHeight="440.0" prefWidth="660.0" />
+            <GridPane fx:id="levelsGridPane1" cache="true" cacheHint="SPEED" layoutX="70.0" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="440.0" prefWidth="660.0">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -43,40 +53,47 @@
                 <RowConstraints maxHeight="225.0" minHeight="10.0" prefHeight="225.0" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="70.0">
+            <Group fx:id="mainControls" layoutX="-10.0">
                <children>
-                  <JFXButton fx:id="prevBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#prevBtnClicked" prefHeight="60.0" prefWidth="60.0" ripplerFill="#000000ea" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="30" textAlignment="CENTER" wrappingWidth="30.0" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
-            <AnchorPane layoutX="70.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="500.0" prefWidth="660.0" style="-fx-background-color: rgba(0,0,0,0.0);">
-               <children>
-                  <AnchorPane layoutX="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="650.0">
+                  <AnchorPane layoutX="10.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="70.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-75.0" maxWidth="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="54.0" prefWidth="800.0" style="-fx-background-color: #333333aa; -fx-background-radius: 0px 0px 4px 4px;" text="Round Select" textAlignment="CENTER" textFill="WHITE">
+                        <JFXButton fx:id="prevBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#prevBtnPressed" prefHeight="60.0" prefWidth="60.0" ripplerFill="#000000ea" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_LEFT" size="30" textAlignment="CENTER" wrappingWidth="30.0" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="740.0" prefHeight="500.0" prefWidth="70.0">
+                     <children>
+                        <JFXButton fx:id="nextBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#nextBtnPressed" prefHeight="60.0" prefWidth="60.0" ripplerFill="TRANSPARENT" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_RIGHT" size="30" textAlignment="CENTER" wrappingWidth="45.0" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </AnchorPane>
+                  <Pane layoutX="10.0" prefHeight="54.0" prefWidth="800.0" style="-fx-background-color: #212121; -fx-background-radius: 0px 0px 4px 4px;">
+                     <children>
+                        <JFXRippler ripplerFill="white">
+                           <Pane fx:id="backBtn" layoutY="439.0" onMouseClicked="#backBtnPressed" prefHeight="54.0" prefWidth="72.0">
+                              <children>
+                                 <FontAwesomeIconView fill="WHITE" glyphName="ARROW_CIRCLE_LEFT" layoutX="21.0" layoutY="38.0" size="24" />
+                              </children>
+                           </Pane>
+                        </JFXRippler>
+                        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="165.0" layoutY="3.0" maxWidth="-Infinity" minWidth="-Infinity" mouseTransparent="true" prefHeight="54.0" prefWidth="471.0" style="-fx-background-radius: 0px 0px 4px 4px;" text="Round Select" textAlignment="CENTER" textFill="WHITE">
                            <font>
-                              <Font name="Roboto Medium" size="36.0" />
+                              <Font name="Roboto Medium" size="30.0" />
                            </font>
                            <padding>
                               <Insets bottom="5.0" top="5.0" />
                            </padding>
                         </Label>
                      </children>
-                  </AnchorPane>
+                  </Pane>
                </children>
-            </AnchorPane>
-            <AnchorPane layoutX="730.0" prefHeight="500.0" prefWidth="70.0">
-               <children>
-                  <JFXButton fx:id="nextBtn" buttonType="RAISED" layoutX="5.0" layoutY="245.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#nextBtnClicked" prefHeight="60.0" prefWidth="60.0" ripplerFill="TRANSPARENT" style="-fx-background-color: #333333; -fx-background-radius: 30px;">
-                     <graphic>
-                        <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_RIGHT" size="30" textAlignment="CENTER" wrappingWidth="45.0" />
-                     </graphic>
-                  </JFXButton>
-               </children>
-            </AnchorPane>
+            </Group>
          </children>
       </Pane>
    </children>

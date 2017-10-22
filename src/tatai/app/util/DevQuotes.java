@@ -18,7 +18,8 @@ public class DevQuotes {
             "Doesn't work in Java 9!",
             "Licensed under GPL (except HTK)",
             "Unresizable!",
-            "Everything is an AnchorPane"
+            "Everything is an AnchorPane",
+            "E\uD83C\uDD71oji support!"
             ));
 
     /**
@@ -30,10 +31,10 @@ public class DevQuotes {
         String quote = quotes.get(rng.nextInt(quotes.size()));
         quoteLabel.setText(quote);
         ScaleTransition st = new ScaleTransition(Duration.millis(500), quoteLabel);
-        st.setFromX(0.8);
-        st.setFromY(0.8);
-        st.setToX(1.2);
-        st.setToY(1.2);
+        st.setFromX(0.9);
+        st.setFromY(0.9);
+        st.setToX(1.1);
+        st.setToY(1.1);
         st.setCycleCount(Animation.INDEFINITE);
         st.setAutoReverse(true);
         st.play();

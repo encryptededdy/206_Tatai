@@ -196,9 +196,7 @@ public class Database {
                 e.printStackTrace();
                 DialogFactory.exception("Internal Database error.", "Database Error", e);
             }
-            System.out.println("Stored as JSON: " + serialized);
-        } else {
-            System.out.println("No login, didn't store anything.");
+            //System.out.println("Stored as JSON: " + serialized);
         }
     }
 

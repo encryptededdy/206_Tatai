@@ -63,7 +63,7 @@ public class CustomLevelPaneController {
         FXMLLoader loader = target.loader();
         Parent root = loader.load();
         // Fade out
-        FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent, (int) (Main.transitionDuration * 0.5));
+        FadeTransition ft = TransitionFactory.fadeOut(levelSelectorParent);
         ft.setOnFinished(event -> {
             scene.setRoot(root);
             loader.<ToolbarController>getController().fadeIn();

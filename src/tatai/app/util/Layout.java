@@ -19,6 +19,7 @@ public enum Layout {
     TATAINET("tatai/app/resources/tatainet.fxml"),
     PRACTICE("tatai/app/resources/practicescreen.fxml"),
     CUSTOMGENERATOR("tatai/app/resources/customgenerator.fxml"),
+    PRACTICECELL("tatai/app/resources/practicemodecell.fxml"),
     LEVEL("tatai/app/resources/levelscreen.fxml"),
     LEVELPANE("tatai/app/resources/levelpane.fxml"),
     LOGINCELL("tatai/app/resources/loginusercell.fxml"),

@@ -1,16 +1,18 @@
 package tatai.app;
 
 import com.jfoenix.controls.JFXButton;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.ScaleTransition;
-import javafx.animation.TranslateTransition;
+import javafx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -20,25 +22,65 @@ import tatai.app.util.Layout;
 import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class LevelSelectorController {
-    @FXML ImageView backgroundImage;
-    @FXML GridPane levelsGridPane1;
-    @FXML GridPane levelsGridPane2;
-    @FXML AnchorPane customLevelPane;
-    @FXML Pane mainPane;
-    @FXML JFXButton prevBtn;
-    @FXML JFXButton nextBtn;
+    @FXML private ImageView backgroundImage, frontImg, backImg;
+    @FXML private GridPane levelsGridPane1;
+    @FXML private GridPane levelsGridPane2;
+    @FXML private AnchorPane customLevelPane;
+    @FXML private Pane mainPane, animInPane, questionPaneclr;
+    @FXML private Group mainControls;
+    @FXML private JFXButton prevBtn;
+    @FXML private JFXButton nextBtn;
 
     private int prevPaneState;
     private int paneState;
 
     public void initialize() {
         backgroundImage.setImage(Main.background);
-        mainPane.setOpacity(0.0);
+        frontImg.setImage(Main.parralaxFront);
+        backImg.setImage(Main.parralaxBack);
+
+        prevBtn.setDisable(true);
+        mainPane.setOpacity(0);
+        mainPane.setCache(true);
         paneState = 0;
         prevPaneState = 0;
         recreatePanes();
+
+        // Configure parallax mode
+        if (Main.parallaxMode) {
+            frontImg.setVisible(true);
+            backImg.setVisible(true);
+            backgroundImage.getParent().addEventFilter(MouseEvent.MOUSE_MOVED, event -> {
+                //System.out.printf("x: %f, y: %f\n", event.getSceneX(), event.getSceneY());
+                double scale = 0.015;
+                double backScale = 0.004;
+                frontImg.setTranslateX((-event.getSceneX() - 400) * scale);
+                frontImg.setTranslateY((-event.getSceneY() - 250) * scale);
+                backImg.setTranslateX((-event.getSceneX() - 400) * backScale);
+                backImg.setTranslateY((-event.getSceneY() - 250) * backScale);
+            });
+        } else {
+            frontImg.setVisible(false);
+            backImg.setVisible(false);
+        }
+
+        // Setup KB shortcuts
+        backgroundImage.getParent().addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.LEFT) {
+                if (!prevBtn.isDisabled()) {
+                    prevBtnPressed();
+                }
+                keyEvent.consume();
+            } else if (keyEvent.getCode() == KeyCode.RIGHT) {
+                if (!nextBtn.isDisabled()) {
+                    nextBtnPressed();
+                }
+                keyEvent.consume();
+            }
+        });
     }
 
     void recreatePanes() {
@@ -50,7 +92,6 @@ public class LevelSelectorController {
             createLevelPane(Main.store.generators.get(1), levelsGridPane1, 1, 0);
             createLevelPane(Main.store.generators.get(2), levelsGridPane1, 0, 1);
             createLevelPane(Main.store.generators.get(3), levelsGridPane1, 1, 1);
-
             createLevelPane(Main.store.generators.get(4), levelsGridPane2, 0, 0);
             createLevelPane(Main.store.generators.get(5), levelsGridPane2, 1, 0);
             createLevelPane(Main.store.generators.get(6), levelsGridPane2, 0, 1);
@@ -63,28 +104,86 @@ public class LevelSelectorController {
     }
 
     public void fadeIn() {
-        TransitionFactory.fadeIn(mainPane).play();
+        animInPane.setVisible(true);
+        Transition mt = TransitionFactory.move(animInPane, 0, -446, Main.transitionDuration*2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
+        st.setToX(2);
+        ParallelTransition pt = new ParallelTransition(mt, st);
+        Transition ft = TransitionFactory.fadeIn(mainPane);
+        pt.setOnFinished(event -> ft.play());
+        ft.setOnFinished(event -> animInPane.setVisible(false));
+        pt.play();
     }
 
-    public void prevBtnClicked() throws IOException {
+    ParallelTransition fadeOutOtherCards(Node excludedNode) {
+        // Fade out the controls
+        FadeTransition ctrl = TransitionFactory.fadeOut(mainControls, Main.transitionDuration*2);
+        ParallelTransition pt = new ParallelTransition(ctrl);
+        ArrayList<Node> nodes = new ArrayList<>();
+        // Get all of the nodes inside the gridpanes
+        nodes.addAll(levelsGridPane1.getChildren());
+        nodes.addAll(levelsGridPane2.getChildren());
+        for (Node node : nodes) {
+            // If it isn't the excluded node, fade it out too
+             if (node != excludedNode) {
+                 System.out.println("Added node");
+                 pt.getChildren().add(TransitionFactory.fadeOut(node, Main.transitionDuration*2));
+             }
+        }
+        return pt;
+    }
+
+    /**
+     * Fade in without animating the main menu item
+     */
+    void fadeInWithoutMenu() {
+        animInPane.setVisible(false);
+        TransitionFactory.fadeIn(mainPane, Main.transitionDuration*2).play();
+        // Setup the pane animInPane correctly for transition out
+        Transition mt = TransitionFactory.move(animInPane, 0, -446, Main.transitionDuration*2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
+        st.setToX(2);
+        ParallelTransition pt = new ParallelTransition(mt, st);
+        pt.play();
+    }
+
+    @FXML private void backBtnPressed() throws IOException {
+        // Switch back to the main Menu
+        animInPane.setVisible(true);
+        Transition mt = TransitionFactory.move(animInPane, 0, 446, Main.transitionDuration*2);
+        ScaleTransition st = new ScaleTransition(Duration.millis(Main.transitionDuration*2), animInPane);
+        st.setToX(1);
+        ParallelTransition pt = new ParallelTransition(mt, st);
+        Scene scene = prevBtn.getScene();
+        FXMLLoader loader = Layout.MAINMENU.loader();
+        Parent root = loader.load();
+        loader.<MainMenuController>getController().setupFade(false);
+        pt.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
+        FadeTransition ft = TransitionFactory.fadeOut(mainPane);
+        ft.setOnFinished(event -> pt.play());
+        ft.play();
+    }
+
+    public void prevBtnPressed() {
         prevPaneState = paneState;
         if (paneState > 0) {
             paneState--;
-        } else {
-            // Switch back to the main Menu
-            FadeTransition ft = TransitionFactory.fadeOut(mainPane);
-            Scene scene = prevBtn.getScene();
-            FXMLLoader loader = Layout.MAINMENU.loader();
-            Parent root = loader.load();
-            loader.<MainMenuController>getController().setupFade(false);
-            ft.setOnFinished(event -> {scene.setRoot(root); loader.<MainMenuController>getController().fadeIn();});
-            ft.play();
+            System.out.println(paneState);
+            if (paneState == 0) {
+                prevBtn.setDisable(true);
+            }
+            nextBtn.setDisable(false);
         }
         updatePanesLocation();
     }
 
-    public void nextBtnClicked() {
+    public void nextBtnPressed() {
         prevPaneState = paneState;
+        System.out.println(paneState);
+        if (paneState == 1) {
+            nextBtn.setDisable(true);
+        }
+        prevBtn.setDisable(false);
         if (paneState < 2) {
             paneState++;
         }
@@ -95,7 +194,7 @@ public class LevelSelectorController {
         FXMLLoader loader = Layout.LEVELPANE.loader();
         Parent pane = loader.load();
         loader.<LevelPaneController>getController().setQuestionGenerators(questionGenerator, this);
-        loader.<LevelPaneController>getController().setParentNode(mainPane);
+        loader.<LevelPaneController>getController().setLocation(x, y);
         GridPane.setConstraints(pane, x, y);
         GridPane.setMargin(pane, new Insets(5, 5, 5, 5));
         gridPane.getChildren().add(pane);

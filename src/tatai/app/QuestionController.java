@@ -62,15 +62,18 @@ public class QuestionController implements DisplaysAchievements {
     @FXML private MaterialDesignIconView correctIcon, incorrectIcon;
     @FXML private JFXButton nextQuestionBtn;
     @FXML private ImageView backgroundImage, xpTheme, flyImage;
-    @FXML private Pane questionPaneData;
+    @FXML private Pane questionPaneData, challengePane;
 
     private ParallelTransition menuConfirmTransition;
     private TranslateTransition achievementTransition;
 
+    private int netModeID;
+    private boolean netMode = false;
+
     private Timeline recordingProgressTimeline;
 
     // Help Popups
-    private PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nYou can also press [ENTER] or [R] to record");
+    private PopOver recordHelp = PopoverFactory.helpPopOver("Click the microphone icon to start recording your voice,\nthen pronounce the number on screen.\nYou can also press [R] to record");
     private PopOver playHelp = PopoverFactory.helpPopOver("Click the play button or press [P]\nto listen to your recording\nOr [R] to record again");
     private PopOver checkHelp = PopoverFactory.helpPopOver("Click the check button to check\nyour pronunciation and move\nto the next question\nYou can also press [ENTER] to check");
     private PopOver nextHelp = PopoverFactory.helpPopOver("Click the next button to contiune\nto the next question\nYou can also press [ENTER] to contiune");
@@ -127,7 +130,7 @@ public class QuestionController implements DisplaysAchievements {
      * played.
      */
     void fadeIn() {
-        FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr);
+        FadeTransition clrTransition = TransitionFactory.fadeOut(questionPaneclr, Main.transitionDuration*2);
         clrTransition.setOnFinished(event -> questionPaneclr.setVisible(false));
         TranslateTransition controlsTransition = TransitionFactory.move(controlsPane, 0, -71);
         if (Main.showTutorial) {
@@ -163,6 +166,17 @@ public class QuestionController implements DisplaysAchievements {
                 keyEvent.consume();
             }
         });
+    }
+
+    /**
+     * Marks the game as a TataiNet game
+     * @param id The TataiNet Game ID
+     */
+    void enableNet(int id) {
+        netMode = true;
+        netModeID = id;
+        System.out.println("Online Game, ID: "+id);
+        challengePane.setVisible(true);
     }
 
     /**
@@ -238,8 +252,9 @@ public class QuestionController implements DisplaysAchievements {
             try {
                 Parent root = loader.load();
                 loader.<CompleteScreenController>getController().setMostRecentRound(_currentRound);
-                loader.<CompleteScreenController>getController().executeRecentRoundQuery();
-                loader.<CompleteScreenController>getController().executePreviousRoundScoreQuery();
+                if (netMode) {
+                    loader.<CompleteScreenController>getController().netMode(netModeID);
+                }
                 // Fade out
                 FadeTransition ft0 = TransitionFactory.fadeOut(questionNumberLabel);
                 FadeTransition ft1 = TransitionFactory.fadeOut(questionLabel);
