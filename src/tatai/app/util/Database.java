@@ -259,6 +259,16 @@ public class Database {
         queries.add("CREATE TABLE IF NOT EXISTS tataistore " +
                 "(username TEXT PRIMARY KEY     NOT NULL," +
                 " json          TEXT     NOT NULL)");
+        // Create the achievements table
+        queries.add("CREATE TABLE IF NOT EXISTS achievements " +
+                "(name          TEXT NOT NULL, " +
+                "username       TEXT NOT NULL, " +
+                "description    TEXT, " +
+                "completed      INTEGER NOT NULL, " +
+                "date           INTEGER," +
+                "reward         INTEGER, " +
+                "iconname       TEXT, " +
+                "message        TEXT)");
         // Add the default user if it doesn't exist
         queries.add("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('default', "+Instant.now().getEpochSecond()+")");
         try {

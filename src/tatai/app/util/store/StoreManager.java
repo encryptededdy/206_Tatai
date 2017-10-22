@@ -1,6 +1,7 @@
 package tatai.app.util.store;
 
 import tatai.app.questions.generators.GeneratorManager;
+import tatai.app.util.achievements.AchievementManager;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,7 @@ public class StoreManager {
 
     // Stores the question generators, accessed independently.
     public GeneratorManager generators = new GeneratorManager();
+
 
     public StoreManager() {
         // Populate items

@@ -166,8 +166,8 @@ public class MainMenuController {
         switchToToolbar(Layout.STORE);
     }
 
-    @FXML private void achievementsBtnPressed() {
-        // TODO: Do the achievements screen
+    @FXML private void achievementsBtnPressed() throws IOException {
+        switchToToolbar(Layout.ACHIEVEMENTSCREEN);
     }
 
     /**

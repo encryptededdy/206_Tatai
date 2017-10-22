@@ -72,7 +72,9 @@ public class QuestionLogQuery extends Query {
         };
         task.setOnSucceeded(event -> {
             columnGenerator();
-            tableView.setItems(data);
+            if (tableView != null) {
+                tableView.setItems(data);
+            }
             completeQuery();
         }); // Allow Query's listeners to be triggered once we're done
         new Thread(task).start();
