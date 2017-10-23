@@ -6,9 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import tatai.app.util.Layout;
-import tatai.app.util.store.StoreItem;
 
 import java.io.IOException;
 
@@ -20,11 +18,11 @@ public class AchievementCell extends ListCell<Achievement> {
 
     @FXML private Label nameLabel;
 
-    @FXML private FontAwesomeIconView icon, ownedIcon;
+    @FXML private FontAwesomeIconView icon;
 
     @FXML private Label descLabel;
 
-    @FXML private Label costLabel;
+    @FXML private Label rewardLabel;
 
     @Override
     protected void updateItem(Achievement achievement, boolean empty) {
@@ -42,17 +40,11 @@ public class AchievementCell extends ListCell<Achievement> {
             icon.setIcon(achievement.getIcon());
             descLabel.setText(achievement.getDescription());
             icon.setFill(achievement.getColor());
-            costLabel.setText(Integer.toString(achievement.getReward()));
+            rewardLabel.setText(Integer.toString(achievement.getReward()));
 
             if (!achievement.isCompleted()) {
-                ownedIcon.setVisible(false);
-                costLabel.setVisible(true);
-                icon.setVisible(true);
                 icon.setOpacity(0.2);
             } else {
-                ownedIcon.setVisible(false);
-                costLabel.setVisible(true);
-                icon.setVisible(true);
                 icon.setOpacity(1);
 
             }
@@ -64,7 +56,7 @@ public class AchievementCell extends ListCell<Achievement> {
     }
 
     private void loadFXML() {
-        loader = Layout.STORECELL.loader();
+        loader = Layout.ACHIEVEMENTCELL.loader();
         loader.setController(this);
         try {
             loader.load();
