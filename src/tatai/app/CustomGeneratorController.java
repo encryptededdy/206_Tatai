@@ -169,8 +169,8 @@ public class CustomGeneratorController extends ToolbarController implements Disp
         Main.store.generators.add(generator);
 
         // MODDER ACHIEVEMENT
-        if (!Main.achievementManager.getAchievements().get("Modder").isCompleted()) {
-            Main.achievementManager.getAchievements().get("Modder").setCompleted(this, achievementPane);
+        if (!Main.store.achievements.getAchievements().get("Modder").isCompleted()) {
+            Main.store.achievements.getAchievements().get("Modder").setCompleted(this, achievementPane);
         }
 
         populateQuestionSets();
@@ -205,8 +205,8 @@ public class CustomGeneratorController extends ToolbarController implements Disp
                 String generatorJSON = gson.toJson(Main.store.generators.get(qSetList.getSelectionModel().getSelectedIndex()));
                 EventHandler<WorkerStateEvent> onSuccess = event -> {
                     shareBtn.setText("Uploaded");
-                    if (!Main.achievementManager.getAchievements().get("Roots In The Community").isCompleted()) {
-                        Main.achievementManager.getAchievements().get("Roots In The Community").setCompleted(this, achievementPane);
+                    if (!Main.store.achievements.getAchievements().get("Roots In The Community").isCompleted()) {
+                        Main.store.achievements.getAchievements().get("Roots In The Community").setCompleted(this, achievementPane);
                     }
                 };
                 EventHandler<WorkerStateEvent> onFail = event -> shareBtn.setText("Error");
@@ -265,8 +265,8 @@ public class CustomGeneratorController extends ToolbarController implements Disp
         Gson gson = new Gson();
         String generatorJSON = gson.toJson(gen);
         Main.store.generators.add(gen);
-        if (!Main.achievementManager.getAchievements().get("Bootleg Questions").isCompleted()) {
-            Main.achievementManager.getAchievements().get("Bootleg Questions").setCompleted(this, achievementPane);
+        if (!Main.store.achievements.getAchievements().get("Bootleg Questions").isCompleted()) {
+            Main.store.achievements.getAchievements().get("Bootleg Questions").setCompleted(this, achievementPane);
         }
         populateQuestionSets();
         hideWorkshop();

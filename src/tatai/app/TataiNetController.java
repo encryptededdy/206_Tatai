@@ -234,8 +234,8 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             signUpPane.setVisible(false);
             registerProgress.setProgress(0);
             usernameLabel.setText("Logged in: "+usernameField.getText());
-            if (!Main.achievementManager.getAchievements().get("Hello World!").isCompleted()) {
-                Main.achievementManager.getAchievements().get("Hello World!").setCompleted(this, achievementPane);
+            if (!Main.store.achievements.getAchievements().get("Hello World!").isCompleted()) {
+                Main.store.achievements.getAchievements().get("Hello World!").setCompleted(this, achievementPane);
             }
             }, event -> {
             usernameInstructions.setText("User already exists");

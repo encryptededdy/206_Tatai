@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.achievements.Achievement;
 import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.store.SerializationAdapter;
 import tatai.app.util.store.StoreItem;
@@ -185,7 +186,7 @@ public class Database {
 
     public void storeStore() {
         if (Main.currentUser != null) {
-            Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).create();
+            Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).registerTypeAdapter(Achievement.class, new SerializationAdapter()).create();
             String serialized = gson.toJson(Main.store);
             PreparedStatement ps = getPreparedStatement("INSERT OR REPLACE INTO tataistore (username, json) VALUES (?, ?)");
             try {
@@ -201,7 +202,7 @@ public class Database {
     }
 
     public StoreManager getStore() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).registerTypeAdapter(Achievement.class, new SerializationAdapter()).create();
         ResultSet rs = returnOp("SELECT json FROM tataistore WHERE username = '"+Main.currentUser+"'");
         try {
             if (rs.next()) { // If there is a store
@@ -259,16 +260,6 @@ public class Database {
         queries.add("CREATE TABLE IF NOT EXISTS tataistore " +
                 "(username TEXT PRIMARY KEY     NOT NULL," +
                 " json          TEXT     NOT NULL)");
-        // Create the achievements table
-        queries.add("CREATE TABLE IF NOT EXISTS achievements " +
-                "(name          TEXT NOT NULL, " +
-                "username       TEXT NOT NULL, " +
-                "description    TEXT, " +
-                "completed      INTEGER NOT NULL, " +
-                "date           INTEGER," +
-                "reward         INTEGER, " +
-                "iconname       TEXT, " +
-                "message        TEXT)");
         // Add the default user if it doesn't exist
         queries.add("INSERT OR IGNORE INTO users (username, creationdate) VALUES ('default', "+Instant.now().getEpochSecond()+")");
         try {

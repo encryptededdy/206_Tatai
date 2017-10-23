@@ -67,11 +67,11 @@ public class StoreController extends ToolbarController implements DisplaysAchiev
 
     @FXML void purchaseBtnPressed() {
         storeItemList.getSelectionModel().getSelectedItem().purchase();
-        if (store.numberPurchased() >= 1 && !Main.achievementManager.getAchievements().get("Bargain Hunter").isCompleted()) {
-            Main.achievementManager.getAchievements().get("Bargain Hunter").setCompleted(this, achievementPane);
+        if (store.numberPurchased() >= 1 && !Main.store.achievements.getAchievements().get("Bargain Hunter").isCompleted()) {
+            Main.store.achievements.getAchievements().get("Bargain Hunter").setCompleted(this, achievementPane);
         }
-        if (store.numberPurchased() == store.numberItems() && !Main.achievementManager.getAchievements().get("Shopaholic").isCompleted()) {
-            Main.achievementManager.getAchievements().get("Shopaholic").setCompleted(this, achievementPane);
+        if (store.numberPurchased() == store.numberItems() && !Main.store.achievements.getAchievements().get("Shopaholic").isCompleted()) {
+            Main.store.achievements.getAchievements().get("Shopaholic").setCompleted(this, achievementPane);
         }
         update();
     }

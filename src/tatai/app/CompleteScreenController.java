@@ -173,11 +173,11 @@ public class CompleteScreenController implements DisplaysAchievements {
         TransitionFactory.fadeIn(roundStatsBtn).play();
         FadeTransition ft = TransitionFactory.fadeIn(replayBtn);
         ft.setOnFinished(actionEvent -> {
-            if (!Main.achievementManager.getAchievements().get("Off To A Good Start").isCompleted()) {
-                Main.achievementManager.getAchievements().get("Off To A Good Start").setCompleted(this, achievementPane);
+            if (!Main.store.achievements.getAchievements().get("Off To A Good Start").isCompleted()) {
+                Main.store.achievements.getAchievements().get("Off To A Good Start").setCompleted(this, achievementPane);
             }
-            if (!Main.achievementManager.getAchievements().get("Look At You Go!").isCompleted() && _mostRecentRound.getStreak() >= 10) {
-                Main.achievementManager.getAchievements().get("Look At You Go!").setCompleted(this, achievementPane);
+            if (!Main.store.achievements.getAchievements().get("Look At You Go!").isCompleted() && _mostRecentRound.getStreak() >= 10) {
+                Main.store.achievements.getAchievements().get("Look At You Go!").setCompleted(this, achievementPane);
             }
         });
 

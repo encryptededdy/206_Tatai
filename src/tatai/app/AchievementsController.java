@@ -8,8 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import tatai.app.util.achievements.Achievement;
 import tatai.app.util.achievements.AchievementCell;
-import tatai.app.util.store.StoreCell;
-import tatai.app.util.store.StoreItem;
 
 public class AchievementsController extends ToolbarController {
     @FXML
@@ -23,14 +21,14 @@ public class AchievementsController extends ToolbarController {
     public void initialize() {
         super.initialize();
         storeItemList.setCellFactory(param -> new AchievementCell());
-        storeItemList.setItems(FXCollections.observableArrayList(Main.achievementManager.getAchievementsArrayList()));
+        storeItemList.setItems(FXCollections.observableArrayList(Main.store.achievements.getAchievementsArrayList()));
         storeItemList.getSelectionModel().selectFirst();
         update();
         storeItemList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
         });
 
-        String completedAchievements = Integer.toString(Main.achievementManager.numberOfCompletedAchievements());
-        String totalAchievements = Integer.toString(Main.achievementManager.numberOfAchievements());
+        String completedAchievements = Integer.toString(Main.store.achievements.numberOfCompletedAchievements());
+        String totalAchievements = Integer.toString(Main.store.achievements.numberOfAchievements());
         balanceLabel.setText(completedAchievements + "/" + totalAchievements);
     }
 

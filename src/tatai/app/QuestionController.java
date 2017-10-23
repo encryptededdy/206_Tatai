@@ -501,11 +501,11 @@ public class QuestionController implements DisplaysAchievements {
 
                 String generatorName = _currentRound.getGenerator().getGeneratorName();
                 int correctAnswers = TrophyAchievement.getCorrectAnswers(_currentRound.getGenerator());
-                int goldThreshold = TrophyAchievement.getGoldScore();
-                int silverThreshold = TrophyAchievement.getSilverScore();
-                int bronzeThreshold = TrophyAchievement.getBronzeScore();
+                int goldThreshold = TrophyAchievement.goldScore;
+                int silverThreshold = TrophyAchievement.silverScore;
+                int bronzeThreshold = TrophyAchievement.bronzeScore;
 
-                AchievementManager achievementManager = Main.achievementManager;
+                AchievementManager achievementManager = Main.store.achievements;
                 Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
                 Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
                 Achievement goldAchievement = achievementManager.getAchievements().get(generatorName + " - Gold");
@@ -664,10 +664,5 @@ public class QuestionController implements DisplaysAchievements {
             label.setStyle("-fx-font: 30 \"Roboto Bold\";");
         }
         label.setText(text);
-    }
-
-    @FXML void achievementBtnPressed() {
-        Achievement achievement = new Achievement("test achievement", "yea this is a test");
-        achievement.setCompleted(this, achievementPane);
     }
 }

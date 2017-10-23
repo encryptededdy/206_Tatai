@@ -16,7 +16,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.util.Layout;
-import tatai.app.util.achievements.AchievementManager;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.NetConnection;
 import tatai.app.util.store.StoreManager;
@@ -94,7 +93,6 @@ public class LoginController {
             Main.store = database.getStore();
             Main.store.restoreItem();
         }
-        Main.achievementManager = new AchievementManager(Main.store.generators);
         Scene scene = loginBtn.getScene();
         FXMLLoader loader = Layout.MAINMENU.loader();
         Parent root = loader.load();

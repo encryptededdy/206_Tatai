@@ -1,6 +1,5 @@
 package tatai.app.util.achievements;
 
-import javafx.scene.paint.Color;
 import tatai.app.Main;
 import tatai.app.questions.generators.QuestionGenerator;
 
@@ -9,47 +8,29 @@ import java.sql.SQLException;
 
 public class TrophyAchievement extends Achievement {
     // SCORE THRESHOLDS FOR GETTNG THE TROPHY ACHIEVEMENTS;
-    private static int bronzeScore = 15;
-    private static int silverScore = 30;
-    private static int goldScore = 60;
+    public final static int bronzeScore = 15;
+    public final static int silverScore = 30;
+    public final static int goldScore = 60;
 
-    private static int bronzeReward = 300;
-    private static int silverReward = 400;
-    private static int goldReward = 500;
+    public final static int bronzeReward = 300;
+    public final static int silverReward = 400;
+    public final static int goldReward = 500;
 
-    private static Color bronzeColor = Color.web("#965a38");
-    private static Color silverColor = Color.web("#a8a8a8");
-    private static Color goldColor = Color.web("#c98910");
+    public final static String bronzeColor = "#965a38";
+    public final static String silverColor = "#a8a8a8";
+    public final static String goldColor = "#c98910";
 
     private String _rank;
 
-    public TrophyAchievement(String name, String rank, String description, int reward, int completed, Color iconColor, String completionMessage) {
+    public TrophyAchievement(String name, String rank, String description, int reward, int completed, String iconColor, String completionMessage) {
         super(name + " - " + rank, description, reward, completed, "TROPHY", iconColor, completionMessage);
         _rank = rank;
     }
 
-    public TrophyAchievement(String name, String rank, String description, int reward, Color iconColor) {
+    public TrophyAchievement(String name, String rank, String description, int reward, String iconColor) {
         super(name + " - " + rank, description, reward, 0, "TROPHY", iconColor, description);
         _rank = rank;
     }
-
-    public static int getBronzeScore() {
-        return bronzeScore;
-    }
-    public static int getBronzeReward() { return  bronzeReward; }
-    public static Color getBronzeColor() { return bronzeColor; }
-
-    public static int getSilverScore() {
-        return silverScore;
-    }
-    public static int getSilverReward() { return silverReward; }
-    public static Color getSilverColor() { return  silverColor; }
-
-    public static int getGoldScore() {
-        return goldScore;
-    }
-    public static int getGoldReward() { return goldReward; }
-    public static Color getGoldColor() { return goldColor; }
 
     public static int getCorrectAnswers(QuestionGenerator qg) throws SQLException {
         String qgName = qg.getGeneratorName();

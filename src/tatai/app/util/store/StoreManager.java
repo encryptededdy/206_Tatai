@@ -4,6 +4,7 @@ import javafx.scene.layout.Pane;
 import tatai.app.Main;
 import tatai.app.questions.generators.GeneratorManager;
 import tatai.app.util.DisplaysAchievements;
+import tatai.app.util.achievements.AchievementManager;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,9 @@ public class StoreManager {
 
     // Stores the question generators, accessed independently.
     public GeneratorManager generators = new GeneratorManager();
+
+    // Stores achievements
+    public AchievementManager achievements;
 
 
     public StoreManager() {
@@ -32,6 +36,7 @@ public class StoreManager {
         items.add(new MtCookParallax());
         lastApplied = items.get(5);
         restoreItem();
+        achievements = new AchievementManager(generators);
     }
 
     public StoreItem lastApplied;
@@ -51,17 +56,17 @@ public class StoreManager {
     public void credit(int creditAmount, DisplaysAchievements screen, Pane achievementsPane) {
         balance += creditAmount;
         System.out.println("Store was credited: "+creditAmount);
-        if (!Main.achievementManager.getAchievements().get("Piggy Bank").isCompleted() && balance > 100) {
-            Main.achievementManager.getAchievements().get("Piggy Bank").setCompleted(screen, achievementsPane);
+        if (!Main.store.achievements.getAchievements().get("Piggy Bank").isCompleted() && balance > 1000) {
+            Main.store.achievements.getAchievements().get("Piggy Bank").setCompleted(screen, achievementsPane);
         }
-        if (!Main.achievementManager.getAchievements().get("Savings Account").isCompleted() && balance > 100) {
-            Main.achievementManager.getAchievements().get("Savings Account").setCompleted(screen, achievementsPane);
+        if (!Main.store.achievements.getAchievements().get("Savings Account").isCompleted() && balance > 5000) {
+            Main.store.achievements.getAchievements().get("Savings Account").setCompleted(screen, achievementsPane);
         }
-        if (!Main.achievementManager.getAchievements().get("Ballin'").isCompleted() && balance > 100) {
-            Main.achievementManager.getAchievements().get("Ballin'").setCompleted(screen, achievementsPane);
+        if (!Main.store.achievements.getAchievements().get("Ballin'").isCompleted() && balance > 15000) {
+            Main.store.achievements.getAchievements().get("Ballin'").setCompleted(screen, achievementsPane);
         }
-        if (!Main.achievementManager.getAchievements().get("You Know This Isn't Real Money Right?").isCompleted() && balance > 100) {
-            Main.achievementManager.getAchievements().get("You Know This Isn't Real Money Right?").setCompleted(screen, achievementsPane);
+        if (!Main.store.achievements.getAchievements().get("You Know This Isn't Real Money Right?").isCompleted() && balance > 50000) {
+            Main.store.achievements.getAchievements().get("You Know This Isn't Real Money Right?").setCompleted(screen, achievementsPane);
         }
     }
 

@@ -67,7 +67,7 @@ public class LevelPaneController {
         }
 
         // Disable the trophys until we know what to do with them
-        achievementManager = Main.achievementManager;
+        achievementManager = Main.store.achievements;
         String generatorName = generator.getGeneratorName();
         Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
         Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
