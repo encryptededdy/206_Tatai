@@ -42,18 +42,19 @@ public class AchievementCell extends ListCell<Achievement> {
             icon.setIcon(achievement.getIcon());
             descLabel.setText(achievement.getDescription());
             icon.setFill(achievement.getColor());
+            costLabel.setText(Integer.toString(achievement.getReward()));
 
             if (!achievement.isCompleted()) {
                 ownedIcon.setVisible(false);
                 costLabel.setVisible(true);
                 icon.setVisible(true);
                 icon.setOpacity(0.2);
-                costLabel.setText(Integer.toString(achievement.getReward()));
             } else {
                 ownedIcon.setVisible(false);
                 costLabel.setVisible(true);
                 icon.setVisible(true);
                 icon.setOpacity(1);
+
             }
 
             setText(null);

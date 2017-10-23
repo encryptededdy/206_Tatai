@@ -13,7 +13,7 @@
          </font>
       </Label>
       <FontAwesomeIconView fx:id="icon" fill="WHITE" glyphName="TROPHY" layoutX="19.0" layoutY="52.0" size="42" text="" visible="false" />
-      <Label fx:id="descLabel" layoutX="85.0" layoutY="33.0" prefHeight="60.0" prefWidth="420.0" text="Change your background image to the famous default wallpaper from Microsoft Windows XP. Includes &quot;Windows xD&quot; logo. Faithfully reproduced in Microsoft Paint by Henry Li" textFill="WHITE" wrapText="true">
+      <Label fx:id="descLabel" layoutX="85.0" layoutY="33.0" prefHeight="60.0" prefWidth="419.0" text="Change your background image to the famous default wallpaper from Microsoft Windows XP. Includes &quot;Windows xD&quot; logo. Faithfully reproduced in Microsoft Paint by Henry Li" textFill="WHITE" wrapText="true">
          <font>
             <Font name="Roboto" size="14.0" />
          </font>

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StoreController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.StoreController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
       <Pane fx:id="backgroundPane" cache="true" cacheHint="SCALE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
@@ -63,5 +63,6 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
       </Pane>
+      <Pane fx:id="achievementPane" layoutX="150.0" layoutY="434.0" mouseTransparent="true" prefHeight="50.0" prefWidth="500.0" />
    </children>
 </Pane>

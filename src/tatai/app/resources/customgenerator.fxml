@@ -16,8 +16,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-
-<StackPane fx:id="mainStack" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CustomGeneratorController">
+<StackPane fx:id="mainStack" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.CustomGeneratorController">
    <children>
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
          <children>
@@ -152,6 +151,7 @@
                   <ProgressIndicator fx:id="workshopProgress" layoutX="375.0" layoutY="179.0" style="-fx-progress-color: white;" />
                </children>
             </Pane>
+            <Pane fx:id="achievementPane" layoutX="150.0" layoutY="434.0" mouseTransparent="true" prefHeight="50.0" prefWidth="500.0" />
          </children>
       </Pane>
    </children>

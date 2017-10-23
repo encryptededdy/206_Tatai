@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.TataiNetController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tatai.app.TataiNetController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="500.0" fitWidth="800.0" />
       <Pane fx:id="backgroundPane" cache="true" cacheHint="SCALE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #212121;">
@@ -133,5 +133,6 @@
             <JFXProgressBar fx:id="registerProgress" layoutX="275.0" layoutY="362.0" prefHeight="8.0" prefWidth="277.0" progress="0.0" />
          </children>
       </Pane>
+      <Pane fx:id="achievementPane" layoutX="160.0" layoutY="444.0" mouseTransparent="true" prefHeight="50.0" prefWidth="500.0" />
    </children>
 </Pane>

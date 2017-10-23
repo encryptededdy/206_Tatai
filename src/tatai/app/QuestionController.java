@@ -493,6 +493,7 @@ public class QuestionController implements DisplaysAchievements {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.CHAIN));
             } else if (_currentRound.getStreak() == 5) {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.FIRE, "+100"));
+                Main.store.credit(100, this, achievementPane);
             }
 
             // ACHIEVEMENTS CODE

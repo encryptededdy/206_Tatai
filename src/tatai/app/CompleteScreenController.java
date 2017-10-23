@@ -19,7 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import tatai.app.questions.Round;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.DisplaysAchievements;
 import tatai.app.util.Layout;
+import tatai.app.util.achievements.AchievementView;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
@@ -33,7 +35,7 @@ import java.io.IOException;
  * @author Edward
  */
 
-public class CompleteScreenController {
+public class CompleteScreenController implements DisplaysAchievements {
 
     private Round _mostRecentRound;
     @FXML private JFXButton menuBtn;
@@ -57,7 +59,7 @@ public class CompleteScreenController {
     @FXML private VBox graphVBox;
     @FXML private VBox roundStatsVBox;
     @FXML private ImageView backgroundImage;
-    @FXML private Pane challengeResultsPane;
+    @FXML private Pane challengeResultsPane, achievementPane;
     @FXML private Label resultText;
     @FXML private Label otherUserNameText;
     @FXML private Label yourScore;
@@ -68,6 +70,8 @@ public class CompleteScreenController {
     private Timeline resultsWaitBar;
 
     private QuestionGenerator nextGenerator;
+
+    private TranslateTransition achievementTransition;
 
     /**
      * Setup javafx objects to be animated in.
@@ -91,6 +95,15 @@ public class CompleteScreenController {
                 new KeyFrame(Duration.ZERO, new KeyValue(countdownBar.progressProperty(), 1)),
                 new KeyFrame(Duration.seconds(60), new KeyValue(countdownBar.progressProperty(), 0))
         );
+
+        // Achievement transition
+        achievementTransition = TransitionFactory.move(achievementPane, 0, -60);
+        achievementTransition.setFromY(0);
+        achievementTransition.setInterpolator(Interpolator.EASE_OUT);
+        FadeTransition ft2 = TransitionFactory.fadeOut(achievementPane);
+        PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
+        pt2.setOnFinished(event -> ft2.play());
+        achievementTransition.setOnFinished(event -> pt2.play());
     }
 
     void netMode(int id) {
@@ -158,8 +171,17 @@ public class CompleteScreenController {
         TransitionFactory.fadeIn(yourScoreLabel).play();
         TransitionFactory.fadeIn(scoreLabel).play();
         TransitionFactory.fadeIn(roundStatsBtn).play();
-        TransitionFactory.fadeIn(replayBtn).play();
+        FadeTransition ft = TransitionFactory.fadeIn(replayBtn);
+        ft.setOnFinished(actionEvent -> {
+            if (!Main.achievementManager.getAchievements().get("Off To A Good Start").isCompleted()) {
+                Main.achievementManager.getAchievements().get("Off To A Good Start").setCompleted(this, achievementPane);
+            }
+            if (!Main.achievementManager.getAchievements().get("Look At You Go!").isCompleted() && _mostRecentRound.getStreak() >= 10) {
+                Main.achievementManager.getAchievements().get("Look At You Go!").setCompleted(this, achievementPane);
+            }
+        });
 
+        ft.play();
         // JavaFX Bug means this breaks the disable property.
         //TransitionFactory.fadeIn(nextRoundBtn).play();
     }
@@ -327,4 +349,11 @@ public class CompleteScreenController {
         }
     }
 
+    public void animateAchievement(AchievementView achievement) {
+        achievementPane.setOpacity(1);
+        achievementPane.getChildren().clear();
+        achievementPane.getChildren().setAll(achievement.getNode());
+        achievementPane.setVisible(true);
+        achievementTransition.play();
+    }
 }

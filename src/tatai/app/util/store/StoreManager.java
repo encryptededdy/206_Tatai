@@ -1,6 +1,9 @@
 package tatai.app.util.store;
 
+import javafx.scene.layout.Pane;
+import tatai.app.Main;
 import tatai.app.questions.generators.GeneratorManager;
+import tatai.app.util.DisplaysAchievements;
 
 import java.util.ArrayList;
 
@@ -45,9 +48,21 @@ public class StoreManager {
      * Credit the bcoin balance
      * @param creditAmount Amount to credit
      */
-    public void credit(int creditAmount) {
+    public void credit(int creditAmount, DisplaysAchievements screen, Pane achievementsPane) {
         balance += creditAmount;
         System.out.println("Store was credited: "+creditAmount);
+        if (!Main.achievementManager.getAchievements().get("Piggy Bank").isCompleted() && balance > 100) {
+            Main.achievementManager.getAchievements().get("Piggy Bank").setCompleted(screen, achievementsPane);
+        }
+        if (!Main.achievementManager.getAchievements().get("Savings Account").isCompleted() && balance > 100) {
+            Main.achievementManager.getAchievements().get("Savings Account").setCompleted(screen, achievementsPane);
+        }
+        if (!Main.achievementManager.getAchievements().get("Ballin'").isCompleted() && balance > 100) {
+            Main.achievementManager.getAchievements().get("Ballin'").setCompleted(screen, achievementsPane);
+        }
+        if (!Main.achievementManager.getAchievements().get("You Know This Isn't Real Money Right?").isCompleted() && balance > 100) {
+            Main.achievementManager.getAchievements().get("You Know This Isn't Real Money Right?").setCompleted(screen, achievementsPane);
+        }
     }
 
     /**
@@ -80,5 +95,27 @@ public class StoreManager {
     public ArrayList<StoreItem> getItems() {
         return items;
     }
+
+    // ACHIEVEMENTS RELATED THINGS
+
+    /**
+     * returns the number of store items that have been purchased by the user
+     * @return
+     */
+    public int numberPurchased() {
+        int count = 0;
+        for (StoreItem item : items) {
+            if (item.isPurchased()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public int numberItems() {
+        return items.size();
+    }
+
+
 
 }

@@ -112,7 +112,7 @@ public class Achievement {
      */
     public void setCompleted(DisplaysAchievements screen, Pane achievementPane) {
         _completed = 1;
-        Main.store.credit(_reward);
+        Main.store.credit(_reward, screen, achievementPane);
         updateDB();
 
         AchievementView av = new AchievementView(_name, _icon, Integer.toString(_reward));

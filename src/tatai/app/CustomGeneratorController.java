@@ -3,6 +3,9 @@ package tatai.app;
 import com.google.gson.Gson;
 import com.jfoenix.controls.*;
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
@@ -18,10 +21,13 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.util.Duration;
 import tatai.app.questions.generators.MathGenerator;
 import tatai.app.questions.generators.MathOperator;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.DisplaysAchievements;
 import tatai.app.util.Layout;
+import tatai.app.util.achievements.AchievementView;
 import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.factories.TransitionFactory;
 
@@ -31,9 +37,9 @@ import java.util.ArrayList;
 /**
  * Controller for the Custom Question Set creation screen
  */
-public class CustomGeneratorController extends ToolbarController {
+public class CustomGeneratorController extends ToolbarController implements DisplaysAchievements {
 
-    @FXML private Pane controls;
+    @FXML private Pane controls, achievementPane;
     @FXML private JFXListView<String> qSetList, downloadSetList;
     @FXML private JFXButton deleteBtn;
     @FXML private JFXComboBox<String> operatorCombo;
@@ -54,6 +60,8 @@ public class CustomGeneratorController extends ToolbarController {
 
     private ArrayList<MathGenerator> workshopGenerators;
     private ArrayList<String> workshopGeneratorsName = new ArrayList<>();
+
+    private TranslateTransition achievementTransition;
 
     /**
      * Sets up initial values and bindings
@@ -86,6 +94,15 @@ public class CustomGeneratorController extends ToolbarController {
 
         // Populate the workshop list (for deduplication)
         populateWorkshop();
+
+        // Achievement transition
+        achievementTransition = TransitionFactory.move(achievementPane, 0, -60);
+        achievementTransition.setFromY(0);
+        achievementTransition.setInterpolator(Interpolator.EASE_OUT);
+        FadeTransition ft2 = TransitionFactory.fadeOut(achievementPane);
+        PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
+        pt2.setOnFinished(event -> ft2.play());
+        achievementTransition.setOnFinished(event -> pt2.play());
     }
 
     /**
@@ -150,6 +167,12 @@ public class CustomGeneratorController extends ToolbarController {
                 maoriCheckbox.isSelected(),
                 true);
         Main.store.generators.add(generator);
+
+        // MODDER ACHIEVEMENT
+        if (!Main.achievementManager.getAchievements().get("Modder").isCompleted()) {
+            Main.achievementManager.getAchievements().get("Modder").setCompleted(this, achievementPane);
+        }
+
         populateQuestionSets();
         // Added, now we clear the fields
         highBoundField.setText("");
@@ -180,7 +203,12 @@ public class CustomGeneratorController extends ToolbarController {
                 shareBtn.setText("Already Uploaded");
             } else {
                 String generatorJSON = gson.toJson(Main.store.generators.get(qSetList.getSelectionModel().getSelectedIndex()));
-                EventHandler<WorkerStateEvent> onSuccess = event -> shareBtn.setText("Uploaded");
+                EventHandler<WorkerStateEvent> onSuccess = event -> {
+                    shareBtn.setText("Uploaded");
+                    if (!Main.achievementManager.getAchievements().get("Roots In The Community").isCompleted()) {
+                        Main.achievementManager.getAchievements().get("Roots In The Community").setCompleted(this, achievementPane);
+                    }
+                };
                 EventHandler<WorkerStateEvent> onFail = event -> shareBtn.setText("Error");
                 Main.netConnection.uploadJSON(generatorJSON, "ezTatai_gen_1", onSuccess, onFail);
             }
@@ -237,6 +265,9 @@ public class CustomGeneratorController extends ToolbarController {
         Gson gson = new Gson();
         String generatorJSON = gson.toJson(gen);
         Main.store.generators.add(gen);
+        if (!Main.achievementManager.getAchievements().get("Bootleg Questions").isCompleted()) {
+            Main.achievementManager.getAchievements().get("Bootleg Questions").setCompleted(this, achievementPane);
+        }
         populateQuestionSets();
         hideWorkshop();
     }
@@ -333,4 +364,11 @@ public class CustomGeneratorController extends ToolbarController {
         }
     }
 
+    public void animateAchievement(AchievementView achievement) {
+        achievementPane.setOpacity(1);
+        achievementPane.getChildren().clear();
+        achievementPane.getChildren().setAll(achievement.getNode());
+        achievementPane.setVisible(true);
+        achievementTransition.play();
+    }
 }

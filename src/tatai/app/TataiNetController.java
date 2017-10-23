@@ -3,10 +3,7 @@ package tatai.app;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.jfoenix.controls.*;
-import javafx.animation.FadeTransition;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -22,7 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import tatai.app.questions.generators.FixedGenerator;
 import tatai.app.questions.generators.QuestionGenerator;
+import tatai.app.util.DisplaysAchievements;
 import tatai.app.util.Layout;
+import tatai.app.util.achievements.AchievementView;
 import tatai.app.util.factories.DialogFactory;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.net.LeaderboardEntry;
@@ -31,9 +30,9 @@ import tatai.app.util.net.LeaderboardViewCell;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class TataiNetController extends ToolbarController {
+public class TataiNetController extends ToolbarController implements DisplaysAchievements {
 
-    @FXML private Pane controls, signUpPane, gameIDPane;
+    @FXML private Pane controls, signUpPane, gameIDPane, achievementPane;
     @FXML private JFXListView<LeaderboardEntry> leaderboardList;
     @FXML private JFXComboBox<String> scoreboardComboGameMode, newGameModeCombo;
     @FXML private Label usernameInstructions, usernameLabel, gameIDLabel, joinErrorLabel;
@@ -44,6 +43,7 @@ public class TataiNetController extends ToolbarController {
 
     private Timeline clientWait;
     private ObservableList<LeaderboardEntry> leaderboard;
+    private TranslateTransition achievementTransition;
 
     /**
      * Populates the gamemode selector ComboBox
@@ -77,6 +77,15 @@ public class TataiNetController extends ToolbarController {
                 new KeyFrame(Duration.seconds(60), new KeyValue(waitProgress.progressProperty(), 0))
         );
         clientWait.setOnFinished(event -> gameIDPane.setVisible(false));
+
+        // Achievement transition
+        achievementTransition = TransitionFactory.move(achievementPane, 0, -60);
+        achievementTransition.setFromY(0);
+        achievementTransition.setInterpolator(Interpolator.EASE_OUT);
+        FadeTransition ft2 = TransitionFactory.fadeOut(achievementPane);
+        PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
+        pt2.setOnFinished(event -> ft2.play());
+        achievementTransition.setOnFinished(event -> pt2.play());
     }
 
     private void populateLeaderboard() {
@@ -221,7 +230,26 @@ public class TataiNetController extends ToolbarController {
     @FXML private void registerBtnPressed() {
         // register the user
         registerProgress.setProgress(ProgressIndicator.INDETERMINATE_PROGRESS);
-        Main.netConnection.registerUser(usernameField.getText(), event -> {signUpPane.setVisible(false); registerProgress.setProgress(0); usernameLabel.setText("Logged in: "+usernameField.getText());}, event -> {usernameInstructions.setText("User already exists"); registerProgress.setProgress(0);}, event -> {usernameInstructions.setText("Network Error"); registerProgress.setProgress(0);});
+        Main.netConnection.registerUser(usernameField.getText(), event -> {
+            signUpPane.setVisible(false);
+            registerProgress.setProgress(0);
+            usernameLabel.setText("Logged in: "+usernameField.getText());
+            if (!Main.achievementManager.getAchievements().get("Hello World!").isCompleted()) {
+                Main.achievementManager.getAchievements().get("Hello World!").setCompleted(this, achievementPane);
+            }
+            }, event -> {
+            usernameInstructions.setText("User already exists");
+            registerProgress.setProgress(0);
+            }, event -> {usernameInstructions.setText("Network Error");
+            registerProgress.setProgress(0);});
+    }
+
+    public void animateAchievement(AchievementView achievement) {
+        achievementPane.setOpacity(1);
+        achievementPane.getChildren().clear();
+        achievementPane.getChildren().setAll(achievement.getNode());
+        achievementPane.setVisible(true);
+        achievementTransition.play();
     }
 
 }
