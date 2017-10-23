@@ -12,7 +12,7 @@ public abstract class Achievement {
     private int _reward;
     private int _completed;
     private FontAwesomeIcon _icon;
-    private String _iconColor;
+    private String _iconColor; // String used otherwise GSON will explode
     private String _completionMessage;
 
     public Achievement(String name, String description, int reward, int completed, String iconName, String iconColor, String completionMessage) {

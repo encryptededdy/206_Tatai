@@ -5,21 +5,21 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainPane" prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/8.0.162-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="mainPane" prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="text" contentDisplay="CENTER" layoutX="53.0" layoutY="5.0" prefHeight="24.0" prefWidth="427.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="text" contentDisplay="CENTER" layoutX="63.0" layoutY="5.0" prefHeight="24.0" prefWidth="427.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Roboto Medium" size="18.0" />
          </font>
       </Label>
       <FontAwesomeIconView fx:id="mainIcon" fill="WHITE" glyphName="FIRE" layoutX="16.0" layoutY="35.0" size="28" text="" />
-      <FontAwesomeIconView fx:id="coinIcon" fill="WHITE" glyphName="BTC" layoutX="53.0" layoutY="41.0" size="14" />
-      <Label fx:id="currencyText" contentDisplay="CENTER" layoutX="67.0" layoutY="24.0" prefHeight="24.0" prefWidth="69.0" text="+100" textAlignment="CENTER" textFill="WHITE">
+      <FontAwesomeIconView fx:id="coinIcon" fill="WHITE" glyphName="BTC" layoutX="63.0" layoutY="41.0" size="14" />
+      <Label fx:id="currencyText" contentDisplay="CENTER" layoutX="77.0" layoutY="24.0" prefHeight="24.0" prefWidth="69.0" text="+100" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Roboto Medium" size="12.0" />
          </font>
       </Label>
-      <Label fx:id="bigtext" contentDisplay="CENTER" layoutX="53.0" layoutY="13.0" prefHeight="24.0" prefWidth="427.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE">
+      <Label fx:id="bigtext" contentDisplay="CENTER" layoutX="63.0" layoutY="13.0" prefHeight="24.0" prefWidth="427.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Roboto Medium" size="20.0" />
          </font>
