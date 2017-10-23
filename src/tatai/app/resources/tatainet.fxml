@@ -29,7 +29,7 @@
                         </children>
                      </Pane>
                   </JFXRippler>
-                  <Label layoutX="291.0" layoutY="16.0" text="TataiNet Multiplayer" textFill="WHITE">
+                  <Label layoutX="291.0" layoutY="16.0" text="TātaiNet Multiplayer" textFill="WHITE">
                      <font>
                         <Font name="Roboto Medium" size="24.0" />
                      </font>
