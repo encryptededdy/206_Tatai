@@ -29,7 +29,8 @@ public enum Layout {
     ACHIEVEMENT("tatai/app/resources/achievementpopup.fxml"),
     CUSTOMLEVELPANE("tatai/app/resources/customlevelspane.fxml"),
     ACHIEVEMENTSCREEN("tatai/app/resources/achievementscreen.fxml"),
-    ACHIEVEMENTCELL("tatai/app/resources/achievementcell.fxml");
+    ACHIEVEMENTCELL("tatai/app/resources/achievementcell.fxml"),
+    BALANCESTUB("tatai/app/resources/balancestub.fxml");
 
     private URL url;
 

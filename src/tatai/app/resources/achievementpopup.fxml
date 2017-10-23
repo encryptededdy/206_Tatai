@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane fx:id="mainPane" prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<Pane fx:id="mainPane" cache="true" cacheHint="SPEED" prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #4CAF50; -fx-background-radius: 20;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label fx:id="text" contentDisplay="CENTER" layoutX="63.0" layoutY="5.0" prefHeight="24.0" prefWidth="427.0" text="Streak! 10 in a row!" textAlignment="CENTER" textFill="WHITE">
          <font>

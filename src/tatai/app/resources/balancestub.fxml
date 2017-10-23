@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane fx:id="mainPane" layoutY="0.0" prefHeight="46.0" prefWidth="128.0" style="-fx-background-color: rgba(0, 0, 0, 0.25);" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <Label fx:id="balanceLabel" layoutX="39.0" layoutY="9.0" prefHeight="29.0" prefWidth="84.0" text="99999" textFill="WHITE">
+            <font>
+                <Font name="Roboto Medium" size="24.0" />
+            </font>
+        </Label>
+        <FontAwesomeIconView fill="WHITE" glyphName="BTC" layoutX="14.0" layoutY="31.0" size="24" />
+    </children>
+</Pane>

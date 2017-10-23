@@ -25,6 +25,7 @@ import tatai.app.util.achievements.AchievementView;
 import tatai.app.util.factories.TransitionFactory;
 import tatai.app.util.queries.MostRecentRoundQuery;
 import tatai.app.util.queries.PreviousRoundScoreQuery;
+import tatai.app.util.store.BalanceView;
 
 import java.io.IOException;
 
@@ -38,6 +39,8 @@ import java.io.IOException;
 public class CompleteScreenController implements DisplaysAchievements {
 
     private Round _mostRecentRound;
+    private BalanceView balanceView;
+
     @FXML private JFXButton menuBtn;
     @FXML private JFXButton roundStatsBtn;
     @FXML private JFXButton replayBtn;
@@ -46,7 +49,7 @@ public class CompleteScreenController implements DisplaysAchievements {
     @FXML private Label scoreLabel;
     @FXML private Label yourScoreLabel;
     @FXML private Pane mainPane;
-    @FXML private Pane scorePane, questionPaneclrShadow;
+    @FXML private Pane scorePane, questionPaneclrShadow, balancePane;
     @FXML private Pane controlsPane;
     @FXML private Pane roundStatsPane;
     @FXML private TableView<ObservableList> resultsTable;
@@ -104,6 +107,10 @@ public class CompleteScreenController implements DisplaysAchievements {
         PauseTransition pt2 = new PauseTransition(Duration.seconds(1.5));
         pt2.setOnFinished(event -> ft2.play());
         achievementTransition.setOnFinished(event -> pt2.play());
+
+        // Load the balance pane
+        balanceView = new BalanceView();
+        balancePane.getChildren().add(balanceView.getPane());
     }
 
     void netMode(int id) {
@@ -159,8 +166,6 @@ public class CompleteScreenController implements DisplaysAchievements {
         });
 
         new Thread(resultsWait).start();
-
-        // TODO: Upload the score and long poll for response
     }
 
     /**
@@ -179,6 +184,7 @@ public class CompleteScreenController implements DisplaysAchievements {
             if (!Main.store.achievements.getAchievements().get("Look At You Go!").isCompleted() && _mostRecentRound.getStreak() >= 10) {
                 Main.store.achievements.getAchievements().get("Look At You Go!").setCompleted(this, achievementPane);
             }
+            balanceView.updateBalance();
         });
 
         ft.play();

@@ -33,6 +33,7 @@ import tatai.app.util.Record;
 import tatai.app.util.Translator;
 import tatai.app.util.factories.PopoverFactory;
 import tatai.app.util.factories.TransitionFactory;
+import tatai.app.util.store.BalanceView;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -54,6 +55,7 @@ public class QuestionController implements DisplaysAchievements {
     private int noQuestions;
     private TranslateTransition shakeTT;
     private int playBtnPresses = 0;
+    private BalanceView balanceView;
 
     @FXML private MaterialDesignIconView playBtnIcon;
     @FXML private JFXProgressBar recordingProgressBar;
@@ -64,7 +66,7 @@ public class QuestionController implements DisplaysAchievements {
     @FXML private JFXButton nextQuestionBtn;
     @FXML private ImageView frontImg, backImg;
     @FXML private ImageView backgroundImage, xpTheme, flyImage;
-    @FXML private Pane questionPaneData, challengePane;
+    @FXML private Pane questionPaneData, challengePane, balancePane;
 
     private ParallelTransition menuConfirmTransition;
     private TranslateTransition achievementTransition;
@@ -146,6 +148,10 @@ public class QuestionController implements DisplaysAchievements {
             frontImg.setVisible(false);
             backImg.setVisible(false);
         }
+
+        // Load the balance pane
+        balanceView = new BalanceView();
+        balancePane.getChildren().add(balanceView.getPane());
     }
 
     /**
@@ -488,12 +494,17 @@ public class QuestionController implements DisplaysAchievements {
         if (_currentRound.checkAnswer(userAnswer)) {
             answerCorrect();
 
+            // Small bonus for getting it right
+            Main.store.credit(5);
+            balanceView.updateBalance();
+
             // STREAK CODE
             if (_currentRound.getStreak() > 2 && _currentRound.getStreak() < 5) {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.CHAIN));
             } else if (_currentRound.getStreak() == 5) {
                 animateAchievement(new AchievementView("Streak! "+_currentRound.getStreak()+" in a row!", FontAwesomeIcon.FIRE, "+100"));
                 Main.store.credit(100, this, achievementPane);
+                balanceView.updateBalance();
             }
 
             // ACHIEVEMENTS CODE
@@ -519,6 +530,8 @@ public class QuestionController implements DisplaysAchievements {
                 if (correctAnswers >= bronzeThreshold && !bronzeAchievement.isCompleted()) {
                     achievementManager.getAchievements().get(generatorName + " - Bronze").setCompleted(this, achievementPane);
                 }
+
+                balanceView.updateBalance();
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
             }

@@ -70,6 +70,11 @@ public class StoreManager {
         }
     }
 
+    public void credit(int creditAmount) {
+        balance += creditAmount;
+        System.out.println("Store was credited: "+creditAmount);
+    }
+
     /**
      * Debit the bcoin
      * @param debitAmount Amount to debit
