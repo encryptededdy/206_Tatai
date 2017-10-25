@@ -81,7 +81,7 @@
             <DropShadow height="40.0" radius="19.5" width="40.0" />
          </effect>
       </Pane>
-      <Label layoutX="642.0" layoutY="137.0" opacity="0.5" rotate="90.0" text="Tātai β2 “Tasman Lake”" textFill="WHITE">
+      <Label layoutX="642.0" layoutY="137.0" opacity="0.5" rotate="90.0" text="Tātai 1.0 “Tasman Lake”" textFill="WHITE">
          <font>
             <Font name="Roboto" size="24.0" />
          </font>
