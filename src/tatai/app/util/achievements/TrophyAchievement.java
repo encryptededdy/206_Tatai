@@ -41,35 +41,4 @@ public class TrophyAchievement extends Achievement {
     }
 
     public String getRank() { return _rank; }
-
-    /*
-    public static boolean isBronzeInDB(QuestionGenerator qg) throws SQLException {
-        String qgName = qg.getGeneratorName();
-        String achievementName = qgName + " - Bronze";
-        String SQLQuery = "SELECT completed FROM achievements WHERE username = '" + Main.currentUser + "' AND name = '" +
-                achievementName + "'";
-        ResultSet rs = Main.database.returnOp(SQLQuery);
-        System.out.println(rs.getInt(1));
-        return rs.getInt(1) == 1;
-    }
-
-    public static boolean isSilverInDB(QuestionGenerator qg) throws SQLException {
-        String qgName = qg.getGeneratorName();
-        String achievementName = qgName + " - Silver";
-        String SQLQuery = "SELECT completed FROM achievements WHERE username = '" + Main.currentUser + "' AND name = '" +
-                achievementName + "'";
-        ResultSet rs = Main.database.returnOp(SQLQuery);
-        System.out.println(rs.getInt(1));
-        return rs.getInt(1) == 1;
-    }
-
-    public static boolean isGoldInDB(QuestionGenerator qg) throws SQLException {
-        String qgName = qg.getGeneratorName();
-        String achievementName = qgName + " - Gold";
-        String SQLQuery = "SELECT completed FROM achievements WHERE username = '" + Main.currentUser + "' AND name = '" +
-                achievementName + "'";
-        ResultSet rs = Main.database.returnOp(SQLQuery);
-        System.out.println(rs.getInt(1));
-        return rs.getInt(1) == 1;
-    } */
 }
