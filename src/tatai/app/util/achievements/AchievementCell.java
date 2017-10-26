@@ -36,12 +36,14 @@ public class AchievementCell extends ListCell<Achievement> {
                 loadFXML();
             }
 
+            // Populates the achievement cell with all of the information about the acheivement
             nameLabel.setText(achievement.getName());
             icon.setIcon(achievement.getIcon());
             descLabel.setText(achievement.getDescription());
             icon.setFill(achievement.getColor());
             rewardLabel.setText(Integer.toString(achievement.getReward()));
 
+            // sets the acheivement icon to be opaque if the achievement is not completed
             if (!achievement.isCompleted()) {
                 icon.setOpacity(0.2);
             } else {
@@ -55,6 +57,9 @@ public class AchievementCell extends ListCell<Achievement> {
         }
     }
 
+    /**
+     * loads the fxml for an achievement cell and sets an instance of this class as it's controller
+     */
     private void loadFXML() {
         loader = Layout.ACHIEVEMENTCELL.loader();
         loader.setController(this);

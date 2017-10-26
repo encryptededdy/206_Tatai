@@ -9,6 +9,10 @@ import java.util.Set;
 public class AchievementManager {
     private LinkedHashMap<String, Achievement> achievements;
 
+    /**
+     * Populates the achievements based on the available built in generators and a list of hardcoded ones
+     * @param generators
+     */
     public AchievementManager(GeneratorManager generators) {
         achievements = new LinkedHashMap<String, Achievement>();
         achievements.put("Bargain Hunter", new NormalAchievement("Bargain Hunter", "Purchase an item from the store.",
@@ -56,10 +60,22 @@ public class AchievementManager {
         }
     }
 
+    /**
+     * returns a LinkedHashMap of achievements so that an order is preserved but also so that an achievement can be fetched simply using it's name
+     * @return
+     */
     public LinkedHashMap<String, Achievement> getAchievements() {return achievements;}
 
+    /**
+     * returns the number of achievements in total
+     * @return
+     */
     public int numberOfAchievements() {return achievements.size(); }
 
+    /**
+     * returns the number of achievements that are completed
+     * @return
+     */
     public int numberOfCompletedAchievements() {
         int count = 0;
         for (Achievement achievement : getAchievementsArrayList()) {
@@ -70,7 +86,11 @@ public class AchievementManager {
         return count;
     }
 
-
+    /**
+     * returns an arraylist of achievements to have some kind of order. pretty sure this is deprecated but I'm not going
+     * to delete it since it might be used somewhere.
+     * @return
+     */
     public ArrayList<Achievement> getAchievementsArrayList() {
         ArrayList<Achievement> arrayList = new ArrayList<Achievement>();
         Set<String> keys = achievements.keySet();

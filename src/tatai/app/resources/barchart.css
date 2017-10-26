@@ -12,15 +12,3 @@
   -fx-background-color: #212121;
   -fx-border-color: #212121;
 }
-
-.bar-chart:vertical .chart-content .plot-content .default-color0 {
-  -fx-max-width: 50px;
-}
-
-.bar-chart:vertical .chart-content .plot-content .default-color1 {
-  -fx-max-width: 50px;
-}
-
-.bar-chart:vertical .chart-content .plot-content .default-color2 {
-  -fx-max-width: 50px;
-}
