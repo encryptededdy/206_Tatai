@@ -24,6 +24,12 @@ import tatai.app.util.factories.TransitionFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Handles the level selector screen
+ *
+ * @author Zach
+ * @author Edward
+ */
 public class LevelSelectorController {
     @FXML private ImageView backgroundImage, frontImg, backImg;
     @FXML private GridPane levelsGridPane1;
@@ -37,6 +43,9 @@ public class LevelSelectorController {
     private int prevPaneState;
     private int paneState;
 
+    /**
+     * Setup the screen and populate the level panes
+     */
     public void initialize() {
         backgroundImage.setImage(Main.background);
         frontImg.setImage(Main.parralaxFront);
@@ -83,6 +92,9 @@ public class LevelSelectorController {
         });
     }
 
+    /**
+     * Regenerates the panes for each level
+     */
     void recreatePanes() {
         levelsGridPane1.getChildren().clear();
         levelsGridPane2.getChildren().clear();
@@ -103,6 +115,9 @@ public class LevelSelectorController {
         }
     }
 
+    /**
+     * Animation for switching from Main Menu
+     */
     public void fadeIn() {
         animInPane.setVisible(true);
         Transition mt = TransitionFactory.move(animInPane, 0, -446, Main.transitionDuration*2);
@@ -115,6 +130,11 @@ public class LevelSelectorController {
         pt.play();
     }
 
+    /**
+     * Get a transition for fading out all elements except the specified node. Used for levelPane game start anim
+     * @param excludedNode The node to not fade out
+     * @return The transition for the fade
+     */
     ParallelTransition fadeOutOtherCards(Node excludedNode) {
         // Fade out the controls
         FadeTransition ctrl = TransitionFactory.fadeOut(mainControls, Main.transitionDuration*2);
@@ -133,7 +153,7 @@ public class LevelSelectorController {
     }
 
     /**
-     * Fade in without animating the main menu item
+     * Fade in without animating the main menu item (for Custom Level screen)
      */
     void fadeInWithoutMenu() {
         animInPane.setVisible(false);
@@ -146,6 +166,9 @@ public class LevelSelectorController {
         pt.play();
     }
 
+    /**
+     * Animate and return back to the main menu
+     */
     @FXML private void backBtnPressed() throws IOException {
         // Switch back to the main Menu
         animInPane.setVisible(true);
@@ -163,6 +186,9 @@ public class LevelSelectorController {
         ft.play();
     }
 
+    /**
+     * Switch to the last page
+     */
     public void prevBtnPressed() {
         prevPaneState = paneState;
         if (paneState > 0) {
@@ -176,6 +202,9 @@ public class LevelSelectorController {
         updatePanesLocation();
     }
 
+    /**
+     * Switch to the next page
+     */
     public void nextBtnPressed() {
         prevPaneState = paneState;
         System.out.println(paneState);
@@ -189,6 +218,13 @@ public class LevelSelectorController {
         updatePanesLocation();
     }
 
+    /**
+     * Generate a level pane in a specified location, with a specified generator
+     * @param questionGenerator The generator for this level pane
+     * @param gridPane The gridpane to put it in
+     * @param x x location
+     * @param y y location
+     */
     private void createLevelPane(QuestionGenerator questionGenerator, GridPane gridPane, int x, int y) throws IOException {
         FXMLLoader loader = Layout.LEVELPANE.loader();
         Parent pane = loader.load();
@@ -199,6 +235,9 @@ public class LevelSelectorController {
         gridPane.getChildren().add(pane);
     }
 
+    /**
+     * Generates the custom level pane
+     */
     private void createCustomLevelPane() throws IOException {
         FXMLLoader loader = Layout.CUSTOMLEVELPANE.loader();
         Parent pane = loader.load();
@@ -208,6 +247,9 @@ public class LevelSelectorController {
         customLevelPane.getChildren().add(pane);
     }
 
+    /**
+     * Animates the pane to switch to the new paneState
+     */
     private void updatePanesLocation() {
         if (paneState == 0 && prevPaneState == 1) {
             TranslateTransition tt1 = new TranslateTransition(Duration.millis(500), levelsGridPane1);

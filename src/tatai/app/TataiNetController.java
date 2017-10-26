@@ -30,6 +30,11 @@ import tatai.app.util.net.LeaderboardViewCell;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Controller for the TataiNet screen
+ *
+ * @author Edward
+ */
 public class TataiNetController extends ToolbarController implements DisplaysAchievements {
 
     @FXML private Pane controls, signUpPane, gameIDPane, achievementPane;
@@ -46,7 +51,7 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
     private TranslateTransition achievementTransition;
 
     /**
-     * Populates the gamemode selector ComboBox
+     * Populates the gamemode selector ComboBoxes and sets up bindings and the leaderboard listview
      */
     public void initialize() {
         super.initialize();
@@ -88,6 +93,9 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
         achievementTransition.setOnFinished(event -> pt2.play());
     }
 
+    /**
+     * Populates the leaderboard from the server for the selected gamemode
+     */
     private void populateLeaderboard() {
         Task<Void> populateTask = new Task<Void>() {
             @Override
@@ -115,8 +123,10 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
         }
     }
 
+    /**
+     * Starts a TataiNet challenge game
+     */
     @FXML private void newGameBtnPressed() throws IOException {
-        // TODO: Disable PrettyPrinting when done
         Gson gson = new Gson();
         QuestionGenerator selectedGenerator = Main.store.generators.getGeneratorFromName(newGameModeCombo.getValue());
         FixedGenerator roundGenerator = new FixedGenerator(selectedGenerator, 10); // fixedgenerator to use
@@ -135,7 +145,7 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
         AtomicInteger id = new AtomicInteger();
         clientWait.play();
 
-        // Upload this to the JSON
+        // Upload this to the server
         Task<Integer> roundUpload = new Task<Integer>() {
             @Override
             protected Integer call() throws Exception {
@@ -143,7 +153,7 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             }
         };
 
-        // This tasks waits for the other user to start
+        // This task waits for the other user to start
         Task<Boolean> roundWait = new Task<Boolean>() {
             @Override
             protected Boolean call() {
@@ -156,15 +166,7 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             }
         };
 
-        roundWait.setOnSucceeded(event -> {
-            if (roundWait.getValue()) {
-                loader.<QuestionController>getController().enableNet(id.get());
-                ft.play();
-            } else {
-                gameIDLabel.setText("Error");
-            }
-        });
-
+        // When we get the game ID back from the server, display it
         roundUpload.setOnSucceeded(event -> {
             if (roundUpload.getValue() < 0) {
                 gameIDLabel.setText("Error");
@@ -175,11 +177,25 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             }
         });
 
+        // Start the game
+        roundWait.setOnSucceeded(event -> {
+            if (roundWait.getValue()) {
+                loader.<QuestionController>getController().enableNet(id.get());
+                ft.play();
+            } else {
+                gameIDLabel.setText("Error");
+            }
+        });
+
         new Thread(roundUpload).start();
     }
 
+    /**
+     * Join a TataiNet game
+     */
     @FXML private void joinGameBtnPressed() {
         int id;
+        // Check to see if the ID is a valid (ints only)
         try {
             id = Integer.parseInt(gameIDBox.getText());
         } catch (NumberFormatException e) {
@@ -187,6 +203,7 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             return;
         }
 
+        // Task for checking the round with the server
         Task<JsonObject> joinRound = new Task<JsonObject>() {
             @Override
             protected JsonObject call() throws Exception {
@@ -194,15 +211,18 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             }
         };
 
+        // Run when we get a response from the server
         joinRound.setOnSucceeded(event -> {
             JsonObject json = joinRound.getValue();
+
             if (json == null || json.isJsonNull() ) {
                 joinErrorLabel.setText("Network Error");
             } else if (!json.get("started").getAsBoolean()) {
-                joinErrorLabel.setText("Invalid ID");
+                joinErrorLabel.setText("Invalid ID"); // Bad ID supplied
             } else {
                 System.out.println("Starting game with "+json.get("host").getAsString());
                 Gson gson = new Gson();
+                // Extract the FixedGenerator from the server JSON
                 FixedGenerator generator = gson.fromJson(json.get("json"), FixedGenerator.class);
                 // start the game
                 Scene scene = newGameBtn.getScene();
@@ -225,7 +245,7 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
     }
 
     /**
-     * Register a new user
+     * Register a new user (in the registeration popup)
      */
     @FXML private void registerBtnPressed() {
         // register the user
@@ -244,6 +264,10 @@ public class TataiNetController extends ToolbarController implements DisplaysAch
             registerProgress.setProgress(0);});
     }
 
+    /**
+     * Animate in a achievement toast
+     * @param achievement The achievement to show
+     */
     public void animateAchievement(AchievementView achievement) {
         achievementPane.setOpacity(1);
         achievementPane.getChildren().clear();

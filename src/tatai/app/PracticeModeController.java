@@ -8,6 +8,11 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import tatai.app.practice.PracticeModeCell;
 
+/**
+ * Controller for the Game's practice mode
+ *
+ * @author Edward
+ */
 public class PracticeModeController extends ToolbarController{
 
     @FXML private Pane controls;
@@ -18,6 +23,9 @@ public class PracticeModeController extends ToolbarController{
     private int totalAnswered = 0;
     private int totalCorrect = 0;
 
+    /**
+     * Sets up the list of questions to practice, and all bindings
+     */
     public void initialize() {
         super.initialize();
         practiceList.setCellFactory(param -> new PracticeModeCell(this));
@@ -29,6 +37,10 @@ public class PracticeModeController extends ToolbarController{
         accuracyTile.visibleProperty().bind(statisticsToggle.selectedProperty());
     }
 
+    /**
+     * Populate the list of practice questions
+     * @param showAll Show all 99 instead of just 1-10
+     */
     private void setItems(boolean showAll) {
         Integer[] questions;
         if (showAll) {
@@ -45,6 +57,9 @@ public class PracticeModeController extends ToolbarController{
         practiceList.setItems(FXCollections.observableArrayList(questions));
     }
 
+    /**
+     * Set the stats tile type
+     */
     private void changeTile() {
         if (bargraphToggle.isSelected()) {
             accuracyTile.setSkinType(Tile.SkinType.SPARK_LINE);
@@ -53,6 +68,10 @@ public class PracticeModeController extends ToolbarController{
         }
     }
 
+    /**
+     * Called when a question gets answered in a practice cell
+     * @param correct Whether the answer was correct
+     */
     public void questionAnswered(boolean correct) {
         totalAnswered++;
         if (correct)

@@ -20,6 +20,12 @@ import tatai.app.util.factories.TransitionFactory;
 
 import java.io.IOException;
 
+/**
+ * Controller for the Level panes within the level select screen
+ *
+ * @author Edward
+ * @author Zach
+ */
 public class LevelPaneController {
     @FXML JFXButton playBtn, bigPlayBtn, unlockBtn, playMaoriBtn;
     @FXML Label captionLabel;
@@ -36,16 +42,19 @@ public class LevelPaneController {
 
     private QuestionGenerator generator;
 
-    private AchievementManager achievementManager;
-
-    public void initialize() {
-    }
-
+    /**
+     * Sets the X/Y location of this pane on the grid (used for animations)
+     */
     void setLocation(int x, int y) {
         locX = x;
         locY = y;
     }
 
+    /**
+     * Defines the questionGenerator for this pane
+     * @param generator The QuestionGenerator this pane represents
+     * @param parentController The controller for the level select screen that this is in
+     */
     void setQuestionGenerators(QuestionGenerator generator, LevelSelectorController parentController) {
         this.parentController = parentController;
         this.generator = generator;
@@ -55,10 +64,11 @@ public class LevelPaneController {
         levelNameLabel.setText(generator.getGeneratorName());
         captionLabel.setText(generator.getDescription());
 
+        // Check if the generator is locked
         if (generator.isUnlocked()) {
             lockOverlay.setVisible(false);
             innerData.setEffect(null);
-        } else {
+        } else { // If it's locked, show the unlock button and cost
             unlockBtn.setText("Unlock for ฿"+generator.getCost());
             if (Main.store.getBalance() < generator.getCost()) {
                 unlockBtn.setText("Need ฿"+(generator.getCost()-Main.store.getBalance())+" more");
@@ -66,17 +76,19 @@ public class LevelPaneController {
             }
         }
 
-        // Disable the trophys until we know what to do with them
-        achievementManager = Main.store.achievements;
+        // Get the bronze/silver/gold achievements for this level
+        AchievementManager achievementManager = Main.store.achievements;
         String generatorName = generator.getGeneratorName();
         Achievement bronzeAchievement = achievementManager.getAchievements().get(generatorName + " - Bronze");
         Achievement silverAchievement = achievementManager.getAchievements().get(generatorName + " - Silver");
         Achievement goldAchievement = achievementManager.getAchievements().get(generatorName + " - Gold");
 
+        // Disable all the trophies
         bronze.setOpacity(0.2);
         silver.setOpacity(0.2);
         gold.setOpacity(0.2);
 
+        // Enable the trophies if they've been achieved
         if (bronzeAchievement.isCompleted()) {
             bronze.setOpacity(1);
         }
@@ -88,6 +100,9 @@ public class LevelPaneController {
         }
     }
 
+    /**
+     * Handle unlocking a level if it's locked
+     */
     @FXML
     public void unlockBtnPressed() {
         if (generator.unlock()) {
@@ -96,14 +111,24 @@ public class LevelPaneController {
         }
     }
 
+    /**
+     * Play the game
+     */
     public void playBtnPressed() throws IOException {
         switchScene(false);
     }
 
+    /**
+     * Play the game, but in Maori
+     */
     public void playMaoriBtnPressed() throws IOException {
         switchScene(true);
     }
 
+    /**
+     * Switch to the question screen, with animation
+     * @param maori Whether to start the game in maori
+     */
     private void switchScene(boolean maori) throws IOException {
         pane.toFront();
         generator.setMaori(maori);
@@ -116,6 +141,10 @@ public class LevelPaneController {
         pt.play();
     }
 
+    /**
+     * Animate the pane into the center for transition
+     * @return Transition of the pane moving into the center
+     */
     private ParallelTransition fadeAnimate() {
         // Fade in the dropshadow
         DropShadow ds = (DropShadow) pane.getEffect();

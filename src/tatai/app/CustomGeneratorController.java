@@ -36,6 +36,8 @@ import java.util.ArrayList;
 
 /**
  * Controller for the Custom Question Set creation screen
+ *
+ * @author Edward
  */
 public class CustomGeneratorController extends ToolbarController implements DisplaysAchievements {
 
@@ -194,6 +196,9 @@ public class CustomGeneratorController extends ToolbarController implements Disp
         }
     }
 
+    /**
+     * Uploads the selected level to Tatai Workshop when share button is pressed
+     */
     @FXML void shareBtnPressed() {
         if (!shareBtn.getText().equals("Uploaded")) {
             shareBtn.setText("Uploading...");
@@ -224,6 +229,9 @@ public class CustomGeneratorController extends ToolbarController implements Disp
         populateWorkshop();
     }
 
+    /**
+     * Populates the workshop level list from the server
+     */
     private void populateWorkshop() {
         Task<ArrayList<MathGenerator>> populateDownloads = new Task<ArrayList<MathGenerator>>() {
             @Override
@@ -243,6 +251,7 @@ public class CustomGeneratorController extends ToolbarController implements Disp
         new Thread(populateDownloads).start();
     }
 
+    // Called to check whether a workshop item already exists on the server
     private boolean checkWorkshopDuplication() {
         String item = downloadSetList.getSelectionModel().getSelectedItem();
         if (item == null) {
@@ -364,6 +373,10 @@ public class CustomGeneratorController extends ToolbarController implements Disp
         }
     }
 
+    /**
+     * Animates in the achievement box
+     * @param achievement The achievement to animate
+     */
     public void animateAchievement(AchievementView achievement) {
         achievementPane.setOpacity(1);
         achievementPane.getChildren().clear();

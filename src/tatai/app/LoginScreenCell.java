@@ -12,6 +12,11 @@ import java.sql.ResultSet;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The cell for the list of usernames in the login screen
+ *
+ * @author Edward
+ */
 public class LoginScreenCell extends ListCell<String>{
 
     private FXMLLoader loader;

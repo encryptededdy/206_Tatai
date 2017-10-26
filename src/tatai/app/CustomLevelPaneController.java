@@ -15,6 +15,11 @@ import tatai.app.util.factories.TransitionFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Controller for the custom level pane in the level select screen
+ *
+ * @author Zach
+ */
 public class CustomLevelPaneController {
     @FXML JFXListView<String> customLevelsListView;
     @FXML JFXButton playBtn;
@@ -26,6 +31,9 @@ public class CustomLevelPaneController {
         populateCustomLevelsList();
     }
 
+    /**
+     * Populate the listview with the custom levels avaliable
+     */
     private void populateCustomLevelsList() {
         ArrayList<QuestionGenerator> questionGeneratorNames = Main.store.generators.getGenerators();
         for (QuestionGenerator gen : questionGeneratorNames) {
@@ -36,12 +44,18 @@ public class CustomLevelPaneController {
         customLevelsListView.getSelectionModel().selectFirst();
     }
 
-    public void setParentNode(Node parent) {
+    /**
+     * Sets the parent controller (the one for the level select screen)
+     * @param parent The parent controller
+     */
+    void setParentNode(Node parent) {
         levelSelectorParent = parent;
     }
 
+    /**
+     * Start a game with the currently selected custom level, transition to it
+     */
     @FXML public void playBtnPressed() throws IOException {
-        System.out.println("Please work");
         String customLevelName = customLevelsListView.getSelectionModel().getSelectedItem();
         FXMLLoader loader = Layout.QUESTION.loader();
         Parent root = loader.load();
@@ -53,6 +67,9 @@ public class CustomLevelPaneController {
         ft.play();
     }
 
+    /**
+     * Switch to the Tatai Workshop
+     */
     @FXML public void lvlWorkshopBtnPressed() throws IOException {
         switchToToolbar(Layout.CUSTOMGENERATOR);
     }

@@ -85,7 +85,6 @@ public class LoginController {
     @FXML void loginBtnPressed() throws IOException {
         Main.currentUser = userList.getSelectionModel().getSelectedItem(); // write the username
         Main.currentSession = database.startSession(); // start the session
-        //Main.populateGenerators(); // populate questiongenerators
         Main.netConnection = new NetConnection(); // open a TataiNet session
         if (database.getStore() == null) { // Get the stored store
             Main.store = new StoreManager();

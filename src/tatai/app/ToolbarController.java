@@ -16,6 +16,8 @@ import java.io.IOException;
 
 /**
  * Abstract controller used for toolbar screens (CustomGenerator, TataiNet, Dashboard)
+ *
+ * @author Edward
  */
 public abstract class ToolbarController {
     @FXML protected ImageView backgroundImage;
