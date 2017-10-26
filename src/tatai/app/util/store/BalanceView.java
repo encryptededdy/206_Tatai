@@ -13,6 +13,11 @@ import tatai.app.util.Layout;
 
 import java.io.IOException;
 
+/**
+ * Coin balance viewer controller
+ *
+ * @author Edward
+ */
 public class BalanceView {
     @FXML Label balanceLabel;
     @FXML Pane mainPane;
@@ -23,6 +28,9 @@ public class BalanceView {
 
     private Timeline counter;
 
+    /**
+     * Instantiates a new BalanceView with the current store balance
+     */
     public BalanceView() {
         FXMLLoader loader = Layout.BALANCESTUB.loader();
         loader.setController(this);
@@ -38,15 +46,23 @@ public class BalanceView {
         updateFromBalance();
     }
 
+    /**
+     * Gets the main pane for the balance view
+     * @return The main pane
+     */
     public Pane getPane() {
         return mainPane;
     }
 
+    /**
+     * Animate the pane to the new value
+     */
     public void updateBalance() {
         targetBalance = Main.store.getBalance();
         counter.play();
     }
 
+    // Does the animation to the new number
     private void count() {
         if (targetBalance > currentBalance) {
             if (targetBalance - currentBalance > 100) {

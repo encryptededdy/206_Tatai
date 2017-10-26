@@ -6,6 +6,8 @@ import java.net.URL;
 
 /**
  * Gets loaders for various FXML files to load
+ *
+ * @author Edward
  */
 public enum Layout {
 
@@ -38,6 +40,10 @@ public enum Layout {
         this.url = getClass().getClassLoader().getResource(url);
     }
 
+    /**
+     * Get the FXML Loader for this layout
+     * @return Loader for the layout
+     */
     public FXMLLoader loader() {
         return new FXMLLoader(url);
     }

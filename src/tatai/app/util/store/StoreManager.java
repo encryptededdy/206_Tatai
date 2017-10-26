@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 /**
  * Manages the monetery balance and also items unlocked in the store
+ *
+ * @author Edward
  */
 public class StoreManager {
     private int balance = 0;
@@ -110,7 +112,6 @@ public class StoreManager {
 
     /**
      * returns the number of store items that have been purchased by the user
-     * @return
      */
     public int numberPurchased() {
         int count = 0;
@@ -122,6 +123,9 @@ public class StoreManager {
         return count;
     }
 
+    /**
+     * Gets the number of items in the store
+     */
     public int numberItems() {
         return items.size();
     }

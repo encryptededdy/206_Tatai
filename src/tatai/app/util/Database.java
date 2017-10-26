@@ -184,6 +184,9 @@ public class Database {
         return output;
     }
 
+    /**
+     * Save the store data (contains Achievements, Generators)
+     */
     public void storeStore() {
         if (Main.currentUser != null) {
             Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).registerTypeAdapter(Achievement.class, new SerializationAdapter()).create();
@@ -201,6 +204,10 @@ public class Database {
         }
     }
 
+    /**
+     * Retrieve the store data from the db
+     * @return The StoreManager, or null if it doesn't exist in the db
+     */
     public StoreManager getStore() {
         Gson gson = new GsonBuilder().registerTypeAdapter(StoreItem.class, new SerializationAdapter()).registerTypeAdapter(QuestionGenerator.class, new SerializationAdapter()).registerTypeAdapter(Achievement.class, new SerializationAdapter()).create();
         ResultSet rs = returnOp("SELECT json FROM tataistore WHERE username = '"+Main.currentUser+"'");

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * A class that exchanges data with TataiNet over an HTTP connection
+ * A class that exchanges data with TataiNet over an HTTPS connection
  *
  * @author Edward
  */
@@ -125,6 +125,11 @@ public class NetConnection {
         new Thread(uploadTask).start();
     }
 
+    /**
+     * Starts a challenge mode round
+     * @param json JSON string of the FixedGenerator to be used
+     * @return The RoundID once the round has started. -1 returned if failure
+     */
     public int startRound(String json) {
         try {
             String result = Request.Post(host+"startRound.php")
@@ -142,6 +147,11 @@ public class NetConnection {
         return -1;
     }
 
+    /**
+     * Long poll for the challenge mode round to start. Returns once it's started
+     * @param id The roundID to wait for
+     * @return True once started. False if an error was encountered
+     */
     public boolean waitRound(int id) {
         try {
             System.out.println("Start wait");
@@ -161,6 +171,12 @@ public class NetConnection {
         }
     }
 
+    /**
+     * Finish a challenge mode round
+     * @param id The roundID of the round
+     * @param score The score attained in this round
+     * @return a JSONObject with the other user and their score
+     */
     public JsonObject finishRound(int id, int score) {
         try {
             System.out.println("Upload score; waiting for round finish");
@@ -181,6 +197,11 @@ public class NetConnection {
         }
     }
 
+    /**
+     * Joins a challenge mode round
+     * @param id The roundID to attempt to join
+     * @return An object with the FixedGenerator to use
+     */
     public JsonObject joinRound(int id) {
         try {
             String result = Request.Post(host+"joinRound.php")
@@ -197,6 +218,11 @@ public class NetConnection {
         return null;
     }
 
+    /**
+     * Gets the current leaderboard for a gamemode from the server
+     * @param gamemode The gamemode to get the leaderboard for
+     * @return The leaderboard, as an ArrayList of LeaderboardEntries
+     */
     public ArrayList<LeaderboardEntry> getLeaderboard(String gamemode) {
         try {
             String result = Request.Post(host + "getHighScores.php")
@@ -219,6 +245,13 @@ public class NetConnection {
         }
     }
 
+    /**
+     * Register an user with the TataiNet server
+     * @param username The username to register
+     * @param onSuccess The EventHandler for if the user is created successfully
+     * @param onDuplicate The EventHandler if this user is duplicate
+     * @param onError The EventHandler for if there was an error creating the user
+     */
     public void registerUser(String username, EventHandler<WorkerStateEvent> onSuccess, EventHandler<WorkerStateEvent> onDuplicate, EventHandler<WorkerStateEvent> onError) {
         if (registered) {
             System.err.println("User already registered");
@@ -266,6 +299,13 @@ public class NetConnection {
         new Thread(registerTask).start();
     }
 
+    /**
+     * Upload arbitary JSON data to the server
+     * @param json The JSON data to upload
+     * @param version The version data to attach to the JSON
+     * @param onSuccess The EventHandler for if the JSON is uploaded successfully
+     * @param onFailure The EventHandler for if there is a failure
+     */
     public void uploadJSON(String json, String version, EventHandler<WorkerStateEvent> onSuccess, EventHandler<WorkerStateEvent> onFailure) {
         Task<Boolean> uploadTask = new Task<Boolean>() {
             @Override
@@ -302,6 +342,10 @@ public class NetConnection {
         new Thread(uploadTask).start();
     }
 
+    /**
+     * Gets a list of TataiWorkshop items
+     * @return An ArrayList of MathGenerators
+     */
     public ArrayList<MathGenerator> getGenerators() {
         try {
             String result = Request.Post(host + "getData.php")
@@ -324,6 +368,9 @@ public class NetConnection {
         }
     }
 
+    /**
+     * Gets the current online username. Null if unregistered.
+     */
     public String getUsername() {
         return onlineName;
     }
