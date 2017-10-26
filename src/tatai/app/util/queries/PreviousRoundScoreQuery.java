@@ -45,13 +45,20 @@ public class PreviousRoundScoreQuery extends Query {
                     int count = 10;
                     while (rs.next()) {
                         XYChart.Data data;
-                        if (count == 1) {
+                        if (false) {
                             data = createData(Integer.toString(count), rs.getInt(2), Color.web("0x3F51B5"));
                         } else {
                             data = createData(Integer.toString(count), rs.getInt(2),Color.web( "0x455864"));
                         }
 
                         recentScoresSeries.getData().add(data);
+                        count--;
+                    }
+                    recentScoresSeries.getData().get(recentScoresSeries.getData().size() - 1).getNode().setStyle("-fx-background-color: #3F51B5; -fx-background-radius: 4px;");
+                    while (count > 0) {
+                        XYChart.Data data;
+                        data = createData(Integer.toString(count), 0, Color.web("0x3F51B5"));
+                        recentScoresSeries.getData().add(0, data);
                         count--;
                     }
 
@@ -80,19 +87,23 @@ public class PreviousRoundScoreQuery extends Query {
      */
     private XYChart.Data createData(String axisLabel, int value, Color color) {
         XYChart.Data data =  new XYChart.Data(axisLabel, value);
+        Label label = new Label();
 
-        String text = Integer.toString(value);
+        if (value > 0) {
+            String text = Integer.toString(value);
+            label.setText(text);
+            label.setTextFill(new Color(1, 1, 1, 1));
+            label.setFont(Main.currentFont);
+        }
 
         StackPane node = new StackPane();
-        Label label = new Label(text);
-        label.setTextFill(new Color(1, 1, 1, 1));
-        label.setFont(Main.currentFont);
         Group group = new Group(label);
         StackPane.setAlignment(group, Pos.TOP_CENTER);
         StackPane.setMargin(group, new Insets(-26, 0, 0, 0));
 
         node.setBackground(new Background(new BackgroundFill(color, new CornerRadii(4.0), null)));
         node.getChildren().add(group);
+        node.setMaxWidth(1);
         data.setNode(node);
 
         return data;
