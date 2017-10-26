@@ -2,6 +2,11 @@ package tatai.app.questions.generators;
 
 import java.util.ArrayList;
 
+/**
+ * QuestionGenerator that generates a fixed series of numbers (for TataiNet use)
+ *
+ * @author Edward
+ */
 public class FixedGenerator implements QuestionGenerator {
     private ArrayList<String> questions = new ArrayList<>();
     private ArrayList<String> answers = new ArrayList<>();

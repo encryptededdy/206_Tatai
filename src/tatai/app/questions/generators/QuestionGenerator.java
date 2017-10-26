@@ -36,13 +36,33 @@ public interface QuestionGenerator {
      */
     boolean isCustom();
 
+    /**
+     * Check whether this generator supports Maori question generation
+     * @return Whether Maori is supported
+     */
     boolean supportsMaori();
 
+    /**
+     * Set the generator to generate maori questions... or not
+     * @param maori Whether to generate maori questions
+     */
     void setMaori(boolean maori);
 
+    /**
+     * Checks to see if the user has unlocked this generator
+     * @return If the generator is unlocked
+     */
     boolean isUnlocked();
 
+    /**
+     * Unlocks the generator (and subtracts the cost)
+     * @return Whether the unlock was successful (failure could be already unlocked or insufficient funds)
+     */
     boolean unlock();
 
+    /**
+     * Gets the cost of this level
+     * @return The cost
+     */
     int getCost();
 }

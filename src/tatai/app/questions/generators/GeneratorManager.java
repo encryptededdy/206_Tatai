@@ -2,6 +2,11 @@ package tatai.app.questions.generators;
 
 import java.util.ArrayList;
 
+/**
+ * Stores and keeps track of the QuestionGenerators used by the user, including those from the Workshop
+ *
+ * @author Edward
+ */
 public class GeneratorManager {
     private ArrayList<QuestionGenerator> generators = new ArrayList<>();
 
