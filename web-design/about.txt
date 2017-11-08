@@ -1,4 +1,0 @@
-Tātai is an open source Te Reo Maori number pronunciation aid targeted both at people who want to learn Maori for the first time and for people who simple want to improve.
-Tātai runs on Linux and Windows and any other operating system that supports the latest version of Java and the voice recognition software HTK.
-
-The "brains" behind Tātai's voice recognition is a combination of HTK (Hidden Markov Toolkit) and the Te Reo Maori dictionary files provided by Dr Catherine Watson from The University of Auckland.
