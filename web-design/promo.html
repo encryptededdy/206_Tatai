@@ -35,9 +35,9 @@ body, html {
     min-height: 400px;
 }
 
-/* Third image (Contact) */
+/* Third image (Download/Contact) */
 .bgimg-3 {
-    background-image: linear-gradient(rgba(75, 108, 183, 0.5), rgba(24, 40, 72, 0.5)), url("lake_rotoiti.jpg");
+    background-image: linear-gradient(rgba(75, 108, 183, 0.5), rgba(24, 40, 72, 0.5)), url("frozen_tasman_lake.jpg");
     min-height: 400px;
 }
 
@@ -72,6 +72,7 @@ body, html {
     <a href="https://tatai.zachhuxford.io/" class="w3-bar-item w3-button w3-transparent">HOME</a>
     <a href="#about" class="w3-bar-item w3-button w3-hide-small w3-transparent"><i class="fa fa-user"></i> ABOUT</a>
     <a href="#contact" class="w3-bar-item w3-button w3-hide-small w3-transparent"><i class="fa fa-envelope"></i> CONTACT</a>
+    <a href="#download" class="w3-bar-item w3-button w3-hide-small w3-transparent"><i class="fa fa-download"></i> DOWNLOAD</a>
 
     <a href="https://github.com/encryptededdy/206_Tatai" target="_blank" class="w3-bar-item w3-button w3-hide-small w3-right w3-transparent"><i class="fa fa-github"></i> GITHUB</a>
     <a href="https://tatai.zachhuxford.io/leaderboard" class="w3-bar-item w3-button w3-hide-small w3-right w3-transparent"><i class="fa fa-bar-chart"></i> LEADERBOARD</a>
@@ -81,6 +82,7 @@ body, html {
   <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
     <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
     <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
+    <a href="#download" class="w3-bar-item w3-button" onclick="toggleFunction()">DOWNLOAD</a>
     <a href="https://tatai.zachhuxford.io/leaderboard" target="_blank" class="w3-bar-item w3-button">LEADERBOARD</a>
     <a href="https://github.com/encryptededdy/206_Tatai" class="w3-bar-item w3-button">GITHUB</a>
   </div>
@@ -89,7 +91,6 @@ body, html {
 <!-- First Parallax Image with Logo Text -->
 <div class="bgimg-1 w3-display-container" id="home">
   <div class="w3-display-middle" style="white-space:nowrap;">
-    <!--<span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">MY <span class="w3-hide-small">WEBSITE</span> LOGO</span>-->
     <img src="banner.png" style="width: 550px; border-radius:4px; opacity: 0.75"></img>
   </div>
 </div>
@@ -98,17 +99,20 @@ body, html {
 <div class="w3-content w3-container w3-padding-64" id="about">
   <h3 class="w3-center">ABOUT</h3>
   <p class="w3-center"><em>Tātai</em></p>
-  <p>Tātai is an open source Te Reo Maori number pronunciation aid targeted both at people who want to learn Maori for the first time and for people who simple want to improve.
-  Tātai runs on Linux and Windows and any other operating system that supports Java 8, JavaFX 8 and the voice recognition software HTK.</p>
+  <p>Tātai is an award winning, open source Te Reo Māori number pronunciation aid
+     targeted both at people who want to learn Māori for the first time and for people who simply want to improve.
+     Tātai runs on Linux and Windows and any other operating system that supports Java 8,
+     JavaFX 8 and the voice recognition software HTK.
+ </p>
   <div class="w3-row">
     <div class="w3-col m6 w3-center w3-padding-large">
       <img src="Tatai Screenshots/question_screen.png" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="tatai screenshot" width="814" height="514">
     </div>
 
     <!-- Hide this text on small devices -->
-    <div class="w3-col m6 w3-hide-small w3-padding-large">
+    <div class="w3-col m6 w3-padding-large">
       <p>The "brains" behind Tātai's voice recognition is a combination of <a href="http://htk.eng.cam.ac.uk/"> HTK (Hidden Markov Toolkit)</a>
-        and the Te Reo Maori dictionary files provided by Dr Catherine Watson from The University of Auckland.</p>
+        and the Te Reo Māori dictionary files provided by Dr Catherine Watson from The University of Auckland.</p>
     </div>
   </div>
 </div>
@@ -129,6 +133,24 @@ body, html {
   <div class="w3-quarter w3-section">
     <span class="w3-xlarge">A+</span><br>
     Grade (hopefully)
+  </div>
+</div>
+<div class="w3-row w3-center w3-dark-grey w3-padding-16">
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">36</span><br>
+    Achievements
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">TEACH YOURSELF</span><br>
+    With Practice Mode
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">9</span><br>
+    Store Items
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">9</span><br>
+    Store Items
   </div>
 </div>
 
@@ -191,7 +213,25 @@ body, html {
   </div>
 </div>
 
-<!-- Third Parallax Image with Portfolio Text -->
+<!-- Third Parallax Image with Download Text -->
+<div class="bgimg-3 w3-display-container w3-opacity-min" id="download">
+  <div class="w3-display-middle">
+     <span class="w3-xxlarge w3-text-white w3-wide">DOWNLOAD</span>
+  </div>
+</div>
+
+<!-- Container (Download Section) -->
+<div class="w3-content w3-container w3-padding-64">
+  <div class="w3-third">
+    <a href="206_Tatai.jar" class="w3-button w3-blue-grey" download><i class="fa fa-download w3-margin-right"></i>Download</a>
+  </div>
+  <div class="w3-twothird">
+    This download assumes the latest version of Java 8 is installed.
+  </div>
+</div>
+
+
+<!-- Third Parallax Image with Contact Text -->
 <div class="bgimg-3 w3-display-container w3-opacity-min">
   <div class="w3-display-middle">
      <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
@@ -240,7 +280,7 @@ body, html {
 
 <!-- Footer -->
 <footer class="w3-center w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
+  <a href="#home" class="w3-button w3-blue-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
 </footer>
 
 <script>
