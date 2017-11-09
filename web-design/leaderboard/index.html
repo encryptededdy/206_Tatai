@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<title>Tātai Leaderboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="../w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="./leaderboard.js"></script>
+<style>
+body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
+body, html {
+    height: 100%;
+    color: #fff;
+    line-height: 1.8;
+    background-color: #222C45;
+}
+
+/* Create a Parallax Effect */
+.bgimg-1, .bgimg-2, .bgimg-3 {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* First image (Logo. Full height) */
+.bgimg-1 {
+    background-image: linear-gradient(rgba(75, 108, 183, 0.5), rgba(24, 40, 72, 0.5)), url('../hooker_lake.jpg');
+    min-height: 100%;
+}
+
+.w3-wide {letter-spacing: 10px;}
+.w3-hover-opacity {cursor: pointer;}
+
+/* Turn off parallax scrolling for tablets and phones */
+@media only screen and (max-device-width: 1024px) {
+    .bgimg-1, .bgimg-2, .bgimg-3 {
+        background-attachment: scroll;
+    }
+}
+
+/* MADE BY ZACH HUXFORD */
+.background-gradient {
+    background-image: : #4b6cb7; /* For browsers that do not support gradients */
+    background-image: : -webkit-linear-gradient(#4b6cb7, #182848); /* For Safari 5.1 to 6.0 */
+    background-image: : -o-linear-gradient(#4b6cb7, #182848); /* For Opera 11.1 to 12.0 */
+    background-image: : -moz-linear-gradient(#4b6cb7, #182848); /* For Firefox 3.6 to 15 */
+    background-image: : linear-gradient(#4b6cb7, #182848); /* Standard syntax */
+    opacity: 0.75;
+}
+
+.blue-bg {
+  background-color: #222C45;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar" id="myNavbar">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-transparent" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+      <i class="fa fa-bars"></i>
+    </a>
+    <a href="https://tatai.zachhuxford.io/" class="w3-bar-item w3-button w3-transparent">HOME</a>
+
+    <a href="https://github.com/encryptededdy/206_Tatai" target="_blank" class="w3-bar-item w3-button w3-hide-small w3-right w3-transparent"><i class="fa fa-github"></i> GITHUB</a>
+    <a href="https://tatai.zachhuxford.io/leaderboard" class="w3-bar-item w3-button w3-hide-small w3-right w3-transparent"><i class="fa fa-bar-chart"></i> LEADERBOARD</a>
+  </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+    <a href="https://tatai.zachhuxford.io/leaderboard" target="_blank" class="w3-bar-item w3-button">LEADERBOARD</a>
+    <a href="https://github.com/encryptededdy/206_Tatai" class="w3-bar-item w3-button">GITHUB</a>
+  </div>
+</div>
+
+<!-- First Parallax Image with Logo Text -->
+<div class="bgimg-1 w3-display-container w3-center">
+  <div class="w3-col m12" style="white-space:nowrap;">
+    <div class="w3-display-middle w3-padding-64 w3-center w3-col m8 blue-bg" style="border-radius:4px;">
+      <div class="w3-right ">
+        <select id="gamemodes" name="gamemodes" selected="Numbers" class="">
+          <option value="Numbers">Numbers</option>
+          <option value="Tens Numbers">Tens Numbers</option>
+          <option value="Easy Addition">Easy Addition</option>
+          <option value="Addition">Addition</option>
+          <option value="Subtraction">Subtraction</option>
+          <option value="Times Tables">Times Tables</option>
+          <option value="Advanced Multiplication">Advanced Multiplication</option>
+          <option value="Division">Division</option>
+        </select>
+        <a class="w3-button w3-blue-grey" onclick="getData(document.getElementById('gamemodes').value)"><i class="fa fa-arrow-up w3-margin-right"></i>Update</a>
+      </div>
+      <table class="w3-col m12">
+        <thead class="w3-large">
+          <td>Place</td>
+          <td>Username</td>
+          <td>Score</td>
+          <td>Date</td>
+        </thead>
+        <tbody id="highscores">
+        </tbody>
+
+      </table>
+  </div>
+</div>
+
+
+<script>
+
+// Change style of navbar on scroll
+window.onscroll = function() {myFunction()};
+function myFunction() {
+    var navbar = document.getElementById("myNavbar");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        navbar.className = "w3-bar" + " w3-card-2" + " w3-white";
+    } else {
+        navbar.className = navbar.className.replace(" w3-card-2 w3-white", "");
+    }
+}
+
+// Used to toggle the menu on small screens when clicking on the menu button
+function toggleFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+    } else {
+        x.className = x.className.replace(" w3-show", "");
+    }
+}
+</script>
+
+</body>
+</html>
