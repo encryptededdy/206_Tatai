@@ -108,31 +108,33 @@ body, html {
     <div class="w3-col m6 w3-center w3-padding-large">
       <img src="Tatai Screenshots/question_screen.png" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="tatai screenshot" width="814" height="514">
     </div>
-
-    <!-- Hide this text on small devices -->
     <div class="w3-col m6 w3-padding-large">
       <p>The "brains" behind Tātai's voice recognition is a combination of <a href="http://htk.eng.cam.ac.uk/"> HTK (Hidden Markov Toolkit)</a>
-        and the Te Reo Māori dictionary files provided by Dr Catherine Watson from The University of Auckland.</p>
+        and the Te Reo Māori dictionary files provided by Dr Catherine Watson from The University of Auckland.
+      </p>
+      <p>This application was developed for the course SOFTENG 206 at The University of Auckland as a part of the
+        major project in the paper. As a consequence, an online search will show many projects of the same name, however
+        our project won both First Place and the People's Choice awards.
     </div>
   </div>
 </div>
 
 <div class="w3-row w3-center w3-dark-grey w3-padding-16">
   <div class="w3-quarter w3-section">
-    <span class="w3-xlarge">8+</span><br>
-    Game Modes
-  </div>
-  <div class="w3-quarter w3-section">
     <span class="w3-xlarge">99</span><br>
     Numbers
+  </div>
+  <div class="w3-quarter w3-section">
+    <span class="w3-xlarge">IMPROVE</span><br>
+    Your Te Reo Māori
   </div>
   <div class="w3-quarter w3-section">
     <span class="w3-xlarge">ONLINE</span><br>
     Multiplayer and Roundsharing
   </div>
   <div class="w3-quarter w3-section">
-    <span class="w3-xlarge">A+</span><br>
-    Grade (hopefully)
+    <span class="w3-xlarge">8+</span><br>
+    Game Modes
   </div>
 </div>
 <div class="w3-row w3-center w3-dark-grey w3-padding-16">
@@ -145,8 +147,8 @@ body, html {
     With Practice Mode
   </div>
   <div class="w3-quarter w3-section">
-    <span class="w3-xlarge">9</span><br>
-    Store Items
+    <span class="w3-xlarge">TRACK</span><br>
+    Your Progress
   </div>
   <div class="w3-quarter w3-section">
     <span class="w3-xlarge">9</span><br>
@@ -202,6 +204,24 @@ body, html {
       <img src="Tatai Screenshots/tatainet_multiplayer_screen.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="multiplayer screen">
     </div>
   </div>
+
+  <div class="w3-row-padding w3-center w3-section">
+    <div class="w3-col m3">
+      <img src="Tatai Screenshots/practice_mode.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="practice pronunciation screen">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="Tatai Screenshots/user_screen.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="user screen">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="Tatai Screenshots/level_selector.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="level selector screen">
+    </div>
+
+    <div class="w3-col m3">
+      <img src="Tatai Screenshots/custom_level_pane.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity" alt="custom level pane">
+    </div>
+  </div>
 </div>
 
 <!-- Modal for full size images on click-->
@@ -222,11 +242,23 @@ body, html {
 
 <!-- Container (Download Section) -->
 <div class="w3-content w3-container w3-padding-64">
+  <div class="w3-padding-64">
+  </div>
   <div class="w3-third">
-    <a href="206_Tatai.jar" class="w3-button w3-blue-grey" download><i class="fa fa-download w3-margin-right"></i>Download</a>
+    <div class="">
+      <a href="206_Tatai.jar" class="w3-button w3-blue-grey w3-col m7 w3-margin-left w3-margin-bottom" download><i class="fa fa-download w3-margin-right"></i>Download</a>
+    </div>
+    <div class="">
+      <a href="https://github.com/encryptededdy/206_Tatai/releases/latest" class="w3-button w3-blue-grey w3-col m7 w3-margin-left" target="_blank"><i class="fa fa-github w3-margin-right"></i>Latest Release</a>
+    </div>
   </div>
   <div class="w3-twothird">
-    This download assumes the latest version of Java 8 is installed.
+    This download assumes the latest version of <a href="https://java.com/en/download/">Java 8</a> and <a href="http://htk.eng.cam.ac.uk/">HTK</a> is installed.
+    The latest release can be found on GitHub which is accompanied with a user manual which can aid in the installation process and using the application.
+  </div>
+  <div class="w3-padding-64">
+  </div>
+  <div class="w3-padding-64">
   </div>
 </div>
 
