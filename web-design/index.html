@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
-<title>Tātai</title>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+  <title>Tātai</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
 body, html {
@@ -60,6 +63,21 @@ body, html {
     background-image: : linear-gradient(#4b6cb7, #182848); /* Standard syntax */
     opacity: 0.75;
 }
+
+@media only screen and (min-width: 550px) {
+  .tatai-banner {
+    width: 550px;
+    border-radius:4px;
+    opacity: 0.75;
+  }
+}
+@media only screen and (max-width: 550px) {
+  .tatai-banner {
+    width: 100vw;
+    border-radius: 0px;
+    opacity: 1;
+  }
+}
 </style>
 <body>
 
@@ -91,7 +109,7 @@ body, html {
 <!-- First Parallax Image with Logo Text -->
 <div class="bgimg-1 w3-display-container" id="home">
   <div class="w3-display-middle" style="white-space:nowrap;">
-    <img src="banner.png" style="width: 550px; border-radius:4px; opacity: 0.75"></img>
+    <img src="banner.png" class="tatai-banner"></img>
   </div>
 </div>
 
@@ -282,33 +300,65 @@ body, html {
           <i class="fa fa-map-marker fa-fw w3-xlarge w3-margin-right"></i> Auckland, NZ
         </div>
 
-        <div class="w3-half">
-          <i class="fa fa-envelope fa-fw w3-xlarge w3-margin-right"></i><a href="mailto:edward@zhang.nz"> edward@zhang.nz</a>
+        <div class="edward-div w3-half">
+          <div class="edward">
+            <i class="fa fa-envelope fa-fw w3-xlarge w3-margin-right"></i><a href="mailto:edward@zhang.nz"> edward@zhang.nz</a>
+          </div>
+          <div class="edward">
+            <i class="fa fa-github fa-fw w3-xlarge w3-margin-right"></i><a href="https://github.com/encryptededdy"> encryptededdy</a>
+          </div>
+          <div class="edward">
+            <i class="fa fa-globe fa-fw w3-xlarge w3-margin-right"></i><a href="https://zhang.nz/"> zhang.nz</a>
+          </div>
         </div>
-        <div class="w3-half w3-right-align">
-           <a href="mailto:me@zachhuxford.io"> me@zachhuxford.io</a><i class="fa fa-envelope fa-fw w3-xlarge w3-margin-left"></i>
-        </div>
-        <br>
 
-        <div class="w3-half">
-          <i class="fa fa-github fa-fw w3-xlarge w3-margin-right"></i><a href="https://github.com/encryptededdy"> encryptededdy</a>
+        <div class="zach-div w3-half">
+          <div class="w3-right-align zach">
+             <a href="mailto:me@zachhuxford.io"> me@zachhuxford.io</a><i class="fa fa-envelope fa-fw w3-xlarge w3-margin-left"></i>
+          </div>
+          <div class="w3-right-align zach">
+            <a href="https://github.com/zachbwh"> zachbwh</a><i class="fa fa-github fa-fw w3-xlarge w3-margin-left"></i>
+          </div>
+          <div class="w3-right-align zach">
+            <a href="http://zachhuxford.io/"> zachhuxford.io</a><i class="fa fa-globe fa-fw w3-xlarge w3-margin-left"></i>
+          </div>
         </div>
-        <div class="w3-half w3-right-align">
-          <a href="https://github.com/zachbwh"> zachbwh</a><i class="fa fa-github fa-fw w3-xlarge w3-margin-left"></i>
-        </div>
-        <br>
-
-        <div class="w3-half">
-          <i class="fa fa-globe fa-fw w3-xlarge w3-margin-right"></i><a href="https://zhang.nz/"> zhang.nz</a>
-        </div>
-        <div class="w3-half w3-right-align">
-          <a href="http://zachhuxford.io/"> zachhuxford.io</a><i class="fa fa-globe fa-fw w3-xlarge w3-margin-left"></i>
-        </div>
-        <br>
       </div>
     </div>
   </div>
 </div>
+
+<!-- RESPONSIVE DESIGN FOR CONTACT SECTION -->
+<script>
+  var viewportWidthContacts = $( window ).width();
+  var firstCallContacts = true;
+
+  function setupContactsView() {
+    var zachDivs = $( document ).find('.zach');
+    if ((firstCallContacts || viewportWidthContacts > 588) && 588 > $( window ).width()) { // CHANGE TO PHONE LAYOUT
+      for (i = 0; i < zachDivs.length; i++) {
+        zachDivs[i].className = zachDivs[i].className.replace('w3-right-align', 'w3-left-align');
+        var tmp = zachDivs[i].children[0];
+        zachDivs[i].appendChild(tmp);
+        zachDivs[i].children[0].className = zachDivs[i].children[0].className.replace('w3-margin-left', 'w3-margin-right');
+
+      }
+    } else if (viewportWidthContacts < 588 && 588 < $( window ).width()) { // CHANGE TO DESKTOP LAYOUT
+      for (i = 0; i < zachDivs.length; i++) {
+        zachDivs[i].className = zachDivs[i].className.replace('w3-left-align', 'w3-right-align');
+        var tmp = zachDivs[i].children[0];
+        zachDivs[i].appendChild(tmp);
+        zachDivs[i].children[1].className = zachDivs[i].children[1].className.replace('w3-margin-right', 'w3-margin-left');
+      }
+    }
+    viewportWidthContacts = $( window ).width();
+    firstCallContacts = false;
+  }
+
+  setupContactsView();
+
+  $( window ).resize(setupContactsView);
+</script>
 
 <!-- Footer -->
 <footer class="w3-center w3-padding-64">
@@ -346,11 +396,6 @@ function toggleFunction() {
     }
 }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
-<!--
-To use this code on your website, get a free API key from Google.
-Read more at: https://www.w3schools.com/graphics/google_maps_basic.asp
--->
 
 </body>
 </html>
